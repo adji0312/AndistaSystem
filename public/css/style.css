@@ -89,8 +89,8 @@ a:focus {
 }
 
 #sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
+    color: white;
+    background: #ffb475;
 }
 
 #sidebar ul li.active>a,
@@ -140,4 +140,115 @@ ul.CTAs a {
     top: 0;
     right: 0;
     background-color: white;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(180, 180, 180); 
+    border-radius: 0px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #ffb475; 
+    border-radius: 0px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #000000; 
+  }
+
+
+
+
+#sidebars {
+    min-width: 350px;
+    max-width: 250px;
+    background: #ffffff;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+#sidebars.active {
+    margin-left: -250px;
+}
+
+#sidebars ul.components {
+    padding: 20px 0;
+    color: #7C7C7C;
+    /* border-bottom: 1px solid #f0f0f0; */
+}
+
+#sidebars ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebars ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#sidebars ul li a:hover {
+    color: white;
+    background: #ffb475;
+}
+
+#sidebars ul li.active>a,
+a[aria-expanded="true"] {
+    color: #7C7C7C;
+    background: #f0f0f0;
+}
+
+#contents {
+    width: 100%;
+    /* padding: 20px; */
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+/* INPUT FORM */
+
+input[type = "text"]{
+    border: none;
+    outline: none;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: #d3d3d3;
+    border-radius: 0px;
+    /* padding: 5px; */
+}
+
+.form-select{
+    border: none;
+    outline: none;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: #d3d3d3;
+    border-radius: 0px;
+    /* padding: 5px; */
+}
+.form-select:focus{
+    box-shadow: inset 0 -1px 0;
+}
+
+.form-control:focus{
+    box-shadow: inset 0 -1px 0;
+}
+
+.selectstatus:hover{
+    background-color: rebeccapurple;
 }
