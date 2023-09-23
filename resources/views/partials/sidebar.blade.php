@@ -39,13 +39,13 @@
                     <img src="/img/icon/product.png" alt="" style="width: 22px"> <span class="mx-2">Product</span>
                 </a>
             </li>
-            <li class="{{ ($title === "Location Dashboard" || $title === "Location List" || $title === "Facility") ? 'active' : '' }}">
+            <li class="{{ ($title === "Location Dashboard" || $title === "Location List" || $title === "Facility" || $title === "Service Category" || $title === "Policy") ? 'active' : '' }}">
                 <a href="/location" class="px-4">
                     <img src="/img/icon/location.png" alt="" style="width: 22px"> <span class="mx-2">Location</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="px-4">
+                <a href="/finance" class="px-4">
                     <img src="/img/icon/finance.png" alt="" style="width: 22px"> <span class="mx-2">Finance</span>
                 </a>
             </li>

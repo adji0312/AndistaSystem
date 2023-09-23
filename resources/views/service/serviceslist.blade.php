@@ -20,6 +20,27 @@
                     </div>
                 </div>
             </nav>
+
+            <div id="dashboard" class="mx-3 mt-4">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col" style="color: #7C7C7C; width: 50px;">No</th>
+                        <th scope="col" style="color: #7C7C7C">Name</th>
+                        <th scope="col" style="color: #7C7C7C">Category</th>
+                        <th scope="col" style="color: #7C7C7C">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td><a href="#" class="text-primary">Bersihkan Telinga</a></td>
+                        <td>Jasa Dokter</td>
+                        <td>Active</td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 @endsection
