@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class FacilityController extends Controller
 {
     public function store(Request $request){
-        //    dd($request->all());
+           dd($request->all());
             $validatedData = $request->validate([
                 'facility_name' => 'required|unique:facilities',
                 'capacity' => 'required',

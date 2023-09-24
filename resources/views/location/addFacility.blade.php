@@ -70,31 +70,57 @@
 
                     <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Units Available</h5>
-                        <div class="m-3 d-flex gap-5">
+                        <div class="afterUnit m-3 d-flex gap-5" id="unitDuplicate" data-master-insert>
                             {{-- <input type="text" hidden name="facility_id" id="facility_id"> --}}
                             <div class="mb-3" style="width: 230px">
                                 <label for="unit_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Name</label>
-                                <input type="text" class="form-control" id="unit_name" name="unit_name">
+                                <input type="text" class="form-control" id="unit_name" name="unit_name[]">
                             </div>
                             <div class="mb-3">
                                 <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="status" name="status">
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="status" name="status[]">
                                   <option value="Active" class="selectstatus" style="color: black;">Active</option>
                                   <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
                                 </select>
                             </div>
                             <div class="mb-3" style="width: 50%">
                                 <label for="notes" class="form-label" style="font-size: 15px; color: #7C7C7C;">Notes</label>
-                                <input type="text" class="form-control" id="notes" name="notes">
+                                <input type="text" class="form-control" id="notes" name="notes[]">
                             </div>
                             <div class="mb-3 d-flex align-items-center" style="cursor: pointer">
                                 <img src="/img/icon/minus.png" alt="" style="width: 20px">
                             </div>
                         </div>
                         <div class="m-3">
-                            <button type="button" class="btn btn-sm btn-outline-dark"><i class="fas fa-plus"></i> Add</button>
+                            <button type="button" class="btn btn-sm btn-outline-dark insert_unit" onclick="duplicateUnit()"><i class="fas fa-plus"></i> Add</button>
                         </div>
                     </div>
+                    {{-- <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+                        <h5 class="m-3">Units Available</h5>
+                        <div class="afterUnit m-3 d-flex gap-5" id="unitDuplicate" data-master-insert>
+                            <div class="mb-3" style="width: 230px">
+                                <label for="unit_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Name</label>
+                                <input type="text" class="form-control" id="unit_name" name="unit_name[2]">
+                            </div>
+                            <div class="mb-3">
+                                <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="status" name="status[2]">
+                                  <option value="Active" class="selectstatus" style="color: black;">Active</option>
+                                  <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
+                                </select>
+                            </div>
+                            <div class="mb-3" style="width: 50%">
+                                <label for="notes" class="form-label" style="font-size: 15px; color: #7C7C7C;">Notes</label>
+                                <input type="text" class="form-control" id="notes" name="notes[2]">
+                            </div>
+                            <div class="mb-3 d-flex align-items-center" style="cursor: pointer">
+                                <img src="/img/icon/minus.png" alt="" style="width: 20px">
+                            </div>
+                        </div>
+                        <div class="m-3">
+                            <button type="button" class="btn btn-sm btn-outline-dark insert_unit" onclick="duplicateUnit()"><i class="fas fa-plus"></i> Add</button>
+                        </div>
+                    </div> --}}
 
                     <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3 mb-0">Photos</h5>

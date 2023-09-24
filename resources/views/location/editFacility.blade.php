@@ -57,12 +57,12 @@
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="location_id" name="location_id">
                                     @foreach ($locations as $location)
                                         @if ($facility->location_id == $location->id)
-                                            <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
+                                            <option value="{{ $location->id }}" class="selectstatus" style="color: black;" selected>{{ $location->location_name }}</option>
                                             @continue
                                         @endif
-                                        @if ($facility->location_id == $location->id)
+                                        {{-- @if ($facility->location_id == $location->id)
                                             @continue
-                                        @endif
+                                        @endif --}}
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach
                                 </select>

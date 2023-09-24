@@ -106,15 +106,61 @@ $("#withfacility").on("click", function(e){
 });
 
 // document.getElementById('button').onclick = duplicate;
-// var i = 0;
-// var original = document.getElementById('duplicater');
-// function duplicate(){
-//     var clone = original.cloneNode(true); // "deep" clone
-//     clone.id = "duplicater" + ++i; // there can only be one element with an ID
-//     console.log(clone.id);
-//     original.parentNode.appendChild(clone);
-//     console.log(clone);
-// }
+var i = 0;
+var original = document.getElementById('duplicater');
+function duplicate(){
+    var clone = original.cloneNode(true); // "deep" clone
+    clone.id = "duplicater" + ++i; // there can only be one element with an ID
+    console.log(clone.id);
+    original.parentNode.appendChild(clone);
+    console.log(clone);
+}
+
+var j = 0;
+var ori = document.getElementById('unitDuplicate');
+// var unitname = document.getElementById('unit_name');
+// unitname.name = "unit_name[1"
+// var ele = document.getElementsByTagName('div');
+// var unit_name = document.getElementById('unit_name');
+function duplicateUnit(){
+    var clone = ori.cloneNode(true); // "deep" clone
+    clone.id = "unitDuplicate" + ++j; // there can only be one element with an ID
+    
+    // console.log(ele.length);
+    
+    console.log(clone.id);
+    console.log(clone);
+    ori.parentNode.appendChild(clone);
+    
+
+    var k = 1;
+    var newUnitName = document.getElementById("unit_name");
+    newUnitName.name = "unit_name[" + ++k+"]";
+    console.log(newUnitName);
+
+    var l = 1;
+    var newStatus = document.getElementById("status");
+    newStatus.name = "status[" + ++l+"]";
+    console.log(newStatus);
+
+    var m = 1;
+    var newNotes = document.getElementById("notes");
+    newNotes.name = "notes[" + ++m +"]";
+    console.log(newNotes);
+}
+
+
+// $(document).on('click', ".insert_unit", function() {
+//     let clone = $('[data-master-insert]').clone();
+//     var dup = clone.insertAfter($('.afterUnit:last'));
+//     console.log(dup);
+//     // console.log(clone);
+// });
+
+//   $(document).on('click', ".insert_more", function() {
+//     let clone = $('[data-master-insert]').clone();
+//     clone.insertAfter($('.form-group:last')).removeAttr('data-master-insert').attr('data-cloned-insert', '').find('input[type=button]').val('Remove').removeClass('insert_more').addClass('remove_clone')
+//   });
 
 function deletePhone(e){
     console.log(e);
