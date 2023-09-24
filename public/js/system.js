@@ -164,6 +164,11 @@ function savePolicy(){
     console.log(a);
 }
 
+function saveFacility(){
+    let a = document.getElementById('submitFacility').click();
+    console.log(a);
+}
+
 //CEK FOR WORKING HOURS
 $("input[id='sunday']").change(function() {
     var checked = $(this).val();
@@ -480,3 +485,71 @@ $("input[id='all_day']").change(function() {
         // $("#saturday").prop("checked", false);
     }
 });
+
+function serviceClick(){
+    var x = document.getElementById("mainCanvas");
+    x.style.display = "none";
+    
+    var x = document.getElementById("serviceCanvas");
+    x.style.display = "block";
+}
+
+function productClick(){
+    var x = document.getElementById("mainCanvas");
+    x.style.display = "none";
+    
+    var x = document.getElementById("productCanvas");
+    x.style.display = "block";
+}
+
+function taskClick(){
+    var x = document.getElementById("mainCanvas");
+    x.style.display = "none";
+
+    var x = document.getElementById("taskCanvas");
+    x.style.display = "block";
+}
+
+var takslist = document.getElementById("taskList");
+// console.log(taxlist);
+function taskChange(){
+    console.log('taskChange');
+    var value = takslist.value;
+    console.log(value);
+    if(value == "newtask"){
+        $('#newtask').modal("show");
+    }
+}
+
+function backButtonInTask(){
+    var x = document.getElementById("taskCanvas");
+    x.style.display = "none";
+    
+    var x = document.getElementById("mainCanvas");
+    x.style.display = "block";
+}
+
+function backButtonInProduct(){
+    var x = document.getElementById("productCanvas");
+    x.style.display = "none";
+    
+    var x = document.getElementById("mainCanvas");
+    x.style.display = "block";
+}
+
+function backButtonInService(){
+    var x = document.getElementById("serviceCanvas");
+    x.style.display = "none";
+    
+    var x = document.getElementById("mainCanvas");
+    x.style.display = "block";
+}
+
+// var checkCanvas = document.getElementById("addItemCanvas");
+
+var checkSession = document.getElementById("openCanvas");
+if(checkSession){
+    console.log('asjhasjdhgasdkjbas,djhgasjkgdhasd');
+    document.getElementById("openCanvas").click();
+    taskClick();
+}

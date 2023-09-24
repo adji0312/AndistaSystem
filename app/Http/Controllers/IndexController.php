@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryService;
+use App\Models\Facility;
+use App\Models\Location;
 use App\Models\Policy;
+use App\Models\Task;
 use App\Models\TaxRate;
+use App\Models\UnitFacility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 
 class IndexController extends Controller
 {
@@ -35,13 +40,16 @@ class IndexController extends Controller
     
     public function locationFacility(){
         return view('location.locationfacilities', [
-            "title" => "Facility"
+            "title" => "Facility",
+            "facilities" => Facility::all(),
+            "units" => UnitFacility::all()
         ]);
     }
 
     public function addFacility(){
         return view('location.addFacility', [
-            "title" => "Facility"
+            "title" => "Facility",
+            "locations" => Location::all()
         ]);
     }
 
@@ -73,7 +81,8 @@ class IndexController extends Controller
 
     public function addTreatmentPlan(){
         return view('service.addtreatmentplan', [
-            "title" => "Treatment Plan"
+            "title" => "Treatment Plan",
+            "tasks" => Task::all()
         ]);
     }
 
@@ -127,6 +136,16 @@ class IndexController extends Controller
         return view('finance.taxrate', [
             "title" => "Tax Rate",
             "tax" => TaxRate::all()
+        ]);
+    }
+
+    public function editFacility($facility_name){
+        $facility = Facility::all()->where('facility_name', $facility_name);
+        
+        return view('location.editFacility', [
+            "title" => "Facility",
+            "facility" => $facility->first(),
+            "locations" => Location::all()
         ]);
     }
     

@@ -12,6 +12,9 @@
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#addTaxRate" style="color: #f28123; cursor: pointer;"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
                             </li>
+                            <li class="nav-item" id="deleteButton" style="display: none;">
+                                <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#deleteTax" onclick="clickDeleteButton()" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/trash.png" alt="" style="width: 22px"> Delete</a>
+                            </li>
                         </ul>
                         <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -39,10 +42,10 @@
                             <tr>
                                 <th scope="row">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox">
+                                        <input class="form-check-input" type="checkbox" id="checkBox[{{ $t->id }}]" name="checkBox"  value="{{ $t->id }}">
                                     </div>
                                 </th>
-                                <td><a href="#" class="text-primary">{{ $t->tax_name }}</a></td>
+                                <td class="text-primary" data-bs-toggle="modal" data-bs-target="#editTaxRate{{ $t->id }}" style="cursor: pointer;">{{ $t->tax_name }}</td>
                                 <td>{{ $t->tax_rate }}%</td>
                                 <td>{{ $t->created_by }}</td>
                                 <td>{{ $t->created_at->format('j F Y') }}</td>
@@ -50,10 +53,38 @@
                                     <td><small>none</small></td>
                                     <td><small>none</small></td>
                                 @else
-                                    <td><small>{{ $t->updated_by }}</small></td>
-                                    <td><small>{{ $t->updated_at->format('j F Y') }}</small></td>
+                                    <td>{{ $t->updated_by }}</td>
+                                    <td>{{ $t->updated_at->format('j F Y') }}</td>
                                 @endif
                             </tr>
+
+                            <div class="modal fade" id="editTaxRate{{ $t->id }}" value={{ $t->id }} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Tax</h1>
+                                    </div>
+                                    <form action="/updateTaxRate/{{ $t->id }}" method="post">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="tax_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tax Name</label>
+                                                <input type="text" class="form-control" id="tax_name" name="tax_name" value="{{ $t->tax_name }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="tax_rate" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tax Rate</label>
+                                                <input type="number" class="form-control" id="tax_rate" name="tax_rate" value="{{ $t->tax_rate }}">
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                        </div>
+                                    </form>    
+                                  </div>
+                                </div>
+                            </div>
                         @endforeach
                     </tbody>
                 </table>
@@ -87,5 +118,29 @@
             </form>    
           </div>
         </div>
+    </div>
+
+    <div class="modal fade" id="deleteTax" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Tax</h1>
+            </div>
+            
+            <form action="/deleteTax" method="GET">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-1">
+                        <input type="text" hidden id="deleteId" name="deleteId" value="Hapus" class="form-control mt-1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                </div>
+            </form>
+          </div>
+        </div>
+        
     </div>
 @endsection
