@@ -69,7 +69,10 @@ class IndexController extends Controller
         return view('service.addservice', [
             "title" => "Service List",
             "categories" => CategoryService::all(),
-            "tax" => TaxRate::all()
+            "tax" => TaxRate::all(),
+            "locations" => Location::all(),
+            "policies" => Policy::all(),
+            "facilities" => Facility::all()->where('status', 'Active')
         ]);
     }
 

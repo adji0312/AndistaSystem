@@ -60,9 +60,6 @@
                                             <option value="{{ $location->id }}" class="selectstatus" style="color: black;" selected>{{ $location->location_name }}</option>
                                             @continue
                                         @endif
-                                        {{-- @if ($facility->location_id == $location->id)
-                                            @continue
-                                        @endif --}}
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach
                                 </select>
@@ -70,9 +67,14 @@
                             <div class="mb-3">
                               <label for="share_facility" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
                               <select class="form-select mt-1" style="font-size: 15px; color: #7C7C7C; width: 230px" id="share_facility" name="share_facility">
-                                <option value="Active" selected disabled class="selectstatus" style="color: black;">Share facilty with</option>
-                                <option value="1" class="selectstatus" style="color: black;">Andista Animal Care</option>
-                                <option value="2" class="selectstatus" style="color: black;">Andista Animal Care Cabang 2</option>
+
+                                @foreach ($locations as $location)
+                                    @if ($facility->share_facility == $location->id)
+                                        <option value="{{ $location->id }}" class="selectstatus" style="color: black;" selected>{{ $location->location_name }}</option>
+                                        @continue
+                                    @endif
+                                    <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
+                                @endforeach
                               </select>
                             </div>
                         </div>
@@ -88,9 +90,9 @@
                                     <input type="text" class="form-control" id="unit_name" name="unit_name" value="{{ $unit->unit_name }}">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
-                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="status" name="status">
-                                    @if ($unit->status == "Active")
+                                    <label for="unit_status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
+                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="unit_status" name="unit_status">
+                                    @if ($unit->unit_status == "Active")
                                         <option value="Active" class="selectstatus" style="color: black;" selected>Active</option>
                                         <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
                                     @else

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('location_id');
+            $table->foreignId('tax_id');
             $table->foreignId('category_service_id');
             $table->foreignId('policy_id'); //bisa nullable (untuk service yg tidak memerlukan persetujuan surat)
             $table->string('service_name');

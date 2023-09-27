@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryServiceController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaxRateController;
 use App\Models\Facility;
@@ -64,3 +65,6 @@ Route::get('/location/facility', [IndexController::class, 'locationFacility']);
 Route::get('/location/facility/add', [IndexController::class, 'addFacility']);
 Route::post('/addFacility', [FacilityController::class, 'store']);
 Route::get('/location/facility/{facility_name}', [IndexController::class, 'editFacility']);
+
+//Service
+Route::post('/addService', [ServiceController::class, 'store']);
