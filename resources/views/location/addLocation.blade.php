@@ -15,7 +15,7 @@
                         <a class="nav-link active" aria-current="page" href="/location/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/location/list/add" style="color: #f28123"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
+                        <a class="nav-link active" aria-current="page" onclick="saveLocation()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
@@ -27,19 +27,20 @@
       </nav>
 
       <div id="dashboard" class="mx-3 mt-4">
-          <form action="">
+          <form action="/addLocation" method="post">
+            @csrf
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
               <h5 class="m-3">Basic Info</h5>
               <div class="d-flex">
                   <div class="form-check m-3" style="font-size: 15px;">
-                      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                      <label class="form-check-label" for="flexRadioDefault1" >
+                      <input class="form-check-input" type="radio" name="type" id="branchType" value="Branch" checked>
+                      <label class="form-check-label" for="branchType">
                         Branch
                       </label>
                     </div>
                     <div class="form-check m-3">
-                      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                      <label class="form-check-label" for="flexRadioDefault2">
+                      <input class="form-check-input" type="radio" name="type" id="offsiteType" value="Offsite">
+                      <label class="form-check-label" for="offsiteType">
                         Offsite
                       </label>
                   </div>
@@ -65,7 +66,7 @@
 
               <div class="m-3 mb-0 mt-4 mx-5 d-flex gap-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="toggleAll" name="toggleAll">
+                  <input class="form-check-input" type="checkbox" value="" id="toggleAll" name="day[]">
                   <label class="form-check-label" for="toggleAll" style="font-size: 15px; width: 100px">
                     Toggle All
                   </label>
@@ -90,7 +91,7 @@
 
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="monday" name="monday">
+                  <input class="form-check-input" type="checkbox" value="Monday" id="monday" name="day[]">
                   <label class="form-check-label" for="monday" style="font-size: 15px; width: 100px">
                     Monday
                   </label>
@@ -98,15 +99,15 @@
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="monday_time_on" id="monday_time_on" placeholder="From" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_on[]" id="monday_time_on" placeholder="From" oninput="inputMondayTimeOn()" style="width: 150px;" disabled>
                 </div>
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="monday_time_off" id="monday_time_off" placeholder="To" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_off[]" id="monday_time_off" placeholder="To" oninput="inputMondayTimeOff()" style="width: 150px;" disabled>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="all_day_monday" name="all_day_monday" disabled>
+                  <input class="form-check-input" type="checkbox" value="1" id="all_day_monday" name="all_day[]" disabled>
                   <label class="form-check-label" for="all_day_monday" style="font-size: 15px;">
                     All Day
                   </label>
@@ -114,7 +115,7 @@
               </div>
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="tuesday" name="tuesday">
+                  <input class="form-check-input" type="checkbox" value="Tuesday" id="tuesday" name="day[]">
                   <label class="form-check-label" for="tuesday" style="font-size: 15px; width: 100px">
                     Tuesday
                   </label>
@@ -122,15 +123,15 @@
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="tuesday_time_on" id="tuesday_time_on" placeholder="From" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_on[]" id="tuesday_time_on" placeholder="From" oninput="inputTuesdayTimeOn()" style="width: 150px;" disabled>
                 </div>
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="tuesday_time_off" id="tuesday_time_off" placeholder="To" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_off[]" id="tuesday_time_off" placeholder="To" oninput="inputTuesdayTimeOff()" style="width: 150px;" disabled>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="all_day_tuesday" name="all_day_tuesday" disabled>
+                  <input class="form-check-input" type="checkbox" value="1" id="all_day_tuesday" name="all_day[]" disabled>
                   <label class="form-check-label" for="all_day_tuesday" style="font-size: 15px;">
                     All Day
                   </label>
@@ -138,7 +139,7 @@
               </div>
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="wednesday" name="wednesday">
+                  <input class="form-check-input" type="checkbox" value="Wednesday" id="wednesday" name="day[]">
                   <label class="form-check-label" for="wednesday" style="font-size: 15px; width: 100px">
                     Wednesday
                   </label>
@@ -146,15 +147,15 @@
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="wednesday_time_on" id="wednesday_time_on" placeholder="From" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_on[]" id="wednesday_time_on" placeholder="From" style="width: 150px;" disabled>
                 </div>
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="wednesday_time_off" id="wednesday_time_off" placeholder="To" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_off[]" id="wednesday_time_off" placeholder="To" style="width: 150px;" disabled>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="all_day_wednesday" name="all_day_wednesday" disabled>
+                  <input class="form-check-input" type="checkbox" value="1" id="all_day_wednesday" name="all_day[]" disabled>
                   <label class="form-check-label" for="all_day_tuesday" style="font-size: 15px;">
                     All Day
                   </label>
@@ -162,7 +163,7 @@
               </div>
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="thrusday" name="thrusday">
+                  <input class="form-check-input" type="checkbox" value="Thrusday" id="thrusday" name="day[]">
                   <label class="form-check-label" for="thrusday" style="font-size: 15px; width: 100px">
                     Thrusday
                   </label>
@@ -170,15 +171,15 @@
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="thrusday_time_on" id="thrusday_time_on" placeholder="From" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_on[]" id="thrusday_time_on" placeholder="From" style="width: 150px;" disabled>
                 </div>
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="thrusday_time_off" id="thrusday_time_off" placeholder="To" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_off[]" id="thrusday_time_off" placeholder="To" style="width: 150px;" disabled>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="all_day_thrusday" name="all_day_wednesday" disabled>
+                  <input class="form-check-input" type="checkbox" value="1" id="all_day_thrusday" name="all_day[]" disabled>
                   <label class="form-check-label" for="all_day_wednesday" style="font-size: 15px;">
                     All Day
                   </label>
@@ -186,7 +187,7 @@
               </div>
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="friday" name="friday">
+                  <input class="form-check-input" type="checkbox" value="Friday" id="friday" name="day[]">
                   <label class="form-check-label" for="friday" style="font-size: 15px; width: 100px">
                     Friday
                   </label>
@@ -194,15 +195,15 @@
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="friday_time_on" id="friday_time_on" placeholder="From" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_on[]" id="friday_time_on" placeholder="From" style="width: 150px;" disabled>
                 </div>
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="friday_time_off" id="friday_time_off" placeholder="To" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_off[]" id="friday_time_off" placeholder="To" style="width: 150px;" disabled>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="all_day_friday" name="all_day_friday" disabled>
+                  <input class="form-check-input" type="checkbox" value="1" id="all_day_friday" name="all_day[]" disabled>
                   <label class="form-check-label" for="all_day_friday" style="font-size: 15px;">
                     All Day
                   </label>
@@ -210,7 +211,7 @@
               </div>
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="saturday">
+                  <input class="form-check-input" type="checkbox" value="Saturday" id="saturday" name="day[]">
                   <label class="form-check-label" for="saturday" style="font-size: 15px; width: 100px">
                     Saturday
                   </label>
@@ -218,15 +219,15 @@
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="saturday_time_on" id="saturday_time_on" placeholder="From" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_on[]" id="saturday_time_on" placeholder="From" style="width: 150px;" disabled>
                 </div>
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="saturday_time_off" id="saturday_time_off" placeholder="To" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_off[]" id="saturday_time_off" placeholder="To" style="width: 150px;" disabled>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="all_day_saturday" name="all_day_saturday" disabled>
+                  <input class="form-check-input" type="checkbox" value="1" id="all_day_saturday" name="all_day[]" disabled>
                   <label class="form-check-label" for="all_day_saturday" style="font-size: 15px;">
                     All Day
                   </label>
@@ -235,7 +236,7 @@
         
               <div class="m-3 mt-0 mx-5 d-flex gap-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="sunday">
+                  <input class="form-check-input" type="checkbox" value="Sunday" id="sunday" name="day[]">
                   <label class="form-check-label" for="sunday" style="font-size: 15px; width: 100px">
                     Sunday
                   </label>
@@ -243,15 +244,15 @@
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="sunday_time_on" id="sunday_time_on" placeholder="From" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_on[]" id="sunday_time_on" placeholder="From" style="width: 150px;" disabled>
                 </div>
                 <div class="mb-3 d-flex align-items-center">
                   <i class="far fa-clock icon" style="color: #949494;">
                   </i>
-                  <input type="text" class="form-control" name="sunday_time_off" id="sunday_time_off" placeholder="To" style="width: 150px;" disabled>
+                  <input type="text" class="form-control" name="time_off[]" id="sunday_time_off" placeholder="To" style="width: 150px;" disabled>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="all_day_sunday" disabled>
+                  <input class="form-check-input" type="checkbox" value="1" id="all_day_sunday" name="all_day[]" disabled>
                   <label class="form-check-label" for="all_day_sunday" style="font-size: 15px;">
                     All Day
                   </label>
@@ -273,141 +274,152 @@
               </div>
               <div class="m-3 d-flex gap-5">
                 <div class="mb-3">
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="City">
+                  <input type="text" class="form-control" id="city" name="city" placeholder="City">
                 </div>
                 <div class="mb-3">
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="State">
+                  <input type="text" class="form-control" id="state" name="state" placeholder="State">
                 </div>
                 <div class="mb-3">
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Postal Code">
+                  <input type="text" class="form-control" id="postal_code" name="postal_code" placeholder="Postal Code">
                 </div>
               </div>
               <div class="m-3 d-flex gap-5">
                 <div class="mb-3">
                   <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Country</label>
-                  <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" aria-label="Default select example">
-                    <option value="Active" class="selectstatus" style="color: black;">Indonesia</option>
-                    <option value="Disabled" class="selectstatus" style="color: black;">Malaysia</option>
-                  </select>
+                  <input type="text" class="form-control" id="searchcountry" name="country" value="" placeholder="Search Country">
                 </div>
                 <div class="mb-3">
                   <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
-                  <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" aria-label="Default select example">
-                    <option value="Active" class="selectstatus" style="color: black;">Tempat Tinggal</option>
-                    <option value="Disabled" class="selectstatus" style="color: black;">Klinik Cabang Utama</option>
+                  <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" aria-label="Default select example" id="mySelectUsageAddress" name="usage_address_id" onchange="changeUsageAddress()">
+                    <option value="" disabled selected class="selectstatus" style="color: black;">Select Usage</option>
+                    @foreach ($usageAddresses as $usage)
+                      <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
+                    @endforeach
+                    <option value="addressusage" class="selectstatus" style="color: black;">+ Create New</option>
                   </select>
                 </div>
               </div>
             </div>
 
-            {{-- PHOTOS --}}
-            <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-              <h5 class="m-3 mb-0">Photos</h5>
-              <div class="m-3 mt-0">
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                  <input type="file" class="form-control mt-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Phone Number">
-                </div>
-              </div>
-            </div>
-
-            
+          
             {{-- CONTACT --}}
-            <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+            <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
               <h5 class="m-3">Contact</h5>
-
-              <div class="mt-4 m-5" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                <h5 class="m-3">Phone</h5>
-                <div class="m-3">
-                  <button type="button" id="button" class="btn btn-sm btn-outline-dark" onclick="duplicate()"><i class="fas fa-plus"></i> Add</button>
-                </div>
-                <div class="m-3 gap-5" id="duplicater" style="display: block;">
-                  <div class="d-flex">
+              <div class="mt-2 m-5" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+                <h6 class="m-3">Phone</h6>
+                <div id="afterPhone">
+                  <div class="m-3 d-flex gap-5" id="phoneDuplicate">
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
-                      <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" aria-label="Default select example" id="mySelectPhone" onchange="changePhone()">
-                        <option value="Active" class="selectstatus" style="color: black;">Utama</option>
-                        <option value="Disabled" class="selectstatus" style="color: black;">Rumah</option>
+                      <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" id="mySelectPhone" name="usage_phone_contact_id[]" onchange="changePhone()">
+                        <option selected disabled value="" class="selectstatus" style="color: black;">Select Usage</option>
+                        @foreach ($usages as $usage)
+                          <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
+                        @endforeach
                         <option value="phoneusage" class="selectstatus" style="color: black;">+ Create New</option>
                       </select>
                     </div>
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                      <input type="text" class="form-control mt-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Phone Number">
+                      <input type="text" class="form-control" style="margin-top: 5px;"  id="phone_number" name="phone_number[]" placeholder="Phone Number" onkeypress="return inputPhone(event)">
                     </div>
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Type</label>
-                      <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" aria-label="Default select example">
-                        <option value="Active" class="selectstatus" style="color: black;">Mobile</option>
-                        <option value="Disabled" class="selectstatus" style="color: black;">Fax</option>
-                        <option value="Disabled" class="selectstatus" style="color: black;">Fixed-line phone</option>
+                      <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" id="phone_type" name="phone_type[]">
+                        <option value="Mobile" class="selectstatus" style="color: black;">Mobile</option>
+                        <option value="Fax" class="selectstatus" style="color: black;">Fax</option>
+                        <option value="Fixed-line phone" class="selectstatus" style="color: black;">Fixed-line phone</option>
                       </select>
                     </div>
-                    <div class="mb-3 d-flex align-items-center" style="cursor: pointer">
-                      <img src="/img/icon/minus.png" alt="" style="width: 20px" onclick="deletePhone()">
+                    <div class="mb-3 d-flex align-items-center" style="cursor: pointer" onclick="deletePhone(this.parentNode.id)">
+                      <img src="/img/icon/minus.png" alt="" style="width: 20px">
                     </div>
                   </div>
                 </div>
-
-                
-                
+                <div class="m-3">
+                  <button type="button" class="btn btn-sm btn-outline-dark" onclick="duplicatePhone()"><i class="fas fa-plus"></i> Add</button>
+                </div>
               </div>
+
               <div class="mt-2 m-5" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                <h5 class="m-3">Email</h5>
-                <div class="m-3 d-flex gap-5">
+                <h6 class="m-3">Email</h6>
+                <div id="afterEmail">
+                  <div class="m-3 d-flex gap-5" id="emailDuplicate">
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
-                      <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" aria-label="Default select example" id="mySelectEmail" onchange="changeEmail()">
-                        <option value="Active" class="selectstatus" style="color: black;">Active</option>
-                        <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
+                      <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" id="mySelectEmail" name="usage_email_contact_id[]" onchange="changeEmail()">
+                        <option selected disabled value="" class="selectstatus" style="color: black;">Select Usage</option>
+                        @foreach ($usages as $usage)
+                          <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
+                        @endforeach
                         <option value="emailusage" class="selectstatus" style="color: black;">+ Create New</option>
                       </select>
                     </div>
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                      <input type="text" class="form-control mt-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Address">
+                      <input type="text" class="form-control" style="margin-top: 5px;" id="email_address" name="email_address[]" placeholder="Email Address">
                     </div>
-                    <div class="mb-3 d-flex align-items-center" style="cursor: pointer">
+                    <div class="mb-3 d-flex align-items-center" style="cursor: pointer" onclick="deleteEmail(this.parentNode.id)">
                       <img src="/img/icon/minus.png" alt="" style="width: 20px">
                     </div>
+                  </div>
                 </div>
                 <div class="m-3">
-                  <button type="button" class="btn btn-sm btn-outline-dark"><i class="fas fa-plus"></i> Add</button>
+                  <button type="button" class="btn btn-sm btn-outline-dark" onclick="duplicateEmail()"><i class="fas fa-plus"></i> Add</button>
                 </div>
               </div>
-              <div class="mt-2 m-5" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                <h5 class="m-3">Messenger</h5>
-                <div class="m-3 d-flex gap-5">
-                  <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
-                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" aria-label="Default select example" id="mySelectMessenger" onchange="changeMessenger()">
-                      <option value="Active" class="selectstatus" style="color: black;">Utama</option>
-                      <option value="Disabled" class="selectstatus" style="color: black;">Rumah</option>
-                      <option value="messengerusage" class="selectstatus" style="color: black;">+ Create New</option>
-                    </select>
-                  </div>
-                  <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                    <input type="text" class="form-control mt-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username">
-                  </div>
-                  <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Type</label>
-                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" aria-label="Default select example" id="mySelectMessengerType" onchange="typeMessenger()">
-                      <option value="Active" class="selectstatus" style="color: black;">Whatsaap</option>
-                      <option value="messengertype" class="selectstatus" style="color: black;">+ Create New</option>
-                    </select>
-                  </div>
-                  <div class="mb-3 d-flex align-items-center" style="cursor: pointer">
-                    <img src="/img/icon/minus.png" alt="" style="width: 20px">
-                  </div>
-                </div>
 
-                <div class="m-3">
-                  <button type="button" class="btn btn-sm btn-outline-dark"><i class="fas fa-plus"></i> Add</button>
+              <div class="mt-2 m-5" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+                <h6 class="m-3">Messenger</h6>
+                <div id="afterMessenger">
+                  <div class="m-3 d-flex gap-5" id="messengerDuplicate">
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
+                      <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" id="mySelectMessenger" name="usage_messenger_contact_id[]" onchange="changeMessenger()">
+                        <option selected disabled value="" class="selectstatus" style="color: black;">Select Usage</option>
+                        @foreach ($usages as $usage)
+                          <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
+                        @endforeach
+                        <option value="messengerusage" class="selectstatus" style="color: black;">+ Create New</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
+                      <input type="text" class="form-control" style="margin-top: 5px;" id="username" name="username[]" placeholder="Username">
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Type</label>
+                      <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" aria-label="Default select example" id="mySelectMessengerType" name="messenger_type_id[]" onchange="typeMessenger()">
+                        <option disabled selected value="" class="selectstatus" style="color: black;">Select Type</option>
+                        @foreach ($messengerTypes as $type)
+                          <option value="{{ $type->id }}" class="selectstatus" style="color: black;">{{ $type->type_name }}</option>
+                        @endforeach
+                        <option value="messengertype" class="selectstatus" style="color: black;">+ Create New</option>
+                      </select>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center" style="cursor: pointer" onclick="deleteMessenger(this.parentNode.id)">
+                      <img src="/img/icon/minus.png" alt="" style="width: 20px">
+                    </div>
+                  </div>
                 </div>
+                <div class="m-3">
+                  <button type="button" class="btn btn-sm btn-outline-dark" onclick="duplicateMessenger()"><i class="fas fa-plus"></i> Add</button>
+                </div>
+              </div>
+            </div>
+            
+            {{-- PHOTOS --}}
+            <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+              <h5 class="m-3 mb-0">Photos</h5>
+              <div class="m-3 mt-0">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
+                  <input type="file" class="form-control mt-1" name="image">
+                </div>
+              </div>
             </div>
 
-            
+            <button type="submit" id="submitLocation" hidden></button>
           </form>
       </div>
     </div>
@@ -416,6 +428,29 @@
 
   {{-- ALL MODAL --}}
 
+  {{-- MODAL ADD NEW USAGE ADDRESS--}}
+  <div class="modal fade" id="usageaddress" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Address Usage</h1>
+        </div>
+        <form action="/addUsageAddress" method="post">
+          @csrf
+          <div class="modal-body">
+            <div class="mb-1">
+              <input type="text" class="form-control mt-1" id="usage_name" name="usage_name" placeholder="Name">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   {{-- MODAL ADD NEW PHONE USAGE --}}
   <div class="modal fade" id="usagephone" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -423,15 +458,18 @@
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Add Phone Usage</h1>
         </div>
-        <div class="modal-body">
-          <div class="mb-1">
-            <input type="text" class="form-control mt-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name">
+        <form action="/addUsage" method="post">
+          @csrf
+          <div class="modal-body">
+            <div class="mb-1">
+              <input type="text" class="form-control mt-1" id="usage_name" name="usage_name" placeholder="Name">
+            </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-          <button type="button" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
-        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -443,15 +481,18 @@
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Add Email Usage</h1>
         </div>
-        <div class="modal-body">
-          <div class="mb-1">
-            <input type="text" class="form-control mt-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name">
+        <form action="/addUsage" method="post">
+          @csrf
+          <div class="modal-body">
+            <div class="mb-1">
+              <input type="text" class="form-control mt-1" id="usage_name" name="usage_name" placeholder="Name">
+            </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-          <button type="button" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
-        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -463,15 +504,18 @@
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Add Messenger Usage</h1>
         </div>
-        <div class="modal-body">
-          <div class="mb-1">
-            <input type="text" class="form-control mt-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name">
+        <form action="/addUsage" method="post">
+          @csrf
+          <div class="modal-body">
+            <div class="mb-1">
+              <input type="text" class="form-control mt-1" id="usage_name" name="usage_name" placeholder="Name">
+            </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-          <button type="button" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
-        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -483,15 +527,18 @@
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Add Messenger Type</h1>
         </div>
-        <div class="modal-body">
-          <div class="mb-1">
-            <input type="text" class="form-control mt-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name">
+        <form action="/addTypeMessenger" method="post">
+          @csrf
+          <div class="modal-body">
+            <div class="mb-1">
+              <input type="text" class="form-control mt-1" id="type_name" name="type_name" placeholder="Name">
+            </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-          <button type="button" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
-        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

@@ -177,13 +177,23 @@
                         </div>
                     </div>
 
-                    
+                    <?php
+                        if(!isset($_COOKIE['value']) || !isset($_COOKIE['lengthStaff'])){
+                            echo 'not set';
+                        }else{
+                            
+                            $value = $_COOKIE['value'];
+                            $staffId = str_replace(',', '', $value);
+                            $lengthStaff = $_COOKIE['lengthStaff'];
+                        }
+                    ?>
 
                     {{-- STAFF --}}
                     <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Staff</h5>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
+                                <input type="text" id="idstaff">
                                 <div class="d-flex">
                                     <div class="form-check m-3 mb-0" style="font-size: 15px;">
                                         <input class="form-check-input" type="radio" name="staff" id="nostaff" value="nostaff" checked>
@@ -196,12 +206,37 @@
                                         <label class="form-check-label" for="withstaff">
                                             With Staff
                                         </label>
+                                        
                                     </div>
                                 </div>
+
+                                @if (isset($lengthStaff))
+                                    <div class="mt-3">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Job Title</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (isset($lengthStaff))
+                                                    @for ($i = 0; $i < $lengthStaff; $i++)
+                                                        <tr>
+                                                            <td>{{ App\Models\Staff::find($staffId[$i])->staff_name }}</td>
+                                                            <td>{{ App\Models\Staff::find($staffId[$i])->job_title }}</td>
+                                                        </tr>
+                                                        
+                                                    @endfor
+                                                @endif
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="m-3" id="addstaff" style="display: none">
-                            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staffservice"><i class="fas fa-plus"></i> Add</button>
+                            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staffservice" onclick="viewId()"><i class="fas fa-plus"></i> Add</button>
                         </div>
                     </div>
 
@@ -264,21 +299,24 @@
                         <th scope="col">Job Title</th>
                       </tr>
                     </thead>
+                    
                     <tbody>
-                      <tr>
-                        <th>
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        </th>
-                        <td>Drh Benny</td>
-                        <td>Laki Laki</td>
-                        <td>Dokter Umum</td>
-                      </tr>
+                        @foreach ($staff as $st)
+                            <tr>
+                            <th>
+                                <input class="form-check-input" type="checkbox" id="getIdStaff" name="getIdStaff" value="{{ $st->id }}">
+                            </th>
+                            <td>{{ $st->staff_name }}</td>
+                            <td>{{ $st->gender }}</td>
+                            <td>{{ $st->job_title }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                   </table>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                <button type="button" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                <button type="button" class="btn btn-sm btn-outline-primary" id="staffSave" onclick="saveStaff()"><i class="fas fa-save"></i> Save changes</button>
               </div>
             </div>
         </div>

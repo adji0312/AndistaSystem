@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('location_id');
             $table->foreignId('tax_id');
             $table->foreignId('category_service_id');
+            $table->foreignId('staff_id');
+            $table->foreignId('facility_id');
             $table->foreignId('policy_id'); //bisa nullable (untuk service yg tidak memerlukan persetujuan surat)
             $table->string('service_name');
             $table->string('simple_service_name');

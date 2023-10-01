@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('location_contact_messengers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('location_id');
-            $table->foreignId('usage_contact_id');
+            $table->foreignId('usage_messenger_contact_id');
             $table->foreignId('messenger_type_id');
             $table->string('username');
             $table->timestamps();

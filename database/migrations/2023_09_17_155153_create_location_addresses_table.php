@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('location_addresses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('location_id');
-            $table->foreignId('usage_id');
-            $table->foreignId('country_id');
+            $table->foreignId('usage_address_id');
+            $table->string('country');
             $table->text('street_address');
             $table->text('additional_info');
             $table->string('city');
