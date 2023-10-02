@@ -63,6 +63,7 @@ Route::get('/deleteCategory', [CategoryServiceController::class, 'deleteCategory
 
 Route::post('/post', [IndexController::class, 'store']);
 
+
 Route::post('/addTask', [TaskController::class, 'store']);
 
 
@@ -80,3 +81,6 @@ Route::post('/addUsage', [UsageContactController::class, 'store']);
 Route::post('/addTypeMessenger', [MessengerTypeController::class, 'store']);
 
 Route::post('/addUsageAddress', [UsageAddressController::class, 'store']);
+
+Route::get('/customer',[IndexController::class, 'customer']);
+

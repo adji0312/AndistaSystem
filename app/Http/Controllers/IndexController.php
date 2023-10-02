@@ -152,6 +152,7 @@ class IndexController extends Controller
         ]);
     }
 
+
     public function editFacility($facility_name){
         $facility = Facility::all()->where('facility_name', $facility_name);
         
@@ -177,5 +178,12 @@ class IndexController extends Controller
 
         return response()->json($dataModified);
     }
+
+    public function customer(){
+        return view('customer.dashboard',[
+            "title" => "Customer Dashboard"
+        ]);
+    }
+
     
 }

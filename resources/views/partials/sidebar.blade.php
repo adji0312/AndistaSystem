@@ -20,7 +20,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="px-4">
+                <a href="/customer" class="px-4">
                     <img src="/img/icon/customer.png" alt="" style="width: 22px"> <span class="mx-2">Customer</span>
                 </a>
             </li>
