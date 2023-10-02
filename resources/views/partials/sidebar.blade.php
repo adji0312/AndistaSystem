@@ -25,7 +25,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="px-4">
+                <a href="/staff" class="px-4">
                     <img src="/img/icon/staff.png" alt="" style="width: 22px"> <span class="mx-2">Staff</span>
                 </a>
             </li>
@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="px-4">
+                <a href="/product" class="px-4">
                     <img src="/img/icon/product.png" alt="" style="width: 22px"> <span class="mx-2">Product</span>
                 </a>
             </li>

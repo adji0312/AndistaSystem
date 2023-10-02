@@ -82,5 +82,12 @@ Route::post('/addTypeMessenger', [MessengerTypeController::class, 'store']);
 
 Route::post('/addUsageAddress', [UsageAddressController::class, 'store']);
 
-Route::get('/customer',[IndexController::class, 'customer']);
+// Customer
+Route::get('/customer',[IndexController::class, 'customerDashboard']);
+
+//Staff
+Route::get('/staff',[IndexController::class,'staffDashboard']);
+
+//Product
+Route::get('/product',[IndexController::class,'productDashboard']);
 

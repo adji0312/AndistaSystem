@@ -179,11 +179,21 @@ class IndexController extends Controller
         return response()->json($dataModified);
     }
 
-    public function customer(){
+    public function customerDashboard(){
         return view('customer.dashboard',[
             "title" => "Customer Dashboard"
         ]);
     }
 
-    
+    public function staffDashboard(){
+        return view('staff.dashboard',[
+            "title" => "Staff Dashboard"
+        ]);
+    }
+
+    public function productDashboard(){
+        return view('product.dashboard',[
+            "title" => "Product Dashboard"
+        ]);
+    }
 }
