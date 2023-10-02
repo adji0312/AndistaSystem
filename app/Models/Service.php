@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'staff_id' => 'array',
+        'facility_id' => 'array'
+    ];
 }

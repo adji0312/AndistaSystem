@@ -1,9 +1,18 @@
 <?php
 
 use App\Http\Controllers\CategoryServiceController;
+use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\MessengerTypeController;
 use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaxRateController;
+use App\Http\Controllers\UsageAddressController;
+use App\Http\Controllers\UsageContactController;
+use App\Models\Facility;
+use App\Models\UsageContact;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,18 +27,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [IndexController::class, 'home']);
+Route::get('/location/list/add/autocomplete-search', [IndexController::class, 'autocompleteSearch']);
 
 
 Route::get('/location', [IndexController::class, 'locationDashboard']);
 Route::get('/location/list', [IndexController::class, 'locationList']);
 Route::get('/location/list/add', [IndexController::class, 'addLocation']);
-Route::get('/location/facility', [IndexController::class, 'locationFacility']);
-Route::get('/location/facility/add', [IndexController::class, 'addFacility']);
+Route::post('/addLocation', [LocationController::class, 'store']);
 
 
 Route::get('/finance', [IndexController::class, 'financeDashboard']);
 Route::get('/finance/taxrate', [IndexController::class, 'financeTaxRate']);
 Route::post('/addTaxRate', [TaxRateController::class, 'store']);
+Route::post('/updateTaxRate/{id}', [TaxRateController::class, 'update']);
+Route::get('/deleteTax', [TaxRateController::class, 'deleteTax']);
 
 Route::get('/service', [IndexController::class, 'serviceDashboard']);
 Route::get('/service/list', [IndexController::class, 'serviceList']);
@@ -52,4 +63,24 @@ Route::get('/deleteCategory', [CategoryServiceController::class, 'deleteCategory
 
 Route::post('/post', [IndexController::class, 'store']);
 
+
+Route::post('/addTask', [TaskController::class, 'store']);
+
+
+// Facility
+Route::get('/location/facility', [IndexController::class, 'locationFacility']);
+Route::get('/location/facility/add', [IndexController::class, 'addFacility']);
+Route::post('/addFacility', [FacilityController::class, 'store']);
+Route::get('/location/facility/{facility_name}', [IndexController::class, 'editFacility']);
+
+//Service
+Route::post('/addService', [ServiceController::class, 'store']);
+
+// Usage Contact
+Route::post('/addUsage', [UsageContactController::class, 'store']);
+Route::post('/addTypeMessenger', [MessengerTypeController::class, 'store']);
+
+Route::post('/addUsageAddress', [UsageAddressController::class, 'store']);
+
 Route::get('/customer',[IndexController::class, 'customer']);
+

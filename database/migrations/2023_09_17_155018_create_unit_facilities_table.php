@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('facility_id'); //setiap create, nanti dia akan ambil facility_id before + 1
             $table->string('unit_name');
-            $table->string('status');
-            $table->text('notes');
+            $table->string('unit_status');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

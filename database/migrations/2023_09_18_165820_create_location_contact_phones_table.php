@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('location_contact_phones', function (Blueprint $table) {
             $table->id();
             $table->foreignId('location_id');
-            $table->foreignId('usage_contact_id');
+            $table->foreignId('usage_phone_contact_id');
             $table->string('phone_number');
             $table->string('phone_type');
             $table->timestamps();

@@ -3,10 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryService;
+use App\Models\Country;
+use App\Models\Facility;
+use App\Models\Location;
+use App\Models\MessengerType;
 use App\Models\Policy;
+use App\Models\Staff;
+use App\Models\Task;
 use App\Models\TaxRate;
+use App\Models\UnitFacility;
+use App\Models\UsageAddress;
+use App\Models\UsageContact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 
 class IndexController extends Controller
 {
@@ -29,19 +39,26 @@ class IndexController extends Controller
     }
     public function addLocation(){
         return view('location.addLocation', [
-            "title" => "Location List"
+            "title" => "Location List",
+            "usages" => UsageContact::all(),
+            "messengerTypes" => MessengerType::all(),
+            "countries" => Country::all(),
+            "usageAddresses" => UsageAddress::all()
         ]);
     }
     
     public function locationFacility(){
         return view('location.locationfacilities', [
-            "title" => "Facility"
+            "title" => "Facility",
+            "facilities" => Facility::all(),
+            "units" => UnitFacility::all()
         ]);
     }
 
     public function addFacility(){
         return view('location.addFacility', [
-            "title" => "Facility"
+            "title" => "Facility",
+            "locations" => Location::all()
         ]);
     }
 
@@ -61,7 +78,11 @@ class IndexController extends Controller
         return view('service.addservice', [
             "title" => "Service List",
             "categories" => CategoryService::all(),
-            "tax" => TaxRate::all()
+            "tax" => TaxRate::all(),
+            "locations" => Location::all(),
+            "policies" => Policy::all(),
+            "facilities" => Facility::all()->where('status', 'Active'),
+            "staff" => Staff::all()
         ]);
     }
 
@@ -73,7 +94,8 @@ class IndexController extends Controller
 
     public function addTreatmentPlan(){
         return view('service.addtreatmentplan', [
-            "title" => "Treatment Plan"
+            "title" => "Treatment Plan",
+            "tasks" => Task::all()
         ]);
     }
 
@@ -130,10 +152,38 @@ class IndexController extends Controller
         ]);
     }
 
+
+    public function editFacility($facility_name){
+        $facility = Facility::all()->where('facility_name', $facility_name);
+        
+        return view('location.editFacility', [
+            "title" => "Facility",
+            "facility" => $facility->first(),
+            "locations" => Location::all()
+        ]);
+    }
+
+    public function autocompleteSearch(Request $request){
+        // $query = $request->get('query');
+        // $filterResult = Country::where('country_name', 'LIKE', '%'. $query. '%')->get();
+        // return response()->json($filterResult);
+
+        $datas = Country::select("country_name")
+            ->where("country_name","LIKE","%{$request->input('query')}%")
+            ->get();
+        $dataModified = array();
+        foreach ($datas as $data){
+            $dataModified[] = $data->country_name;
+        }
+
+        return response()->json($dataModified);
+    }
+
     public function customer(){
         return view('customer.dashboard',[
             "title" => "Customer Dashboard"
         ]);
     }
+
     
 }

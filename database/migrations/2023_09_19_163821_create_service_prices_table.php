@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('service_prices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('location_id');
+            $table->foreignId('location_price_id');
             $table->foreignId('service_id');
-            $table->foreignId('tax_id');
             $table->integer('duration');
             $table->string('duration_type');
             $table->integer('price');

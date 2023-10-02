@@ -13,6 +13,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/location/facility/add" style="color: #f28123"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a> 
                     </li>
+                    <li class="nav-item" id="deleteButton" style="display: none;">
+                        <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#deleteFacility" onclick="clickDeleteButton()" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/trash.png" alt="" style="width: 22px"> Delete</a>
+                    </li>
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -26,7 +29,7 @@
                 <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col" style="color: #7C7C7C; width: 50px;">No</th>
+                        <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
                         <th scope="col" style="color: #7C7C7C">Name</th>
                         <th scope="col" style="color: #7C7C7C">Location</th>
                         <th scope="col" style="color: #7C7C7C">Capacity</th>
@@ -35,17 +38,47 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td><a href="#" class="text-primary">Kandang Kecil</a></td>
-                        <td>Andista Animal Care</td>
-                        <td>6</td>
-                        <td>1</td>
-                        <td>Aktif</td>
-                      </tr>
+                        @foreach ($facilities as $facility)
+                            <tr>
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="checkBox[{{ $facility->id }}]" name="checkBox"  value="{{ $facility->id }}">
+                                    </div>
+                                </th>
+                                <td><a href="/location/facility/{{ $facility->facility_name }}" class="text-primary">{{ $facility->facility_name }}</a></td>
+                                <td>{{ $facility->location->location_name }}</td>
+                                <td>{{ $facility->capacity }}</td>
+                                <td>{{ $facility->units->count() }}</td>
+                                <td>{{ $facility->status }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+
+    {{-- MODAL DELETE --}}
+    <div class="modal fade" id="deleteFacility" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Facility</h1>
+            </div>
+            
+            <form action="/deleteCategory" method="GET">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-1">
+                        <input type="text" hidden id="deleteId" name="deleteId" value="Hapus" class="form-control mt-1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                </div>
+            </form>
+          </div>
         </div>
     </div>
     
