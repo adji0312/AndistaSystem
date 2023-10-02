@@ -129,5 +129,11 @@ class IndexController extends Controller
             "tax" => TaxRate::all()
         ]);
     }
+
+    public function customer(){
+        return view('customer.dashboard',[
+            "title" => "Customer Dashboard"
+        ]);
+    }
     
 }

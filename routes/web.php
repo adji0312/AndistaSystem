@@ -51,3 +51,5 @@ Route::post('/updateCategory/{id}', [CategoryServiceController::class, 'update']
 Route::get('/deleteCategory', [CategoryServiceController::class, 'deleteCategory']);
 
 Route::post('/post', [IndexController::class, 'store']);
+
+Route::get('/customer',[IndexController::class, 'customer']);
