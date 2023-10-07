@@ -2,6 +2,8 @@
 @section('container')
 
     <div class="wrapper">
+
+        @include('product.menu')
     
         <div id="contents">
         <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
