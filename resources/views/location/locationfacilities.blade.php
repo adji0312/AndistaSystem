@@ -66,7 +66,7 @@
               <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Facility</h1>
             </div>
             
-            <form action="/deleteCategory" method="GET">
+            <form action="/deleteFacility" method="GET">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-1">

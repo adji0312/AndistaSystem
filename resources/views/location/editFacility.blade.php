@@ -1,6 +1,7 @@
 @extends('main')
 @section('container')
 
+{{ $facility->id }}
     <div class="wrapper">
         @include('location.menu')
         <div id="contents">
@@ -10,7 +11,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="/location/facility" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
+                              <a class="nav-link active" aria-current="page" href="/facility" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
                           <li class="nav-item">
                               <a class="nav-link active" aria-current="page" onclick="saveFacility()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
@@ -25,7 +26,7 @@
             </nav>
 
             <div id="dashboard" class="mx-3 mt-4">
-                <form action="/addFacility" method="POST" enctype="multipart/form-data">
+                <form action="/editFacility/{{ $facility->id }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Basic Info</h5>
@@ -87,11 +88,11 @@
                                 {{-- <input type="text" hidden name="facility_id" id="facility_id"> --}}
                                 <div class="mb-3" style="width: 230px">
                                     <label for="unit_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Name</label>
-                                    <input type="text" class="form-control" id="unit_name" name="unit_name" value="{{ $unit->unit_name }}">
+                                    <input type="text" class="form-control" id="unit_name" name="unit_name[]" value="{{ $unit->unit_name }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="unit_status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
-                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="unit_status" name="unit_status">
+                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="unit_status" name="unit_status[]">
                                     @if ($unit->unit_status == "Active")
                                         <option value="Active" class="selectstatus" style="color: black;" selected>Active</option>
                                         <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
@@ -103,7 +104,7 @@
                                 </div>
                                 <div class="mb-3" style="width: 50%">
                                     <label for="notes" class="form-label" style="font-size: 15px; color: #7C7C7C;">Notes</label>
-                                    <input type="text" class="form-control" id="notes" name="notes" value="{{ $unit->notes }}">
+                                    <input type="text" class="form-control" id="notes" name="notes[]" value="{{ $unit->notes }}">
                                 </div>
                                 <div class="mb-3 d-flex align-items-center" style="cursor: pointer">
                                     <img src="/img/icon/minus.png" alt="" style="width: 20px">

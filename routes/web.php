@@ -34,6 +34,7 @@ Route::get('/location', [IndexController::class, 'locationDashboard']);
 Route::get('/location/list', [IndexController::class, 'locationList']);
 Route::get('/location/list/add', [IndexController::class, 'addLocation']);
 Route::post('/addLocation', [LocationController::class, 'store']);
+Route::get('/location/{location_name}', [IndexController::class, 'editLocation']);
 
 
 Route::get('/finance', [IndexController::class, 'financeDashboard']);
@@ -67,9 +68,11 @@ Route::post('/addTask', [TaskController::class, 'store']);
 
 
 // Facility
-Route::get('/location/facility', [IndexController::class, 'locationFacility']);
+Route::get('/facility', [IndexController::class, 'locationFacility']);
+Route::get('/deleteFacility', [FacilityController::class, 'deleteFacility']);
 Route::get('/location/facility/add', [IndexController::class, 'addFacility']);
 Route::post('/addFacility', [FacilityController::class, 'store']);
+Route::post('/editFacility/{id}', [FacilityController::class, 'edit']);
 Route::get('/location/facility/{facility_name}', [IndexController::class, 'editFacility']);
 
 //Service

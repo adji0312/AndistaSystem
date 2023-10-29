@@ -38,8 +38,10 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" aria-label="Default select example">
-                                    <option value="Active" class="selectstatus" style="color: black;">Andista Animal Care</option>
-                                    <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
+                                    <option value="" class="selectstatus" style="color: black;" disabled selected>Select Location</option>
+                                    @foreach ($locations as $location)
+                                        <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-3">

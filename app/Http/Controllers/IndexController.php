@@ -34,7 +34,8 @@ class IndexController extends Controller
     
     public function locationList(){
         return view('location.locationslist', [
-            "title" => "Location List"
+            "title" => "Location List",
+            "locations" => Location::all()
         ]);
     }
     public function addLocation(){
@@ -95,7 +96,8 @@ class IndexController extends Controller
     public function addTreatmentPlan(){
         return view('service.addtreatmentplan', [
             "title" => "Treatment Plan",
-            "tasks" => Task::all()
+            "tasks" => Task::all(),
+            "locations" => Location::all()->where('status', 'Active')
         ]);
     }
 
@@ -128,6 +130,25 @@ class IndexController extends Controller
         return view('service.editPolicy', [
             "title" => "Policy",
             "policy" => $policy
+        ]);
+    }
+    
+    public function editLocation($location_name){
+
+        // dd($id);
+        
+        // $location = Location::find(decrypt($id));
+        // dd($policy);
+        $location = Location::all()->where('location_name', $location_name)->first();
+        // dd($location);
+
+        return view('location.editLocation', [
+            "title" => "Location",
+            "location" => $location,
+            "usages" => UsageContact::all(),
+            "messengerTypes" => MessengerType::all(),
+            "countries" => Country::all(),
+            "usageAddresses" => UsageAddress::all()
         ]);
     }
 
