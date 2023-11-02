@@ -48,7 +48,7 @@
                                 <td><a href="/location/facility/{{ $facility->facility_name }}" class="text-primary">{{ $facility->facility_name }}</a></td>
                                 <td>{{ $facility->location->location_name }}</td>
                                 <td>{{ $facility->capacity }}</td>
-                                <td>{{ $facility->units->count() }}</td>
+                                <td>{{ $facility->units->where('unit_status', "Active")->count() }}</td>
                                 <td>{{ $facility->status }}</td>
                             </tr>
                         @endforeach

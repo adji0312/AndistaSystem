@@ -150,25 +150,28 @@ function duplicateUnit(){
     clone.id = "unitDuplicate" + ++j;
     let cloned = document.getElementById("afterInput").appendChild(clone);
     console.log(cloned);
-    
+}
 
-    
-    // var newUnitName = document.getElementById("unit_name");
-    // newUnitName.name = "unit_name[" + ++k +"]";
-    // console.log(newUnitName);
-
-    
-    // var newStatus = document.getElementById("unit_status");
-    // newStatus.name = "unit_status[" + ++l +"]";
-    // console.log(newStatus);
-
-    
-    // var newNotes = document.getElementById("notes");
-    // newNotes.name = "notes[" + ++m +"]";
-    // console.log(newNotes);
+var before = document.getElementById('indexUnitDup');
+function duplicateUnitinEdit($id){
+    // console.log($id-=1);
+    // console.log(before.value);
+    // $id = $id - 1;
+    // console.log($id);
+    var ori = document.getElementById('unitDuplicate'+before.value);
+    console.log(ori);
+    console.log(before.value);
+    let index = parseInt(before.value);
+    index += 1;
+    var clone = ori.cloneNode(true);
+    clone.id = "unitDuplicate" + index;
+    let cloned = document.getElementById("afterInput").appendChild(clone);
+    console.log(cloned);
+    before.value = index;
 }
 
 function deleteUnit(e){
+    console.log(e);
     const element = document.getElementById(e);
     element.remove();
 }
@@ -1711,3 +1714,13 @@ $('.searchcountry').on('typeahead:selected', function (e, datum) {
 //     // localStorage.setItem("email", $('#inputEmail').val());
 //     // ...
 // }
+
+function updateUnit(e){
+    let unit_name = document.getElementById('unit_name' + e);
+    console.log(unit_name.value);
+}
+
+function testing(){
+    let unit_name = document.getElementById('unit_name' + e);
+    console.log(unit_name);
+}

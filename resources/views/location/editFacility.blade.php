@@ -1,7 +1,6 @@
 @extends('main')
 @section('container')
 
-{{ $facility->id }}
     <div class="wrapper">
         @include('location.menu')
         <div id="contents">
@@ -66,9 +65,9 @@
                                 </select>
                               </div>
                             <div class="mb-3">
-                              <label for="share_facility" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                              <select class="form-select mt-1" style="font-size: 15px; color: #7C7C7C; width: 230px" id="share_facility" name="share_facility">
-
+                              <label for="share_facility" class="form-label" style="font-size: 15px; color: #7C7C7C;">Share With</label>
+                              <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="share_facility" name="share_facility">
+                                <option value="0" class="selectstatus" style="color: black;">none</option>
                                 @foreach ($locations as $location)
                                     @if ($facility->share_facility == $location->id)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;" selected>{{ $location->location_name }}</option>
@@ -80,46 +79,119 @@
                             </div>
                         </div>
                     </div>
+                    <button type="submit" id="submitFacility" hidden></button>
+                </form>    
 
-                    <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                        <h5 class="m-3">Units Available</h5>
-                        @foreach ($facility->units as $unit)
-                            <div class="m-3 d-flex gap-5">
-                                {{-- <input type="text" hidden name="facility_id" id="facility_id"> --}}
-                                <div class="mb-3" style="width: 230px">
-                                    <label for="unit_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Name</label>
-                                    <input type="text" class="form-control" id="unit_name" name="unit_name[]" value="{{ $unit->unit_name }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="unit_status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
-                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="unit_status" name="unit_status[]">
-                                    @if ($unit->unit_status == "Active")
-                                        <option value="Active" class="selectstatus" style="color: black;" selected>Active</option>
-                                        <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
-                                    @else
-                                        <option value="Active" class="selectstatus" style="color: black;">Active</option>
-                                        <option value="Disabled" class="selectstatus" style="color: black;" selected>Disabled</option>
-                                    @endif
-                                    </select>
-                                </div>
-                                <div class="mb-3" style="width: 50%">
-                                    <label for="notes" class="form-label" style="font-size: 15px; color: #7C7C7C;">Notes</label>
-                                    <input type="text" class="form-control" id="notes" name="notes[]" value="{{ $unit->notes }}">
-                                </div>
-                                <div class="mb-3 d-flex align-items-center" style="cursor: pointer">
-                                    <img src="/img/icon/minus.png" alt="" style="width: 20px">
-                                </div>
-                            </div>
-                        @endforeach
-                        <div class="m-3">
-                            <button type="button" class="btn btn-sm btn-outline-dark"><i class="fas fa-plus"></i> Add</button>
+                    <div class="mt-4 mb-4" id="unitContainer" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+                        <div class="d-flex justify-content-between m-2">
+                            <h5 class="m-3">Units Available</h5>
+                            <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addunitfacility"><i class="fas fa-plus"></i> Add</button>
+                        </div>
+                        <div class="mx-4 table-responsive">
+                            <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Unit Name</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Notes</th>
+                                    <th scope="col" class="text-center">Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $index = 0; ?>
+                                    @foreach ($facility->units as $key => $unit)
+                                        <tr>
+                                            <?php $index += 1;?>
+                                            <th scope="row">
+                                                {{ $index }}
+                                            </th>
+                                            <td>
+                                                {{ $unit->unit_name }}
+                                            </td>
+                                            <td>
+                                                {{ $unit->unit_status }}
+                                            </td>
+                                            <td>
+                                                {{ $unit->notes }}
+                                            </td>
+                                            <td>
+                                                <div class="d-flex justify-content-center gap-2">
+                                                    <button type="button" class="btn btn-outline-success btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#updateUnit{{ $unit->id }}" onclick="updateUnit({{ $unit->id }})"><i class="fas fa-pencil-alt"></i> Update</button>
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteUnit{{ $unit->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <div class="modal fade" id="updateUnit{{ $unit->id }}" value={{ $unit->id }} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Update Unit {{ $index }}</h1>
+                                                </div>
+                                                <form action="/updateunitfacility/{{ $unit->id }}" method="post">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="unit_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Name</label>
+                                                            <input type="hidden" value="{{ $facility->id }}" name="facility_id">
+                                                            <input type="text" class="form-control" id="unit_name" name="unit_name" value="{{ $unit->unit_name }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="unit_status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
+                                                            <select class="form-select" style="font-size: 15px; color: #7C7C7C;" id="unit_status" name="unit_status">
+                                                                @if ($unit->unit_status == "Active")
+                                                                    <option value="Active" selected class="selectstatus" style="color: black;">Active</option>
+                                                                    <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option> 
+                                                                @else
+                                                                    <option value="Disabled" selected class="selectstatus" style="color: black;">Disabled</option> 
+                                                                    <option value="Active" class="selectstatus" style="color: black;">Active</option>
+                                                                @endif
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="notes" class="form-label" style="font-size: 15px; color: #7C7C7C;">Notes</label>
+                                                            <textarea class="form-control" id="notes" name="notes" value="{{ $unit->notes }}">{{ $unit->notes }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                        <button type="submit" class="btn btn-sm btn-outline-success"><i class="fas fa-save"></i> Update</button>
+                                                    </div>
+                                                </form>    
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- DELETE UNIT --}}
+                                        <div class="modal fade" id="deleteUnit{{ $unit->id }}" value={{ $unit->id }} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Unit {{ $index }}</h1>
+                                                </div>
+                                                <form action="/deleteUnit/{{ $unit->id }}" method="get">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <h6>Delete unit {{ $unit->unit_name }}</h6>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i> Delete</button>
+                                                    </div>
+                                                </form>    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
                     <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3 mb-0">Photos</h5>
                         <div class="m-3 mt-3">
-                            <img src="https://img.ws.mms.shopee.co.id/id-11134207-7qul5-lg831apy9gfr1f" alt="" width="25%">
+                            <img src="/storage/{{ substr($facility->image, 7) }}" alt="" width="25%">
                         </div>
                         <div class="m-3 mt-0">
                           <div class="mb-3">
@@ -128,9 +200,45 @@
                           </div>
                         </div>
                     </div>
-                    <button type="submit" id="submitFacility" hidden></button>
-                </form>
+                    
+                {{-- </forma> --}}
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addunitfacility" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Add Unit</h1>
+            </div>
+            <form action="/addunitfacility" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="hidden" value="{{ $facility->id }}" name="facility_id">
+                        <label for="unit_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Name</label>
+                        <input type="text" class="form-control" id="unit_name" name="unit_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="unit_status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
+                        <select class="form-select" style="font-size: 15px; color: #7C7C7C;" id="unit_status" name="unit_status">
+                            <option value="Active" class="selectstatus" style="color: black;">Active</option>
+                            <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="notes" class="form-label" style="font-size: 15px; color: #7C7C7C;">Notes</label>
+                        {{-- <input type="text" class="form-control" id="notes" name="notes"> --}}
+                        <textarea class="form-control" id="notes" name="notes"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                </div>
+            </form>    
+          </div>
         </div>
     </div>
 

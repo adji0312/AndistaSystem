@@ -3,12 +3,15 @@
 use App\Http\Controllers\CategoryServiceController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\ListPlanController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MessengerTypeController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaxRateController;
+use App\Http\Controllers\TreatmentController;
+use App\Http\Controllers\UnitFacilityController;
 use App\Http\Controllers\UsageAddressController;
 use App\Http\Controllers\UsageContactController;
 use App\Models\Facility;
@@ -72,11 +75,17 @@ Route::get('/facility', [IndexController::class, 'locationFacility']);
 Route::get('/deleteFacility', [FacilityController::class, 'deleteFacility']);
 Route::get('/location/facility/add', [IndexController::class, 'addFacility']);
 Route::post('/addFacility', [FacilityController::class, 'store']);
+Route::post('/addunitfacility', [UnitFacilityController::class, 'store']);
 Route::post('/editFacility/{id}', [FacilityController::class, 'edit']);
+Route::post('/updateunitfacility/{id}', [UnitFacilityController::class, 'editUnit']);
 Route::get('/location/facility/{facility_name}', [IndexController::class, 'editFacility']);
+Route::get('/deleteUnit/{id}', [UnitFacilityController::class, 'deleteUnit']);
 
 //Service
 Route::post('/addService', [ServiceController::class, 'store']);
+
+//Treatment Plan
+Route::post('/addPlan', [ListPlanController::class, 'store']);
 
 // Usage Contact
 Route::post('/addUsage', [UsageContactController::class, 'store']);

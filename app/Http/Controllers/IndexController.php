@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CategoryService;
 use App\Models\Country;
 use App\Models\Facility;
+use App\Models\ListPlan;
 use App\Models\Location;
 use App\Models\MessengerType;
 use App\Models\Policy;
@@ -97,7 +98,8 @@ class IndexController extends Controller
         return view('service.addtreatmentplan', [
             "title" => "Treatment Plan",
             "tasks" => Task::all(),
-            "locations" => Location::all()->where('status', 'Active')
+            "locations" => Location::all()->where('status', 'Active'),
+            "plan" => ListPlan::all()->where('temp', 1)
         ]);
     }
 

@@ -28,7 +28,7 @@ class FacilityController extends Controller
     
             $validatedData['location_id'] = 1;
             $validatedData['share_facility'] = 1;
-            $validatedData['image'] = '';
+            $validatedData['image'] = $request->file('image')->store('public');
             Facility::create($validatedData);
             return redirect('/facility');
         }else{
@@ -41,20 +41,20 @@ class FacilityController extends Controller
     
             $validatedData['location_id'] = 1;
             $validatedData['share_facility'] = 1;
-            $validatedData['image'] = '';
+            if($request->file('image')){
+                $validatedData['image'] = $request->file('image')->store('public');
+            }
             Facility::create($validatedData);
             $lastFacility = DB::table('facilities')->latest('created_at')->first();
             
             if(count($unit_name) > 1){
                 for($i = 0 ; $i < count($unit_name) ; $i++){
-                    // if($unit_name[$i] != null || $unit_name[$i] != ''){
-                        UnitFacility::create([
-                            'unit_name' => $unit_name[$i],
-                            'unit_status' => $unit_status[$i],
-                            'notes' => $unit_note[$i],
-                            'facility_id' => $lastFacility->id
-                        ]);
-                    // }
+                    UnitFacility::create([
+                        'unit_name' => $unit_name[$i],
+                        'unit_status' => $unit_status[$i],
+                        'notes' => $unit_note[$i],
+                        'facility_id' => $lastFacility->id
+                    ]);
                 }
             }else{
                 UnitFacility::create([
@@ -84,9 +84,20 @@ class FacilityController extends Controller
 
     public function edit(Request $request, $id){
         $facility = Facility::find($id);
-        $unit = UnitFacility::all()->where('facility_id', $id);
-        // dd($facility->facility_name);
-        // dd($unit);
+
+        $rules = [
+            "facility_name" => 'required',
+            "capacity" => 'required',
+            "status" => 'required',
+            "location_id" => 'required',
+            "share_facility" => 'required',
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        Facility::where('id', $facility->id)->update($validatedData);
+
+        return redirect('/facility');
     }
 
     public function deleteFacility(Request $request){

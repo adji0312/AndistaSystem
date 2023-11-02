@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('start_day');
             $table->integer('frequency');
             $table->integer('duration');
+            $table->integer('temp'); //0 is save, 1 is temp
             $table->text('notes');
             $table->timestamps();
         });
