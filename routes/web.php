@@ -62,8 +62,6 @@ Route::post('/updateCategory/{id}', [CategoryServiceController::class, 'update']
 Route::get('/deleteCategory', [CategoryServiceController::class, 'deleteCategory']);
 
 Route::post('/post', [IndexController::class, 'store']);
-
-
 Route::post('/addTask', [TaskController::class, 'store']);
 
 
@@ -84,10 +82,21 @@ Route::post('/addUsageAddress', [UsageAddressController::class, 'store']);
 
 // Customer
 Route::get('/customer',[IndexController::class, 'customerDashboard']);
+Route::get('/customer/list',[IndexController::class, 'customerDashboard']);
+Route::get('/customer/sublist',[IndexController::class, 'customerDashboard']);
 
 //Staff
 Route::get('/staff',[IndexController::class,'staffDashboard']);
+Route::get('/staff/list',[IndexController::class,'staffDashboard']);
+Route::get('/staff/position',[IndexController::class,'staffDashboard']);
+Route::get('/staff/working-hours',[IndexController::class,'staffDashboard']);
+Route::get('/staff/access-control',[IndexController::class,'staffDashboard']);
+Route::get('/staff/security-groups',[IndexController::class,'staffDashboard']);
 
 //Product
 Route::get('/product',[IndexController::class,'productDashboard']);
+Route::get('/product/list',[IndexController::class,'productDashboard']);
+Route::get('/brand',[IndexController::class,'productDashboard']);
+Route::get('/category',[IndexController::class,'productDashboard']);
+Route::get('/suppliers',[IndexController::class,'productDashboard']);
 
