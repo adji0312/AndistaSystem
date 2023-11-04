@@ -14,7 +14,7 @@
                               <a class="nav-link active" aria-current="page" href="/service/treatmentplan" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
                           <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="/service/list/add" style="color: #f28123"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
+                              <a class="nav-link active" aria-current="page" href="#" style="color: #f28123" onclick="saveTreatment()"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
                           </li>
                       </ul>
                       <form class="d-flex" role="search">
@@ -26,18 +26,19 @@
             </nav>
 
             <div id="dashboard" class="mx-3 mt-4">
-                <form action="">
+                <form action="/addTreatment" method="post">
+                    @csrf
                     <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Basic Info</h5>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Service Name</label>
+                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Treatment Name</label>
                                 
-                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" style="width: 300px">
+                                <input type="text" class="form-control" id="name" name="name" style="width: 300px">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" aria-label="Default select example">
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="location_id">
                                     <option value="" class="selectstatus" style="color: black;" disabled selected>Select Location</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
@@ -46,96 +47,18 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Diagnosis</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" aria-label="Default select example">
-                                    <option value="Active" class="selectstatus" style="color: black;">Active</option>
-                                    <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" onchange="changeDiagnosis()" id="mySelectDiagnosis" name="diagnosis_id">
+                                    <option value="" selected disabled class="selectstatus" style="color: black;">Select Diagnosis</option>
+                                    @foreach ($diagnosis as $diagno)
+                                        <option value="{{ $diagno->id }}" class="selectstatus" style="color: black;">{{ $diagno->diagnosis_name }}</option>
+                                    @endforeach
+                                    <option value="diagnosis" class="selectstatus" style="color: black;">+ Create New</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
-                    {{-- <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                        <div class="d-flex">
-                            <h5 class="m-3">Treatment List</h5>
-                            <a class="nav-link active m-3" aria-current="page" data-bs-toggle="offcanvas" data-bs-target="#addItemCanvas" aria-controls="addItemCanvas" style="color: #f28123; cursor: pointer;"><img src="/img/icon/plus.png" alt="" style="width: 22px"> Item</a>
-                        </div>
-                        <div class="m-3 d-flex gap-5">
-                            <table class="table table-bordered" style="overflow-x: auto;">
-                                <thead>
-                                  <tr class="text-center">
-                                    <th scope="col" style="width: 300px; text-align: start">Items</th>
-                                    <th scope="col" style="width: 100px;">1</th>
-                                    <th scope="col" style="width: 100px;">2</th>
-                                    <th scope="col" style="width: 100px;">3</th>
-                                    <th scope="col" style="width: 100px;">4</th>
-                                    <th scope="col" style="width: 100px;">5</th>
-                                    <th scope="col" style="width: 100px;">6</th>
-                                    <th scope="col" style="width: 100px;">7</th>
-                                    <th scope="col" style="width: 100px;">8</th>
-                                    <th scope="col" style="width: 100px;">9</th>
-                                    <th scope="col" style="width: 100px;">10</th>
-                                    <th scope="col" style="width: 100px;">11</th>
-                                    <th scope="col" style="width: 100px;">12</th>
-                                    <th scope="col" style="width: 100px;">13</th>
-                                    <th scope="col" style="width: 100px;">14</th>
-                                    <th scope="col" style="width: 100px;">15</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-primary" style="font-size: 15px; cursor: pointer;" data-bs-toggle="offcanvas" data-bs-target="#addItemCanvas" aria-controls="addItemCanvas">Add Item</td>
-                                        
-                                        
-                                        @foreach ($plan as $p)
-                                            <td>a</td>
-                                        @endforeach
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> --}}
-                    <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                        <div class="d-flex">
-                            <h5 class="m-3">Treatment List</h5>
-                            <a class="nav-link active m-3" aria-current="page" data-bs-toggle="offcanvas" data-bs-target="#addItemCanvas" aria-controls="addItemCanvas" style="color: #f28123; cursor: pointer;"><img src="/img/icon/plus.png" alt="" style="width: 22px"> Item</a>
-                        </div>
-                        <div class="m-3 table-responsive">
-                            <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col" style="width: 7%">Day</th>
-                                    <th scope="col">Item name</th>
-                                    <th scope="col">Frequency</th>
-                                    <th scope="col">Notes</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                    @for ($i = 1; $i <= 15; $i++)
-                                        <tr>
-                                            <td>{{ $i }}</td>
-                                            <td>
-                                                @foreach ($plan as $p)
-                                                    @if ($p->start_day == $i)
-                                                        {{ $p->task->task_name }}
-                                                    @endif
-                                                @endforeach
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        {{-- @foreach ($plan as $p)
-                                            <tr>
-                                            <th scope="row">1</th>
-                                            <td>{{ $p->task->task_name }}</td>
-                                            <td>{{ $p->frequency }}</td>
-                                            <td>{{ $p->notes }}</td>
-                                            </tr>
-                                        @endforeach --}}
-                                    @endfor
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <button type="submit" hidden id="submitTreatment"></button>
                 </form>
             </div>
         </div>
@@ -442,4 +365,25 @@
         </div>
       </div>
 
+      {{-- MODAL ADD NEW PHONE USAGE --}}
+      <div class="modal fade" id="diagnosisName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Diagnosis</h1>
+            </div>
+            <form action="/addDiagnosis" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-1">
+                        <input type="text" class="form-control mt-1" id="diagnosis_name" name="diagnosis_name" placeholder="Name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection

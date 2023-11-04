@@ -6,6 +6,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ListPlanController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MessengerTypeController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TaskController;
@@ -41,6 +42,7 @@ Route::get('/location/{location_name}', [IndexController::class, 'editLocation']
 
 
 Route::get('/finance', [IndexController::class, 'financeDashboard']);
+Route::get('/finance/list', [IndexController::class, 'financeList']);
 Route::get('/finance/taxrate', [IndexController::class, 'financeTaxRate']);
 Route::post('/addTaxRate', [TaxRateController::class, 'store']);
 Route::post('/updateTaxRate/{id}', [TaxRateController::class, 'update']);
@@ -85,7 +87,12 @@ Route::get('/deleteUnit/{id}', [UnitFacilityController::class, 'deleteUnit']);
 Route::post('/addService', [ServiceController::class, 'store']);
 
 //Treatment Plan
+Route::get('/service/treatmentplan/add/{name}', [ListPlanController::class, 'index']);
+Route::post('/addTreatment', [PlanController::class, 'storeTreatment']);
 Route::post('/addPlan', [ListPlanController::class, 'store']);
+Route::post('/addDiagnosis', [PlanController::class, 'storeDiagnosis']);
+Route::get('/deleteItem/{id}', [ListPlanController::class, 'deleteItem']);
+Route::post('/updateTreatment/{id}', [PlanController::class, 'updateTreatment']);
 
 // Usage Contact
 Route::post('/addUsage', [UsageContactController::class, 'store']);

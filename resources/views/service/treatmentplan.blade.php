@@ -29,18 +29,18 @@
                         <th scope="col" style="color: #7C7C7C">Diagnosis</th>
                         <th scope="col" style="color: #7C7C7C">Location</th>
                         <th scope="col" style="color: #7C7C7C">Duration (Days)</th>
-                        <th scope="col" style="color: #7C7C7C">Status</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td><a href="#" class="text-primary">CPV</a></td>
-                        <td>CPV</td>
-                        <td>Andista Animal Care</td>
-                        <td>7</td>
-                        <td>Active</td>
-                      </tr>
+                        @foreach ($plans as $key => $plan)
+                            <tr>
+                                <th scope="row">{{ $plans->firstItem() + $key }}</th>
+                                <td><a href="/service/treatmentplan/add/{{ $plan->name }}" class="text-primary">{{ $plan->name }}</a></td>
+                                <td>{{ $plan->diagnosis->diagnosis_name }}</td>
+                                <td>{{ $plan->location->location_name }}</td>
+                                <td>{{ $plan->duration }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

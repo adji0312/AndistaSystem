@@ -14,6 +14,6 @@ class TaskController extends Controller
         ]);
 
         Task::create($validatedData);
-        return redirect('/service/treatmentplan/add')->with('successAddTask', 'wkwkwk');
+        return redirect('/service/treatmentplan/add'.'/'.$request->name)->with('successAddTask', 'wkwkwk');
     }
 }

@@ -10,7 +10,7 @@ class UsageAddressController extends Controller
     public function store(Request $request){
         //    dd($request->all());
         $validatedData = $request->validate([
-            'usage_name' => 'required|unique:usage_contacts',
+            'usage_name' => 'required|unique:usage_addresses',
         ]);
 
         UsageAddress::create($validatedData);

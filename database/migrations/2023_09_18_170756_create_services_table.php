@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('simple_service_name');
             $table->string('status');
             $table->string('image');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

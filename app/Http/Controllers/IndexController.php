@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryService;
 use App\Models\Country;
+use App\Models\Diagnosis;
 use App\Models\Facility;
 use App\Models\ListPlan;
 use App\Models\Location;
 use App\Models\MessengerType;
+use App\Models\Plan;
 use App\Models\Policy;
 use App\Models\Staff;
 use App\Models\Task;
@@ -90,7 +92,8 @@ class IndexController extends Controller
 
     public function treatmentPlan(){
         return view('service.treatmentplan', [
-            "title" => "Treatment Plan"
+            "title" => "Treatment Plan",
+            "plans" => Plan::latest()->paginate(10)->withQueryString()
         ]);
     }
 
@@ -99,7 +102,8 @@ class IndexController extends Controller
             "title" => "Treatment Plan",
             "tasks" => Task::all(),
             "locations" => Location::all()->where('status', 'Active'),
-            "plan" => ListPlan::all()->where('temp', 1)
+            "plan" => ListPlan::all()->where('temp', 1),
+            "diagnosis" => Diagnosis::all()
         ]);
     }
 
@@ -165,6 +169,12 @@ class IndexController extends Controller
     public function financeDashboard(){
         return view('finance.dashboard', [
             "title" => "Finance Dashboard"
+        ]);
+    }
+    
+    public function financeList(){
+        return view('finance.financelist', [
+            "title" => "Finance List"
         ]);
     }
 

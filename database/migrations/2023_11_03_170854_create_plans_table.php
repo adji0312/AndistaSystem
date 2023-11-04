@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('list_plans', function (Blueprint $table) {
+        Schema::create('plans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('plan_id');
-            $table->foreignId('task_id');
-            $table->foreignId('service_id');
-            $table->foreignId('product_id');
-            $table->foreignId('frequency_id');
-            $table->integer('start_day');
+            $table->foreignId('location_id');
+            $table->foreignId('diagnosis_id');
+            $table->string('name');
             $table->integer('duration');
-            $table->text('notes')->nullable();
+            $table->integer('temp'); //0 is save, 1 is temp
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('list_plans');
+        Schema::dropIfExists('plans');
     }
 };

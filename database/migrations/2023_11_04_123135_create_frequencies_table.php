@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('treatments', function (Blueprint $table) {
+        Schema::create('frequencies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('location_id');
-            $table->foreignId('diagnosis_id');
-            $table->string('treatment_name');
+            $table->integer('frequency_value');
+            $table->string('frequency_name');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('treatments');
+        Schema::dropIfExists('frequencies');
     }
 };

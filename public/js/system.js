@@ -55,6 +55,7 @@ var e = document.getElementById("mySelectPhone");
 var f = document.getElementById("mySelectEmail");
 var g = document.getElementById("mySelectMessenger");
 var h = document.getElementById("mySelectMessengerType");
+var b = document.getElementById("mySelectDiagnosis");
 var usageSelect = document.getElementById("mySelectUsageAddress");
 function changeUsageAddress(){
     var value = usageSelect.value;
@@ -89,6 +90,15 @@ function typeMessenger(){
     var value = h.value;
     if(value == "messengertype"){
         $('#typemessenger').modal("show");
+    }
+}
+
+function changeDiagnosis(){
+    var value = b.value;
+    // console.log(value);
+    if(value == "diagnosis"){
+        // console.log('asdalsd');
+        $('#diagnosisName').modal("show");
     }
 }
 
@@ -1723,4 +1733,12 @@ function updateUnit(e){
 function testing(){
     let unit_name = document.getElementById('unit_name' + e);
     console.log(unit_name);
+}
+
+function createNewList(){
+    console.log('129387');
+}
+
+function saveTreatment(){
+    document.getElementById('submitTreatment').click();
 }

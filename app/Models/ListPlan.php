@@ -13,4 +13,20 @@ class ListPlan extends Model
     public function task(){
         return $this->belongsTo(Task::class);
     }
+    public function services(){
+        return $this->belongsTo(Service::class);
+    }
+    public function products(){
+        // return $this->belongsTo(::class);
+    }
+
+    public function plan(){
+        return $this->belongsTo(Plan::class);
+    }
+
+    public function frequency(){
+        return $this->belongsTo(Frequency::class);
+    }
+
+
 }
