@@ -48,19 +48,19 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Diagnosis</label>
-                            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" onchange="changeDiagnosis()" id="mySelectDiagnosis" name="diagnosis_id">
-                                <option value="{{ $plan->diagnosis->id }}" selected class="selectstatus" style="color: black;">{{ $plan->diagnosis->diagnosis_name }}</option>
-                                @foreach ($diagnosis as $diagno)
-                                    @if ($diagno->id == $plan->diagnosis->id)
-                                        @continue
-                                    @endif
-                                    <option value="{{ $diagno->id }}" class="selectstatus" style="color: black;">{{ $diagno->diagnosis_name }}</option>
-                                @endforeach
-                                <option value="diagnosis" class="selectstatus" style="color: black;">+ Create New</option>
-                            </select>
-                        </div>
+                    </div>
+                    <div class="mb-3 m-3">
+                        <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Diagnosis</label>
+                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" onchange="changeDiagnosis()" id="mySelectDiagnosis" name="diagnosis_id">
+                            <option value="{{ $plan->diagnosis->id }}" selected class="selectstatus" style="color: black;">{{ $plan->diagnosis->diagnosis_name }}</option>
+                            @foreach ($diagnosis as $diagno)
+                                @if ($diagno->id == $plan->diagnosis->id)
+                                    @continue
+                                @endif
+                                <option value="{{ $diagno->id }}" class="selectstatus" style="color: black;">{{ $diagno->diagnosis_name }}</option>
+                            @endforeach
+                            <option value="diagnosis" class="selectstatus" style="color: black;">+ Create New</option>
+                        </select>
                     </div>
                 </div>
 
@@ -75,7 +75,7 @@
                     <a class="nav-link active m-3" aria-current="page" data-bs-toggle="offcanvas" data-bs-target="#addItemCanvas" aria-controls="addItemCanvas" style="color: #f28123; cursor: pointer;"><img src="/img/icon/plus.png" alt="" style="width: 22px"> Item</a> 
                     {{-- <a class="nav-link active m-3" style="color: #f28123; cursor: pointer;"><img src="/img/icon/plus.png" alt="" style="width: 22px"> Add Day</a> --}}
                 </div>
-                <div class="m-3 table-responsive">
+                <div class="m-3">
                     <table class="table table-bordered">
                         <thead>
                           <tr>

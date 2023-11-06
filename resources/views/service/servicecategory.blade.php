@@ -85,12 +85,12 @@
                 @csrf
                 <div class="modal-body">
                     <div class="mb-1">
-                        <input type="text" class="form-control mt-1" id="category_service_name" name="category_service_name">
+                        <input type="text" class="form-control mt-1" id="category_name" name="category_service_name" oninput="inputCategoryService()">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                    <button type="submit" class="btn btn-sm btn-outline-primary" id="saveCategory" disabled><i class="fas fa-save"></i> Save changes</button>
                 </div>
             </form>    
           </div>

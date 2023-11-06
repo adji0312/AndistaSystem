@@ -50,6 +50,11 @@
                 </a>
             </li>
             <li>
+                <a href="/attendance" class="px-4">
+                    <img src="/img/icon/attendance.png" alt="" style="width: 22px"> <span class="mx-2">Attendance</span>
+                </a>
+            </li>
+            <li>
                 <a href="#" class="px-4">
                     <img src="/img/icon/reports.png" alt="" style="width: 22px"> <span class="mx-2">Reports</span>
                 </a>

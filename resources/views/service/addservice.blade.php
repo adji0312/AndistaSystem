@@ -108,22 +108,28 @@
                     {{-- PRICES --}}
                     <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Prices</h5>
-                        <div id="afterPrice">
-                            <table class="table m-3" style="width: 90%;" id="priceDuplicate">
+                        <div id="afterPrice" class="table-responsive">
+                            <table class="table m-3" style="width: 95%;" id="priceDuplicate">
                                 <thead>
                                 <tr>
-                                    <th scope="col" style="width: 100px;">Duration</th>
+                                    <th scope="col">Duration</th>
+                                    <th scope="col">Units</th>
+                                    <th scope="col">Price (Rp)</th>
+                                    {{-- <th scope="col">Customers</th> --}}
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Title</th>
+                                    {{-- <th scope="col" style="width: 100px;">Duration</th>
                                     <th scope="col" style="width: 200px;">Units</th>
                                     <th scope="col" style="width: 100px;">Price (Rp)</th>
                                     <th scope="col" style="width: 100px;">Customers</th>
                                     <th scope="col" style="width: 220px;">Location</th>
-                                    <th scope="col" style="width: 200px;">Title</th>
+                                    <th scope="col" style="width: 200px;">Title</th> --}}
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                                        <input type="text" class="form-control" style="width: 100px;" name="duration[]" id="duration">
+                                        <input type="text" class="form-control" name="duration[]" id="duration">
                                     </td>
                                     <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                                         <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" name="duration_type[]" id="duration_type">
@@ -134,22 +140,22 @@
                                         </select>
                                     </td>
                                     <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                                        <input type="text" class="form-control" style="width: 100px;" name="price[]" id="price">
+                                        <input type="text" class="form-control" name="price[]" id="price">
                                     </td>
-                                    <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" aria-label="Default select example">
+                                    {{-- <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+                                        <select class="form-select" style="font-size: 15px; color: #7C7C7C;" aria-label="Default select example">
                                             <option value="" class="selectstatus" style="color: black;">All Customers</option>
                                         </select>
-                                    </td>
+                                    </td> --}}
                                     <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 220px" name="location_price_id[]" id="location_price_id">
+                                        <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="location_price_id[]" id="location_price_id">
                                             @foreach ($locations as $location)
                                                 <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                             @endforeach
                                         </select>
                                     </td>
                                     <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                                        <input type="text" class="form-control" style="width: 200px;" name="price_title[]" id="price_title">
+                                        <input type="text" class="form-control"name="price_title[]" id="price_title">
                                     </td>
                                     <td style="border: none">
                                         <div class="mb-3 mt-2 d-flex align-items-center" style="cursor: pointer" onclick="deletePrice(this.parentNode.parentNode.parentNode.parentNode.id)">
@@ -177,23 +183,11 @@
                         </div>
                     </div>
 
-                    <?php
-                        if(!isset($_COOKIE['value']) || !isset($_COOKIE['lengthStaff'])){
-                            echo 'not set';
-                        }else{
-                            
-                            $value = $_COOKIE['value'];
-                            $staffId = str_replace(',', '', $value);
-                            $lengthStaff = $_COOKIE['lengthStaff'];
-                        }
-                    ?>
-
                     {{-- STAFF --}}
                     <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Staff</h5>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
-                                <input type="text" id="idstaff">
                                 <div class="d-flex">
                                     <div class="form-check m-3 mb-0" style="font-size: 15px;">
                                         <input class="form-check-input" type="radio" name="staff" id="nostaff" value="nostaff" checked>

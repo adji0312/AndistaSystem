@@ -1742,3 +1742,28 @@ function createNewList(){
 function saveTreatment(){
     document.getElementById('submitTreatment').click();
 }
+
+function inputCategoryService(){
+    let category_service_name = document.getElementById('category_name');
+
+    let buttonSubmitCategory = document.getElementById('saveCategory');
+    if(category_service_name.value == null || category_service_name.value == ''){
+        buttonSubmitCategory.disabled = true;
+    }else{
+        buttonSubmitCategory.disabled = false;
+    }
+}
+
+
+
+
+
+function changeLocation(e){
+    if(e.value){
+        document.getElementById('buttonfilter').disabled = false;
+    }else{
+        document.getElementById('buttonfilter').disabled = true;
+    }
+    let filterLocation = document.getElementById('formFilterLocation');
+    filterLocation.action = "list/" + e.value;
+}
