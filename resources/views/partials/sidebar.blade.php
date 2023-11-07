@@ -55,15 +55,15 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="px-4">
+                <a href="/report" class="px-4">
                     <img src="/img/icon/reports.png" alt="" style="width: 22px"> <span class="mx-2">Reports</span>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="#" class="px-4">
                     <img src="/img/icon/setting.png" alt="" style="width: 22px"> <span class="mx-2">Setting</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </nav>
 </div>

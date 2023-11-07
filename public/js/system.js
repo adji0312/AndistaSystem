@@ -1765,5 +1765,12 @@ function changeLocation(e){
         document.getElementById('buttonfilter').disabled = true;
     }
     let filterLocation = document.getElementById('formFilterLocation');
-    filterLocation.action = "list/" + e.value;
+    if(filterLocation){
+        filterLocation.action = "list/" + e.value;
+    }
+
+    let filterLocation2 = document.getElementById('formFilterLocation2');
+    if(filterLocation2){
+        filterLocation2.action = "managestaff/" + e.value;
+    }
 }

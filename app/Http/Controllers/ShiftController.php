@@ -43,4 +43,19 @@ class ShiftController extends Controller
                       'end_hour' => $request->end_hour]);
         return redirect('/attendance/workingshift');
     }
+
+    public function deleteShift(Request $request){
+        
+        $myString = $request->deleteId;
+        $myArray = explode(',', $myString);
+        // print_r(count($myArray));
+        $length = count($myArray);
+
+        for($i = 0 ; $i < $length ; $i++){
+            $shift = Shift::find($myArray[$i]);
+            DB::table('shifts')->where('id', $shift->id)->delete();
+        }
+
+        return redirect('/attendance/workingshift');
+    }
 }

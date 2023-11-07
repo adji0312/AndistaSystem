@@ -96,6 +96,7 @@ Route::post('/addPlan', [ListPlanController::class, 'store']);
 Route::post('/addDiagnosis', [PlanController::class, 'storeDiagnosis']);
 Route::get('/deleteItem/{id}', [ListPlanController::class, 'deleteItem']);
 Route::post('/updateTreatment/{id}', [PlanController::class, 'updateTreatment']);
+Route::get('/deletePlan', [PlanController::class, 'deletePlan']);
 
 // Usage Contact
 Route::post('/addUsage', [UsageContactController::class, 'store']);
@@ -109,7 +110,12 @@ Route::get('/attendance/list', [AttendanceController::class, 'attendancelist']);
 Route::get('/attendance/list/{name}', [AttendanceController::class, 'attendancelistbylocation']);
 Route::get('/attendance/workingshift', [AttendanceController::class, 'workingshift']);
 Route::get('/attendance/managestaff', [AttendanceController::class, 'managestaff']);
+Route::get('/attendance/managestaff/{name}', [AttendanceController::class, 'staffbylocation']);
 
 //Shift
 Route::post('/addShift', [ShiftController::class, 'addshift']);
 Route::post('/editShift/{id}', [ShiftController::class, 'editShift']);
+Route::get('/deleteShift', [ShiftController::class, 'deleteShift']);
+
+//Report
+Route::get('/report', [IndexController::class, 'allReport']);

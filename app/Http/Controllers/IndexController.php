@@ -210,5 +210,11 @@ class IndexController extends Controller
 
         return response()->json($dataModified);
     }
+
+    public function allReport(){
+        return view('report.allreport', [
+            "title" => "All Report"
+        ]);
+    }
     
 }

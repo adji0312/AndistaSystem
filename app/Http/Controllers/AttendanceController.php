@@ -44,4 +44,14 @@ class AttendanceController extends Controller
             "locations" => Location::all()
         ]);
     }
+
+    public function staffbylocation($name){
+        $location = Location::where('location_name', $name)->first();
+        // dd($location);
+        return view('attendance.staffbylocation', [
+            "title" => "Manage Staff",
+            "shifts" => Shift::all(),
+            "location" => $location
+        ]);
+    }
 }

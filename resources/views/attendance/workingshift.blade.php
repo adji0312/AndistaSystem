@@ -13,6 +13,9 @@
                             <li class="nav-item" style="cursor: pointer;">
                                 <a class="nav-link active" aria-current="page" style="color: #f28123" data-bs-toggle="modal" data-bs-target="#newWorkingShift"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
                             </li>
+                            <li class="nav-item" id="deleteButton" style="display: none;">
+                                <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#deleteShift" onclick="clickDeleteButton()" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/trash.png" alt="" style="width: 22px"> Delete</a>
+                            </li>
                         </ul>
                         <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -37,7 +40,8 @@
                             <tr>
                                 <th>
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="checkBox[]" name="checkBox" value="">
+                                        <input class="form-check-input" type="checkbox" id="checkBox[{{ $shift->id }}]" name="checkBox"  value="{{ $shift->id }}">
+                                        <input type="hidden" id="shiftName{{ $shift->id }}" value="{{ $shift->shift_service_name }}">
                                     </div>
                                 </th>
                                 <td class="text-primary" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editShift{{ $shift->id }}">{{ $shift->shift_name }}</td>
@@ -113,6 +117,31 @@
                     <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
                 </div>
             </form>    
+          </div>
+        </div>
+    </div>
+
+    {{-- MODAL DELETE --}}
+    <div class="modal fade" id="deleteShift" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Shift</h1>
+            </div>
+            
+            <form action="/deleteShift" method="GET">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-1">
+                        {{-- <input type="text" id="deleteId"> --}}
+                        <input type="text" hidden id="deleteId" name="deleteId" value="Hapus" class="form-control mt-1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                </div>
+            </form>
           </div>
         </div>
     </div>
