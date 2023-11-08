@@ -119,3 +119,8 @@ Route::get('/deleteShift', [ShiftController::class, 'deleteShift']);
 
 //Report
 Route::get('/report', [IndexController::class, 'allReport']);
+
+//Calendar
+Route::get('/calendar', [IndexController::class, 'dashboardCalendar']);
+Route::get('/newBooking', [IndexController::class, 'createbooking']);
+Route::get('/bookingdetail', [IndexController::class, 'bookingdetail']);

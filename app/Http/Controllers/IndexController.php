@@ -216,5 +216,23 @@ class IndexController extends Controller
             "title" => "All Report"
         ]);
     }
+
+    public function dashboardCalendar(){
+        return view('calendar.Dashboard', [
+            "title" => "Calendar"
+        ]);
+    }
+
+    public function createbooking(){
+        return view('calendar.createBooking', [
+            "title" => "Booking"
+        ]);
+    }
+
+    public function bookingdetail(){
+        return view('calendar.bookingdetail', [
+            "title" => "Booking"
+        ]);
+    }
     
 }

@@ -15,7 +15,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="px-4">
+                <a href="/calendar" class="px-4">
                     <img src="/img/icon/calendar.png" alt="" style="width: 22px"> <span class="mx-2">Calendar</span>
                 </a>
             </li>
