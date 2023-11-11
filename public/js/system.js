@@ -1774,3 +1774,12 @@ function changeLocation(e){
         filterLocation2.action = "managestaff/" + e.value;
     }
 }
+
+// $('#change').change(function(){
+//     //this is just getting the value that is selected
+//     var title = $(this).val();
+//     console.log(title);
+//     // Cookies.remove('cookie_name');
+//     // $('.modal-title').html(title);
+//     // $('#serviceList').modal('show');
+//   });

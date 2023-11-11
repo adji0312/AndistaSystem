@@ -138,3 +138,6 @@ Route::get('/report', [IndexController::class, 'allReport']);
 Route::get('/calendar', [IndexController::class, 'dashboardCalendar']);
 Route::get('/newBooking', [IndexController::class, 'createbooking']);
 Route::get('/bookingdetail', [IndexController::class, 'bookingdetail']);
+
+//Presence
+Route::get('/presence', [IndexController::class, 'absent']);

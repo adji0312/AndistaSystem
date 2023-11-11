@@ -253,18 +253,30 @@
         <label for="exampleInputEmail1" class="form-label mb-4" style="font-size: 15px; color: #000000; cursor: pointer;" onclick="backButtonInService()"><i class="fas fa-chevron-left"></i> Back</label>
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Service</label>
-            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="productList">
+            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="change">
                 <option value="" class="selectstatus" style="color: black;" selected disabled>Select Services</option>
-                {{-- @foreach ($tasks as $task)
-                    <option value="{{ $task->task_name }}" class="selectstatus" style="color: black;">{{ $task->task_name }}</option>
-                @endforeach --}}
+                @foreach ($services as $service)
+                    <option value="{{ $service->id }}" class="selectstatus" style="color: black;" onclick="tesklik()" data-bs-toggle="modal" data-bs-target="#serviceList{{ $service->id }}">{{ $service->service_name }}</option>
+                    
+                @endforeach
             </select>
         </div>
         <div class="mb-3">
-            {{-- <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Quantity</label> --}}
-            
-            <input type="number" class="form-control" id="price" style="width: 100%" placeholder="Price" readonly>
+            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Price</label>
+            <?php 
+                
+            ?>
+            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="change">
+                <option value="" class="selectstatus" style="color: black;" selected disabled>Select Price</option>
+                @foreach ($servicePrice->where('service_id', 18) as $sp)
+                    <option value="{{ $sp->id }}" class="selectstatus" style="color: black;" onclick="tesklik()" data-bs-toggle="modal" data-bs-target="#serviceList{{ $sp->id }}">{{ $sp->price_title }} {{ $sp->duration }} {{ $sp->duration_type }} (Rp {{ number_format($sp->price) }})</option>
+                    
+                @endforeach
+            </select>
         </div>
+        {{-- <div class="mb-3">
+            <input type="number" class="form-control" id="price" style="width: 100%" placeholder="Price" readonly>
+        </div> --}}
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Start Day</label>
             <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example">
@@ -331,6 +343,28 @@
         </div>
         <div class="mb-3 float-end">
             <button type="button" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Save</button>
+        </div>
+
+        <div class="modal fade" id="serviceList" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Add Category</h1>
+                </div>
+                <form action="/addCategory" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-1">
+                            <input type="text" class="form-control mt-1" id="category_name" name="category_service_name" oninput="inputCategoryService()">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                        <button type="submit" class="btn btn-sm btn-outline-primary" id="saveCategory" disabled><i class="fas fa-save"></i> Save changes</button>
+                    </div>
+                </form>    
+              </div>
+            </div>
         </div>
     </div>
 
@@ -546,4 +580,16 @@
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    $('#change').change(function(){
+    //this is just getting the value that is selected
+    var title = $(this).val();
+    console.log(title);
+    // Cookies.remove('cookie_name');
+    // $('.modal-title').html(title);
+    // $('#serviceList').modal('show');
+  });
+</script>
 @endsection

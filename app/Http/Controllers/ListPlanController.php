@@ -7,6 +7,8 @@ use App\Models\Frequency;
 use App\Models\ListPlan;
 use App\Models\Location;
 use App\Models\Plan;
+use App\Models\Service;
+use App\Models\ServicePrice;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +30,8 @@ class ListPlanController extends Controller
             'frequencies' => Frequency::all(),
             'locations' => Location::all(),
             'diagnosis' => Diagnosis::all(),
+            'services' => Service::all()->where('status', 'Active'),
+            'servicePrice' => ServicePrice::all()
         ]);
     }
 

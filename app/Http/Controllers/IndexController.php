@@ -265,5 +265,11 @@ class IndexController extends Controller
             "title" => "Booking"
         ]);
     }
+
+    public function absent(){
+        return view('presence.absent', [
+            "title" => "Absent"
+        ]);
+    }
     
 }
