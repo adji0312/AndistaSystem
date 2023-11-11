@@ -43,7 +43,7 @@
                                         <input type="hidden" id="serviceName{{ $service->id }}" value="{{ $service->service_name }}">
                                     </div>
                                 </th>
-                                <td><a href="#" class="text-primary">{{ $service->service_name }}</a></td>
+                                <td><a href="/service/list/{{ $service->service_name }}" class="text-primary">{{ $service->service_name }}</a></td>
                                 <td>{{ $service->category->category_service_name ?? 'No Category'}}</td>
                                 <td>{{ $service->status }}</td>
                             </tr>

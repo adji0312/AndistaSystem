@@ -61,7 +61,8 @@ Route::get('/service/treatmentplan', [IndexController::class, 'treatmentPlan']);
 Route::get('/service/treatmentplan/add', [IndexController::class, 'addTreatmentPlan']);
 Route::post('/addService', [ServiceController::class, 'store']);
 Route::get('/deleteService', [ServiceController::class, 'deleteService']);
-Route::post('/addPriceService', [ServiceController::class, 'addPriceService']);
+Route::get('/discardChange/{id}', [ServiceController::class, 'discardChange']);
+Route::post('/saveChange/{id}', [ServiceController::class, 'saveChange']);
 
 Route::get('/service/policy', [IndexController::class, 'policy']);
 Route::get('/service/policy/add', [IndexController::class, 'addPolicy']);
@@ -69,6 +70,14 @@ Route::get('/service/policy/{id}', [IndexController::class, 'editPolicy']);
 Route::post('/addPolicy', [PolicyController::class, 'store']);
 Route::get('/deletePolicy', [PolicyController::class, 'deletePolicy']);
 Route::post('/updatePolicy/{id}', [PolicyController::class, 'update']);
+
+Route::post('/addPriceService', [ServiceController::class, 'addPriceService']);
+Route::post('/updatePriceService/{id}', [ServiceController::class, 'updatePriceService']);
+Route::get('/deletePriceService/{id}', [ServiceController::class, 'deletePriceService']);
+Route::post('/addFacilityService', [ServiceController::class, 'addFacilityService']);
+Route::get('/deleteFacilityService/{id}', [ServiceController::class, 'deleteFacilityService']);
+
+
 
 // Service Category
 Route::get('/service/category', [IndexController::class, 'serviceCategory']);

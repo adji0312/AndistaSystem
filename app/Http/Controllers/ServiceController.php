@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
+use App\Models\ServiceAndFacility;
 use App\Models\ServicePrice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -41,12 +42,11 @@ class ServiceController extends Controller
                 $validatedData['tax_id'] = '-';
             }
 
-            $validatedData['staffCheck'] = 1;
-            $validatedData['facilityCheck'] = 1;
+            // $validatedData['staffCheck'] = 1;
+            // $validatedData['facilityCheck'] = 1;
 
             Service::create($validatedData);
             $lastService = DB::table('services')->latest('created_at')->first();
-            // dd($lastService);
             return redirect('/service/list' . '/' . $lastService->service_name);
         }else{
             $validatedData = $request->validate([
@@ -68,8 +68,8 @@ class ServiceController extends Controller
                 $validatedData['tax_id'] = '-';
             }
 
-            $validatedData['staffCheck'] = 1;
-            $validatedData['facilityCheck'] = 1;
+            // $validatedData['staffCheck'] = 1;
+            // $validatedData['facilityCheck'] = 1;
 
             Service::create($validatedData);
             $lastService = DB::table('services')->latest('created_at')->first();
@@ -101,8 +101,25 @@ class ServiceController extends Controller
                 ]);
             }
 
-            return redirect('/service/list');
+            $lastService = DB::table('services')->latest('created_at')->first();
+            return redirect('/service/list' . '/' . $lastService->service_name);
         }
+    }
+
+    public function saveChange(Request $request, $id){
+        $service = Service::find($id);
+        $rules = [
+            'service_name' => 'required',
+            'status' => 'required',
+            'location_id' => 'required',
+            'category_service_id' => 'required',
+            'policy_id' => 'required',
+            'simple_service_name' => ''
+        ];
+        $validatedData = $request->validate($rules);
+
+        Service::where('id', $service->id)->update($validatedData);
+        return redirect('/service/list');
     }
 
     public function deleteService(Request $request){
@@ -116,8 +133,21 @@ class ServiceController extends Controller
             $service = Service::find($myArray[$i]);
             // print_r($category->category_service_name);
             DB::table('services')->where('id', $service->id)->delete();
+            DB::table('service_prices')->where('service_id', $service->id)->delete();
+            DB::table('service_and_staff')->where('service_id', $service->id)->delete();
+            DB::table('service_and_facilities')->where('service_id', $service->id)->delete();
         }
 
+        return redirect('/service/list');
+    }
+
+    public function discardChange($id){
+
+        $service = Service::find($id);
+        DB::table('service_prices')->where('service_id', $service->id)->delete();
+        DB::table('service_and_staff')->where('service_id', $service->id)->delete();
+        DB::table('service_and_facilities')->where('service_id', $service->id)->delete();
+        DB::table('services')->where('id', $service->id)->delete();
         return redirect('/service/list');
     }
 
@@ -143,5 +173,62 @@ class ServiceController extends Controller
 
         ServicePrice::create($validatedData);
         return redirect('/service/list' . '/' . $service->service_name);
+    }
+
+    public function updatePriceService(Request $request, $id){
+        $price = ServicePrice::find($id);
+        // dd($request->price_title . $price->price_title);
+        $service = Service::find($request->service_id);
+        // dd($service);
+
+        $rules = [
+            'location_price_id' => 'required',
+            'service_id' => 'required',
+            'duration' => 'required',
+            'duration_type' => 'required',
+            'price' => 'required',
+            'price_title' => '',
+        ];
+
+        // if($request->price_title != $price->price_title){
+        //     $validatedData['price_title'] = $request->price_title;
+        // }
+
+        $validatedData = $request->validate($rules);
+
+        ServicePrice::where('id', $price->id)->update($validatedData);
+        return redirect('/service/list' . '/' . $service->service_name);
+        
+        // if($request->price_title != null || $request->price_title != ''){
+        //     $validatedData['price_title'] = $request->price_title;
+        // }else{
+        //     $validatedData['price_title'] = '-';
+        // }
+
+        // ServicePrice::create($validatedData);
+        // return redirect('/service/list' . '/' . $service->service_name);
+    }
+
+    public function addFacilityService(Request $request){
+        
+        $service = Service::find($request->service_id);
+        // dd($request->all());
+        $myArray = $request->facility_id;
+        
+        for($i = 0 ; $i < count($myArray) ; $i++){
+            ServiceAndFacility::create(['service_id' => $request->service_id, 'facility_id' => $myArray[$i]]);
+        }
+
+        return redirect('/service/list' . '/' . $service->service_name);
+    }
+
+    public function deleteFacilityService($id){
+        DB::table('service_and_facilities')->where('id', $id)->delete();
+        return redirect()->back();
+    }
+
+    public function deletePriceService($id){
+        DB::table('service_prices')->where('id', $id)->delete();
+        return redirect()->back();
     }
 }

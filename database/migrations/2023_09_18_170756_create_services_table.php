@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('simple_service_name');
             $table->string('status');
             $table->text('description')->nullable();
-            $table->integer('staffCheck'); //0 is have staff, 1 don't have staff
-            $table->integer('facilityCheck'); //0 is have facility, 1 don't have facility
+            // $table->integer('staffCheck'); //0 is have staff, 1 don't have staff
+            // $table->integer('facilityCheck'); //0 is have facility, 1 don't have facility
             $table->timestamps();
         });
     }

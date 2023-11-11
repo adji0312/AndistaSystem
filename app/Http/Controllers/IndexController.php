@@ -12,6 +12,7 @@ use App\Models\MessengerType;
 use App\Models\Plan;
 use App\Models\Policy;
 use App\Models\Service;
+use App\Models\ServiceAndFacility;
 use App\Models\ServicePrice;
 use App\Models\Staff;
 use App\Models\Task;
@@ -104,17 +105,19 @@ class IndexController extends Controller
     public function addServiceDetail($name){
 
         $service = Service::where('service_name', $name)->first();
-        // dd($service);
+        $servicefacility = ServiceAndFacility::all()->where('service_id', $service->id);
+        // dd($servicefacility);
         return view('service.addServiceDetail', [
             "title" => "Service List",
             "categories" => CategoryService::all(),
             "tax" => TaxRate::all(),
-            "locations" => Location::all(),
-            "policies" => Policy::all(),
+            "locations" => Location::all()->where('status', 'Active'),
+            "policies" => Policy::all()->where('status', 'Active'),
             "facilities" => Facility::all()->where('status', 'Active'),
             "staff" => Staff::all(),
             "service" => $service,
-            "priceService" => ServicePrice::all()->where('service_id', $service->id)
+            "priceService" => ServicePrice::all()->where('service_id', $service->id),
+            "servicefacility" => $servicefacility
         ]);
     }
 
