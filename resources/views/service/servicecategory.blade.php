@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </nav>
-
+            
             <div id="dashboard" class="mx-3 mt-4">
                 <table class="table w-100">
                     <thead>

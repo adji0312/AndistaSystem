@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [IndexController::class, 'home']);
+Route::get('/upcoming-booking', [IndexController::class, 'upcomingbooking']);
 Route::get('/location/list/add/autocomplete-search', [IndexController::class, 'autocompleteSearch']);
 
 
@@ -51,11 +52,16 @@ Route::post('/addTaxRate', [TaxRateController::class, 'store']);
 Route::post('/updateTaxRate/{id}', [TaxRateController::class, 'update']);
 Route::get('/deleteTax', [TaxRateController::class, 'deleteTax']);
 
+//Service
 Route::get('/service', [IndexController::class, 'serviceDashboard']);
 Route::get('/service/list', [IndexController::class, 'serviceList']);
 Route::get('/service/list/add', [IndexController::class, 'addService']);
+Route::get('/service/list/{name}', [IndexController::class, 'addServiceDetail']);
 Route::get('/service/treatmentplan', [IndexController::class, 'treatmentPlan']);
 Route::get('/service/treatmentplan/add', [IndexController::class, 'addTreatmentPlan']);
+Route::post('/addService', [ServiceController::class, 'store']);
+Route::get('/deleteService', [ServiceController::class, 'deleteService']);
+Route::post('/addPriceService', [ServiceController::class, 'addPriceService']);
 
 Route::get('/service/policy', [IndexController::class, 'policy']);
 Route::get('/service/policy/add', [IndexController::class, 'addPolicy']);
@@ -64,7 +70,7 @@ Route::post('/addPolicy', [PolicyController::class, 'store']);
 Route::get('/deletePolicy', [PolicyController::class, 'deletePolicy']);
 Route::post('/updatePolicy/{id}', [PolicyController::class, 'update']);
 
-
+// Service Category
 Route::get('/service/category', [IndexController::class, 'serviceCategory']);
 Route::post('/addCategory', [CategoryServiceController::class, 'store']);
 Route::post('/updateCategory/{id}', [CategoryServiceController::class, 'update']);
@@ -86,8 +92,7 @@ Route::post('/updateunitfacility/{id}', [UnitFacilityController::class, 'editUni
 Route::get('/location/facility/{facility_name}', [IndexController::class, 'editFacility']);
 Route::get('/deleteUnit/{id}', [UnitFacilityController::class, 'deleteUnit']);
 
-//Service
-Route::post('/addService', [ServiceController::class, 'store']);
+
 
 //Treatment Plan
 Route::get('/service/treatmentplan/add/{name}', [ListPlanController::class, 'index']);

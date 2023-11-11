@@ -11,6 +11,8 @@ use App\Models\Location;
 use App\Models\MessengerType;
 use App\Models\Plan;
 use App\Models\Policy;
+use App\Models\Service;
+use App\Models\ServicePrice;
 use App\Models\Staff;
 use App\Models\Task;
 use App\Models\TaxRate;
@@ -20,6 +22,7 @@ use App\Models\UsageContact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
+use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 
 class IndexController extends Controller
 {
@@ -27,7 +30,14 @@ class IndexController extends Controller
         return view('home', [
             "title" => "Home"
         ]);
-    }   
+    }
+
+    public function upcomingbooking(){
+        return view('upcomingbooking', [
+            "title" => "Upcoming Booking"
+        ]);
+    }
+    
 
     public function locationDashboard(){
         return view('location.dashboard', [
@@ -74,7 +84,8 @@ class IndexController extends Controller
 
     public function serviceList(){
         return view('service.serviceslist', [
-            "title" => "Service List"
+            "title" => "Service List",
+            "services" => Service::latest()->paginate(20)->withQueryString()
         ]);
     }
 
@@ -87,6 +98,23 @@ class IndexController extends Controller
             "policies" => Policy::all(),
             "facilities" => Facility::all()->where('status', 'Active'),
             "staff" => Staff::all()
+        ]);
+    }
+
+    public function addServiceDetail($name){
+
+        $service = Service::where('service_name', $name)->first();
+        // dd($service);
+        return view('service.addServiceDetail', [
+            "title" => "Service List",
+            "categories" => CategoryService::all(),
+            "tax" => TaxRate::all(),
+            "locations" => Location::all(),
+            "policies" => Policy::all(),
+            "facilities" => Facility::all()->where('status', 'Active'),
+            "staff" => Staff::all(),
+            "service" => $service,
+            "priceService" => ServicePrice::all()->where('service_id', $service->id)
         ]);
     }
 

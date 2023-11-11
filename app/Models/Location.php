@@ -35,4 +35,8 @@ class Location extends Model
     public function plans(){
         return $this->hasMany(Plan::class);
     }
+
+    public function serviceprices(){
+        return $this->hasMany(ServicePrice::class, 'id');
+    }
 }

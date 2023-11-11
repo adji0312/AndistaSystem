@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                    <h5 class="m-3">Prices</h5>
+                    <h5 class="m-3">Services</h5>
                     <div id="afterPrice" class="table-responsive">
                         <table class="table m-3" style="width: 95%;" id="priceDuplicate">
                             <thead>
