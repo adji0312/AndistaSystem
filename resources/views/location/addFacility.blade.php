@@ -10,7 +10,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="/location/facility" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
+                              <a class="nav-link active" aria-current="page" href="/facility" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
                           <li class="nav-item">
                               <a class="nav-link active" aria-current="page" onclick="saveFacility()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
@@ -57,9 +57,10 @@
                                 </select>
                               </div>
                             <div class="mb-3">
-                              <label for="share_facility" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                              <select class="form-select mt-1" style="font-size: 15px; color: #7C7C7C; width: 230px" id="share_facility" name="share_facility">
+                              <label for="share_facility" class="form-label" style="font-size: 15px; color: #7C7C7C;">Share With</label>
+                              <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="share_facility" name="share_facility">
                                 <option value="Active" selected disabled class="selectstatus" style="color: black;">Share facilty with</option>
+                                <option value="0" class="selectstatus" style="color: black;">none</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach

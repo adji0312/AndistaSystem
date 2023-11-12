@@ -12,7 +12,7 @@
             <a id="locationslist" href="/location/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Locations List</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Facility") ? 'active' : '' }}">
-            <a id="locationsfacilities" href="/location/facility" class="px-4"><img src="/img/icon/facilities.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Facilities</a>
+            <a id="locationsfacilities" href="/facility" class="px-4"><img src="/img/icon/facilities.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Facilities</a>
         </li>
     </ul>
 </nav>

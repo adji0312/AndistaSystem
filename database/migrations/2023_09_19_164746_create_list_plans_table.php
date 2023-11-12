@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('list_plans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('plan_id');
             $table->foreignId('task_id');
             $table->foreignId('service_id');
             $table->foreignId('product_id');
+            $table->foreignId('frequency_id');
             $table->integer('start_day');
-            $table->integer('frequency');
             $table->integer('duration');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

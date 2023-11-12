@@ -14,7 +14,7 @@
                               <a class="nav-link active" aria-current="page" href="/service/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
                           <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" onclick="saveService()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
+                              <a class="nav-link active" aria-current="page" onclick="saveService()" style="color: #f28123; cursor: pointer;">Continue <img src="/img/icon/continue.png" alt="" style="width: 22px"></a>
                           </li>
                       </ul>
                       <form class="d-flex" role="search">
@@ -32,16 +32,16 @@
                         <h5 class="m-3">Basic Info</h5>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Service Name</label>
+                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Service Name</label>
                                 <input type="text" class="form-control" name="service_name" id="service_name">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                                <input type="text" class="form-control mt-2" name="simple_service_name" id="simple_service_name" placeholder="Simple name">
+                                <label for="simple_service_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Simple Name</label>
+                                <input type="text" class="form-control" name="simple_service_name" id="simple_service_name">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" name="status" id="status">
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="status" id="status">
                                     <option value="Active" class="selectstatus" style="color: black;">Active</option>
                                     <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
                                 </select>
@@ -49,17 +49,17 @@
                         </div>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
-                            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="location_id" id="location_id">
-                                <option value="" class="selectstatus" style="color: black;" selected disabled>Select Location</option>
-                                @foreach ($locations as $location)
-                                    <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                                @endforeach
-                            </select>
+                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location_id" id="location_id">
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Location</option>
+                                    @foreach ($locations as $location)
+                                        <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Category</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="category_service_id" id="category_service_id">
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="category_service_id" id="category_id">
                                     <option value="" class="selectstatus" style="color: black;" selected disabled>Select Category</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}" class="selectstatus" style="color: black;">{{ $category->category_service_name }}</option>
@@ -67,66 +67,71 @@
                                 </select>
                             </div>
                             
-                        </div>
-                        <div class="m-3">
-                            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Policy</label>
-                            <div class="d-flex">
-                                <div class="form-check m-3 mb-0" style="font-size: 15px;">
-                                    <input class="form-check-input" type="radio" name="policy" id="defaultPolicy" value="defaultPolicy" checked>
-                                    <label class="form-check-label" for="defaultPolicy">
-                                        Default
-                                    </label>
-                                    </div>
-                                    <div class="form-check m-3 mb-0">
-                                    <input class="form-check-input" type="radio" name="policy" id="customPolicy" value="customPolicy">
-                                    <label class="form-check-label" for="customPolicy">
-                                        Custom
-                                    </label>
-                                </div>
+                            <div class="mb-3">
+                                <label for="tax_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tax Rate</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_id" id="tax_id">
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Tax</option>
+                                    @foreach ($tax as $t)
+                                        <option value="{{ $t->id }}" class="selectstatus" style="color: black;">{{ $t->tax_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
+                        </div>
 
-                            {{-- @foreach ($policies as $policy)
-                                @if ($policy->form_name == "FORM PERSETUJUAN TINDAKAN")
-                                    <input type="text" readonly class="form-control mt-2" name="policy_id" id="policy_id" value="{{ $policy->form_name }}" placeholder="{{ $policy->id }}">
-                                    @break
-                                @endif
-                            @endforeach --}}
-                                        
-                            <select class="form-select mt-3 mb-4" style="font-size: 15px; color: #7C7C7C; width: 300px" name="policy_id" id="policy_id" disabled>
-                                <option value="" class="selectstatus" style="color: black;" selected disabled>Select Policy</option>
-                                @foreach ($policies as $policy)
-                                    @if ($policy->form_name == "FORM PERSETUJUAN TINDAKAN")
-                                        <option value="{{ $policy->id }}" class="selectstatus" style="color: black;" selected>{{ $policy->form_name }}</option>
-                                        @continue
-                                    @endif
-                                        <option value="{{ $policy->id }}" class="selectstatus" style="color: black;">{{ $policy->form_name }}</option>
-                                @endforeach
-                            </select>
+
+                        <div class="m-3 d-flex gap-5">
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Policy</label>
+                                <div class="d-flex">
+                                    <div class="form-check m-3 mb-0" style="font-size: 15px;">
+                                        <input class="form-check-input" type="radio" name="policy_id" id="defaultPolicy" value="{{ $policies[0]->id }}" checked>
+                                        <label class="form-check-label" for="defaultPolicy">
+                                            Default
+                                        </label>
+                                        </div>
+                                        <div class="form-check m-3 mb-0">
+                                        <input class="form-check-input" type="radio" name="policy_id" id="customPolicy" value="customPolicy">
+                                        <label class="form-check-label" for="customPolicy">
+                                            Custom
+                                        </label>
+                                    </div>
+                                </div>
+                                            
+                                <select class="form-select mt-3 mb-4" style="font-size: 15px; color: #7C7C7C; width: 300px" name="policy_id" id="policy_id" disabled>
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Policy</option>
+                                    @foreach ($policies as $policy)
+                                        @if ($policy->form_name == "FORM PERSETUJUAN TINDAKAN")
+                                            <option value="{{ $policy->id }}" class="selectstatus" style="color: black;" selected>{{ $policy->form_name }}</option>
+                                            @continue
+                                        @endif
+                                            <option value="{{ $policy->id }}" class="selectstatus" style="color: black;">{{ $policy->form_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
 
                     {{-- PRICES --}}
                     <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Prices</h5>
-                        <div id="afterPrice">
-                            <table class="table m-3" style="width: 90%;" id="priceDuplicate">
+                        <div id="afterPrice" class="table-responsive">
+                            <table class="table m-3" style="width: 95%;" id="priceDuplicate">
                                 <thead>
                                 <tr>
-                                    <th scope="col" style="width: 100px;">Duration</th>
-                                    <th scope="col" style="width: 200px;">Units</th>
-                                    <th scope="col" style="width: 100px;">Price (Rp)</th>
-                                    <th scope="col" style="width: 100px;">Customers</th>
-                                    <th scope="col" style="width: 220px;">Location</th>
-                                    <th scope="col" style="width: 200px;">Title</th>
+                                    <th scope="col">Duration</th>
+                                    <th scope="col">Units</th>
+                                    <th scope="col">Price (Rp)</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Title</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                                        <input type="text" class="form-control" style="width: 100px;" name="duration[]" id="duration">
+                                        <input type="text" class="form-control" name="duration[]" id="duration">
                                     </td>
                                     <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" name="duration_type[]" id="duration_type">
+                                        <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="duration_type[]" id="duration_type">
                                             <option value="Minutes" class="selectstatus" style="color: black;">Minutes</option>
                                             <option value="Hours" class="selectstatus" style="color: black;">Hours</option>
                                             <option value="Days" class="selectstatus" style="color: black;">Days</option>
@@ -134,22 +139,17 @@
                                         </select>
                                     </td>
                                     <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                                        <input type="text" class="form-control" style="width: 100px;" name="price[]" id="price">
+                                        <input type="text" class="form-control" name="price[]" id="price">
                                     </td>
                                     <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" aria-label="Default select example">
-                                            <option value="" class="selectstatus" style="color: black;">All Customers</option>
-                                        </select>
-                                    </td>
-                                    <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 220px" name="location_price_id[]" id="location_price_id">
+                                        <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="location_price_id[]" id="location_price_id">
                                             @foreach ($locations as $location)
                                                 <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                             @endforeach
                                         </select>
                                     </td>
                                     <td style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                                        <input type="text" class="form-control" style="width: 200px;" name="price_title[]" id="price_title">
+                                        <input type="text" class="form-control"name="price_title[]" id="price_title">
                                     </td>
                                     <td style="border: none">
                                         <div class="mb-3 mt-2 d-flex align-items-center" style="cursor: pointer" onclick="deletePrice(this.parentNode.parentNode.parentNode.parentNode.id)">
@@ -165,35 +165,14 @@
                             <button type="button" class="btn btn-sm btn-outline-dark" onclick="duplicatePriceService()"><i class="fas fa-plus"></i> Add</button>
                         </div>
 
-                        <div class="m-3 mt-4">
-                            <div class="mb-3">
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="tax_id" id="tax_id">
-                                    <option selected value="" disabled class="selectstatus" style="color: black;">Tax rate</option>
-                                    @foreach ($tax as $t)
-                                        <option value="{{ $t->id }}" class="selectstatus" style="color: black;">{{ $t->tax_name }} ({{ $t->tax_rate }}%)</option>   
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+                        
                     </div>
 
-                    <?php
-                        if(!isset($_COOKIE['value']) || !isset($_COOKIE['lengthStaff'])){
-                            echo 'not set';
-                        }else{
-                            
-                            $value = $_COOKIE['value'];
-                            $staffId = str_replace(',', '', $value);
-                            $lengthStaff = $_COOKIE['lengthStaff'];
-                        }
-                    ?>
-
                     {{-- STAFF --}}
-                    <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+                    {{-- <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Staff</h5>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
-                                <input type="text" id="idstaff">
                                 <div class="d-flex">
                                     <div class="form-check m-3 mb-0" style="font-size: 15px;">
                                         <input class="form-check-input" type="radio" name="staff" id="nostaff" value="nostaff" checked>
@@ -238,10 +217,10 @@
                         <div class="m-3" id="addstaff" style="display: none">
                             <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staffservice" onclick="viewId()"><i class="fas fa-plus"></i> Add</button>
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- FACILITY --}}
-                    <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+                    {{-- <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Facility</h5>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
@@ -264,18 +243,7 @@
                         <div class="m-3" id="addfacility" style="display: none">
                             <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#facility"><i class="fas fa-plus"></i> Add</button>
                         </div>
-                    </div>
-        
-                    {{-- PHOTOS --}}
-                    <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                    <h5 class="m-3 mb-0">Photos</h5>
-                    <div class="m-3 mt-0">
-                        <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                        <input type="file" class="form-control mt-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Phone Number">
-                        </div>
-                    </div>
-                    </div>
+                    </div> --}}
                     <button type="submit" id="submitService" hidden></button>
                 </form>
             </div>

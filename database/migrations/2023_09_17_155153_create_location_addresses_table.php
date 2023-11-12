@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreignId('usage_address_id');
             $table->string('country');
             $table->text('street_address');
-            $table->text('additional_info');
-            $table->string('city');
-            $table->string('state');
-            $table->string('postal_code');
+            $table->text('additional_info')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('postal_code')->nullable();
             $table->timestamps();
         });
     }

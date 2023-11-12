@@ -35,15 +35,37 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td><a href="#" class="text-primary">Andista Animal Care</a></td>
-                        <td>Branch</td>
-                        <td>Jl. Kamboja No. 2C</td>
-                        <td>Jakarta Barat</td>
-                        <td>6285762206921</td> 
-                        <td>Aktif</td>
-                      </tr>
+                        @foreach ($locations as $location)
+                            <tr>
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="checkBox[{{ $location->id }}]" name="checkBox"  value="{{ $location->id }}">
+                                    </div>
+                                </th>
+                                <?php
+                                    $id = encrypt($location->id);
+                                ?>
+                                <td><a href="/location/{{ $location->location_name }}" class="text-primary">{{ $location->location_name }}</a></td>
+                                <td>{{ $location->type }}</td>
+                                @if ($location->locationaddresses->count() == 0)
+                                    <td></td>
+                                    <td></td>
+                                @else
+                                    @foreach ($location->locationaddresses as $la)
+                                        <td>{{ $la->street_address }}</td>
+                                        <td>{{ $la->city }}</td>
+                                    @endforeach
+                                @endif
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        @foreach ($location->phones as $phoneNumber)
+                                            <small>{{ $phoneNumber->phone_number }}</small>
+                                        @endforeach
+                                    </div>    
+                                </td> 
+                                <td>{{ $location->status }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

@@ -15,7 +15,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="px-4">
+                <a href="/calendar" class="px-4">
                     <img src="/img/icon/calendar.png" alt="" style="width: 22px"> <span class="mx-2">Calendar</span>
                 </a>
             </li>
@@ -50,15 +50,26 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="px-4">
-                    <img src="/img/icon/reports.png" alt="" style="width: 22px"> <span class="mx-2">Reports</span>
+                <a href="/attendance" class="px-4">
+                    <img src="/img/icon/attendance.png" alt="" style="width: 22px"> <span class="mx-2">Attendance</span>
+                </a>
+            </li>
+            {{-- ini nanti khusus admin sm super user aja --}}
+            <li>
+                <a href="/presence" class="px-4">
+                    <img src="/img/icon/presence.png" alt="" style="width: 22px"> <span class="mx-2">Presence</span>
                 </a>
             </li>
             <li>
+                <a href="/report" class="px-4">
+                    <img src="/img/icon/reports.png" alt="" style="width: 22px"> <span class="mx-2">Reports</span>
+                </a>
+            </li>
+            {{-- <li>
                 <a href="#" class="px-4">
                     <img src="/img/icon/setting.png" alt="" style="width: 22px"> <span class="mx-2">Setting</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </nav>
 </div>

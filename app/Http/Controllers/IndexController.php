@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryService;
 use App\Models\Country;
+use App\Models\Diagnosis;
 use App\Models\Facility;
+use App\Models\ListPlan;
 use App\Models\Location;
 use App\Models\MessengerType;
+use App\Models\Plan;
 use App\Models\Policy;
+use App\Models\Service;
+use App\Models\ServiceAndFacility;
+use App\Models\ServicePrice;
 use App\Models\Staff;
 use App\Models\Task;
 use App\Models\TaxRate;
@@ -17,6 +23,7 @@ use App\Models\UsageContact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
+use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 
 class IndexController extends Controller
 {
@@ -24,7 +31,14 @@ class IndexController extends Controller
         return view('home', [
             "title" => "Home"
         ]);
-    }   
+    }
+
+    public function upcomingbooking(){
+        return view('upcomingbooking', [
+            "title" => "Upcoming Booking"
+        ]);
+    }
+    
 
     public function locationDashboard(){
         return view('location.dashboard', [
@@ -34,7 +48,8 @@ class IndexController extends Controller
     
     public function locationList(){
         return view('location.locationslist', [
-            "title" => "Location List"
+            "title" => "Location List",
+            "locations" => Location::all()
         ]);
     }
     public function addLocation(){
@@ -70,7 +85,8 @@ class IndexController extends Controller
 
     public function serviceList(){
         return view('service.serviceslist', [
-            "title" => "Service List"
+            "title" => "Service List",
+            "services" => Service::latest()->paginate(20)->withQueryString()
         ]);
     }
 
@@ -86,16 +102,39 @@ class IndexController extends Controller
         ]);
     }
 
+    public function addServiceDetail($name){
+
+        $service = Service::where('service_name', $name)->first();
+        $servicefacility = ServiceAndFacility::all()->where('service_id', $service->id);
+        // dd($servicefacility);
+        return view('service.addServiceDetail', [
+            "title" => "Service List",
+            "categories" => CategoryService::all(),
+            "tax" => TaxRate::all(),
+            "locations" => Location::all()->where('status', 'Active'),
+            "policies" => Policy::all()->where('status', 'Active'),
+            "facilities" => Facility::all()->where('status', 'Active'),
+            "staff" => Staff::all(),
+            "service" => $service,
+            "priceService" => ServicePrice::all()->where('service_id', $service->id),
+            "servicefacility" => $servicefacility
+        ]);
+    }
+
     public function treatmentPlan(){
         return view('service.treatmentplan', [
-            "title" => "Treatment Plan"
+            "title" => "Treatment Plan",
+            "plans" => Plan::latest()->paginate(10)->withQueryString()
         ]);
     }
 
     public function addTreatmentPlan(){
         return view('service.addtreatmentplan', [
             "title" => "Treatment Plan",
-            "tasks" => Task::all()
+            "tasks" => Task::all(),
+            "locations" => Location::all()->where('status', 'Active'),
+            "plan" => ListPlan::all()->where('temp', 1),
+            "diagnosis" => Diagnosis::all()
         ]);
     }
 
@@ -130,6 +169,25 @@ class IndexController extends Controller
             "policy" => $policy
         ]);
     }
+    
+    public function editLocation($location_name){
+
+        // dd($id);
+        
+        // $location = Location::find(decrypt($id));
+        // dd($policy);
+        $location = Location::all()->where('location_name', $location_name)->first();
+        // dd($location);
+
+        return view('location.editLocation', [
+            "title" => "Location",
+            "location" => $location,
+            "usages" => UsageContact::all(),
+            "messengerTypes" => MessengerType::all(),
+            "countries" => Country::all(),
+            "usageAddresses" => UsageAddress::all()
+        ]);
+    }
 
     public function store(Request $request){
         return view('service.servicecategory', 
@@ -142,6 +200,12 @@ class IndexController extends Controller
     public function financeDashboard(){
         return view('finance.dashboard', [
             "title" => "Finance Dashboard"
+        ]);
+    }
+    
+    public function financeList(){
+        return view('finance.financelist', [
+            "title" => "Finance List"
         ]);
     }
 
@@ -196,4 +260,34 @@ class IndexController extends Controller
             "title" => "Product Dashboard"
         ]);
     }
+    public function allReport(){
+        return view('report.allreport', [
+            "title" => "All Report"
+        ]);
+    }
+
+    public function dashboardCalendar(){
+        return view('calendar.Dashboard', [
+            "title" => "Calendar"
+        ]);
+    }
+
+    public function createbooking(){
+        return view('calendar.createBooking', [
+            "title" => "Booking"
+        ]);
+    }
+
+    public function bookingdetail(){
+        return view('calendar.bookingdetail', [
+            "title" => "Booking"
+        ]);
+    }
+
+    public function absent(){
+        return view('presence.absent', [
+            "title" => "Absent"
+        ]);
+    }
+    
 }

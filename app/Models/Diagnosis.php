@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Diagnosis extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function plans(){
+        return $this->hasMany(Plan::class);
+    }
 }

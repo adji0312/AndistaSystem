@@ -11,8 +11,12 @@ class Service extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'staff_id' => 'array',
-        'facility_id' => 'array'
-    ];
+    public function category(){
+        return $this->belongsTo(CategoryService::class, 'category_service_id');
+    }
+
+    // protected $casts = [
+    //     'staff_id' => 'array',
+    //     'facility_id' => 'array'
+    // ];
 }

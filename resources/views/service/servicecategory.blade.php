@@ -22,9 +22,9 @@
                     </div>
                 </div>
             </nav>
-
+            
             <div id="dashboard" class="mx-3 mt-4">
-                <table class="table w-50">
+                <table class="table w-100">
                     <thead>
                       <tr >
                         <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
@@ -37,6 +37,7 @@
                             <th>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="checkBox[{{ $category->id }}]" name="checkBox"  value="{{ $category->id }}">
+                                    <input type="hidden" id="categoryName{{ $category->id }}" value="{{ $category->category_service_name }}">
                                 </div>
                             </th>
                             <td style="cursor: pointer;" class="text-primary hovertext" data-bs-toggle="modal" data-bs-target="#editCategory{{ $category->id }}">{{ $category->category_service_name }}</td>
@@ -84,12 +85,12 @@
                 @csrf
                 <div class="modal-body">
                     <div class="mb-1">
-                        <input type="text" class="form-control mt-1" id="category_service_name" name="category_service_name">
+                        <input type="text" class="form-control mt-1" id="category_name" name="category_service_name" oninput="inputCategoryService()">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                    <button type="submit" class="btn btn-sm btn-outline-primary" id="saveCategory" disabled><i class="fas fa-save"></i> Save changes</button>
                 </div>
             </form>    
           </div>
@@ -108,6 +109,7 @@
                 @csrf
                 <div class="modal-body">
                     <div class="mb-1">
+                        {{-- <input type="text" id="deleteId"> --}}
                         <input type="text" hidden id="deleteId" name="deleteId" value="Hapus" class="form-control mt-1">
                     </div>
                 </div>
