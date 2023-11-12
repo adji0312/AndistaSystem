@@ -243,23 +243,99 @@ class IndexController extends Controller
         return response()->json($dataModified);
     }
 
+    //Customer
     public function customerDashboard(){
         return view('customer.dashboard',[
             "title" => "Customer Dashboard"
         ]);
     }
 
+    public function customerList(){
+        return view('customer.customerdashboard',[
+            "title" => "Customer List"
+        ]);
+    }
+
+    public function customerSubCustomerList(){
+        return view('customer.customerdashboard',[
+            "title" => "Customer Dashboard"
+        ]);
+    }
+
+    //Staff
     public function staffDashboard(){
         return view('staff.dashboard',[
             "title" => "Staff Dashboard"
         ]);
     }
+    //StaffList
+    public function staffList(){
+        return view('staff.dashboard',[
+            "title" => "Staff List"
+        ]);
+    }
 
+    //Position
+    public function staffPosition(){
+        return view('staff.dashboard',[
+            "title" => "Staff Position"
+        ]);
+    }
+    //Working Hours
+    public function staffWorkingHours(){
+        return view('staff.dashboard',[
+            "title" => "Staff Working Hours"
+        ]);
+    }
+
+    //Access Control
+    public function staffAccessControl(){
+        return view('staff.dashboard',[
+            "title" => "Staff Access Control"
+        ]);
+    }
+    //Security Groups
+    public function staffSecurityGroups(){
+        return view('staff.dashboard',[
+            "title" => "Staff Security Groups"
+        ]);
+    }
+
+    //Product
     public function productDashboard(){
         return view('product.dashboard',[
             "title" => "Product Dashboard"
         ]);
     }
+
+    //ProductList
+    public function productList(){
+        return view('product.dashboard',[
+            "title" => "Product List"
+        ]);
+    }
+
+    //Brand
+    public function productBrand(){
+        return view('product.dashboard',[
+            "title" => "Brand"
+        ]);
+    }
+
+    //Category
+    public function productCategory(){
+        return view('product.dashboard',[
+            "title" => "Category"
+        ]);
+    }
+
+    //Suppliers
+    public function productSuppliers(){
+        return view('product.dashboard',[
+            "title" => "Suppliers"
+        ]);
+    }
+
     public function allReport(){
         return view('report.allreport', [
             "title" => "All Report"
@@ -290,4 +366,9 @@ class IndexController extends Controller
         ]);
     }
     
+    //Customer
+
+    //Staff
+
+    //Product
 }

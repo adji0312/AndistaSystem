@@ -143,21 +143,21 @@ Route::get('/presence', [IndexController::class, 'absent']);
 
 // Customer
 Route::get('/customer',[IndexController::class, 'customerDashboard']);
-Route::get('/customer/list',[IndexController::class, 'customerDashboard']);
-Route::get('/customer/sublist',[IndexController::class, 'customerDashboard']);
+Route::get('/customer/list',[IndexController::class, 'customerList']);
+Route::get('/customer/sublist',[IndexController::class, 'customerSubCustomerList']);
 
 //Staff
 Route::get('/staff',[IndexController::class,'staffDashboard']);
-Route::get('/staff/list',[IndexController::class,'staffDashboard']);
-Route::get('/staff/position',[IndexController::class,'staffDashboard']);
-Route::get('/staff/working-hours',[IndexController::class,'staffDashboard']);
-Route::get('/staff/access-control',[IndexController::class,'staffDashboard']);
-Route::get('/staff/security-groups',[IndexController::class,'staffDashboard']);
+Route::get('/staff/list',[IndexController::class,'staffList']);
+Route::get('/staff/position',[IndexController::class,'staffPosition']);
+Route::get('/staff/working-hours',[IndexController::class,'staffWorkingHours']);
+Route::get('/staff/access-control',[IndexController::class,'staffAccessControl']);
+Route::get('/staff/security-groups',[IndexController::class,'staffSecurityGroups']);
 
 //Product
 Route::get('/product',[IndexController::class,'productDashboard']);
-Route::get('/product/list',[IndexController::class,'productDashboard']);
-Route::get('/brand',[IndexController::class,'productDashboard']);
-Route::get('/category',[IndexController::class,'productDashboard']);
-Route::get('/suppliers',[IndexController::class,'productDashboard']);
+Route::get('/product/list',[IndexController::class,'productList']);
+Route::get('/brand',[IndexController::class,'productBrand']);
+Route::get('/category',[IndexController::class,'productCategory']);
+Route::get('/suppliers',[IndexController::class,'productSuppliers']);
 

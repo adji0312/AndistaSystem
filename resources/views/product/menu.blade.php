@@ -5,20 +5,20 @@
         </div>
     </div>
     <ul class="list-unstyled components">
-        <li style="cursor: pointer" class="{{ ($title === "Customer Dashboard") ? 'active' : '' }}">
+        <li style="cursor: pointer" class="{{ ($title === "Product Dashboard") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/customer" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Dashboard</a>
         </li>
-        <li style="cursor: pointer" class="{{ ($title === "Customer List") ? 'active' : '' }}">
+        <li style="cursor: pointer" class="{{ ($title === "Product List") ? 'active' : '' }}">
             <a id="locationslist" href="/customer/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Product List</a>
         </li>
-        <li style="cursor: pointer" class="{{ ($title === "Sub Customer List") ? 'active' : '' }}">
-            <a id="locationslist" href="/customer/sublist" class="px-4"><img src="/img/icon/tax.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Brand</a>
+        <li style="cursor: pointer" class="{{ ($title === "Brand") ? 'active' : '' }}">
+            <a id="locationslist" href="/customer/sublist" class="px-4"><img src="/img/icon/brand.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Brand</a>
         </li>
-        <li style="cursor: pointer" class="{{ ($title === "Sub Customer List") ? 'active' : '' }}">
-            <a id="locationslist" href="/customer/sublist" class="px-4"><img src="/img/icon/tax.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Category</a>
+        <li style="cursor: pointer" class="{{ ($title === "Category") ? 'active' : '' }}">
+            <a id="locationslist" href="/customer/sublist" class="px-4"><img src="/img/icon/category.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Category</a>
         </li>
-        <li style="cursor: pointer" class="{{ ($title === "Sub Customer List") ? 'active' : '' }}">
-            <a id="locationslist" href="/customer/sublist" class="px-4"><img src="/img/icon/tax.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Suppliers</a>
+        <li style="cursor: pointer" class="{{ ($title === "Suppliers") ? 'active' : '' }}">
+            <a id="locationslist" href="/customer/sublist" class="px-4"><img src="/img/icon/supplier.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Suppliers</a>
         </li>
     </ul>
 </nav> 
