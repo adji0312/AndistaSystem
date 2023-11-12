@@ -251,13 +251,13 @@ class IndexController extends Controller
     }
 
     public function customerList(){
-        return view('customer.customerdashboard',[
+        return view('customer.dashboard',[
             "title" => "Customer List"
         ]);
     }
 
     public function customerSubCustomerList(){
-        return view('customer.customerdashboard',[
+        return view('customer.dashboard',[
             "title" => "Customer Dashboard"
         ]);
     }

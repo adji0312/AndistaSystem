@@ -5,23 +5,23 @@
         </div>
     </div>
     <ul class="list-unstyled components">
-        <li style="cursor: pointer" class="{{ ($title === "Customer Dashboard") ? 'active' : '' }}">
-            <a id="locationsdashboard" href="/customer" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Dashboard</a>
+        <li style="cursor: pointer" class="{{ ($title === "Staff Dashboard") ? 'active' : '' }}">
+            <a id="locationsdashboard" href="/staff" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Dashboard</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Customer List") ? 'active' : '' }}">
-            <a id="locationslist" href="/customer/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Staff List</a>
+            <a id="locationslist" href="/staff/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Staff List</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Sub Customer List") ? 'active' : '' }}">
-            <a id="locationslist" href="/customer/sublist" class="px-4"><img src="/img/icon/position.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp;Position</a>
+            <a id="locationslist" href="/staff/position" class="px-4"><img src="/img/icon/position.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp;Position</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Sub Customer List") ? 'active' : '' }}">
-            <a id="locationslist" href="/customer/sublist" class="px-4"><img src="/img/icon/working_hours.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp;Working Hours</a>
+            <a id="locationslist" href="/staff/working-hours" class="px-4"><img src="/img/icon/working_hours.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp;Working Hours</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Sub Customer List") ? 'active' : '' }}">
-            <a id="locationslist" href="/customer/sublist" class="px-4"><img src="/img/icon/access_control.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp;Access Control</a>
+            <a id="locationslist" href="/staff/access-control" class="px-4"><img src="/img/icon/access_control.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp;Access Control</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Sub Customer List") ? 'active' : '' }}">
-            <a id="locationslist" href="/customer/sublist" class="px-4"><img src="/img/icon/security_group.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp;Security Groups</a>
+            <a id="locationslist" href="/staff/security-groups" class="px-4"><img src="/img/icon/security_group.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp;Security Groups</a>
         </li>
     </ul>
 </nav> 
