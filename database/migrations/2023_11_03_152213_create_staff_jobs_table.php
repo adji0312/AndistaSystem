@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('staff_jobs', function (Blueprint $table) {
             $table->id();
+            $table->string("job_name");
             $table->timestamps();
         });
     }

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('sub_customers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("customer_id");
+            $table->string("sub_customer_name");
             $table->timestamps();
         });
     }

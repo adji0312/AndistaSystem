@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('client__groups', function (Blueprint $table) {
+        Schema::create('client_grups', function (Blueprint $table) {
             $table->id();
+            $table->string("client_name");
             $table->timestamps();
         });
     }

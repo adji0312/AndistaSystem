@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('staff_backgrounds', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("id_type_id");
+            $table->foreignId("no_id");
+            $table->foreignId("staff_id");
             $table->timestamps();
         });
     }
