@@ -270,7 +270,7 @@ class IndexController extends Controller
     }
     //StaffList
     public function staffList(){
-        return view('staff.dashboard',[
+        return view('staff.staff-list',[
             "title" => "Staff List"
         ]);
     }
