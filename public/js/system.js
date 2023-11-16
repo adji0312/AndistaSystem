@@ -586,7 +586,6 @@ if(saturday_time_off1){
     saturday_time_off1.disabled = true;
 }
 
-
 // MONDAY ALL DAY
 $("input[id='all_day_monday']").change(function() {
     // var checked = $(this).val();
@@ -1682,7 +1681,7 @@ function backButtonInService(){
 
 var checkSession = document.getElementById("openCanvas");
 if(checkSession){
-    console.log('asjhasjdhgasdkjbas,djhgasjkgdhasd');
+    // console.log('asjhasjdhgasdkjbas,djhgasjkgdhasd');
     document.getElementById("openCanvas").click();
     taskClick();
 }
@@ -1774,12 +1773,3 @@ function changeLocation(e){
         filterLocation2.action = "managestaff/" + e.value;
     }
 }
-
-// $('#change').change(function(){
-//     //this is just getting the value that is selected
-//     var title = $(this).val();
-//     console.log(title);
-//     // Cookies.remove('cookie_name');
-//     // $('.modal-title').html(title);
-//     // $('#serviceList').modal('show');
-//   });

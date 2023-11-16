@@ -6,6 +6,7 @@ use App\Models\CategoryService;
 use App\Models\Country;
 use App\Models\Diagnosis;
 use App\Models\Facility;
+use App\Models\Frequency;
 use App\Models\ListPlan;
 use App\Models\Location;
 use App\Models\LocationContactEmail;
@@ -27,6 +28,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
+use Illuminate\Http\Response;
+
+use function PHPSTORM_META\map;
 
 class IndexController extends Controller
 {
@@ -297,6 +301,25 @@ class IndexController extends Controller
     public function profile(){
         return view('profile.index', [
             "title" => "My Profile"
+        ]);
+    }
+
+    function selectService(Request $request){
+        // dd($request->service_id); 
+        $plan = Plan::find($request->plan_id);
+        dd($plan);
+        // dd($request->all());
+        return view('service.listPlan', [
+            'title' => 'List Plan',
+            'plan' => $plan,
+            'tasks' => Task::all(),
+            'list_plans' => ListPlan::all()->where('plan_id', $plan->id),
+            'frequencies' => Frequency::all(),
+            'locations' => Location::all(),
+            'diagnosis' => Diagnosis::all(),
+            'services' => Service::all()->where('status', 'Active'),
+            'servicePrice' => ServicePrice::all(),
+            'service_id' => $request->service_id
         ]);
     }
     

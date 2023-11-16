@@ -52,15 +52,22 @@
                             </div>
                             
                         </div>
-                        <div class="mb-3 m-3">
-                            <label for="mySelectDiagnosis" class="form-label" style="font-size: 15px; color: #7C7C7C;">Diagnosis</label>
-                            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" onchange="changeDiagnosis()" id="mySelectDiagnosis" name="diagnosis_id" required>
-                                <option value="" selected disabled class="selectstatus" style="color: black;">Select Diagnosis</option>
-                                @foreach ($diagnosis as $diagno)
-                                    <option value="{{ $diagno->id }}" class="selectstatus" style="color: black;">{{ $diagno->diagnosis_name }}</option>
-                                @endforeach
-                                <option value="diagnosis" class="selectstatus" style="color: black;">+ Create New</option>
-                            </select>
+                        <div class="m-3 d-flex gap-5">
+                            <div class="mb-3">
+                                <label for="mySelectDiagnosis" class="form-label" style="font-size: 15px; color: #7C7C7C;">Diagnosis</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" onchange="changeDiagnosis()" id="mySelectDiagnosis" name="diagnosis_id" required>
+                                    <option value="" selected disabled class="selectstatus" style="color: black;">Select Diagnosis</option>
+                                    @foreach ($diagnosis as $diagno)
+                                        <option value="{{ $diagno->id }}" class="selectstatus" style="color: black;">{{ $diagno->diagnosis_name }}</option>
+                                    @endforeach
+                                    <option value="diagnosis" class="selectstatus" style="color: black;">+ Create New</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration Treatment (days)</label>
+                                <input type="number" class="form-control" id="duration" name="duration" style="width: 300px">
+                            </div>
+
                         </div>
                     </div>
 
