@@ -16,6 +16,6 @@ class LocationContactEmail extends Model
     }
 
     public function usagecontacts(){
-        return $this->belongsTo(UsageContact::class);
+        return $this->belongsTo(UsageContact::class, 'usage_email_contact_id');
     }
 }

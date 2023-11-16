@@ -6,10 +6,10 @@
     </div>
     <ul class="list-unstyled components">
         <li style="cursor: pointer" class="{{ ($title === "Absent") ? 'active' : '' }}">
-            <a id="locationsdashboard" href="/attendance" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Absent</a>
+            <a id="locationsdashboard" href="/presence" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Absent</a>
         </li>
-        <li style="cursor: pointer" class="{{ ($title === "Attendance List") ? 'active' : '' }}">
-            <a id="locationslist" href="/attendance/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Attendance Today</a>
+        <li style="cursor: pointer" class="{{ ($title === "Presence List") ? 'active' : '' }}">
+            <a id="locationslist" href="/presence/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Presence Today</a>
         </li>
     </ul>
 </nav>

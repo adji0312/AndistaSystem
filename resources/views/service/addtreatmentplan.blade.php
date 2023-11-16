@@ -32,13 +32,18 @@
                         <h5 class="m-3">Basic Info</h5>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Treatment Name</label>
+                                <label for="name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Treatment Name</label>
                                 
-                                <input type="text" class="form-control" id="name" name="name" style="width: 300px">
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" style="width: 300px" value="{{ old('name') }}">
+                                @error('name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="location_id">
+                                <label for="location_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="location_id" id="location_id" required> 
                                     <option value="" class="selectstatus" style="color: black;" disabled selected>Select Location</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
@@ -48,8 +53,8 @@
                             
                         </div>
                         <div class="mb-3 m-3">
-                            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Diagnosis</label>
-                            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" onchange="changeDiagnosis()" id="mySelectDiagnosis" name="diagnosis_id">
+                            <label for="mySelectDiagnosis" class="form-label" style="font-size: 15px; color: #7C7C7C;">Diagnosis</label>
+                            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" onchange="changeDiagnosis()" id="mySelectDiagnosis" name="diagnosis_id" required>
                                 <option value="" selected disabled class="selectstatus" style="color: black;">Select Diagnosis</option>
                                 @foreach ($diagnosis as $diagno)
                                     <option value="{{ $diagno->id }}" class="selectstatus" style="color: black;">{{ $diagno->diagnosis_name }}</option>

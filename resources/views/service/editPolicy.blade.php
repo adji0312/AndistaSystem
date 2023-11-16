@@ -7,7 +7,7 @@
         <div id="contents">
             <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
                 <div class="container-fluid">
-                    <a class="navbar-brand text-primary">{{ $policy->form_name }}</a>
+                    <a class="navbar-brand">{{ $policy->form_name }}</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
@@ -33,7 +33,12 @@
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3" style="width: 30%">
                                 <label for="form_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Service Name</label>
-                                <input type="text" class="form-control" id="form_name" name="form_name" value="{{ $policy->form_name }}">
+                                <input type="text" class="form-control @error('form_name') is-invalid @enderror" id="form_name" name="form_name" value="{{ $policy->form_name }}">
+                                @error('form_name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3" style="width: 16%">
                                 <label class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
@@ -53,7 +58,12 @@
                             <div class="mb-3" style="width: 50%">
                                 {{-- <form action=""> --}}
                                 <input id="text" type="hidden" name="text" value="{{ $policy->text }}">
-                                <trix-editor input="text"></trix-editor>
+                                <trix-editor input="text" class="@error('text') is-invalid @enderror"></trix-editor>
+                                @error('text')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                                 {{-- </form> --}}
                             </div>
                         </div>

@@ -611,126 +611,248 @@
               <h5 class="m-3">Contact</h5>
 
               <div class="mt-2 m-5" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                <h6 class="m-3">Phone</h6>
-                @foreach ($location->phones as $phone)
-                  <div id="afterPhone">
-                    <div class="m-3 d-flex gap-5" id="phoneDuplicate">
-                      <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
-                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" id="mySelectPhone" name="usage_phone_contact_id[]" onchange="changePhone()">
-                          <option selected disabled value="" class="selectstatus" style="color: black;">Select Usage</option>
-                          @foreach ($usages as $usage)
-                            @if ($usage->id == $phone->usage_phone_contact_id)
-                              <option value="{{ $usage->id }}" class="selectstatus" style="color: black;" selected>{{ $usage->usage_name }}</option>
-                              @continue
-                            @endif
-                            <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
-                          @endforeach
-                          <option value="phoneusage" class="selectstatus" style="color: black;">+ Create New</option>
-                        </select>
-                      </div>
-                      <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                        <input type="text" class="form-control" style="margin-top: 5px;"  id="phone_number" name="phone_number[]" placeholder="Phone Number" onkeypress="return inputPhone(event)" value="{{ $phone->phone_number }}">
-                      </div>
-                      <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Type</label>
-                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" id="phone_type" name="phone_type[]">
-                          <option value="Mobile" class="selectstatus" style="color: black;">Mobile</option>
-                          <option value="Fax" class="selectstatus" style="color: black;">Fax</option>
-                          <option value="Fixed-line phone" class="selectstatus" style="color: black;">Fixed-line phone</option>
-                        </select>
-                      </div>
-                      <div class="mb-3 d-flex align-items-center" style="cursor: pointer" onclick="deletePhone(this.parentNode.id)">
-                        <img src="/img/icon/minus.png" alt="" style="width: 20px">
-                      </div>
-                    </div>
-                  </div>
-                @endforeach
-                <div class="m-3">
-                  <button type="button" class="btn btn-sm btn-outline-dark" onclick="duplicatePhone()"><i class="fas fa-plus"></i> Add</button>
+                <div class="d-flex justify-content-between">
+                  <h6 class="m-3" style="font-size: 18px;">Phone</h6>
+                  <button type="button" class="btn btn-sm btn-outline-dark m-3" data-bs-toggle="modal" data-bs-target="#addPhoneLocation"><i class="fas fa-plus"></i> Add</button>
+                </div>
+                <div class="m-3 table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Usage</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Type</th>
+                        <th scope="col" class="text-center">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php $index1 = 0; ?>
+                      @foreach ($phones as $phone)
+                        <?php $index1 += 1; ?>
+                        <tr>
+                          <th scope="row">{{ $index1 }}</th>
+                          <td>{{ $phone->usagecontacts->usage_name }}</td>
+                          <td>{{ $phone->phone_number }}</td>
+                          <td>{{ $phone->phone_type }}</td>
+                          <td>
+                            <div class="d-flex justify-content-center gap-2">
+                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#updatePhoneLocation{{ $phone->id }}"><i class="fas fa-pencil-alt"></i> Update</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deletePhone{{ $phone->id }}"><i class="fas fa-trash"></i> Delete</button>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <div class="modal fade" id="deletePhone{{ $phone->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Phone</h1>
+                              </div>
+                              
+                              <form action="/deletePhone/{{ $phone->id }}" method="GET">
+                                  @csrf
+                                  <div class="modal-body">
+                                      <div class="mb-1">
+                                          <small class="fs-6" style="font-weight: 300">Are you sure delete this item?</small>
+                                      </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                      <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                  </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="modal fade" id="updatePhoneLocation{{ $phone->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Update Phone</h1>
+                              </div>
+                              <form action="/updatePhoneLocation/{{ $phone->id }}" method="post">
+                                  @csrf
+                                  <div class="modal-body">
+                                      <div class="mb-3">
+                                          <label for="usage_phone_contact_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
+                                          <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="usage_phone_contact_id" id="usage_phone_contact_id">
+                                              @foreach ($usages as $usage)
+                                                @if ($usage->id == $phone->usage_phone_contact_id)
+                                                  <option value="{{ $usage->id }}" class="selectstatus" style="color: black;" selected>{{ $usage->usage_name }}</option>
+                                                  @continue
+                                                @endif
+                                                <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
+                                              @endforeach
+                                          </select>
+                                      </div>
+                                      <div class="mb-3">
+                                          <label for="phone_number" class="form-label" style="font-size: 15px; color: #7C7C7C;">Phone Number</label>
+                                          <input type="hidden" value="{{ $location->id }}" name="location_id">
+                                          <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ $phone->phone_number }}">
+                                      </div>
+                                      <div class="mb-3">
+                                          <label for="phone_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Type</label>
+                                          <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="phone_type" id="phone_type">
+                                            @if ($phone->phone_type == "Mobile")
+                                              <option value="Mobile" class="selectstatus" style="color: black;" selected>Mobile</option>
+                                              <option value="Fax" class="selectstatus" style="color: black;">Fax</option>
+                                              <option value="Fixed-line phone" class="selectstatus" style="color: black;">Fixed-line phone</option>
+                                            @elseif ($phone->phone_type == "Fax")
+                                              <option value="Mobile" class="selectstatus" style="color: black;">Mobile</option>
+                                              <option value="Fax" class="selectstatus" style="color: black;" selected>Fax</option>
+                                              <option value="Fixed-line phone" class="selectstatus" style="color: black;">Fixed-line phone</option>
+                                            @elseif ($phone->phone_type == "Fixed-line phone")
+                                              <option value="Mobile" class="selectstatus" style="color: black;">Mobile</option>
+                                              <option value="Fax" class="selectstatus" style="color: black;">Fax</option>
+                                              <option value="Fixed-line phone" class="selectstatus" style="color: black;" selected>Fixed-line phone</option>
+                                            @endif
+                                          </select>
+                                      </div>
+                                      
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                      <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                  </div>
+                              </form>    
+                            </div>
+                          </div>
+                        </div>
+                      @endforeach
+                    </tbody>
+                  </table>
                 </div>
               </div>
 
               <div class="mt-2 m-5" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                <h6 class="m-3">Email</h6>
-                @foreach ($location->emails as $email)
-                  <div id="afterEmail">
-                    <div class="m-3 d-flex gap-5" id="emailDuplicate">
-                      <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
-                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" id="mySelectEmail" name="usage_email_contact_id[]" onchange="changeEmail()">
-                          <option selected disabled value="" class="selectstatus" style="color: black;">Select Usage</option>
-                          @foreach ($usages as $usage)
-                            @if ($usage->id == $email->usage_email_contact_id)
-                              <option value="{{ $usage->id }}" class="selectstatus" style="color: black;" selected>{{ $usage->usage_name }}</option>
-                              @continue
-                            @endif
-                            <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
-                          @endforeach
-                          <option value="emailusage" class="selectstatus" style="color: black;">+ Create New</option>
-                        </select>
-                      </div>
-                      <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                        <input type="text" class="form-control" style="margin-top: 5px;" id="email_address" name="email_address[]" placeholder="Email Address" value="{{ $email->email_address }}">
-                      </div>
-                      <div class="mb-3 d-flex align-items-center" style="cursor: pointer" onclick="deleteEmail(this.parentNode.id)">
-                        <img src="/img/icon/minus.png" alt="" style="width: 20px">
-                      </div>
-                    </div>
-                  </div>
-                @endforeach
-                <div class="m-3">
-                  <button type="button" class="btn btn-sm btn-outline-dark" onclick="duplicateEmail()"><i class="fas fa-plus"></i> Add</button>
+                <div class="d-flex justify-content-between">
+                  <h6 class="m-3" style="font-size: 18px;">Email</h6>
+                  <button type="button" class="btn btn-sm btn-outline-dark m-3" data-bs-toggle="modal" data-bs-target="#addEmailLocation"><i class="fas fa-plus"></i> Add</button>
+                </div>
+                <div class="m-3 table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Usage</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col" class="text-center">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php $index2 = 0; ?>
+                      @foreach ($emails as $email)
+                        <?php $index2 += 1; ?>
+                        <tr>
+                          <th scope="row">{{ $index2 }}</th>
+                          <td>{{ $email->usagecontacts->usage_name }}</td>
+                          <td>{{ $email->email_address }}</td>
+                          <td>
+                            <div class="d-flex justify-content-center gap-2">
+                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#updateEmailLocation{{ $email->id }}"><i class="fas fa-pencil-alt"></i> Update</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteEmail{{ $email->id }}"><i class="fas fa-trash"></i> Delete</button>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <div class="modal fade" id="deleteEmail{{ $email->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Email</h1>
+                              </div>
+                              
+                              <form action="/deleteEmail/{{ $email->id }}" method="GET">
+                                  @csrf
+                                  <div class="modal-body">
+                                      <div class="mb-1">
+                                          <small class="fs-6" style="font-weight: 300">Are you sure delete this item?</small>
+                                      </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                      <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                  </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="modal fade" id="updateEmailLocation{{ $email->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Email</h1>
+                              </div>
+                              <form action="/updateEmailLocation/{{ $email->id }}" method="post">
+                                  @csrf
+                                  <div class="modal-body">
+                                      <div class="mb-3">
+                                          <label for="usage_email_contact_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
+                                          <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="usage_email_contact_id" id="usage_email_contact_id">
+                                              @foreach ($usages as $usage)
+                                                <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
+                                              @endforeach
+                                          </select>
+                                      </div>
+                                      <div class="mb-3">
+                                          <label for="email_address" class="form-label" style="font-size: 15px; color: #7C7C7C;">Username</label>
+                                          <input type="hidden" value="{{ $location->id }}" name="location_id">
+                                          <input type="text" class="form-control" id="email_address" name="email_address" value="{{ $email->email_address }}">
+                                      </div>
+                                      
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                      <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                  </div>
+                              </form>    
+                            </div>
+                          </div>
+                        </div>
+                      @endforeach
+                    </tbody>
+                  </table>
                 </div>
               </div>
 
               <div class="mt-2 m-5" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                <h6 class="m-3">Messenger</h6>
-                @foreach ($location->messengers as $messenger)
-                  <div id="afterMessenger">
-                    <div class="m-3 d-flex gap-5" id="messengerDuplicate">
-                      <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
-                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" id="mySelectMessenger" name="usage_messenger_contact_id[]" onchange="changeMessenger()">
-                          <option selected disabled value="" class="selectstatus" style="color: black;">Select Usage</option>
-                          @foreach ($usages as $usage)
-                            @if ($usage->id == $messenger->usage_messenger_contact_id)
-                              <option value="{{ $usage->id }}" class="selectstatus" style="color: black;" selected>{{ $usage->usage_name }}</option>
-                              @continue  
-                            @endif
-                              <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
-                          @endforeach
-                          <option value="messengerusage" class="selectstatus" style="color: black;">+ Create New</option>
-                        </select>
-                      </div>
-                      <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                        <input type="text" class="form-control" style="margin-top: 5px;" id="username" name="username[]" placeholder="Username" value="{{ $messenger->username }}">
-                      </div>
-                      <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Type</label>
-                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 200px" aria-label="Default select example" id="mySelectMessengerType" name="messenger_type_id[]" onchange="typeMessenger()">
-                          <option disabled selected value="" class="selectstatus" style="color: black;">Select Type</option>
-                          @foreach ($messengerTypes as $type)
-                            @if ($type->id == $messenger->messenger_type_id)
-                              <option value="{{ $type->id }}" class="selectstatus" style="color: black;" selected>{{ $type->type_name }}</option>
-                              @continue  
-                            @endif
-                            <option value="{{ $type->id }}" class="selectstatus" style="color: black;">{{ $type->type_name }}</option>
-                          @endforeach
-                          <option value="messengertype" class="selectstatus" style="color: black;">+ Create New</option>
-                        </select>
-                      </div>
-                      <div class="mb-3 d-flex align-items-center" style="cursor: pointer" onclick="deleteMessenger(this.parentNode.id)">
-                        <img src="/img/icon/minus.png" alt="" style="width: 20px">
-                      </div>
-                    </div>
-                  </div>
-                @endforeach
-                <div class="m-3">
-                  <button type="button" class="btn btn-sm btn-outline-dark" onclick="duplicateMessenger()"><i class="fas fa-plus"></i> Add</button>
+                <div class="d-flex justify-content-between">
+                  <h6 class="m-3" style="font-size: 18px;">Messenger</h6>
+                  <button type="button" class="btn btn-sm btn-outline-dark m-3" data-bs-toggle="modal" data-bs-target="#addMessengerLocation"><i class="fas fa-plus"></i> Add</button>
+                </div>
+                <div class="m-3 table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Usage</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Type</th>
+                        <th scope="col" class="text-center">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php $index3 = 0; ?>
+                      @foreach ($messengers as $messenger)
+                        <?php $index3 += 1; ?>
+                        <tr>
+                          <th scope="row">{{ $index3 }}</th>
+                          <td>{{ $messenger->usagecontacts->usage_name }}</td>
+                          <td>{{ $messenger->username }}</td>
+                          <td>{{ $messenger->messengertypes->type_name }}</td>
+                          <td>
+                            <div class="d-flex justify-content-center gap-2">
+                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#updatePriceService"><i class="fas fa-pencil-alt"></i> Update</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deletePriceService"><i class="fas fa-trash"></i> Delete</button>
+                            </div>
+                          </td>
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -866,6 +988,124 @@
             <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  {{-- ADD PHONE --}}
+  <div class="modal fade" id="addPhoneLocation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Phone</h1>
+        </div>
+        <form action="/addPhoneLocation" method="post">
+            @csrf
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="usage_phone_contact_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
+                    <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="usage_phone_contact_id" id="usage_phone_contact_id">
+                        @foreach ($usages as $usage)
+                          <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="phone_number" class="form-label" style="font-size: 15px; color: #7C7C7C;">Phone Number</label>
+                    <input type="hidden" value="{{ $location->id }}" name="location_id">
+                    <input type="text" class="form-control" id="phone_number" name="phone_number">
+                </div>
+                <div class="mb-3">
+                    <label for="phone_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Type</label>
+                    <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="phone_type" id="phone_type">
+                      <option value="Mobile" class="selectstatus" style="color: black;">Mobile</option>
+                      <option value="Fax" class="selectstatus" style="color: black;">Fax</option>
+                      <option value="Fixed-line phone" class="selectstatus" style="color: black;">Fixed-line phone</option>
+                    </select>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+            </div>
+        </form>    
+      </div>
+    </div>
+  </div>
+  
+  {{-- ADD EMAIL --}}
+  <div class="modal fade" id="addEmailLocation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Email</h1>
+        </div>
+        <form action="/addEmailLocation" method="post">
+            @csrf
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="usage_email_contact_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
+                    <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="usage_email_contact_id" id="usage_email_contact_id">
+                        @foreach ($usages as $usage)
+                          <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="email_address" class="form-label" style="font-size: 15px; color: #7C7C7C;">Username</label>
+                    <input type="hidden" value="{{ $location->id }}" name="location_id">
+                    <input type="text" class="form-control" id="email_address" name="email_address">
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+            </div>
+        </form>    
+      </div>
+    </div>
+  </div>
+  
+  {{-- ADD MESSENGER --}}
+  <div class="modal fade" id="addMessengerLocation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Messenger</h1>
+        </div>
+        <form action="/addMessengerLocation" method="post">
+            @csrf
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="usage_email_contact_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Usage</label>
+                    <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="usage_email_contact_id" id="usage_email_contact_id">
+                        @foreach ($usages as $usage)
+                          <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="email_address" class="form-label" style="font-size: 15px; color: #7C7C7C;">Username</label>
+                    <input type="hidden" value="{{ $location->id }}" name="location_id">
+                    <input type="text" class="form-control" id="email_address" name="email_address">
+                </div>
+                <div class="mb-3">
+                  <label for="usage_email_contact_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Type</label>
+                  <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="usage_email_contact_id" id="usage_email_contact_id">
+                      @foreach ($usages as $usage)
+                        <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
+                      @endforeach
+                  </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+            </div>
+        </form>    
       </div>
     </div>
   </div>

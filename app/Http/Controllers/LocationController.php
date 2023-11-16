@@ -151,4 +151,74 @@ class LocationController extends Controller
         Location::create($validatedData);
         return redirect('/location/list');
     }
+
+    public function addPhoneLocation(Request $request){
+        // dd($request->all());
+        $validatedData = $request->validate([
+            'usage_phone_contact_id' => 'required',
+            'phone_number' => 'required',
+            'phone_type' => 'required',
+            'location_id' => 'required',
+        ]);
+
+        LocationContactPhone::create($validatedData);
+
+        return redirect()->back();
+    }
+
+    public function addEmailLocation(Request $request){
+        // dd($request->all());
+        $validatedData = $request->validate([
+            'usage_email_contact_id' => 'required',
+            'email_address' => 'required',
+            'location_id' => 'required',
+        ]);
+
+        LocationContactEmail::create($validatedData);
+
+        return redirect()->back();
+    }
+
+    public function deletePhoneLocation($id){
+        // dd($id);
+        
+        DB::table('location_contact_phones')->where('id', $id)->delete();
+        return redirect()->back();
+    }
+
+    public function deleteEmail($id){
+        DB::table('location_contact_emails')->where('id', $id)->delete();
+        return redirect()->back();
+    }
+
+    public function updatePhoneLocation(Request $request, $id){
+        // dd($request->all());
+        $phone = LocationContactPhone::find($id);
+
+        $rules = [
+            'usage_phone_contact_id' => 'required',
+            'location_id' => 'required',
+            'phone_number' => 'required',
+            'phone_type' => 'required',
+        ];
+        $validatedData = $request->validate($rules);
+
+        LocationContactPhone::where('id', $phone->id)->update($validatedData);
+        return redirect()->back();
+    }
+
+    public function updateEmailLocation(Request $request, $id){
+        // dd($request->all());
+        $email = LocationContactEmail::find($id);
+
+        $rules = [
+            'usage_email_contact_id' => 'required',
+            'location_id' => 'required',
+            'email_address' => 'required'
+        ];
+        $validatedData = $request->validate($rules);
+
+        LocationContactEmail::where('id', $email->id)->update($validatedData);
+        return redirect()->back();
+    }
 }

@@ -37,14 +37,15 @@ Route::get('/', [IndexController::class, 'home']);
 Route::get('/upcoming-booking', [IndexController::class, 'upcomingbooking']);
 Route::get('/location/list/add/autocomplete-search', [IndexController::class, 'autocompleteSearch']);
 
-
+//Location
 Route::get('/location', [IndexController::class, 'locationDashboard']);
 Route::get('/location/list', [IndexController::class, 'locationList']);
 Route::get('/location/list/add', [IndexController::class, 'addLocation']);
 Route::post('/addLocation', [LocationController::class, 'store']);
 Route::get('/location/{location_name}', [IndexController::class, 'editLocation']);
+Route::get('/location-setting', [IndexController::class, 'settingLocation']);
 
-
+// Finance
 Route::get('/finance', [IndexController::class, 'financeDashboard']);
 Route::get('/finance/list', [IndexController::class, 'financeList']);
 Route::get('/finance/taxrate', [IndexController::class, 'financeTaxRate']);
@@ -113,10 +114,18 @@ Route::post('/updateTreatment/{id}', [PlanController::class, 'updateTreatment'])
 Route::get('/deletePlan', [PlanController::class, 'deletePlan']);
 
 // Usage Contact
-Route::post('/addUsage', [UsageContactController::class, 'store']);
 Route::post('/addTypeMessenger', [MessengerTypeController::class, 'store']);
+Route::post('/updateMessengerType/{id}', [MessengerTypeController::class, 'update']);
+Route::get('/deleteMessengerType', [MessengerTypeController::class, 'deleteMessengerType']);
+
+Route::post('/addUsageContact', [UsageContactController::class, 'store']);
+Route::post('/editUsageContact/{id}', [UsageContactController::class, 'update']);
+Route::get('/deleteUsageContact', [UsageContactController::class, 'deleteUsageContact']);
 
 Route::post('/addUsageAddress', [UsageAddressController::class, 'store']);
+Route::post('/editUsageAddress/{id}', [UsageAddressController::class, 'update']);
+Route::get('/deleteUsageAddress', [UsageAddressController::class, 'deleteUsageAddress']);
+
 
 // Attendance
 Route::get('/attendance', [AttendanceController::class, 'dashboard']);
@@ -141,3 +150,16 @@ Route::get('/bookingdetail', [IndexController::class, 'bookingdetail']);
 
 //Presence
 Route::get('/presence', [IndexController::class, 'absent']);
+Route::get('/presence/list', [IndexController::class, 'presencelist']);
+
+//Profile
+Route::get('/profile', [IndexController::class, 'profile']);
+
+// Contact Location - phone
+Route::post('/addPhoneLocation', [LocationController::class, 'addPhoneLocation']);
+Route::get('/deletePhoneLocation/{id}', [LocationController::class, 'deletePhoneLocation']);
+Route::post('/updatePhoneLocation/{id}', [LocationController::class, 'updatePhoneLocation']);
+// Contact Location - email
+Route::post('/addEmailLocation', [LocationController::class, 'addEmailLocation']);
+Route::get('/deleteEmail/{id}', [LocationController::class, 'deleteEmail']);
+Route::post('/updateEmailLocation/{id}', [LocationController::class, 'updateEmailLocation']);

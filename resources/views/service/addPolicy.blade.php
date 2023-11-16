@@ -32,16 +32,26 @@
                         <h5 class="m-3">Basic Info</h5>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3" style="width: 50%">
-                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Service Name</label>
-                                <input type="text" class="form-control" id="form_name" name="form_name">
+                                <label for="form_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Policy Name</label>
+                                <input type="text" class="form-control @error('form_name') is-invalid @enderror" id="form_name" name="form_name" value="{{ old('form_name') }}">
+                                @error('form_name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             
                         </div>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3" style="width: 50%">
                                 {{-- <form action=""> --}}
-                                <input id="text" type="hidden" name="text">
-                                <trix-editor input="text"></trix-editor>
+                                <input id="text" type="hidden" name="text" value="{{ old('text') }}">
+                                <trix-editor input="text" class="@error('text') is-invalid @enderror"></trix-editor>
+                                @error('text')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                                 {{-- </form> --}}
                             </div>
                         </div>
