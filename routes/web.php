@@ -87,6 +87,7 @@ Route::post('/updateCategory/{id}', [CategoryServiceController::class, 'update']
 Route::get('/deleteCategory', [CategoryServiceController::class, 'deleteCategory']);
 
 Route::post('/post', [IndexController::class, 'store']);
+
 Route::post('/addTask', [TaskController::class, 'store']);
 
 
@@ -153,3 +154,18 @@ Route::get('/bookingdetail', [IndexController::class, 'bookingdetail']);
 
 //Presence
 Route::get('/presence', [IndexController::class, 'absent']);
+Route::get('/presence/list', [IndexController::class, 'presencelist']);
+
+//Profile
+Route::get('/profile', [IndexController::class, 'profile']);
+
+// Contact Location - phone
+Route::post('/addPhoneLocation', [LocationController::class, 'addPhoneLocation']);
+Route::get('/deletePhoneLocation/{id}', [LocationController::class, 'deletePhoneLocation']);
+Route::post('/updatePhoneLocation/{id}', [LocationController::class, 'updatePhoneLocation']);
+// Contact Location - email
+Route::post('/addEmailLocation', [LocationController::class, 'addEmailLocation']);
+Route::get('/deleteEmail/{id}', [LocationController::class, 'deleteEmail']);
+Route::post('/updateEmailLocation/{id}', [LocationController::class, 'updateEmailLocation']);
+
+Route::post('/selectService', [IndexController::class, 'selectService']);

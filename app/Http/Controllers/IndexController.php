@@ -106,7 +106,7 @@ class IndexController extends Controller
             "locations" => Location::all(),
             "policies" => Policy::all(),
             "facilities" => Facility::all()->where('status', 'Active'),
-            "staff" => Staff::all()
+            // "staff" => Staff::all()
         ]);
     }
 
@@ -122,7 +122,7 @@ class IndexController extends Controller
             "locations" => Location::all()->where('status', 'Active'),
             "policies" => Policy::all()->where('status', 'Active'),
             "facilities" => Facility::all()->where('status', 'Active'),
-            "staff" => Staff::all(),
+            // "staff" => Staff::all(),
             "service" => $service,
             "priceService" => ServicePrice::all()->where('service_id', $service->id),
             "servicefacility" => $servicefacility
@@ -236,7 +236,6 @@ class IndexController extends Controller
         ]);
     }
 
-
     public function editFacility($facility_name){
         $facility = Facility::all()->where('facility_name', $facility_name);
         
@@ -261,99 +260,6 @@ class IndexController extends Controller
         }
 
         return response()->json($dataModified);
-    }
-
-    //Customer
-    public function customerDashboard(){
-        return view('customer.dashboard',[
-            "title" => "Customer Dashboard"
-        ]);
-    }
-
-    public function customerList(){
-        return view('customer.dashboard',[
-            "title" => "Customer List"
-        ]);
-    }
-
-    public function customerSubCustomerList(){
-        return view('customer.dashboard',[
-            "title" => "Customer Dashboard"
-        ]);
-    }
-
-    //Staff
-    public function staffDashboard(){
-        return view('staff.dashboard',[
-            "title" => "Staff Dashboard"
-        ]);
-    }
-    //StaffList
-    public function staffList(){
-        return view('staff.staff-list',[
-            "title" => "Staff List"
-        ]);
-    }
-
-    //Position
-    public function staffPosition(){
-        return view('staff.dashboard',[
-            "title" => "Staff Position"
-        ]);
-    }
-    //Working Hours
-    public function staffWorkingHours(){
-        return view('staff.dashboard',[
-            "title" => "Staff Working Hours"
-        ]);
-    }
-
-    //Access Control
-    public function staffAccessControl(){
-        return view('staff.dashboard',[
-            "title" => "Staff Access Control"
-        ]);
-    }
-    //Security Groups
-    public function staffSecurityGroups(){
-        return view('staff.dashboard',[
-            "title" => "Staff Security Groups"
-        ]);
-    }
-
-    //Product
-    public function productDashboard(){
-        return view('product.dashboard',[
-            "title" => "Product Dashboard"
-        ]);
-    }
-
-    //ProductList
-    public function productList(){
-        return view('product.dashboard',[
-            "title" => "Product List"
-        ]);
-    }
-
-    //Brand
-    public function productBrand(){
-        return view('product.dashboard',[
-            "title" => "Brand"
-        ]);
-    }
-
-    //Category
-    public function productCategory(){
-        return view('product.dashboard',[
-            "title" => "Category"
-        ]);
-    }
-
-    //Suppliers
-    public function productSuppliers(){
-        return view('product.dashboard',[
-            "title" => "Suppliers"
-        ]);
     }
 
     public function allReport(){
@@ -417,9 +323,4 @@ class IndexController extends Controller
         ]);
     }
     
-    //Customer
-
-    //Staff
-
-    //Product
 }
