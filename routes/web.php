@@ -169,3 +169,11 @@ Route::get('/deleteEmail/{id}', [LocationController::class, 'deleteEmail']);
 Route::post('/updateEmailLocation/{id}', [LocationController::class, 'updateEmailLocation']);
 
 Route::post('/selectService', [IndexController::class, 'selectService']);
+
+// Staff
+
+
+//Customer
+
+
+//Product

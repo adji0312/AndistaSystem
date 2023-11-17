@@ -22,7 +22,12 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            RoleSeeder::class
+            RoleSeeder::class,
+            StaffBackgroundSeeder::class,
+            StaffJobSeeder::class,
+            PositionSeeder::class,
+            StaffSeeder::class,
+            StaffAddressSeeder::class
         ]);
 
         Frequency::create([

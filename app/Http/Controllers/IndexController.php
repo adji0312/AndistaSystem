@@ -323,4 +323,16 @@ class IndexController extends Controller
         ]);
     }
     
+
+    //Staff
+    public function staff(){
+        return view('staff.dashboard',[
+            "title"=> "Staff Dashboard"
+        ]);
+    }
+
+    //Customer
+
+
+    //Product
 }
