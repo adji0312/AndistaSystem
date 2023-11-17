@@ -24,7 +24,7 @@ class ServiceController extends Controller
 
         if(count($duration) <= 1 && $duration[0] == null){
             $validatedData = $request->validate([
-                'service_name' => 'required',
+                'service_name' => 'required|unique:services',
                 'status' => 'required',
                 'location_id' => 'required',
                 'category_service_id' => 'required',
@@ -50,7 +50,7 @@ class ServiceController extends Controller
             return redirect('/service/list' . '/' . $lastService->service_name);
         }else{
             $validatedData = $request->validate([
-                'service_name' => 'required',
+                'service_name' => 'required|unique:services',
                 'status' => 'required',
                 'location_id' => 'required',
                 'category_service_id' => 'required',

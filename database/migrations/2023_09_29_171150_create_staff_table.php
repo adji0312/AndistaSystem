@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string("phone");
             $table->string("email");
             $table->string("image");
-            $table->uuid("UUID");
+            $table->uuid("UUID")->unique();
             $table->timestamps();
         });
     }

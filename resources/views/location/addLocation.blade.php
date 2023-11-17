@@ -328,7 +328,6 @@
                     @foreach ($usageAddresses as $usage)
                       <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
                     @endforeach
-                    <option value="addressusage" class="selectstatus" style="color: black;">+ Create New</option>
                   </select>
                 </div>
               </div>
@@ -349,7 +348,6 @@
                         @foreach ($usages as $usage)
                           <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
                         @endforeach
-                        <option value="phoneusage" class="selectstatus" style="color: black;">+ Create New</option>
                       </select>
                     </div>
                     <div class="mb-3">
@@ -385,7 +383,6 @@
                         @foreach ($usages as $usage)
                           <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
                         @endforeach
-                        <option value="emailusage" class="selectstatus" style="color: black;">+ Create New</option>
                       </select>
                     </div>
                     <div class="mb-3">
@@ -413,7 +410,6 @@
                         @foreach ($usages as $usage)
                           <option value="{{ $usage->id }}" class="selectstatus" style="color: black;">{{ $usage->usage_name }}</option>
                         @endforeach
-                        <option value="messengerusage" class="selectstatus" style="color: black;">+ Create New</option>
                       </select>
                     </div>
                     <div class="mb-3">
@@ -427,7 +423,6 @@
                         @foreach ($messengerTypes as $type)
                           <option value="{{ $type->id }}" class="selectstatus" style="color: black;">{{ $type->type_name }}</option>
                         @endforeach
-                        <option value="messengertype" class="selectstatus" style="color: black;">+ Create New</option>
                       </select>
                     </div>
                     <div class="mb-3 d-flex align-items-center" style="cursor: pointer" onclick="deleteMessenger(this.parentNode.id)">

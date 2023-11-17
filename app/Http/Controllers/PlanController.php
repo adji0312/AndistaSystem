@@ -16,10 +16,11 @@ class PlanController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|unique:plans',
             'location_id' => 'required',
-            'diagnosis_id' => 'required'
+            'diagnosis_id' => 'required',
+            'duration' => 'required',
         ]);
 
-        $validatedData['duration'] = 0;
+        // $validatedData['duration'] = 0;
         Plan::create($validatedData);
 
         return redirect('/service/treatmentplan/add'.'/'.$request->name);

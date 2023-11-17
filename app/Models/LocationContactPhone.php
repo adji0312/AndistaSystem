@@ -16,6 +16,6 @@ class LocationContactPhone extends Model
     }
 
     public function usagecontacts(){
-        return $this->belongsTo(UsageContact::class);
+        return $this->belongsTo(UsageContact::class, 'usage_phone_contact_id');
     }
 }

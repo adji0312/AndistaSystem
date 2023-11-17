@@ -12,7 +12,7 @@ class PolicyController extends Controller
         // dd($request->all());
 
         $validatedData = $request->validate([
-            'form_name' => 'required',
+            'form_name' => 'required|unique:policies',
             'text' => 'required',
         ]);
 

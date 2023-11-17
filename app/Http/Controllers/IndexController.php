@@ -6,8 +6,12 @@ use App\Models\CategoryService;
 use App\Models\Country;
 use App\Models\Diagnosis;
 use App\Models\Facility;
+use App\Models\Frequency;
 use App\Models\ListPlan;
 use App\Models\Location;
+use App\Models\LocationContactEmail;
+use App\Models\LocationContactMessenger;
+use App\Models\LocationContactPhone;
 use App\Models\MessengerType;
 use App\Models\Plan;
 use App\Models\Policy;
@@ -24,12 +28,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
+use Illuminate\Http\Response;
+
+use function PHPSTORM_META\map;
 
 class IndexController extends Controller
 {
     public function home(){
         return view('home', [
-            "title" => "Home"
+            "title" => "Home",
+            
         ]);
     }
 
@@ -185,7 +193,19 @@ class IndexController extends Controller
             "usages" => UsageContact::all(),
             "messengerTypes" => MessengerType::all(),
             "countries" => Country::all(),
-            "usageAddresses" => UsageAddress::all()
+            "usageAddresses" => UsageAddress::all(),
+            "phones" => LocationContactPhone::all()->where('location_id', $location->id),
+            "emails" => LocationContactEmail::all()->where('location_id', $location->id),
+            "messengers" => LocationContactMessenger::all()->where('location_id', $location->id),
+        ]);
+    }
+
+    public function settingLocation(){
+        return view('location.setting', [
+            "title" => "Setting Location",
+            "usageAddress" => UsageAddress::all(),
+            "usageContact" => UsageContact::all(),
+            "typeMessenger" => MessengerType::all(),
         ]);
     }
 
@@ -363,6 +383,37 @@ class IndexController extends Controller
     public function absent(){
         return view('presence.absent', [
             "title" => "Absent"
+        ]);
+    }
+
+    public function presencelist(){
+        return view('presence.presencelist', [
+            "title" => "Presence List"
+        ]);
+    }
+
+    public function profile(){
+        return view('profile.index', [
+            "title" => "My Profile"
+        ]);
+    }
+
+    function selectService(Request $request){
+        // dd($request->service_id); 
+        $plan = Plan::find($request->plan_id);
+        dd($plan);
+        // dd($request->all());
+        return view('service.listPlan', [
+            'title' => 'List Plan',
+            'plan' => $plan,
+            'tasks' => Task::all(),
+            'list_plans' => ListPlan::all()->where('plan_id', $plan->id),
+            'frequencies' => Frequency::all(),
+            'locations' => Location::all(),
+            'diagnosis' => Diagnosis::all(),
+            'services' => Service::all()->where('status', 'Active'),
+            'servicePrice' => ServicePrice::all(),
+            'service_id' => $request->service_id
         ]);
     }
     

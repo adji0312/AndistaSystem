@@ -14,7 +14,7 @@ class ListPlan extends Model
         return $this->belongsTo(Task::class);
     }
     public function services(){
-        return $this->belongsTo(Service::class);
+        return $this->belongsTo(Service::class, 'service_id');
     }
     public function products(){
         // return $this->belongsTo(::class);

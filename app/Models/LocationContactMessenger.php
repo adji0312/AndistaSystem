@@ -16,10 +16,10 @@ class LocationContactMessenger extends Model
     }
 
     public function usagecontacts(){
-        return $this->belongsTo(UsageContact::class);
+        return $this->belongsTo(UsageContact::class, 'usage_messenger_contact_id');
     }
 
     public function messengertypes(){
-        return $this->belongsTo(MessengerType::class);
+        return $this->belongsTo(MessengerType::class, 'messenger_type_id');
     }
 }

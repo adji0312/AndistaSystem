@@ -74,10 +74,27 @@
     </nav>
 </div>
 <div id="content">
-    <nav class="navbar navbar-expand-lg text-white" style="background-color: #F28123;">
+    <nav class="navbar navbar-expand-lg text-white d-flex justify-content-between" style="background-color: #F28123;">
         <div class="mx-3">
-            <i class="fas fa-bars fs-3" id="sidebarCollapse" style="cursor: pointer;"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-            <a class="navbar-brand fs-3 text-white" href="#">ANDISTA SYSTEM</a>
+            <div>
+                <i class="fas fa-bars fs-3" id="sidebarCollapse" style="cursor: pointer;"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                <a class="navbar-brand fs-3 text-white" href="#">ANDISTA SYSTEM</a>
+            </div>
+        </div>
+        <div class="mx-3">
+            <div class="dropdown">
+                <button class="btn text-white" style="background-color: transparent; outline: none;" type="button" data-bs-toggle="dropdown">
+                    <img src="/img/icon/profile.png" alt="" style="width: 22px"> Profile
+                </button>
+                {{-- <a class="navbar-brand fs-5 text-white" href="/profile" data-bs-toggle="dropdown"><img src="/img/icon/profile.png" alt="" style="width: 22px"> Profile</a> --}}
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/profile">My Account</a></li>
+                  <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                </ul>
+            </div>
+            {{-- <div>
+                <a class="navbar-brand fs-5 text-white" href="/profile"><img src="/img/icon/profile.png" alt="" style="width: 22px"> Profile</a>
+            </div> --}}
         </div>
     </nav>
 

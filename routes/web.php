@@ -37,14 +37,15 @@ Route::get('/', [IndexController::class, 'home']);
 Route::get('/upcoming-booking', [IndexController::class, 'upcomingbooking']);
 Route::get('/location/list/add/autocomplete-search', [IndexController::class, 'autocompleteSearch']);
 
-
+//Location
 Route::get('/location', [IndexController::class, 'locationDashboard']);
 Route::get('/location/list', [IndexController::class, 'locationList']);
 Route::get('/location/list/add', [IndexController::class, 'addLocation']);
 Route::post('/addLocation', [LocationController::class, 'store']);
 Route::get('/location/{location_name}', [IndexController::class, 'editLocation']);
+Route::get('/location-setting', [IndexController::class, 'settingLocation']);
 
-
+// Finance
 Route::get('/finance', [IndexController::class, 'financeDashboard']);
 Route::get('/finance/list', [IndexController::class, 'financeList']);
 Route::get('/finance/taxrate', [IndexController::class, 'financeTaxRate']);
@@ -105,17 +106,29 @@ Route::get('/deleteUnit/{id}', [UnitFacilityController::class, 'deleteUnit']);
 //Treatment Plan
 Route::get('/service/treatmentplan/add/{name}', [ListPlanController::class, 'index']);
 Route::post('/addTreatment', [PlanController::class, 'storeTreatment']);
-Route::post('/addPlan', [ListPlanController::class, 'store']);
 Route::post('/addDiagnosis', [PlanController::class, 'storeDiagnosis']);
 Route::get('/deleteItem/{id}', [ListPlanController::class, 'deleteItem']);
 Route::post('/updateTreatment/{id}', [PlanController::class, 'updateTreatment']);
 Route::get('/deletePlan', [PlanController::class, 'deletePlan']);
 
+//List Plan in Treatment
+Route::post('/addTaskPlan', [ListPlanController::class, 'addTaskPlan']); //task
+Route::post('/addServicePlan', [ListPlanController::class, 'addServicePlan']); //task
+
+
 // Usage Contact
-Route::post('/addUsage', [UsageContactController::class, 'store']);
 Route::post('/addTypeMessenger', [MessengerTypeController::class, 'store']);
+Route::post('/updateMessengerType/{id}', [MessengerTypeController::class, 'update']);
+Route::get('/deleteMessengerType', [MessengerTypeController::class, 'deleteMessengerType']);
+
+Route::post('/addUsageContact', [UsageContactController::class, 'store']);
+Route::post('/editUsageContact/{id}', [UsageContactController::class, 'update']);
+Route::get('/deleteUsageContact', [UsageContactController::class, 'deleteUsageContact']);
 
 Route::post('/addUsageAddress', [UsageAddressController::class, 'store']);
+Route::post('/editUsageAddress/{id}', [UsageAddressController::class, 'update']);
+Route::get('/deleteUsageAddress', [UsageAddressController::class, 'deleteUsageAddress']);
+
 
 // Attendance
 Route::get('/attendance', [AttendanceController::class, 'dashboard']);
@@ -140,24 +153,3 @@ Route::get('/bookingdetail', [IndexController::class, 'bookingdetail']);
 
 //Presence
 Route::get('/presence', [IndexController::class, 'absent']);
-
-// Customer
-Route::get('/customer',[IndexController::class, 'customerDashboard']);
-Route::get('/customer/list',[IndexController::class, 'customerList']);
-Route::get('/customer/sublist',[IndexController::class, 'customerSubCustomerList']);
-
-//Staff
-Route::get('/staff',[IndexController::class,'staffDashboard']);
-Route::get('/staff/list',[IndexController::class,'staffList']);
-Route::get('/staff/position',[IndexController::class,'staffPosition']);
-Route::get('/staff/working-hours',[IndexController::class,'staffWorkingHours']);
-Route::get('/staff/access-control',[IndexController::class,'staffAccessControl']);
-Route::get('/staff/security-groups',[IndexController::class,'staffSecurityGroups']);
-
-//Product
-Route::get('/product',[IndexController::class,'productDashboard']);
-Route::get('/product/list',[IndexController::class,'productList']);
-Route::get('/brand',[IndexController::class,'productBrand']);
-Route::get('/category',[IndexController::class,'productCategory']);
-Route::get('/suppliers',[IndexController::class,'productSuppliers']);
-

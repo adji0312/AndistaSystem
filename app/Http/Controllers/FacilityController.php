@@ -28,7 +28,11 @@ class FacilityController extends Controller
     
             $validatedData['location_id'] = 1;
             $validatedData['share_facility'] = 1;
-            $validatedData['image'] = $request->file('image')->store('public');
+            if($request->file('image')){
+                $validatedData['image'] = $request->file('image')->store('public');
+            }else{
+                $validatedData['image'] = '-';
+            }
             Facility::create($validatedData);
             return redirect('/facility');
         }else{
@@ -43,6 +47,8 @@ class FacilityController extends Controller
             $validatedData['share_facility'] = 1;
             if($request->file('image')){
                 $validatedData['image'] = $request->file('image')->store('public');
+            }else{
+                $validatedData['image'] = '-';
             }
             Facility::create($validatedData);
             $lastFacility = DB::table('facilities')->latest('created_at')->first();

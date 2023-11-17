@@ -14,5 +14,8 @@
         <li style="cursor: pointer" class="{{ ($title === "Facility") ? 'active' : '' }}">
             <a id="locationsfacilities" href="/facility" class="px-4"><img src="/img/icon/facilities.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Facilities</a>
         </li>
+        <li style="cursor: pointer" class="{{ ($title === "Setting Location") ? 'active' : '' }}">
+            <a id="locationsfacilities" href="/location-setting" class="px-4"><img src="/img/icon/setting.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Setting</a>
+        </li>
     </ul>
 </nav>

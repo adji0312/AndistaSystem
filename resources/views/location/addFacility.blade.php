@@ -32,11 +32,21 @@
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3" style="width: 230px">
                                 <label for="facility_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Facility Name</label>
-                                <input type="text" class="form-control" id="facility_name" name="facility_name">
+                                <input type="text" class="form-control @error('facility_name') is-invalid @enderror" id="facility_name" name="facility_name" value="{{ old('facility_name') }}">
+                                @error('facility_name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3" style="width: 230px">
                                 <label for="capacity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Capacity</label>
-                                <input type="number" class="form-control" id="capacity" name="capacity">
+                                <input type="number" class="form-control @error('capacity') is-invalid @enderror" id="capacity" name="capacity" value="{{ old('capacity') }}">
+                                @error('capacity')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                               <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
@@ -49,22 +59,32 @@
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="location_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="location_id" name="location_id">
+                                <select class="form-select @error('location_id') is-invalid @enderror" required style="font-size: 15px; color: #7C7C7C; width: 230px" id="location_id" name="location_id">
                                     <option value="" selected disabled>Select Location</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach
                                 </select>
+                                @error('location_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                               </div>
                             <div class="mb-3">
                               <label for="share_facility" class="form-label" style="font-size: 15px; color: #7C7C7C;">Share With</label>
-                              <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="share_facility" name="share_facility">
-                                <option value="Active" selected disabled class="selectstatus" style="color: black;">Share facilty with</option>
+                              <select class="form-select @error('share_facility') is-invalid @enderror" required style="font-size: 15px; color: #7C7C7C; width: 230px" id="share_facility" name="share_facility">
+                                <option value="" selected disabled class="selectstatus" style="color: black;">Share facilty with</option>
                                 <option value="0" class="selectstatus" style="color: black;">none</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach
                               </select>
+                              @error('share_facility')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
                     </div>

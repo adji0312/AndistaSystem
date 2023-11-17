@@ -191,7 +191,11 @@
                     <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3 mb-0">Photos</h5>
                         <div class="m-3 mt-3">
-                            <img src="/storage/{{ substr($facility->image, 7) }}" alt="" width="25%">
+                            @if ($facility->image == '-')
+                                <img src="/img/icon/noimage.png" alt="" width="25%">
+                            @else
+                                <img src="/storage/{{ substr($facility->image, 7) }}" alt="" width="20%">
+                            @endif
                         </div>
                         <div class="m-3 mt-0">
                           <div class="mb-3">

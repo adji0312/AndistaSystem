@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('frequency_id');
             $table->integer('start_day');
             $table->integer('duration');
+            $table->integer('temp');
             $table->text('notes')->nullable();
             $table->timestamps();
         });
