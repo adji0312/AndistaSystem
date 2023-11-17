@@ -153,6 +153,13 @@ class IndexController extends Controller
         ]);
     }
 
+    public function serviceDiagnosis(){
+        return view('service.serviceDiagnosis', [
+            "title" => "Service Diagnosis",
+            "diagnosis" => Diagnosis::latest()->paginate(20)->withQueryString()
+        ]);
+    }
+
     public function policy(){
         return view('service.policy', [
             "title" => "Policy",

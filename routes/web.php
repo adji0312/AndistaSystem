@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CategoryServiceController;
+use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ListPlanController;
@@ -82,9 +83,13 @@ Route::get('/deleteFacilityService/{id}', [ServiceController::class, 'deleteFaci
 
 // Service Category
 Route::get('/service/category', [IndexController::class, 'serviceCategory']);
+Route::get('/service/diagnosis', [IndexController::class, 'serviceDiagnosis']);
 Route::post('/addCategory', [CategoryServiceController::class, 'store']);
+Route::post('/addDiagnosis', [DiagnosisController::class, 'store']);
 Route::post('/updateCategory/{id}', [CategoryServiceController::class, 'update']);
+Route::post('/updateDiagnosis/{id}', [DiagnosisController::class, 'update']);
 Route::get('/deleteCategory', [CategoryServiceController::class, 'deleteCategory']);
+Route::get('/deleteDiagnosis', [DiagnosisController::class, 'deleteDiagnosis']);
 
 Route::post('/post', [IndexController::class, 'store']);
 
@@ -107,14 +112,15 @@ Route::get('/deleteUnit/{id}', [UnitFacilityController::class, 'deleteUnit']);
 //Treatment Plan
 Route::get('/service/treatmentplan/add/{name}', [ListPlanController::class, 'index']);
 Route::post('/addTreatment', [PlanController::class, 'storeTreatment']);
-Route::post('/addDiagnosis', [PlanController::class, 'storeDiagnosis']);
 Route::get('/deleteItem/{id}', [ListPlanController::class, 'deleteItem']);
 Route::post('/updateTreatment/{id}', [PlanController::class, 'updateTreatment']);
 Route::get('/deletePlan', [PlanController::class, 'deletePlan']);
 
 //List Plan in Treatment
 Route::post('/addTaskPlan', [ListPlanController::class, 'addTaskPlan']); //task
+Route::post('/editTaskPlan/{id}', [ListPlanController::class, 'editTaskPlan']);
 Route::post('/addServicePlan', [ListPlanController::class, 'addServicePlan']); //task
+Route::post('/editServicePlan/{id}', [ListPlanController::class, 'editServicePlan']);
 
 
 // Usage Contact

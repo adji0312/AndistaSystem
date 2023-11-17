@@ -60,7 +60,6 @@
                                     @foreach ($diagnosis as $diagno)
                                         <option value="{{ $diagno->id }}" class="selectstatus" style="color: black;">{{ $diagno->diagnosis_name }}</option>
                                     @endforeach
-                                    <option value="diagnosis" class="selectstatus" style="color: black;">+ Create New</option>
                                 </select>
                             </div>
                             <div class="mb-3">

@@ -15,6 +15,10 @@ class Service extends Model
         return $this->belongsTo(CategoryService::class, 'category_service_id');
     }
 
+    public function listplans(){
+        return $this->hasMany(ListPlan::class, 'id');
+    }
+
     // protected $casts = [
     //     'staff_id' => 'array',
     //     'facility_id' => 'array'

@@ -73,6 +73,8 @@ class ListPlanController extends Controller
         ]);
         
         $validatedData['temp'] = 1;
+        $validatedData['quantity'] =  0;
+        $validatedData['service_price_id'] =  0;
         $validatedData['task_id'] =  0;
         $validatedData['product_id'] =  0;
         $validatedData['duration'] =  0;
@@ -85,6 +87,33 @@ class ListPlanController extends Controller
         return redirect('/service/treatmentplan/add'.'/'.$request->plan_name);
     }
 
+    public function editServicePlan(Request $request, $id){
+        $list = ListPlan::find($id);
+
+        ListPlan::where('id', $list->id)
+                ->update(['start_day' => $request->start_day,
+                         'frequency_id'=>$request->frequency_id,
+                         'duration'=>$request->duration, 
+                         'temp'=>0,
+                         'service_price_id'=>$request->service_price_id,
+                         'notes'=>$request->notes ]
+                        );
+        return redirect()->back();
+    }
+
+    public function editTaskPlan(Request $request, $id){
+        $list = ListPlan::find($id);
+
+        ListPlan::where('id', $list->id)
+                ->update(['start_day' => $request->start_day,
+                         'frequency_id'=>$request->frequency_id,
+                         'duration'=>$request->duration, 
+                         'temp'=>0,
+                         'notes'=>$request->notes ]
+                        );
+        return redirect()->back();
+    }
+
     public function addTaskPlan(Request $request){
         
         // dd($request->all());
@@ -94,6 +123,8 @@ class ListPlanController extends Controller
         ]);
         
         $validatedData['temp'] = 1;
+        $validatedData['quantity'] =  0;
+        $validatedData['service_price_id'] =  0;
         $validatedData['service_id'] =  0;
         $validatedData['product_id'] =  0;
         $validatedData['duration'] =  0;

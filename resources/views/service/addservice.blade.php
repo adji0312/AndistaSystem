@@ -197,7 +197,7 @@
                     </thead>
                     
                     <tbody>
-                        @foreach ($staff as $st)
+                        {{-- @foreach ($staff as $st)
                             <tr>
                             <th>
                                 <input class="form-check-input" type="checkbox" id="getIdStaff" name="getIdStaff" value="{{ $st->id }}">
@@ -206,7 +206,7 @@
                             <td>{{ $st->gender }}</td>
                             <td>{{ $st->job_title }}</td>
                             </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                   </table>
               </div>

@@ -1753,6 +1753,17 @@ function inputCategoryService(){
     }
 }
 
+function inpuDiagnosisService(){
+    let diagnosis_name = document.getElementById('diagnosis_name');
+
+    let buttonSubmitDiagnosis = document.getElementById('saveDiagnosis');
+    if(diagnosis_name.value == null || diagnosis_name.value == ''){
+        buttonSubmitDiagnosis.disabled = true;
+    }else{
+        buttonSubmitDiagnosis.disabled = false;
+    }
+}
+
 
 
 
