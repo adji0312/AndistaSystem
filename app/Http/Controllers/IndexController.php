@@ -106,7 +106,7 @@ class IndexController extends Controller
             "locations" => Location::all(),
             "policies" => Policy::all(),
             "facilities" => Facility::all()->where('status', 'Active'),
-            "staff" => Staff::all()
+            // "staff" => Staff::all()
         ]);
     }
 
@@ -122,7 +122,7 @@ class IndexController extends Controller
             "locations" => Location::all()->where('status', 'Active'),
             "policies" => Policy::all()->where('status', 'Active'),
             "facilities" => Facility::all()->where('status', 'Active'),
-            "staff" => Staff::all(),
+            // "staff" => Staff::all(),
             "service" => $service,
             "priceService" => ServicePrice::all()->where('service_id', $service->id),
             "servicefacility" => $servicefacility
