@@ -44,7 +44,7 @@ class StaffController extends Controller
 
     //newStaff
     public function newStaff(){
-        return view('staff.dashboard',[
+        return view('staff.newstaff',[
             "title" => "New Staff"
         ]);
     }
