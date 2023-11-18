@@ -122,7 +122,7 @@ class StaffSeeder extends Seeder
                 'uuid'=> Str::uuid()
             ],
             [
-                'role_id'=>'8',
+                'role_id'=>'4',
                 'service_id'=>'1',
                 'first_name'=>'Joko',
                 'middle_name'=>'ui',

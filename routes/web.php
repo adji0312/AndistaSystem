@@ -17,6 +17,7 @@ use App\Http\Controllers\TreatmentController;
 use App\Http\Controllers\UnitFacilityController;
 use App\Http\Controllers\UsageAddressController;
 use App\Http\Controllers\UsageContactController;
+use App\Http\Controllers\StaffController;
 use App\Models\Attendance;
 use App\Models\Facility;
 use App\Models\UsageContact;
@@ -171,6 +172,15 @@ Route::post('/updateEmailLocation/{id}', [LocationController::class, 'updateEmai
 Route::post('/selectService', [IndexController::class, 'selectService']);
 
 // Staff
+Route::get('/Staff',[IndexController::class,'staffDashboard']);
+Route::get('/staff',[IndexController::class,'staffDashboard']);
+Route::get('/staff/list',[StaffController::class,'staffList']);
+Route::get('/staff/position',[StaffController::class,'staffPosition']);
+Route::get('/staff/working-hours',[StaffController::class,'staffWorkingHours']);
+Route::get('/staff/access-control',[StaffController::class,'staffAccessControl']);
+Route::get('/staff/security-groups',[StaffController::class,'staffSecurityGroups']);
+
+Route::get('/staff/new-staff',[StaffController::class,'newStaff']);
 
 
 //Customer
