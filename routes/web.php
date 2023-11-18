@@ -181,9 +181,17 @@ Route::get('/staff/access-control',[StaffController::class,'staffAccessControl']
 Route::get('/staff/security-groups',[StaffController::class,'staffSecurityGroups']);
 
 Route::get('/staff/new-staff',[StaffController::class,'newStaff']);
+Route::post('/addnewstaff', [StaffController::class, 'addStaff']);
 
 
 //Customer
-
+Route::get('/customer/dashboard',[IndexController::class,'dashboard']);
+Route::get('/customer/list',[IndexController::class,'customerList']);
+Route::get('/customer/sub-customer-list',[IndexController::class,'subCustomerList']);
 
 //Product
+Route::get('/product', [IndexController::class, 'productDashboard']);
+Route::get('/product/list', [IndexController::class, 'productList']);
+Route::get('/product/brand',[IndexController::class, 'productBrand']);
+Route::get('/product/category',[IndexController::class, 'productCategory']);
+Route::get('/product/suppliers',[IndexController::class, 'productSupplier']);
