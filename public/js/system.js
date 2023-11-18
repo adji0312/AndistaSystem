@@ -335,6 +335,14 @@ function saveService(){
 
 function saveLocation(){
     let a = document.getElementById('submitLocation').click();
+
+}
+function saveQuotation(){
+    let a = document.getElementById('submitQuotation').click();
+}
+
+function saveBooking(){
+    let a = document.getElementById('submitBooking').click();
 }
 
 
@@ -1784,3 +1792,49 @@ function changeLocation(e){
         filterLocation2.action = "managestaff/" + e.value;
     }
 }
+
+var arrayOfCategory = [];
+
+// $("input[name='checkBox']").change(function() {
+//     var checked = $(this).val();
+//     if ($(this).is(':checked')) {
+//         arrayOfId.push(checked);
+//         arrayOfName.push(checked);
+//     }else{
+//         arrayOfId.splice($.inArray(checked, arrayOfId),1);
+//     }
+
+//     var x = document.getElementById("deleteButton");
+//     if(arrayOfId.length != 0){
+//         x.style.display = "block";
+//         console.log('tidak');
+//     }else{
+//         x.style.display = "none";
+//         console.log('yes');
+//     }
+
+//     console.log(arrayOfId);
+// });
+
+$("input[name='checkCategory']").change(function() {
+    var checkedValue = $(this).val();
+
+    if ($(this).is(':checked')) {
+        arrayOfCategory.push(checkedValue);
+    }else{
+        arrayOfCategory.splice($.inArray(checkedValue, arrayOfCategory),1);
+    }
+
+    let category = document.getElementById('category');
+    category.value = arrayOfCategory;
+});
+
+$("#rawat_inap").change(function(){
+    if ($(this).is(':checked')) {
+        let duration_field = document.getElementById('duration_field');
+        duration_field.style.display = "block";
+    }else{
+        let duration_field = document.getElementById('duration_field');
+        duration_field.style.display = "none";
+    }
+});

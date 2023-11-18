@@ -24,6 +24,7 @@ use App\Models\TaxRate;
 use App\Models\UnitFacility;
 use App\Models\UsageAddress;
 use App\Models\UsageContact;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
@@ -230,9 +231,14 @@ class IndexController extends Controller
         ]);
     }
     
-    public function financeList(){
-        return view('finance.financelist', [
-            "title" => "Finance List"
+    public function salelistpaid(){
+        return view('finance.salelistpaid', [
+            "title" => "Sale List Paid"
+        ]);
+    }
+    public function salelistunpaid(){
+        return view('finance.salelistunpaid', [
+            "title" => "Sale List Unpaid"
         ]);
     }
 
@@ -281,12 +287,6 @@ class IndexController extends Controller
         ]);
     }
 
-    public function createbooking(){
-        return view('calendar.createBooking', [
-            "title" => "Booking"
-        ]);
-    }
-
     public function bookingdetail(){
         return view('calendar.bookingdetail', [
             "title" => "Booking"
@@ -300,8 +300,13 @@ class IndexController extends Controller
     }
 
     public function presencelist(){
+        $shiftTime = '08:00';
+        $timeNow = '08:00';
+        $timeDifference  = Carbon::parse($timeNow)->diffInMinutes(Carbon::parse($shiftTime));
+        // dd($timeDifference);
         return view('presence.presencelist', [
-            "title" => "Presence List"
+            "title" => "Presence List",
+            "timeDifference" => $timeDifference
         ]);
     }
 

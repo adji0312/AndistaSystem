@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryServiceController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\FacilityController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MessengerTypeController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\TaskController;
@@ -19,6 +21,7 @@ use App\Http\Controllers\UnitFacilityController;
 use App\Http\Controllers\UsageAddressController;
 use App\Http\Controllers\UsageContactController;
 use App\Models\Attendance;
+use App\Models\Booking;
 use App\Models\Facility;
 use App\Models\UsageContact;
 use Illuminate\Support\Facades\Route;
@@ -48,7 +51,12 @@ Route::get('/location-setting', [IndexController::class, 'settingLocation']);
 
 // Finance
 Route::get('/finance', [IndexController::class, 'financeDashboard']);
-Route::get('/finance/list', [IndexController::class, 'financeList']);
+Route::get('/sale/list/paid', [IndexController::class, 'salelistpaid']);
+Route::get('/sale/list/unpaid', [IndexController::class, 'salelistunpaid']);
+Route::get('/quotation/list', [QuotationController::class, 'quotationList']);
+Route::get('/quotation/add', [QuotationController::class, 'addquotation']);
+Route::get('/quotation/add/{name}', [QuotationController::class, 'addquotationdetail']);
+Route::post('/storeQuotation', [QuotationController::class, 'storeQuotation']);
 Route::get('/finance/taxrate', [IndexController::class, 'financeTaxRate']);
 Route::post('/addTaxRate', [TaxRateController::class, 'store']);
 Route::post('/updateTaxRate/{id}', [TaxRateController::class, 'update']);
@@ -155,7 +163,9 @@ Route::get('/report', [IndexController::class, 'allReport']);
 
 //Calendar
 Route::get('/calendar', [IndexController::class, 'dashboardCalendar']);
-Route::get('/newBooking', [IndexController::class, 'createbooking']);
+Route::get('/list-booking', [BookingController::class, 'listBooking']);
+Route::get('/newBooking', [BookingController::class, 'createbooking']);
+Route::get('/newBooking/{name}', [BookingController::class, 'createbookingDetail']);
 Route::get('/bookingdetail', [IndexController::class, 'bookingdetail']);
 
 //Presence
@@ -174,4 +184,5 @@ Route::post('/addEmailLocation', [LocationController::class, 'addEmailLocation']
 Route::get('/deleteEmail/{id}', [LocationController::class, 'deleteEmail']);
 Route::post('/updateEmailLocation/{id}', [LocationController::class, 'updateEmailLocation']);
 
-Route::post('/selectService', [IndexController::class, 'selectService']);
+// Booking
+Route::post('/addBooking', [BookingController::class, 'storeBooking']);

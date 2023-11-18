@@ -18,6 +18,7 @@
 
         <div id="dashboard" class="mx-3 mt-4">
             {{-- get date now --}}
+            {{ $timeDifference }}
             <p class="mx-2" style="font-size: 18px; font-weight: 700; color: black;">{{ date_format(Date::now(),"d F Y") }}</p> 
             <table class="table w-100">
                 <thead>

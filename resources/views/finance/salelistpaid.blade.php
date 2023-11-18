@@ -21,6 +21,24 @@
                     </div>
                 </div>
             </nav>
+
+            <div id="dashboard" class="mx-3 mt-4">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
+                        <th scope="col" style="color: #7C7C7C">Name</th>
+                        <th scope="col" style="color: #7C7C7C">Location</th>
+                        <th scope="col" style="color: #7C7C7C">Date</th>
+                        <th scope="col" style="color: #7C7C7C">Customer</th>
+                        <th scope="col" style="color: #7C7C7C">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

@@ -8,5 +8,8 @@
         <li style="cursor: pointer" class="{{ ($title === "Booking") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/newBooking" class="px-4"><img src="/img/icon/plusgrey.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Create Booking</a>
         </li>
+        <li style="cursor: pointer" class="{{ ($title === "List Booking") ? 'active' : '' }}">
+            <a id="locationsdashboard" href="/list-booking" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; List Booking</a>
+        </li>
     </ul>
 </nav>
