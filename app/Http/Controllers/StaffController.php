@@ -51,34 +51,21 @@ class StaffController extends Controller
     }
 
     public function addStaff(Request $request){
-        $request->validate([
+        // dd($request->all());
+        // echo("sip");
+        $validated = $request->validate([
             'first_name' => 'required',
             'middle_email' => 'required',
             'last_name' => 'required',
             'nickname' => 'required',
             'gender' => 'required',
-            'status' => 'required',
-            'description' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
-            'image' => 'required',
         ]);
 
-        Staff::create([
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'nickname' => $request->nickname,
-            'gender' => $request->gender,
-            'status' => $request->status,
-            'description' => $request->description,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'image' => $request->image,
-            'uuid' => Str::uuid()->toString(),
-        ]);
+        // echo("sip");
 
-        return redirect('/staff/stafflist')->with('success','New Staff Added Successfully');
+        Staff::create($validated);
+
+        return redirect('/staff/list')->with('success','New Staff Added Successfully');
     }
 
     public function update(Request $request, $id){

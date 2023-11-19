@@ -14,9 +14,6 @@
                         <li class="nav-item" style="cursor: pointer;">
                             <a href="/staff/list" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Back</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" onclick="saveStaff()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
-                        </li>
                     </ul>
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -27,79 +24,57 @@
         </nav>
 
         <div id="dashboard" class="mx-3 mt-3">
-            {{-- <form action="/addFacility" method="POST" enctype="multipart/form-data"> --}}
-                <form action="/staff/addStaff" method="POST" enctype="multipart/form-data">
+            {{-- @error('first_name')
+                    <div class="alert alert-danger">{{ $message }}</div>
+            @enderror --}}
+            <form method="POST" action="/addnewstaff" enctype="multipart/form-data">
                 @csrf
-                <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                    <h5 class="m-3">Staff</h5>
-                    {{-- First Name
-                    Middle Name
-                    Last Name
-                    Nickname
-                    Gender
-                    Status
-                    Phone
-                    Description
-                    Email --}}
-                    
-                    <div class="m-3 d-flex flex-column gap-5">
-                        <div class="mb-3">
-                            <label for="first_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">First Name</label>
-                            <input type="text" class="form-control" id="first_name" name="first_name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="middle_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Middle Name</label>
-                            <input type="text" class="form-control" id="middle_name" name="middle_name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="last_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Last Name</label>
-                            <input type="text" class="form-control" id="last_name" name="last_name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="nick_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Nick Name</label>
-                            <input type="text" class="form-control" id="nick_name" name="nick_name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="gender" class="form-label" style="font-size: 15px; color: #7C7C7C;">Gender</label>
-                            <input type="text" class="form-control" id="gender" name="gender">
-                        </div>
-                        <div class="mb-3">
-                            <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
-                            <input type="text" class="form-control" id="status" name="status">
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label" style="font-size: 15px; color: #7C7C7C;">Phone</label>
-                            <input type="text" class="form-control" id="phone" name="phone">
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label" style="font-size: 15px; color: #7C7C7C;">Description</label>
-                            <input type="text" class="form-control" id="description" name="description">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label" style="font-size: 15px; color: #7C7C7C;">Email</label>
-                            <input type="email" class="form-control" id="email" name="email">
-                        </div>
-                        {{-- <div class="mb-3">
-                          <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
-                          <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="status" name="status">
-                            <option value="Active" class="selectstatus" style="color: black;">Active</option>
-                            <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
-                          </select>
-                        </div>
-                        <div class="mb-3">
-                          <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Date</label>
-                          <input type="date" class="form-control">
-                        </div> --}}
-                        {{-- <div class="mb-3">
-                          <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
-                          <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="status" name="status">
-                            <option value="Active" class="selectstatus" style="color: black;">Terdaftar Sementara</option>
-                            <option value="Disabled" class="selectstatus" style="color: black;">Terkonfirmasi</option>
-                          </select>
-                        </div> --}}
+                {{-- firstname --}}
+                <div class="row mb-3">
+                    <label for="first_name">First Name &nbsp; &nbsp; &nbsp;</label>
+                    <input id="first_name" name="first_name" type="text" class="@error('first_name') is-invalid @enderror">
+                </div>
+                {{-- middlename --}}
+                <div class="row mb-3">
+                    <label for="middle_name">Middle Name &nbsp; &nbsp; &nbsp;</label>
+                    <input id="middle_name" name="middle_name" type="text" class="@error('middle_name') is-invalid @enderror">
+                </div>
+                {{-- lastname --}}
+                <div class="row mb-3">
+                    <label for="last_name">Last Name &nbsp; &nbsp; &nbsp;</label>
+                    <input id="last_name" name="last_name" type="text" class="@error('last_name') is-invalid @enderror">
+                </div>
+                {{-- nickname --}}
+                <div class="row mb-3">
+                    <label for="nickname">Nickname &nbsp; &nbsp; &nbsp;</label>
+                    <input id="nickname" name="nickname" type="text" class="@error('nickname') is-invalid @enderror">
+                </div>
+                {{-- gender --}}
+                <div class="row mb-3">
+                    <label for="gender">Gender &nbsp; &nbsp; &nbsp;</label>
+                    <input id="gender" name="gender" type="text" class="@error('gender') is-invalid @enderror">
+                </div>
+                {{-- status --}}
+                
+                {{-- description --}}
+
+                {{-- phone --}}
+
+                {{-- email --}}
+
+                {{-- role --}}
+
+                {{-- password --}}
+
+                {{-- confirm password --}}
+
+                {{-- submit button --}}
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-9">
+                        <button type="submit" class="btn btn-success btn-block text-white">Submit</button>
                     </div>
                 </div>
-                <button type="submit" id="submitStaff" hidden></button>
             </form>
         </div>
     </div>
