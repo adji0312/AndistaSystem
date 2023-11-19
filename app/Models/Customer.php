@@ -11,4 +11,20 @@ class Customer extends Model
 
 
     protected $guarded = ['id'];
+
+    public function adresses(){
+        return $this->hasOne(Address::class);
+    }
+
+    public function backgrounds(){
+        return $this->hasOne(Background::class);
+    }
+
+    public function clientgrup(){
+        return $this->hasOne(ClientGrup::class);
+    }
+
+    public function subcustomer(){
+        return $this->hasOne(SubCustomer::class);
+    }
 }

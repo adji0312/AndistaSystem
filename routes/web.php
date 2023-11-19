@@ -185,7 +185,7 @@ Route::post('/addnewstaff', [StaffController::class, 'addStaff']);
 
 
 //Customer
-Route::get('/customer/dashboard',[IndexController::class,'dashboard']);
+Route::get('/customer/dashboard',[IndexController::class,'customerDashboard']);
 Route::get('/customer/list',[IndexController::class,'customerList']);
 Route::get('/customer/sub-customer-list',[IndexController::class,'subCustomerList']);
 

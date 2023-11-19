@@ -11,4 +11,12 @@ class IdType extends Model
 
 
     protected $guarded = ['id'];
+
+    public function background(){
+        return $this->belongsTo(Background::class);
+    }
+
+    public function staffbackgrounds(){
+        return $this->hasOne(StaffBackground::class);
+    }
 }

@@ -10,4 +10,8 @@ class TaxRate extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    
+    public function taxrate(){
+        return $this->belongsTo(Product::class);
+    }
 }

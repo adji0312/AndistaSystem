@@ -14,4 +14,8 @@ class Job extends Model
     public function position(){
         return $this->belongsTo(Position::class);
     }
+
+    public function background(){
+        return $this->belongsTo(Background::class);
+    }
 }

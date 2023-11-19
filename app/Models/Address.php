@@ -11,4 +11,12 @@ class Address extends Model
 
 
     protected $guarded = ['id'];
+
+    public function customers(){
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function countries(){
+        return $this->hasOne(Country::class);
+    }
 }
