@@ -187,5 +187,6 @@ Route::post('/updateEmailLocation/{id}', [LocationController::class, 'updateEmai
 
 // Booking
 Route::post('/addBooking', [BookingController::class, 'storeBooking']);
+Route::post('/editBooking/{id}', [BookingController::class, 'editBooking']);
 Route::post('/addBookingService', [BookingController::class, 'addBookingService']);
 Route::post('/editBookingService/{id}', [BookingController::class, 'editBookingService']);

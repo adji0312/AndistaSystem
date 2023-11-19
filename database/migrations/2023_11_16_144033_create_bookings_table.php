@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('total_price')->nullable(); //ambil dari table bookingservice where booking_id sama, ambil dari table bookingcart where booking_id sama
             $table->string('status')->default('confirmed'); //confirmed, started, completed (kalau sudah completed, langsung masuk ke table sale dengan status unpain)
             $table->integer('temp')->default(1);
+            $table->integer('duration')->nullable();
             $table->timestamps();
         });
     }

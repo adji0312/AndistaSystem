@@ -15,7 +15,7 @@
                             <a href="/calendar" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Back</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" onclick="saveService()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
+                            <a class="nav-link active" aria-current="page" onclick="saveBooking()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
@@ -27,7 +27,7 @@
         </nav>
 
         <div id="dashboard" class="mx-3 mt-3">
-            {{-- <form action="/addFacility" method="POST" enctype="multipart/form-data"> --}}
+            <form action="/editBooking/{{ $booking->id }}" method="POST">
                 @csrf
                 <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                     <h5 class="m-3">Scheduling</h5>
@@ -88,7 +88,8 @@
                         </div>
                     </div>
                 </div>
-
+                <button type="submit" hidden id="submitBooking"></button>
+            </form>
                 <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                     <div class="d-flex gap-1 m-2">
                         <h5 class="m-3">Services</h5>
@@ -101,6 +102,7 @@
                                 <th scope="col">No</th>
                                 <th scope="col">Service Name</th>
                                 <th scope="col">Time</th>
+                                <th scope="col">Staff</th>
                                 <th scope="col">Duration</th>
                                 <th scope="col">Price (Rp)</th>
                                 <th scope="col" class="text-center">Action</th>
@@ -114,6 +116,21 @@
                                         <td>{{ $index }}</td>
                                         <td>{{ $bs->service->service_name }}</td>
                                         <td>{{ $bs->time }}</td>
+                                        <td>
+                                            <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="service_price_id" id="service_price_id{{ $bs->id }}" onchange="selectPrice({{ $bs->id }})">
+                                                    
+                                                <option value="" disabled selected>Select Staff</option>
+                                                
+                                                @foreach ($service_prices->where('service_id', $bs->service_id) as $sp)
+                                                    @if ($sp->id == $bs->service_price_id)
+                                                        <option selected value="{{ $sp->id }}" class="selectstatus" style="color: black;">{{ $sp->duration }} {{$sp->duration_type}}({{ $sp->price_title }}) (Rp {{ number_format($sp->price) }})</option>
+                                                        @continue;
+                                                    @endif
+                                                    <option value="{{ $sp->id }}" class="selectstatus" style="color: black;">{{ $sp->duration }} {{$sp->duration_type}}({{ $sp->price_title }}) (Rp {{ number_format($sp->price) }})</option>
+                                                    <option value="{{ $sp->price }}" id="selectedPrice{{ $sp->id }}" hidden></option>
+                                                @endforeach
+                                            </select>
+                                        </td>
                                         <td>
                                             <form action="/editBookingService/{{ $bs->id }}" method="POST">
                                                 @csrf

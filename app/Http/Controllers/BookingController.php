@@ -89,6 +89,56 @@ class BookingController extends Controller
         return redirect('/newBooking' . '/' . $lastBooking1->booking_name);
     }
 
+    public function editBooking(Request $request, $id){
+        // dd($request->all());
+        $booking = Booking::find($id);
+
+        
+        $rules = [
+            "customer_id" => 'required',
+            "location_id" => 'required',
+            "booking_date" => 'required',
+        ];
+
+        $validatedData = $request->validate($rules);
+        if($request->category != null || $request->category != ''){
+            $validatedData['category'] = $request->category;
+        }else{
+            $validatedData['category'] = '-';
+        }
+
+        if($request->duration != null || $request->duration != ''){
+            $validatedData['duration'] = $request->duration;
+        }else{
+            $validatedData['duration'] = 0;
+        }
+
+        if($request->resepsionisNotes != null || $request->resepsionisNotes != ''){
+            $validatedData['resepsionisNotes'] = $request->resepsionisNotes;
+        }else{
+            $validatedData['resepsionisNotes'] = '-';
+        }
+        //cek apakah booking ini punya service, klo ada temp = 0 else temp = 1
+        $allservices = $booking->services;
+
+        if(count($allservices) != 0 || count($allservices) != null){
+            $total_price = [];
+            for($i = 0 ; $i < count($allservices) ; $i++){
+                $total_price[$i] = $allservices[$i]->price;
+            }
+            $validatedData['total_price'] = array_sum($total_price);
+            $validatedData['temp'] = 0;
+        }else{
+            $validatedData['total_price'] = 0;
+            $validatedData['temp'] = 1;
+        }
+
+        $validatedData['status'] = "confirmed";
+        Booking::where('id', $booking->id)->update($validatedData);
+
+        return redirect('/list-booking');
+    }
+
     public function addBookingService(Request $request){
         // dd($request->all());
 
