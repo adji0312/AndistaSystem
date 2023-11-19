@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Staff;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class StaffController extends Controller
 {
@@ -51,33 +52,69 @@ class StaffController extends Controller
 
     public function addStaff(Request $request){
         $request->validate([
-            'staff_name' => 'required',
-            'staff_email' => 'required',
-            'staff_phone' => 'required',
-            'staff_address' => 'required',
-            'staff_password' => 'required',
-            'staff_role' => 'required',
-            'staff_position' => 'required',
-            'staff_service' => 'required',
-            'staff_working_hours' => 'required',
-            'staff_access_control' => 'required',
-            'staff_security_groups' => 'required',
+            'first_name' => 'required',
+            'middle_email' => 'required',
+            'last_name' => 'required',
+            'nickname' => 'required',
+            'gender' => 'required',
+            'status' => 'required',
+            'description' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'image' => 'required',
         ]);
 
         Staff::create([
-            'staff_name' => $request->staff_name,
-            'staff_email' => $request->staff_email,
-            'staff_phone' => $request->staff_phone,
-            'staff_address' => $request->staff_address,
-            'staff_password' => $request->staff_password,
-            'staff_role' => $request->staff_role,
-            'staff_position' => $request->staff_position,
-            'staff_service' => $request->staff_service,
-            'staff_working_hours' => $request->staff_working_hours,
-            'staff_access_control' => $request->staff_access_control,
-            'staff_security_groups' => $request->staff_security_groups,
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name' => $request->last_name,
+            'nickname' => $request->nickname,
+            'gender' => $request->gender,
+            'status' => $request->status,
+            'description' => $request->description,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'image' => $request->image,
+            'uuid' => Str::uuid()->toString(),
         ]);
 
         return redirect('/staff/stafflist')->with('success','New Staff Added Successfully');
+    }
+
+    public function update(Request $request, $id){
+        $request->validate([
+            'first_name' => 'required',
+            'middle_email' => 'required',
+            'last_name' => 'required',
+            'nickname' => 'required',
+            'gender' => 'required',
+            'status' => 'required',
+            'description' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'image' => 'required',
+        ]);
+
+        $staff = Staff::find($id);
+        $staff->first_name = $request->first_name;
+        $staff->middle_name = $request->middle_name;
+        $staff->last_name = $request->last_name;
+        $staff->nickname = $request->nickname;
+        $staff->gender = $request->gender;
+        $staff->status = $request->status;
+        $staff->description = $request->description;
+        $staff->phone = $request->phone;
+        $staff->email = $request->email;
+        $staff->image = $request->image;
+        $staff->save();
+
+        return redirect('/staff/stafflist')->with('success','Staff Updated Successfully');
+    }
+
+    public function delete($id){
+        $staff = Staff::find($id);
+        $staff->delete();
+
+        return redirect('/staff/stafflist')->with('success','Staff Deleted Successfully');
     }
 }
