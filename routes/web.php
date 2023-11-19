@@ -20,6 +20,7 @@ use App\Http\Controllers\TreatmentController;
 use App\Http\Controllers\UnitFacilityController;
 use App\Http\Controllers\UsageAddressController;
 use App\Http\Controllers\UsageContactController;
+use App\Http\Controllers\StaffController;
 use App\Models\Attendance;
 use App\Models\Booking;
 use App\Models\Facility;
@@ -190,3 +191,28 @@ Route::post('/addBooking', [BookingController::class, 'storeBooking']);
 Route::post('/editBooking/{id}', [BookingController::class, 'editBooking']);
 Route::post('/addBookingService', [BookingController::class, 'addBookingService']);
 Route::post('/editBookingService/{id}', [BookingController::class, 'editBookingService']);
+
+// Staff
+Route::get('/Staff',[IndexController::class,'staffDashboard']);
+Route::get('/staff',[IndexController::class,'staffDashboard']);
+Route::get('/staff/list',[StaffController::class,'staffList']);
+Route::get('/staff/position',[StaffController::class,'staffPosition']);
+Route::get('/staff/working-hours',[StaffController::class,'staffWorkingHours']);
+Route::get('/staff/access-control',[StaffController::class,'staffAccessControl']);
+Route::get('/staff/security-groups',[StaffController::class,'staffSecurityGroups']);
+
+Route::get('/staff/new-staff',[StaffController::class,'newStaff']);
+Route::post('/addnewstaff', [StaffController::class, 'addStaff']);
+
+
+//Customer
+Route::get('/customer/dashboard',[IndexController::class,'customerDashboard']);
+Route::get('/customer/list',[IndexController::class,'customerList']);
+Route::get('/customer/sub-customer-list',[IndexController::class,'subCustomerList']);
+
+//Product
+Route::get('/product', [IndexController::class, 'productDashboard']);
+Route::get('/product/list', [IndexController::class, 'productList']);
+Route::get('/product/brand',[IndexController::class, 'productBrand']);
+Route::get('/product/category',[IndexController::class, 'productCategory']);
+Route::get('/product/suppliers',[IndexController::class, 'productSupplier']);

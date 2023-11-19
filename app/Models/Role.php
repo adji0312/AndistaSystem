@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TaxRate extends Model
+class Role extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
-    
-    public function taxrate(){
-        return $this->belongsTo(Product::class);
+
+    public function staff(){
+        return $this->belongsTo(Staff::class,'role_id');
     }
 }

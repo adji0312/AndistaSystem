@@ -46,6 +46,7 @@
 
     {{-- JS --}}
     <script src="/js/system.js" defer></script>
+    <script src="/js/system.js" defer></script>
 </body>
 
 </html>

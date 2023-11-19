@@ -21,6 +21,15 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        $this->call([
+            RoleSeeder::class,
+            StaffBackgroundSeeder::class,
+            StaffJobSeeder::class,
+            PositionSeeder::class,
+            StaffSeeder::class,
+            StaffAddressSeeder::class
+        ]);
+
         Frequency::create([
             'frequency_value' => 1, 
             'frequency_name' => 'Once per day'

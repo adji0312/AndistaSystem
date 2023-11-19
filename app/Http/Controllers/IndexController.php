@@ -350,5 +350,28 @@ class IndexController extends Controller
             'service_id' => $request->service_id
         ]);
     }
+
+
+
+    //Staff
+    public function staffDashboard(){
+        return view('staff.dashboard',[
+            "title" => "Staff Dashboard"
+        ]);
+    }
+
+    //Customer
+    public function customerDashboard(){
+        return view('customer.dashboard',[
+            "title" => "Customer Dashboard"
+        ]);
+    }
+
+    //Product
+    public function productDashboard(){
+        return view('product.dashboard',[
+            "title" => "Product Dashboard"
+        ]);
+    }
     
 }

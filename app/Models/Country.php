@@ -14,4 +14,8 @@ class Country extends Model
     public function locationaddresses(){
         return $this->hasMany(LocationAddress::class);
     }
+
+    public function addresses(){
+        return $this->belongsTo(Address::class,'id');
+    }
 }
