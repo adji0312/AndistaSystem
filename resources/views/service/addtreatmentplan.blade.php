@@ -14,7 +14,7 @@
                               <a class="nav-link active" aria-current="page" href="/service/treatmentplan" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
                           <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="#" style="color: #f28123" onclick="saveTreatment()"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
+                              <a class="nav-link active" aria-current="page" href="#" style="color: #f28123" onclick="saveTreatment()">Next <img src="/img/icon/continue.png" alt="" style="width: 22px"></a>
                           </li>
                       </ul>
                       <form class="d-flex" role="search">

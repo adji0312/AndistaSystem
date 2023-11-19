@@ -39,7 +39,7 @@ class ServiceController extends Controller
             if($request->tax_id != null || $request->tax_id != ''){
                 $validatedData['tax_id'] = $request->tax_id;
             }else{
-                $validatedData['tax_id'] = '-';
+                $validatedData['tax_id'] = 0;
             }
 
             // $validatedData['staffCheck'] = 1;
@@ -65,7 +65,7 @@ class ServiceController extends Controller
             if($request->tax_id != null || $request->tax_id != ''){
                 $validatedData['tax_id'] = $request->tax_id;
             }else{
-                $validatedData['tax_id'] = '-';
+                $validatedData['tax_id'] = 0;
             }
 
             // $validatedData['staffCheck'] = 1;

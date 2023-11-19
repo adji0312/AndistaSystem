@@ -1721,16 +1721,24 @@ $('.searchcountry').on('typeahead:selected', function (e, datum) {
     console.log(datum);
     // $('#item_code').val(datum.item_code);
 });
-// $('#searchcountry').on('typeahead:select', function (e, datum) {
-//     console.log(e);
-// });
 
-// window.onbeforeunload = function() {
-//     let item = localStorage.setItem("service_name", $('#service_name').val());
-//     console.log(item);
-//     // localStorage.setItem("email", $('#inputEmail').val());
-//     // ...
-// }
+var route1 = "/newBooking/autocomplete-search";
+    $('#searchService').typeahead({
+        source: function (query, process) {
+            console.log(query);
+            return $.get(route1, {
+                query: query
+            }, function (data) {
+                console.log(data);
+                return process(data);
+            });
+        }
+    });
+
+$('.searchService').on('typeahead:selected', function (e, datum) {
+    console.log(datum);
+    // $('#item_code').val(datum.item_code);
+});
 
 function updateUnit(e){
     let unit_name = document.getElementById('unit_name' + e);
@@ -1838,3 +1846,23 @@ $("#rawat_inap").change(function(){
         duration_field.style.display = "none";
     }
 });
+
+// $("#service_price_id").change(function(){
+    
+//     let price = document.getElementById('service_price2');
+//     console.log(price);
+// });
+
+// function selectPrice(){
+//     console.log(($(this)));
+//     var e = document.getElementById("service_price_id");
+//     var value = e.value;
+    
+//     var f = document.getElementById("selectedPrice" + value);
+//     // console.log(f.value);
+
+//     var price = document.getElementById("price");
+//     price.value = f.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+// }
+
+// var text = e.options[e.selectedIndex].text;

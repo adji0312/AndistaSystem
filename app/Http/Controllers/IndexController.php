@@ -275,6 +275,22 @@ class IndexController extends Controller
         return response()->json($dataModified);
     }
 
+    public function serviceAutocompleteSearch(Request $request){
+        // $query = $request->get('query');
+        // $filterResult = Country::where('country_name', 'LIKE', '%'. $query. '%')->get();
+        // return response()->json($filterResult);
+
+        $datas = Service::select("service_name")
+            ->where("service_name","LIKE","%{$request->input('query')}%")
+            ->get();
+        $dataModified = array();
+        foreach ($datas as $data){
+            $dataModified[] = $data->service_name;
+        }
+
+        return response()->json($dataModified);
+    }
+
     public function allReport(){
         return view('report.allreport', [
             "title" => "All Report"

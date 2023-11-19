@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [IndexController::class, 'home']);
 Route::get('/upcoming-booking', [IndexController::class, 'upcomingbooking']);
 Route::get('/location/list/add/autocomplete-search', [IndexController::class, 'autocompleteSearch']);
+Route::get('/newBooking/autocomplete-search', [IndexController::class, 'serviceAutocompleteSearch']);
 
 //Location
 Route::get('/location', [IndexController::class, 'locationDashboard']);
@@ -186,3 +187,5 @@ Route::post('/updateEmailLocation/{id}', [LocationController::class, 'updateEmai
 
 // Booking
 Route::post('/addBooking', [BookingController::class, 'storeBooking']);
+Route::post('/addBookingService', [BookingController::class, 'addBookingService']);
+Route::post('/editBookingService/{id}', [BookingController::class, 'editBookingService']);
