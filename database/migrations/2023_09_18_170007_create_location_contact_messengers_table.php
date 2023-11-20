@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('location_contact_messengers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('location_id');
-            $table->foreignId('usage_messenger_contact_id');
-            $table->foreignId('messenger_type_id');
-            $table->string('username');
+            $table->foreignId('location_id')->nullable();
+            $table->foreignId('usage_messenger_contact_id')->nullable();
+            $table->foreignId('messenger_type_id')->nullable();
+            $table->string('username')->nullable();
             $table->timestamps();
         });
     }

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AlasanKunjungan;
 use App\Models\Booking;
 use App\Models\BookingService;
 use App\Models\Location;
 use App\Models\Service;
+use App\Models\ServiceAndStaff;
 use App\Models\ServicePrice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,12 +39,25 @@ class BookingController extends Controller
             "booking" => $booking,
             "services" => Service::all()->where('status', 'Active'),
             "service_prices" => ServicePrice::all(),
+            "service_staff" => ServiceAndStaff::all(),
             "booking_services" => BookingService::all()->where('booking_id', $booking->id)
         ]);
     }
 
     public function storeBooking(Request $request){
         // dd($request->all());
+
+        $alasan = AlasanKunjungan::all()->where('name', $request->alasan_kunjungan)->first();
+        if($alasan == null){
+            // $validatedAlasan = $request->validate([
+            //     'alasan_kunjungan' => ''
+            // ]);
+            $validatedAlasan['name'] = $request->alasan_kunjungan;
+            AlasanKunjungan::create($validatedAlasan);
+        }else{
+            // dd("ada");
+        }
+
         $validatedData = $request->validate([
             'customer_id' => 'required',
             'location_id' => 'required',
@@ -78,6 +93,12 @@ class BookingController extends Controller
         }else{
             $validatedData['resepsionisNotes'] = '-';
         }
+        
+        if($request->alasan_kunjungan != null || $request->alasan_kunjungan != ''){
+            $validatedData['alasan_kunjungan'] = $request->alasan_kunjungan;
+        }else{
+            $validatedData['alasan_kunjungan'] = '-';
+        }
 
         $validatedData['total_price'] = 0;
         $validatedData['status'] = "confirmed";
@@ -91,6 +112,18 @@ class BookingController extends Controller
 
     public function editBooking(Request $request, $id){
         // dd($request->all());
+
+        $alasan = AlasanKunjungan::all()->where('name', $request->alasan_kunjungan)->first();
+        if($alasan == null){
+            // $validatedAlasan = $request->validate([
+            //     'alasan_kunjungan' => ''
+            // ]);
+            $validatedAlasan['name'] = $request->alasan_kunjungan;
+            AlasanKunjungan::create($validatedAlasan);
+        }else{
+            // dd("ada");
+        }
+
         $booking = Booking::find($id);
 
         
@@ -117,6 +150,11 @@ class BookingController extends Controller
             $validatedData['resepsionisNotes'] = $request->resepsionisNotes;
         }else{
             $validatedData['resepsionisNotes'] = '-';
+        }
+        if($request->alasan_kunjungan != null || $request->alasan_kunjungan != ''){
+            $validatedData['alasan_kunjungan'] = $request->alasan_kunjungan;
+        }else{
+            $validatedData['alasan_kunjungan'] = '-';
         }
         //cek apakah booking ini punya service, klo ada temp = 0 else temp = 1
         $allservices = $booking->services;
@@ -161,20 +199,30 @@ class BookingController extends Controller
 
     public function editBookingService(Request $request, $id){
 
+        // dd($request->all());
         $bookingservice = BookingService::find($id);
         $serviceprice = ServicePrice::find($request->service_price_id);
         // dd($serviceprice);
         $rules = [
-            "service_price_id" => 'required',
+            "service_price_id" => '',
+            "service_staff_id" => '',
             // "price" => 'required',
         ];
 
+        if($request->service_staff_id){
+            $validatedData = $request->validate($rules);
+            BookingService::where('id', $bookingservice->id)->update($validatedData);
+            
+        }else{
+            $validatedData = $request->validate($rules);
+            
+            $validatedData['price'] = $serviceprice->price;
+            BookingService::where('id', $bookingservice->id)->update($validatedData);
+        }
 
 
-        $validatedData = $request->validate($rules);
-        $validatedData['price'] = $serviceprice->price;
 
-        BookingService::where('id', $bookingservice->id)->update($validatedData);
+
 
         return redirect()->back();
     }

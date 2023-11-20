@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('location_contact_emails', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('location_id');
-            $table->foreignId('usage_email_contact_id');
-            $table->string('email_address');
+            $table->foreignId('location_id')->nullable();
+            $table->foreignId('usage_email_contact_id')->nullable();
+            $table->string('email_address')->nullable();
             $table->timestamps();
         });
     }

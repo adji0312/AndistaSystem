@@ -36,7 +36,12 @@
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Service Name</label>
-                                <input type="text" class="form-control" name="service_name" id="service_name" value="{{ $service->service_name }}">
+                                <input type="text" class="form-control @error('service_name') is-invalid @enderror" name="service_name" id="service_name" value="{{ old('service_name', $service->service_name) }}" required>
+                                @error('service_name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="simple_service_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Simple Name</label>
@@ -83,15 +88,25 @@
                             
                             <div class="mb-3">
                                 <label for="tax_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tax Rate</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_id" id="tax_id">
-                                    @foreach ($tax as $t)
-                                        @if ($t->id == $service->tax_id)
-                                            <option value="{{ $t->id }}" class="selectstatus" style="color: black;" selected>{{ $t->tax_name }}</option>
-                                            @continue
-                                        @endif
-                                        <option value="{{ $t->id }}" class="selectstatus" style="color: black;">{{ $t->tax_name }}</option>
-                                    @endforeach
-                                </select>
+                                @if ($service->tax_id == 0)
+                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_id" id="tax_id">
+                                        <option value="" class="selectstatus" style="color: black;" selected disabled>Select Tax</option>
+                                        @foreach ($tax as $t)
+                                            <option value="{{ $t->id }}" class="selectstatus" style="color: black;">{{ $t->tax_name }} ({{ $t->tax_rate }}%)</option>
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_id" id="tax_id">
+                                        @foreach ($tax as $t)
+                                            @if ($t->id == $service->tax_id)
+                                                <option value="{{ $t->id }}" class="selectstatus" style="color: black;" selected>{{ $t->tax_name }} ({{ $t->tax_rate }}%)</option>
+                                                @continue
+                                            @endif
+                                            <option value="{{ $t->id }}" class="selectstatus" style="color: black;">{{ $t->tax_name }} ({{ $t->tax_rate }}%)</option>
+                                        @endforeach
+                                        <option value="0" class="selectstatus" style="color: black;">No Tax</option>
+                                    </select>
+                                @endif
                             </div>
                         </div>
     
@@ -117,7 +132,7 @@
 
                 {{-- PRICES --}}
                 <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                    <div class="d-flex justify-content-between m-2">
+                    <div class="d-flex m-2">
                         <h5 class="m-3">Prices</h5>
                         <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addPriceService"><i class="fas fa-plus"></i> Add</button>
                     </div>
@@ -256,7 +271,7 @@
 
                 {{-- STAFF --}}
                 <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                    <div class="d-flex justify-content-between m-2">
+                    <div class="d-flex m-2">
                         <h5 class="m-3">Staff</h5>
                         <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#staffservice"><i class="fas fa-plus"></i> Add</button>
                     </div>
@@ -273,15 +288,41 @@
                             <tbody>
                                 <?php $index2 = 0 ?>
                                 {{-- Looping Staff Table --}}
-                                <tr>
-                                    <th>1</th>
-                                    <td>Dr. A</td>
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteUnit"><i class="fas fa-trash"></i> Delete</button>
+                                @foreach ($servicestaff as $s)
+                                    <?php $index2 += 1; ?>
+                                    <tr>
+                                        <th>{{ $index2 }}</th>
+                                        <td>{{ $s->staff->first_name }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteStaffService{{ $s->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <div class="modal fade" id="deleteStaffService{{ $s->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Staff</h1>
+                                            </div>
+                                            
+                                            <form action="/deleteStaffService/{{ $s->id }}" method="GET">
+                                                @csrf
+                                                <div class="modal-body">
+                                                    <div class="mb-1">
+                                                        <small class="fs-6" style="font-weight: 300">Are you sure delete this item?</small>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                                </div>
+                                            </form>
+                                          </div>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </div>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -289,7 +330,7 @@
 
                 {{-- FACILITY --}}
                 <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                    <div class="d-flex justify-content-between m-2">
+                    <div class="d-flex m-2">
                         <h5 class="m-3">Facility</h5>
                         <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#facilityModal"><i class="fas fa-plus"></i> Add</button>
                     </div>
@@ -369,7 +410,7 @@
                     <div class="mb-3">
                         <input type="hidden" value="{{ $service->id }}" name="service_id">
                         <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
-                        <input type="number" class="form-control" id="duration" name="duration">
+                        <input type="number" class="form-control" id="duration" name="duration" required>
                     </div>
                     <div class="mb-3">
                         <label for="duration_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Units</label>
@@ -382,7 +423,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="price" class="form-label" style="font-size: 15px; color: #7C7C7C;">Price (Rp)</label>
-                        <input type="number" class="form-control" id="price" name="price">
+                        <input type="number" class="form-control" id="price" name="price" required>
                     </div>
                     <div class="mb-3">
                         <label for="location_price_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
@@ -411,38 +452,45 @@
     <div class="modal fade" id="staffservice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" style="">
             <div class="modal-content">
-              <div class="modal-header">
+                <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Staff</h1>
-              </div>
-              <div class="modal-body">
-                <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col"><input class="form-check-input" type="checkbox" value="" id="defaultCheck1"></th>
-                        <th scope="col">Staff Name</th>
-                        <th scope="col">Gender</th>
-                        <th scope="col">Job Title</th>
-                      </tr>
-                    </thead>
-                    
-                    <tbody>
-                        {{-- @foreach ($staff as $st)
+                </div>
+                <form action="/addStaffService" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
                             <tr>
-                            <th>
-                                <input class="form-check-input" type="checkbox" id="getIdStaff" name="getIdStaff" value="{{ $st->id }}">
-                            </th>
-                            <td>{{ $st->staff_name }}</td>
-                            <td>{{ $st->gender }}</td>
-                            <td>{{ $st->job_title }}</td>
+                                <th scope="col">#</th>
+                                <th scope="col">Staff Name</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">Job Title</th>
                             </tr>
-                        @endforeach --}}
-                    </tbody>
-                  </table>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                <button type="button" class="btn btn-sm btn-outline-primary" id="staffSave" onclick="saveStaff()"><i class="fas fa-save"></i> Save changes</button>
-              </div>
+                            </thead>
+                            
+                            <tbody>
+                                @foreach ($staff as $s)
+                                    @if (App\Models\ServiceAndStaff::where('service_id', $service->id)->where('staff_id', $s->id)->exists())
+                                        @continue;
+                                    @endif
+                                    <tr>
+                                        <th>
+                                            <input type="hidden" value="{{ $service->id }}" name="service_id">
+                                            <input class="form-check-input" type="checkbox" value="{{ $s->id }}" id="staff_id" name="staff_id[]">
+                                        </th>
+                                        <td>{{ $s->first_name }}</td>
+                                        <td>{{ $s->gender }}</td>
+                                        <td>Doctor</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                        <button type="submit" class="btn btn-sm btn-outline-primary" id="staffSave"><i class="fas fa-save"></i> Save changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

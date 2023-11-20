@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('location_contact_phones', function (Blueprint $table) {
+        Schema::create('alasan_kunjungans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('location_id')->nullable();
-            $table->foreignId('usage_phone_contact_id')->nullable();
-            $table->string('phone_number')->nullable();
-            $table->string('phone_type')->nullable();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('location_contact_phones');
+        Schema::dropIfExists('alasan_kunjungans');
     }
 };

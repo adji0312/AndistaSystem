@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use App\Models\ServiceAndFacility;
+use App\Models\ServiceAndStaff;
 use App\Models\ServicePrice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -109,13 +110,19 @@ class ServiceController extends Controller
     public function saveChange(Request $request, $id){
         $service = Service::find($id);
         $rules = [
-            'service_name' => 'required',
+            // 'service_name' => 'required|unique:services',
             'status' => 'required',
             'location_id' => 'required',
             'category_service_id' => 'required',
             'policy_id' => 'required',
-            'simple_service_name' => ''
+            'simple_service_name' => '',
+            'tax_id' => '',
         ];
+
+        if($request->service_name != $service->service_name){
+            $rules['service_name'] = 'required|unique:services';
+        }
+
         $validatedData = $request->validate($rules);
 
         Service::where('id', $service->id)->update($validatedData);
@@ -222,8 +229,26 @@ class ServiceController extends Controller
         return redirect('/service/list' . '/' . $service->service_name);
     }
 
+    public function addStaffService(Request $request){
+        
+        $service = Service::find($request->service_id);
+        // dd($request->all());
+        $myArray = $request->staff_id;
+        
+        for($i = 0 ; $i < count($myArray) ; $i++){
+            ServiceAndStaff::create(['service_id' => $request->service_id, 'staff_id' => $myArray[$i]]);
+        }
+
+        return redirect('/service/list' . '/' . $service->service_name);
+    }
+
     public function deleteFacilityService($id){
         DB::table('service_and_facilities')->where('id', $id)->delete();
+        return redirect()->back();
+    }
+
+    public function deleteStaffService($id){
+        DB::table('service_and_staff')->where('id', $id)->delete();
         return redirect()->back();
     }
 

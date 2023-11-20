@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('status')->default('confirmed'); //confirmed, started, completed (kalau sudah completed, langsung masuk ke table sale dengan status unpain)
             $table->integer('temp')->default(1);
             $table->integer('duration')->nullable();
+            $table->string('alasan_kunjungan')->nullable();
             $table->timestamps();
         });
     }

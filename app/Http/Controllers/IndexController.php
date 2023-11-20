@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AlasanKunjungan;
+use App\Models\Booking;
 use App\Models\CategoryService;
 use App\Models\Country;
 use App\Models\Diagnosis;
@@ -17,6 +19,7 @@ use App\Models\Plan;
 use App\Models\Policy;
 use App\Models\Service;
 use App\Models\ServiceAndFacility;
+use App\Models\ServiceAndStaff;
 use App\Models\ServicePrice;
 use App\Models\Staff;
 use App\Models\Task;
@@ -30,6 +33,7 @@ use Illuminate\Support\Facades\DB;
 use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Date;
 
 use function PHPSTORM_META\map;
 
@@ -38,7 +42,7 @@ class IndexController extends Controller
     public function home(){
         return view('home', [
             "title" => "Home",
-            
+            "bookings" => Booking::all()
         ]);
     }
 
@@ -115,6 +119,7 @@ class IndexController extends Controller
 
         $service = Service::where('service_name', $name)->first();
         $servicefacility = ServiceAndFacility::all()->where('service_id', $service->id);
+        $servicestaff = ServiceAndStaff::all()->where('service_id', $service->id);
         // dd($servicefacility);
         return view('service.addServiceDetail', [
             "title" => "Service List",
@@ -123,10 +128,11 @@ class IndexController extends Controller
             "locations" => Location::all()->where('status', 'Active'),
             "policies" => Policy::all()->where('status', 'Active'),
             "facilities" => Facility::all()->where('status', 'Active'),
-            // "staff" => Staff::all(),
+            "staff" => Staff::all(),
             "service" => $service,
             "priceService" => ServicePrice::all()->where('service_id', $service->id),
-            "servicefacility" => $servicefacility
+            "servicefacility" => $servicefacility,
+            "servicestaff" => $servicestaff
         ]);
     }
 
@@ -291,6 +297,22 @@ class IndexController extends Controller
         return response()->json($dataModified);
     }
 
+    public function alasanKunjunganSearch(Request $request){
+        // $query = $request->get('query');
+        // $filterResult = Country::where('country_name', 'LIKE', '%'. $query. '%')->get();
+        // return response()->json($filterResult);
+
+        $datas = AlasanKunjungan::select("name")
+            ->where("name","LIKE","%{$request->input('query')}%")
+            ->get();
+        $dataModified = array();
+        foreach ($datas as $data){
+            $dataModified[] = $data->name;
+        }
+
+        return response()->json($dataModified);
+    }
+
     public function allReport(){
         return view('report.allreport', [
             "title" => "All Report"
@@ -316,13 +338,16 @@ class IndexController extends Controller
     }
 
     public function presencelist(){
-        $shiftTime = '08:00';
-        $timeNow = '08:00';
-        $timeDifference  = Carbon::parse($timeNow)->diffInMinutes(Carbon::parse($shiftTime));
+        $shiftTime = '19:00';
+        $timeNow = '08:01';
+        $timeDateNow = Date::now();
+        $hourminute = date_format($timeDateNow ,"H:i");
+        $timeDifference  = Carbon::parse($hourminute)->diffInMinutes(Carbon::parse($shiftTime));
         // dd($timeDifference);
         return view('presence.presencelist', [
             "title" => "Presence List",
-            "timeDifference" => $timeDifference
+            "timeDifference" => $timeDifference,
+            "timeDateNow" => $hourminute
         ]);
     }
 

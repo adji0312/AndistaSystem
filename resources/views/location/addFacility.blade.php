@@ -48,13 +48,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mb-3">
-                              <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
-                              <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="status" name="status">
-                                <option value="Active" class="selectstatus" style="color: black;">Active</option>
-                                <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
-                              </select>
-                            </div>
+                            
                         </div>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
@@ -70,21 +64,13 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                              </div>
+                            </div>
                             <div class="mb-3">
-                              <label for="share_facility" class="form-label" style="font-size: 15px; color: #7C7C7C;">Share With</label>
-                              <select class="form-select @error('share_facility') is-invalid @enderror" required style="font-size: 15px; color: #7C7C7C; width: 230px" id="share_facility" name="share_facility">
-                                <option value="" selected disabled class="selectstatus" style="color: black;">Share facilty with</option>
-                                <option value="0" class="selectstatus" style="color: black;">none</option>
-                                    @foreach ($locations as $location)
-                                        <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                                    @endforeach
-                              </select>
-                              @error('share_facility')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="status" name="status">
+                                  <option value="Active" class="selectstatus" style="color: black;">Active</option>
+                                  <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -116,17 +102,6 @@
                         </div>
                         <div class="m-3">
                             <button type="button" class="btn btn-sm btn-outline-dark insert_unit" id="insert_unit" onclick="duplicateUnit()"><i class="fas fa-plus"></i> Add</button>
-                        </div>
-                    </div>
-                    
-
-                    <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                        <h5 class="m-3 mb-0">Photos</h5>
-                        <div class="m-3 mt-0">
-                          <div class="mb-3">
-                            <label for="image" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                            <input type="file" class="form-control mt-1" id="image" name="image">
-                          </div>
                         </div>
                     </div>
                     <button type="submit" id="submitFacility" hidden></button>

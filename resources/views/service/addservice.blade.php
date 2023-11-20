@@ -77,7 +77,7 @@
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_id" id="tax_id">
                                     <option value="" class="selectstatus" style="color: black;" selected disabled>Select Tax</option>
                                     @foreach ($tax as $t)
-                                        <option value="{{ $t->id }}" class="selectstatus" style="color: black;">{{ $t->tax_name }}</option>
+                                        <option value="{{ $t->id }}" class="selectstatus" style="color: black;">{{ $t->tax_name }} ({{ $t->tax_rate }}%)</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -87,20 +87,22 @@
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="policy_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Policy</label>
-                                <div class="d-flex">
-                                    <div class="form-check m-3 mb-0" style="font-size: 15px;">
-                                        <input class="form-check-input" type="radio" name="policy_id" id="defaultPolicy" value="{{ $policies[0]->id }}" checked>
-                                        <label class="form-check-label" for="defaultPolicy">
-                                            Default
-                                        </label>
+                                @if (count($policies) != 0 || count($policies) != null)
+                                    <div class="d-flex">
+                                        <div class="form-check m-3 mb-0" style="font-size: 15px;">
+                                            <input class="form-check-input" type="radio" name="policy_id" id="defaultPolicy" value="{{ $policies[0]->id }}" checked>
+                                            <label class="form-check-label" for="defaultPolicy">
+                                                Default
+                                            </label>
+                                            </div>
+                                            <div class="form-check m-3 mb-0">
+                                            <input class="form-check-input" type="radio" name="policy_id" id="customPolicy" value="customPolicy">
+                                            <label class="form-check-label" for="customPolicy">
+                                                Custom
+                                            </label>
                                         </div>
-                                        <div class="form-check m-3 mb-0">
-                                        <input class="form-check-input" type="radio" name="policy_id" id="customPolicy" value="customPolicy">
-                                        <label class="form-check-label" for="customPolicy">
-                                            Custom
-                                        </label>
                                     </div>
-                                </div>
+                                @endif
                                             
                                 <select class="form-select mt-3 mb-4" style="font-size: 15px; color: #7C7C7C; width: 300px" name="policy_id" id="policy_id" disabled>
                                     @foreach ($policies as $policy)

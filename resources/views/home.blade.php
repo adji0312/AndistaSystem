@@ -13,7 +13,7 @@
                         <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 100%">
                             <p class="m-3" style="font-weight: 300px; font-size: 20px;"><img src="/img/icon/booking.png" alt="" style="width: 30px"> Bookings</p>
                             <div class="m-3 d-flex gap-5 mb-2">
-                                <h2>200</h2>
+                                <h2>{{ count($bookings) }}</h2>
                             </div>
                         </div>
                         <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 100%">

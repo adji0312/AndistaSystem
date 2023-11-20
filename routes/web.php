@@ -40,14 +40,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'home']);
 Route::get('/upcoming-booking', [IndexController::class, 'upcomingbooking']);
+
+//AUTO SEARCHING
 Route::get('/location/list/add/autocomplete-search', [IndexController::class, 'autocompleteSearch']);
 Route::get('/newBooking/autocomplete-search', [IndexController::class, 'serviceAutocompleteSearch']);
+Route::get('/newBooking/alasan/autocomplete-search', [IndexController::class, 'alasanKunjunganSearch']);
 
 //Location
 Route::get('/location', [IndexController::class, 'locationDashboard']);
 Route::get('/location/list', [IndexController::class, 'locationList']);
 Route::get('/location/list/add', [IndexController::class, 'addLocation']);
 Route::post('/addLocation', [LocationController::class, 'store']);
+Route::post('/editLocation/{id}', [LocationController::class, 'edit']);
 Route::get('/location/{location_name}', [IndexController::class, 'editLocation']);
 Route::get('/location-setting', [IndexController::class, 'settingLocation']);
 
@@ -87,7 +91,9 @@ Route::post('/addPriceService', [ServiceController::class, 'addPriceService']);
 Route::post('/updatePriceService/{id}', [ServiceController::class, 'updatePriceService']);
 Route::get('/deletePriceService/{id}', [ServiceController::class, 'deletePriceService']);
 Route::post('/addFacilityService', [ServiceController::class, 'addFacilityService']);
+Route::post('/addStaffService', [ServiceController::class, 'addStaffService']);
 Route::get('/deleteFacilityService/{id}', [ServiceController::class, 'deleteFacilityService']);
+Route::get('/deleteStaffService/{id}', [ServiceController::class, 'deleteStaffService']);
 
 
 
@@ -116,6 +122,7 @@ Route::post('/editFacility/{id}', [FacilityController::class, 'edit']);
 Route::post('/updateunitfacility/{id}', [UnitFacilityController::class, 'editUnit']);
 Route::get('/location/facility/{facility_name}', [IndexController::class, 'editFacility']);
 Route::get('/deleteUnit/{id}', [UnitFacilityController::class, 'deleteUnit']);
+Route::get('/discardFacility/{id}', [FacilityController::class, 'discardFacility']);
 
 
 

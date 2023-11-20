@@ -27,7 +27,6 @@ class FacilityController extends Controller
             ]);
     
             $validatedData['location_id'] = 1;
-            $validatedData['share_facility'] = 1;
             if($request->file('image')){
                 $validatedData['image'] = $request->file('image')->store('public');
             }else{
@@ -44,7 +43,6 @@ class FacilityController extends Controller
             ]);
     
             $validatedData['location_id'] = 1;
-            $validatedData['share_facility'] = 1;
             if($request->file('image')){
                 $validatedData['image'] = $request->file('image')->store('public');
             }else{
@@ -95,8 +93,7 @@ class FacilityController extends Controller
             "facility_name" => 'required',
             "capacity" => 'required',
             "status" => 'required',
-            "location_id" => 'required',
-            "share_facility" => 'required',
+            "location_id" => 'required'
         ];
 
         $validatedData = $request->validate($rules);
@@ -114,11 +111,24 @@ class FacilityController extends Controller
         $length = count($myArray);
 
         for($i = 0 ; $i < $length ; $i++){
-            $category = Facility::find($myArray[$i]);
-            DB::table('unit_facilities')->where('facility_id', $category->id)->delete();
+            $facility = Facility::find($myArray[$i]);
+            DB::table('unit_facilities')->where('facility_id', $facility->id)->delete();
             // print_r($category->category_service_name);
-            DB::table('facilities')->where('id', $category->id)->delete();
+            DB::table('facilities')->where('id', $facility->id)->delete();
         }
+
+        return redirect('/facility');
+    }
+
+    public function discardFacility($id){
+        $facility = Facility::find($id);
+        // dd(count($facility->units));
+        
+        if(count($facility->units) != 0){
+            DB::table('unit_facilities')->where('facility_id', $facility->id)->delete();
+        }
+
+        DB::table('facilities')->where('id', $facility->id)->delete();
 
         return redirect('/facility');
     }

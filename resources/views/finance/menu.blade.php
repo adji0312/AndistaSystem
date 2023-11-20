@@ -9,16 +9,13 @@
             <a id="locationsdashboard" href="/finance" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Dashboard</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Sale List Paid" || $title === "Sale List Unpaid") ? 'active' : '' }}">
-            {{-- <a id="locationslist" href="/sale/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Sale List</a> --}}
-            {{-- <div class="dropdown"> --}}
-                <a id="locationslist" class="dropdown-toggle px-4" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Sale List
-                </a>
-                <ul class="dropdown-menu mx-3">
-                  <li><a class="dropdown-item {{ ($title === "Sale List Paid") ? 'active' : '' }}" href="/sale/list/paid">Sale Paid</a></li>
-                  <li><a class="dropdown-item {{ ($title === "Sale List Unpaid") ? 'active' : '' }}" href="/sale/list/unpaid">Sale Unpaid</a></li>
-                </ul>
-            {{-- </div> --}}
+            <a id="locationslist" class="dropdown-toggle px-4" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Sale List
+            </a>
+            <ul class="dropdown-menu mx-3">
+                <li><a class="dropdown-item {{ ($title === "Sale List Paid") ? 'active' : '' }}" href="/sale/list/paid">Sale Paid</a></li>
+                <li><a class="dropdown-item {{ ($title === "Sale List Unpaid") ? 'active' : '' }}" href="/sale/list/unpaid">Sale Unpaid</a></li>
+            </ul>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Quotation List") ? 'active' : '' }}">
             <a id="locationslist" href="/quotation/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Quotation List</a>

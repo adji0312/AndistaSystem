@@ -49,6 +49,13 @@
                           <input type="date" class="form-control" id="booking_date" name="booking_date" required>
                         </div>
                     </div>
+                    <div class="m-3">
+                        <div class="mb-3">
+                            <label for="alasan_kunjungan" class="form-label" style="font-size: 15px; color: #7C7C7C;">Alasan Kunjungan</label>
+                            <input type="text" class="form-control" id="alasan_kunjungan" name="alasan_kunjungan" value="" placeholder="Search Alasan Kunjungan" required>
+                            {{-- <input type="text" class="form-control" id="searchService" name="service_name" value="" placeholder="Search Service" required> --}}
+                        </div>
+                    </div>
                     <div class="mx-3 d-flex gap-3 mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="checkCategory" id="tidak_dikenakan_biaya" value="tidak_dikenakan_biaya">

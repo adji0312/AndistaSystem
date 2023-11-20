@@ -53,7 +53,13 @@
                           <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ $booking->booking_date }}" required>
                         </div>
                     </div>
-                    <div class="mx-3 d-flex gap-3 mb-3">
+                    <div class="m-3">
+                        <div class="mb-3">
+                            <label for="alasan_kunjungan" class="form-label" style="font-size: 15px; color: #7C7C7C;">Alasan Kunjungan</label>
+                            <input type="text" class="form-control" id="alasan_kunjungan" name="alasan_kunjungan" value="{{ $booking->alasan_kunjungan }}" required>
+                        </div>
+                    </div>
+                    <div class="mx-3 d-flex gap-3 mb-3 mt-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="checkCategory" id="tidak_dikenakan_biaya" value="tidak_dikenakan_biaya">
                             <label class="form-check-label" for="tidak_dikenakan_biaya">
@@ -117,19 +123,26 @@
                                         <td>{{ $bs->service->service_name }}</td>
                                         <td>{{ $bs->time }}</td>
                                         <td>
-                                            <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="service_price_id" id="service_price_id{{ $bs->id }}" onchange="selectPrice({{ $bs->id }})">
+                                            <form action="/editBookingService/{{ $bs->id }}" method="POST">
+                                                @csrf
+                                                <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="service_staff_id" id="service_staff_id{{ $bs->id }}" onchange="selectStaff({{ $bs->id }})">
+                                                    <option value="" disabled selected>Select Staff</option>
+                                                    @foreach ($service_staff->where('service_id', $bs->service_id) as $ss)
+                                                        @if ($ss->staff_id == $bs->service_staff_id)
+                                                            <option selected value="{{ $ss->staff_id }}" class="selectstatus" style="color: black;">{{ $ss->staff->first_name }}</option>
+                                                            @continue;
+                                                        @endif
+                                                        <option value="{{ $ss->staff_id }}" class="selectstatus" style="color: black;">{{ $ss->staff->first_name }}</option>
+                                                    @endforeach
                                                     
-                                                <option value="" disabled selected>Select Staff</option>
-                                                
-                                                @foreach ($service_prices->where('service_id', $bs->service_id) as $sp)
-                                                    @if ($sp->id == $bs->service_price_id)
-                                                        <option selected value="{{ $sp->id }}" class="selectstatus" style="color: black;">{{ $sp->duration }} {{$sp->duration_type}}({{ $sp->price_title }}) (Rp {{ number_format($sp->price) }})</option>
-                                                        @continue;
-                                                    @endif
-                                                    <option value="{{ $sp->id }}" class="selectstatus" style="color: black;">{{ $sp->duration }} {{$sp->duration_type}}({{ $sp->price_title }}) (Rp {{ number_format($sp->price) }})</option>
-                                                    <option value="{{ $sp->price }}" id="selectedPrice{{ $sp->id }}" hidden></option>
-                                                @endforeach
-                                            </select>
+                                                </select>
+                                                <button type="submit" hidden id="editBookingService2{{ $bs->id }}"></button>
+                                                <script>
+                                                    function selectStaff(id){
+                                                        let button = document.getElementById('editBookingService2' + id).click();
+                                                    }
+                                                </script>
+                                            </form>
                                         </td>
                                         <td>
                                             <form action="/editBookingService/{{ $bs->id }}" method="POST">
@@ -207,7 +220,7 @@
                         <div class="mb-3">
                             <label for="time" class="form-label" style="font-size: 15px; color: #7C7C7C;">Time</label>
                             <?php 
-                                $timeNow = date('H:i A');
+                                $timeNow = date('H:i');
                             ?>
                             <input type="text" class="form-control" name="time" value="{{ $timeNow }}">
                         </div>

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('facilities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('location_id');
-            $table->integer('share_facility');
             $table->string('facility_name');
             $table->integer('capacity');
             $table->string('status');

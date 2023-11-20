@@ -25,16 +25,12 @@
             </nav>
 
             <div id="dashboard" class="mx-3 mt-4">
-                <table class="table">
+                <table class="table w-50">
                     <thead>
                       <tr>
                         <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
                         <th scope="col" style="color: #7C7C7C">Tax Name</th>
                         <th scope="col" style="color: #7C7C7C">Tax Rate</th>
-                        <th scope="col" style="color: #7C7C7C">Created By</th>
-                        <th scope="col" style="color: #7C7C7C">Created At</th>
-                        <th scope="col" style="color: #7C7C7C">Updated By</th>
-                        <th scope="col" style="color: #7C7C7C">Updated At</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -47,15 +43,6 @@
                                 </th>
                                 <td class="text-primary" data-bs-toggle="modal" data-bs-target="#editTaxRate{{ $t->id }}" style="cursor: pointer;">{{ $t->tax_name }}</td>
                                 <td>{{ $t->tax_rate }}%</td>
-                                <td>{{ $t->created_by }}</td>
-                                <td>{{ $t->created_at->format('j F Y') }}</td>
-                                @if ($t->updated_by == '')
-                                    <td><small>none</small></td>
-                                    <td><small>none</small></td>
-                                @else
-                                    <td>{{ $t->updated_by }}</td>
-                                    <td>{{ $t->updated_at->format('j F Y') }}</td>
-                                @endif
                             </tr>
 
                             <div class="modal fade" id="editTaxRate{{ $t->id }}" value={{ $t->id }} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

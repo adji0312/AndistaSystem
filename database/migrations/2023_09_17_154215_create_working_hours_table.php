@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('working_hours', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('location_id');
-            $table->string('day');
-            $table->string('time_on');
-            $table->string('time_off');
-            $table->integer('all_day'); //1 : ceklis, 0 : unceklis
+            $table->foreignId('location_id')->nullable();
+            $table->string('day')->nullable();
+            $table->string('time_on')->nullable();
+            $table->string('time_off')->nullable();
+            $table->integer('all_day')->nullable(); //1 : ceklis, 0 : unceklis
             $table->timestamps();
         });
     }
