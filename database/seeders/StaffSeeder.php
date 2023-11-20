@@ -18,7 +18,7 @@ class StaffSeeder extends Seeder
         Staff::insert([
             [
                 'role_id'=>'1',
-                'service_id'=>'1',
+                // 'service_id'=>'1',
                 'first_name'=>'Joko',
                 'middle_name'=>'ui',
                 'last_name'=>'1',
@@ -33,7 +33,7 @@ class StaffSeeder extends Seeder
             ],
             [
                 'role_id'=>'2',
-                'service_id'=>'1',
+                // 'service_id'=>'1',
                 'first_name'=>'Joko',
                 'middle_name'=>'ui',
                 'last_name'=>'2',
@@ -48,7 +48,7 @@ class StaffSeeder extends Seeder
             ],
             [
                 'role_id'=>'3',
-                'service_id'=>'1',
+                // 'service_id'=>'1',
                 'first_name'=>'Joko',
                 'middle_name'=>'ui',
                 'last_name'=>'3',
@@ -63,7 +63,7 @@ class StaffSeeder extends Seeder
             ],
             [
                 'role_id'=>'4',
-                'service_id'=>'1',
+                // 'service_id'=>'1',
                 'first_name'=>'Joko',
                 'middle_name'=>'ui',
                 'last_name'=>'4',
@@ -78,7 +78,7 @@ class StaffSeeder extends Seeder
             ],
             [
                 'role_id'=>'5',
-                'service_id'=>'1',
+                // 'service_id'=>'1',
                 'first_name'=>'Joko',
                 'middle_name'=>'ui',
                 'last_name'=>'5',
@@ -93,7 +93,7 @@ class StaffSeeder extends Seeder
             ],
             [
                 'role_id'=>'6',
-                'service_id'=>'1',
+                // 'service_id'=>'1',
                 'first_name'=>'Joko',
                 'middle_name'=>'ui',
                 'last_name'=>'6',
@@ -108,7 +108,7 @@ class StaffSeeder extends Seeder
             ],
             [
                 'role_id'=>'7',
-                'service_id'=>'1',
+                // 'service_id'=>'1',
                 'first_name'=>'Joko',
                 'middle_name'=>'ui',
                 'last_name'=>'7',
@@ -123,7 +123,7 @@ class StaffSeeder extends Seeder
             ],
             [
                 'role_id'=>'4',
-                'service_id'=>'1',
+                // 'service_id'=>'1',
                 'first_name'=>'Joko',
                 'middle_name'=>'ui',
                 'last_name'=>'8',
