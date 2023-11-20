@@ -12,7 +12,7 @@
             <a id="locationslist" href="/staff/list" class="px-4"><img src="/img/icon/StaffList.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Staff List</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Position") ? 'active' : '' }}">
-            <a id="locationslist" href="/staff/position" class="px-4"><img src="/img/icon/position.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Position</a>
+            <a id="locationslist" href="/staff/position" class="px-4"><img src="/img/icon/position.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Job</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Working Hours") ? 'active' : '' }}">
             <a id="locationslist" href="/staff/working-hours" class="px-4"><img src="/img/icon/WorkingHours.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Working Hours</a>
