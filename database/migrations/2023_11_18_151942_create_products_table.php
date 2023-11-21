@@ -24,9 +24,9 @@ return new class extends Migration
             $table->string('sku');
             $table->string('upc_ean');
             $table->string('supplier_pid');
-            $table->string('price');
-            $table->string('stock');
-            $table->string('quantity');
+            $table->float('price');
+            $table->integer('stock');
+            $table->integer('quantity');
             $table->string('description');
             $table->string('status');
             $table->string('image');

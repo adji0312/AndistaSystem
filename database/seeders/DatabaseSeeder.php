@@ -27,7 +27,24 @@ class DatabaseSeeder extends Seeder
             StaffJobSeeder::class,
             PositionSeeder::class,
             StaffSeeder::class,
-            StaffAddressSeeder::class
+            LocationSeeder::class,
+            StaffAddressSeeder::class,
+            BrandSeeder::class,
+            CategorySeeder::class,
+            ProductSeeder::class,
+            SupplierSeeder::class,
+            TaxRateSeeder::class,
+            CountrySeeder::class,
+            AddressSeeder::class,
+            IDTypeSeeder::class,
+            JobSeeder::class,
+            ClientGrupSeeder::class,
+            SubCustomerSeeder::class,
+            BackgroundSeeder::class,
+            AddressSeeder::class,
+            CustomerSeeder::class,
+            
+
         ]);
 
         Frequency::create([

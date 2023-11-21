@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('customer_id');
             $table->foreignId('id_type_id');
             $table->foreignId('job_id');
-            $table->foreignId('no_id');
+            // $table->foreignId('no_id');
             $table->string('join_date');
             $table->string('gender');
             $table->string('birthday_date');

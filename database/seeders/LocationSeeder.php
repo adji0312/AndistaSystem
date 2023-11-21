@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\IdType;
+use App\Models\Location;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class IDTypeSeeder extends Seeder
+class LocationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,9 +14,12 @@ class IDTypeSeeder extends Seeder
     public function run(): void
     {
         //
-        IdType::insert([
+        Location::insert([
             [
-                'name'=>"KTP"
+                "location_name"=>"Apotik Andista",
+                "status"=>"Active",
+                "image"=>"pathtoimage",
+                "type"=>"active"
             ]
         ]);
     }

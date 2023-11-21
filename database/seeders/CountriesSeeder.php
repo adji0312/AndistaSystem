@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Country;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,5 +14,10 @@ class CountriesSeeder extends Seeder
     public function run(): void
     {
         //
+        Country::insert([
+            [
+                "country_name"=>"Indonesia"
+            ]
+        ]);
     }
 }
