@@ -59,7 +59,6 @@
                                     @endif
                                     <option value="{{ $diagno->id }}" class="selectstatus" style="color: black;">{{ $diagno->diagnosis_name }}</option>
                                 @endforeach
-                                <option value="diagnosis" class="selectstatus" style="color: black;">+ Create New</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -84,9 +83,6 @@
                         <thead>
                           <tr>
                             <th scope="col">Item Name</th>
-                            {{-- @for ($i = 1; $i <= 15; $i++)
-                                <th scope="col" class="text-center">{{ $i }}</th>
-                            @endfor --}}
                           </tr>
                         </thead>
                         <tbody>
@@ -97,19 +93,13 @@
                                             <div>
                                                 <div class="d-flex justify-content-between">
                                                     @if ($list->service_id != 0)
-                                                        <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#addItemCanvas{{ $list->id }}" aria-controls="addItemCanvas">
-                                                            @if ($list->service_id != 0)
-                                                                {{ $list->services->service_name }}
-                                                            @elseif ($list->product_id != 0)
-                                                                {{ $list->products->product_name }}
-                                                            @elseif ($list->task_id != 0)
-                                                                {{ $list->task->task_name }}
-                                                            @endif
+                                                        <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#updateServiceCanvas{{ $list->id }}" aria-controls="updateServiceCanvas">
+                                                            {{ $list->service->service_name }}
                                                         </small>
                                                     @elseif ($list->product_id != 0)
-                                                        <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#addItemCanvas{{ $list->id }}" aria-controls="addItemCanvas">
+                                                        <small style="font-size: 17px; cursor: pointer" class="text-primary">
                                                             @if ($list->service_id != 0)
-                                                                {{ $list->services->service_name }}
+                                                                {{ $list->service->service_name }}
                                                             @elseif ($list->product_id != 0)
                                                                 {{ $list->products->product_name }}
                                                             @elseif ($list->task_id != 0)
@@ -118,7 +108,7 @@
                                                         </small>
                                                     @elseif ($list->task_id != 0)
                                                         <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#updateTaskCanvas{{ $list->id }}" aria-controls="updateTaskCanvas">
-                                                            {{ $list->task->task_name }} {{ $list->id }}
+                                                            {{ $list->task->task_name }}
                                                         </small>
                                                     @endif
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#deleteList{{ $list->id }}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</button>
@@ -151,47 +141,44 @@
                                         <th scope="row">
                                             <div>
                                                 <div class="d-flex justify-content-between">
-                                                    <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="modal" data-bs-target="#editList{{ $list->id }}">
-                                                        @if ($list->service_id != 0)
-                                                            {{ $list->services->service_name }}
-                                                        @elseif ($list->product_id != 0)
-                                                            {{ $list->products->product_name }}
-                                                        @elseif ($list->task_id != 0)
+                                                    @if ($list->service_id != 0)
+                                                        <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#updateServiceCanvas{{ $list->id }}" aria-controls="updateServiceCanvas">
+                                                            {{ $list->service->service_name }}
+                                                        </small>
+                                                    @elseif ($list->product_id != 0)
+                                                        <small style="font-size: 17px; cursor: pointer" class="text-primary">
+                                                            @if ($list->service_id != 0)
+                                                                {{ $list->service->service_name }}
+                                                            @elseif ($list->product_id != 0)
+                                                                {{ $list->products->product_name }}
+                                                            @elseif ($list->task_id != 0)
+                                                                {{ $list->task->task_name }}
+                                                            @endif
+                                                        </small>
+                                                    @elseif ($list->task_id != 0)
+                                                        <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#updateTaskCanvas{{ $list->id }}" aria-controls="updateTaskCanvas">
                                                             {{ $list->task->task_name }}
-                                                        @endif
-                                                    </small>
+                                                        </small>
+                                                    @endif
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#deleteList{{ $list->id }}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</button>
                                                 </div>
-                                                <small style="font-weight: 300; font-size: 15px;">{{ $list->frequency->frequency_name }} for {{ $list->duration }} days</small> <br>
+                                                @if ($list->service_id != 0)
+                                                    <small style="font-weight: 300; font-size: 15px;">Price: {{  $list->servicePrice->price_title }} {{ $list->servicePrice->duration }} {{ $list->servicePrice->duration_type }} (Rp {{ number_format($list->servicePrice->price) }})</small> <br>
+                                                @endif
+                                                <small style="font-weight: 300; font-size: 15px;">Frequency: {{ $list->frequency->frequency_name }}</small> <br>
                                                 <small style="font-weight: 300; font-size: 15px;">Start Day : {{ $list->start_day }}</small> <br>
+                                                <small style="font-weight: 300; font-size: 15px;">Duration : {{ $list->duration }} days</small> <br>
                                                 @if ($list->notes != null || $list->notes != '')
-                                                    <small style="font-weight: 300">notes : {{ $list->notes }}</small>
+                                                    <small style="font-weight: 300; font-size: 15px;">Notes : {{ $list->notes }}</small>
                                                 @else
-                                                    <small style="font-weight: 300">notes : - </small>
+                                                    <small style="font-weight: 300; font-size: 15px;">Notes : - </small>
                                                 @endif
                                             </div>
                                         </th>
                                     </tr>
                                 @endif
-
-                                <div class="modal fade" id="editList{{ $list->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                          ...
-                                        </div>
-                                        <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                          <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                </div>
-
+                                
+                                {{-- modal delete list plan --}}
                                 <div class="modal fade" id="deleteList{{ $list->id }}" value="{{ $list->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                       <div class="modal-content">
@@ -211,83 +198,212 @@
                                       </div>
                                     </div>
                                 </div>
-                                
+
+                                {{-- modal edit task list --}}
                                 <div class="offcanvas offcanvas-end" tabindex="-1" id="updateTaskCanvas{{ $list->id }}" aria-labelledby="rightCanvasId">
                                     <div class="offcanvas-header">
                                         <h5 class="offcanvas-title" id="rightCanvasId">Edit Item</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                     </div>
-                                
-                                    <div class="offcanvas-body" id="taskCanvas" style="display: block;">
-                                        <form action="/addTaskPlan" method="post">
+                                    <div class="offcanvas-body" style="display: block;">
+                                        <form action="/editTaskPlan/{{ $list->id }}" method="post">
                                             @csrf
                                             <input type="hidden" name="plan_id" value="{{ $plan->id }}">
                                             <input type="hidden" name="plan_name" value="{{ $plan->name }}">
                                             <div class="mb-3">
                                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Task</label>
-                                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="taskList" onchange="taskChange()" name="task_id">
-                                                    @foreach ($tasks as $task)
-                                                        @if ($task->id == $list->task_id)
-                                                            <option selected value="{{ $task->id }}" name="task_id" id="task_id" class="selectstatus" style="color: black;">{{ $task->task_name }}</option>
-                                                            @continue
-                                                        @endif
-                                                        <option value="{{ $task->id }}" name="task_id" id="task_id" class="selectstatus" style="color: black;">{{ $task->task_name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                @if ($list->task_id != 0)
+                                                    <input type="text" class="form-control" id="name" name="name" value="{{ $list->task->task_name }}" readonly>
+                                                @endif
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Start Day</label>
-                                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="start_day">
-                                                    <option value="1" class="selectstatus" style="color: black;">Day 1</option>
-                                                    <option value="2" class="selectstatus" style="color: black;">Day 2</option>
-                                                    <option value="3" class="selectstatus" style="color: black;">Day 3</option>
-                                                    <option value="4" class="selectstatus" style="color: black;">Day 4</option>
-                                                    <option value="5" class="selectstatus" style="color: black;">Day 5</option>
-                                                    <option value="6" class="selectstatus" style="color: black;">Day 6</option>
-                                                    <option value="7" class="selectstatus" style="color: black;">Day 7</option>
-                                                    <option value="8" class="selectstatus" style="color: black;">Day 8</option>
-                                                    <option value="9" class="selectstatus" style="color: black;">Day 9</option>
-                                                    <option value="10" class="selectstatus" style="color: black;">Day 10</option>
-                                                    <option value="11" class="selectstatus" style="color: black;">Day 11</option>
-                                                    <option value="12" class="selectstatus" style="color: black;">Day 12</option>
-                                                    <option value="13" class="selectstatus" style="color: black;">Day 13</option>
-                                                    <option value="14" class="selectstatus" style="color: black;">Day 14</option>
-                                                    <option value="15" class="selectstatus" style="color: black;">Day 15</option>
-                                                </select>
+                                                @if ($list->start_day == 0)
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="start_day">
+                                                        @for ($index1 = 1; $index1 <= $plan->duration; $index1++)
+                                                            <option value="{{ $index1 }}" class="selectstatus" style="color: black;">Day {{ $index1 }}</option>
+                                                        @endfor
+                                                    </select>
+                                                @else
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="start_day">
+                                                        @for ($index1 = 1; $index1 <= $plan->duration; $index1++)
+                                                            @if ($index1 == $list->start_day)
+                                                                <option selected value="{{ $index1 }}" class="selectstatus" style="color: black;">Day {{ $index1 }}</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $index1 }}" class="selectstatus" style="color: black;">Day {{ $index1 }}</option>
+                                                        @endfor
+                                                    </select>
+                                                @endif
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Frequency</label>
-                                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="frequency_id">
-                                                    @foreach ($frequencies as $frequency)
-                                                        <option value="{{ $frequency->id }}" class="selectstatus" style="color: black;">{{ $frequency->frequency_name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                @if ($list->frequency_id == 0)
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="frequency_id">
+                                                        @foreach ($frequencies as $frequency)
+                                                            <option value="{{ $frequency->id }}" class="selectstatus" style="color: black;">{{ $frequency->frequency_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @else
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="frequency_id">
+                                                        @foreach ($frequencies as $frequency)
+                                                            @if ($frequency->id == $list->frequency_id)
+                                                                <option selected value="{{ $frequency->id }}" class="selectstatus" style="color: black;">{{ $frequency->frequency_name }}</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $frequency->id }}" class="selectstatus" style="color: black;">{{ $frequency->frequency_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endif
                                             </div>
                                 
                                             <div class="mb-3">
                                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
-                                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="duration">
-                                                    <option value="1" class="selectstatus" style="color: black;">1 Day</option>
-                                                    <option value="2" class="selectstatus" style="color: black;">2 Day</option>
-                                                    <option value="3" class="selectstatus" style="color: black;">3 Day</option>
-                                                    <option value="4" class="selectstatus" style="color: black;">4 Day</option>
-                                                    <option value="5" class="selectstatus" style="color: black;">5 Day</option>
-                                                    <option value="6" class="selectstatus" style="color: black;">6 Day</option>
-                                                    <option value="7" class="selectstatus" style="color: black;">7 Day</option>
-                                                    <option value="8" class="selectstatus" style="color: black;">8 Day</option>
-                                                    <option value="9" class="selectstatus" style="color: black;">9 Day</option>
-                                                    <option value="10" class="selectstatus" style="color: black;">10 Day</option>
-                                                    <option value="11" class="selectstatus" style="color: black;">11 Day</option>
-                                                    <option value="12" class="selectstatus" style="color: black;">12 Day</option>
-                                                    <option value="13" class="selectstatus" style="color: black;">13 Day</option>
-                                                    <option value="14" class="selectstatus" style="color: black;">14 Day</option>
-                                                    <option value="15" class="selectstatus" style="color: black;">15 Day</option>
-                                                </select>
+                                                @if ($list->duration == 0)
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="duration">
+                                                        @for ($index1 = 1; $index1 <= $plan->duration; $index1++)
+                                                            <option value="{{ $index1 }}" class="selectstatus" style="color: black;">{{ $index1 }} Day</option>
+                                                        @endfor
+                                                    </select>
+                                                @else
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="duration">
+                                                        @for ($index1 = 1; $index1 <= $plan->duration; $index1++)
+                                                            @if ($index1 == $list->duration)
+                                                                <option selected value="{{ $index1 }}" class="selectstatus" style="color: black;">{{ $index1 }} Day</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $index1 }}" class="selectstatus" style="color: black;">{{ $index1 }} Day</option>
+                                                        @endfor
+                                                    </select>
+                                                @endif
                                             </div>
                                             <div class="mb-3">
                                                 <div class="form-floating">
-                                                    <textarea class="form-control" id="notes" style="height: 100px" name="notes"></textarea>
-                                                    <label for="notes">Notes</label>
+                                                    @if ($list->temp == 1)
+                                                        <textarea class="form-control" id="notes" style="height: 100px" name="notes"></textarea>
+                                                        <label for="notes">Notes</label>
+                                                    @else
+                                                        <textarea class="form-control" id="notes" style="height: 100px" name="notes">{{ $list->notes }}</textarea>
+                                                        <label for="notes">Notes</label>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 float-end">
+                                                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                {{-- modal edit service list --}}
+                                <div class="offcanvas offcanvas-end" tabindex="-1" id="updateServiceCanvas{{ $list->id }}" aria-labelledby="rightCanvasId">
+                                    <div class="offcanvas-header">
+                                        <h5 class="offcanvas-title" id="rightCanvasId">Edit Item</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                    </div>
+                                
+                                    <div class="offcanvas-body" style="display: block;">
+                                        <form action="/editServicePlan/{{ $list->id }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+                                            <input type="hidden" name="plan_name" value="{{ $plan->name }}">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Service</label>
+                                                @if ($list->service_id != 0)
+                                                    <input type="text" class="form-control" value="{{ $list->service->service_name }}" readonly>
+                                                @endif
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Price</label>
+                                                @if ($list->service_price_id == 0)
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="service_price_id" name="service_price_id">
+                                                        <option value="" class="selectstatus" style="color: black;" selected disabled>Select Price</option>
+                                                        @foreach ($servicePrice->where('service_id', $list->service_id) as $sp)
+                                                            <option value="{{ $sp->id }}" class="selectstatus" style="color: black;">{{ $sp->price_title }} {{ $sp->duration }} {{ $sp->duration_type }} (Rp {{ number_format($sp->price) }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                @else
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="service_price_id" name="service_price_id">
+                                                        @foreach ($servicePrice->where('service_id', $list->service_id) as $sp)
+                                                            @if ($sp->id == $list->service_price_id)
+                                                                <option selected value="{{ $sp->id }}" class="selectstatus" style="color: black;">{{ $sp->price_title }} {{ $sp->duration }} {{ $sp->duration_type }} (Rp {{ number_format($sp->price) }})</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $sp->id }}" class="selectstatus" style="color: black;">{{ $sp->price_title }} {{ $sp->duration }} {{ $sp->duration_type }} (Rp {{ number_format($sp->price) }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endif
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Start Day</label>
+                                                @if ($list->start_day == 0)
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="start_day">
+                                                        @for ($index1 = 1; $index1 <= $plan->duration; $index1++)
+                                                            <option value="{{ $index1 }}" class="selectstatus" style="color: black;">Day {{ $index1 }}</option>
+                                                        @endfor
+                                                    </select>
+                                                @else
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="start_day">
+                                                        @for ($index1 = 1; $index1 <= $plan->duration; $index1++)
+                                                            @if ($index1 == $list->start_day)
+                                                                <option selected value="{{ $index1 }}" class="selectstatus" style="color: black;">Day {{ $index1 }}</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $index1 }}" class="selectstatus" style="color: black;">Day {{ $index1 }}</option>
+                                                        @endfor
+                                                    </select>
+                                                @endif
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Frequency</label>
+                                                @if ($list->frequency_id == 0)
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="frequency_id">
+                                                        @foreach ($frequencies as $frequency)
+                                                            <option value="{{ $frequency->id }}" class="selectstatus" style="color: black;">{{ $frequency->frequency_name }}</option>
+                                                        @endforeach
+                                                    </select>                                                    
+                                                @else
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="frequency_id">
+                                                        @foreach ($frequencies as $frequency)
+                                                            @if ($frequency->id == $list->frequency_id)
+                                                                <option selected value="{{ $frequency->id }}" class="selectstatus" style="color: black;">{{ $frequency->frequency_name }}</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $frequency->id }}" class="selectstatus" style="color: black;">{{ $frequency->frequency_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endif
+                                            </div>
+                                
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
+                                                @if ($list->duration == 0)
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="duration">
+                                                        @for ($index1 = 1; $index1 <= $plan->duration; $index1++)
+                                                            <option value="{{ $index1 }}" class="selectstatus" style="color: black;">{{ $index1 }} Day</option>
+                                                        @endfor
+                                                    </select>
+                                                @else
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="duration">
+                                                        @for ($index1 = 1; $index1 <= $plan->duration; $index1++)
+                                                            @if ($index1 == $list->duration)
+                                                                <option selected value="{{ $index1 }}" class="selectstatus" style="color: black;">{{ $index1 }} Day</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $index1 }}" class="selectstatus" style="color: black;">{{ $index1 }} Day</option>
+                                                        @endfor
+                                                    </select>
+                                                @endif
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="form-floating">
+                                                    @if ($list->temp == 1)
+                                                        <textarea class="form-control" id="notes" style="height: 100px" name="notes"></textarea>
+                                                        <label for="notes">Notes</label>
+                                                    @else
+                                                        <textarea class="form-control" id="notes" style="height: 100px" name="notes">{{ $list->notes }}</textarea>
+                                                        <label for="notes">Notes</label>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="mb-3 float-end">
@@ -307,8 +423,6 @@
 
 @if(session()->has('successAddTask'))
     <button type="button" id="openCanvas" data-bs-toggle="offcanvas" data-bs-target="#addItemCanvas" aria-controls="addItemCanvas" hidden class="btn-close"></button>
-{{-- @elseif(session()->has('successAddService'))
-    <button type="button" id="openCanvas" data-bs-toggle="offcanvas" data-bs-target="#serviceCanvas" aria-controls="serviceCanvas" hidden class="btn-close"></button> --}}
 @endif
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="addItemCanvas" aria-labelledby="rightCanvasId">
@@ -342,81 +456,8 @@
                 <input type="submit" hidden name="" id="submitService">
             </form>
         </div>
-        {{-- <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Price</label>
-            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="change">
-                <option value="" class="selectstatus" style="color: black;" selected disabled>Select Price</option>
-                @foreach ($servicePrice->where('service_id', $service_id) as $sp)
-                    <option value="{{ $sp->id }}" class="selectstatus" style="color: black;" onclick="tesklik()" data-bs-toggle="modal" data-bs-target="#serviceList{{ $sp->id }}">{{ $sp->price_title }} {{ $sp->duration }} {{ $sp->duration_type }} (Rp {{ number_format($sp->price) }})</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Start Day</label>
-            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example">
-                <option value="1" class="selectstatus" style="color: black;">Day 1</option>
-                <option value="2" class="selectstatus" style="color: black;">Day 2</option>
-                <option value="3" class="selectstatus" style="color: black;">Day 3</option>
-                <option value="4" class="selectstatus" style="color: black;">Day 4</option>
-                <option value="5" class="selectstatus" style="color: black;">Day 5</option>
-                <option value="6" class="selectstatus" style="color: black;">Day 6</option>
-                <option value="7" class="selectstatus" style="color: black;">Day 7</option>
-                <option value="8" class="selectstatus" style="color: black;">Day 8</option>
-                <option value="9" class="selectstatus" style="color: black;">Day 9</option>
-                <option value="10" class="selectstatus" style="color: black;">Day 10</option>
-                <option value="11" class="selectstatus" style="color: black;">Day 11</option>
-                <option value="12" class="selectstatus" style="color: black;">Day 12</option>
-                <option value="13" class="selectstatus" style="color: black;">Day 13</option>
-                <option value="14" class="selectstatus" style="color: black;">Day 14</option>
-                <option value="15" class="selectstatus" style="color: black;">Day 15</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Frequency</label>
-            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example">
-                <option value="1" class="selectstatus" style="color: black;">Once per day</option>
-                <option value="2" class="selectstatus" style="color: black;">Twice per day</option>
-                <option value="3" class="selectstatus" style="color: black;">Thrice per day</option>
-                <option value="4" class="selectstatus" style="color: black;">Four times per day</option>
-                <option value="5" class="selectstatus" style="color: black;">Every 3 days</option>
-                <option value="6" class="selectstatus" style="color: black;">Once a week</option>
-                <option value="7" class="selectstatus" style="color: black;">Once every 2 weeks</option>
-                <option value="8" class="selectstatus" style="color: black;">Once every 4 weeks</option>
-                <option value="9" class="selectstatus" style="color: black;">Every 2 hours</option>
-                <option value="10" class="selectstatus" style="color: black;">Every 4 hours</option>
-                <option value="11" class="selectstatus" style="color: black;">Every 8 hours</option>
-                <option value="12" class="selectstatus" style="color: black;">Every 12 hours</option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
-            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example">
-                <option value="1" class="selectstatus" style="color: black;">1 Day</option>
-                <option value="2" class="selectstatus" style="color: black;">2 Day</option>
-                <option value="3" class="selectstatus" style="color: black;">3 Day</option>
-                <option value="4" class="selectstatus" style="color: black;">4 Day</option>
-                <option value="5" class="selectstatus" style="color: black;">5 Day</option>
-                <option value="6" class="selectstatus" style="color: black;">6 Day</option>
-                <option value="7" class="selectstatus" style="color: black;">7 Day</option>
-                <option value="8" class="selectstatus" style="color: black;">8 Day</option>
-                <option value="9" class="selectstatus" style="color: black;">9 Day</option>
-                <option value="10" class="selectstatus" style="color: black;">10 Day</option>
-                <option value="11" class="selectstatus" style="color: black;">11 Day</option>
-                <option value="12" class="selectstatus" style="color: black;">12 Day</option>
-                <option value="13" class="selectstatus" style="color: black;">13 Day</option>
-                <option value="14" class="selectstatus" style="color: black;">14 Day</option>
-                <option value="15" class="selectstatus" style="color: black;">15 Day</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <div class="form-floating">
-                <textarea class="form-control" id="notes" style="height: 100px" name="notes"></textarea>
-                <label for="notes">Notes</label>
-            </div>
-        </div> --}}
         <div class="mb-3 float-end">
-            <button type="button" class="btn btn-outline-primary btn-sm" onclick="continueService()"><i class="fas fa-save"></i> Save</button>
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="continueService()">Next</button>
         </div>
 
         <div class="modal fade" id="serviceList" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -451,77 +492,8 @@
                 <option value="" class="selectstatus" style="color: black;" selected disabled>Select Product</option>
             </select>
         </div>
-        {{-- <div class="mb-3">
-            <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Quantity</label>
-            
-            <input type="number" class="form-control" id="quantity" style="width: 100%">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Start Day</label>
-            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example">
-                <option value="1" class="selectstatus" style="color: black;">Day 1</option>
-                <option value="2" class="selectstatus" style="color: black;">Day 2</option>
-                <option value="3" class="selectstatus" style="color: black;">Day 3</option>
-                <option value="4" class="selectstatus" style="color: black;">Day 4</option>
-                <option value="5" class="selectstatus" style="color: black;">Day 5</option>
-                <option value="6" class="selectstatus" style="color: black;">Day 6</option>
-                <option value="7" class="selectstatus" style="color: black;">Day 7</option>
-                <option value="8" class="selectstatus" style="color: black;">Day 8</option>
-                <option value="9" class="selectstatus" style="color: black;">Day 9</option>
-                <option value="10" class="selectstatus" style="color: black;">Day 10</option>
-                <option value="11" class="selectstatus" style="color: black;">Day 11</option>
-                <option value="12" class="selectstatus" style="color: black;">Day 12</option>
-                <option value="13" class="selectstatus" style="color: black;">Day 13</option>
-                <option value="14" class="selectstatus" style="color: black;">Day 14</option>
-                <option value="15" class="selectstatus" style="color: black;">Day 15</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Frequency</label>
-            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example">
-                <option value="1" class="selectstatus" style="color: black;">Once per day</option>
-                <option value="2" class="selectstatus" style="color: black;">Twice per day</option>
-                <option value="3" class="selectstatus" style="color: black;">Thrice per day</option>
-                <option value="4" class="selectstatus" style="color: black;">Four times per day</option>
-                <option value="5" class="selectstatus" style="color: black;">Every 3 days</option>
-                <option value="6" class="selectstatus" style="color: black;">Once a week</option>
-                <option value="7" class="selectstatus" style="color: black;">Once every 2 weeks</option>
-                <option value="8" class="selectstatus" style="color: black;">Once every 4 weeks</option>
-                <option value="9" class="selectstatus" style="color: black;">Every 2 hours</option>
-                <option value="10" class="selectstatus" style="color: black;">Every 4 hours</option>
-                <option value="11" class="selectstatus" style="color: black;">Every 8 hours</option>
-                <option value="12" class="selectstatus" style="color: black;">Every 12 hours</option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
-            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example">
-                <option value="1" class="selectstatus" style="color: black;">1 Day</option>
-                <option value="2" class="selectstatus" style="color: black;">2 Day</option>
-                <option value="3" class="selectstatus" style="color: black;">3 Day</option>
-                <option value="4" class="selectstatus" style="color: black;">4 Day</option>
-                <option value="5" class="selectstatus" style="color: black;">5 Day</option>
-                <option value="6" class="selectstatus" style="color: black;">6 Day</option>
-                <option value="7" class="selectstatus" style="color: black;">7 Day</option>
-                <option value="8" class="selectstatus" style="color: black;">8 Day</option>
-                <option value="9" class="selectstatus" style="color: black;">9 Day</option>
-                <option value="10" class="selectstatus" style="color: black;">10 Day</option>
-                <option value="11" class="selectstatus" style="color: black;">11 Day</option>
-                <option value="12" class="selectstatus" style="color: black;">12 Day</option>
-                <option value="13" class="selectstatus" style="color: black;">13 Day</option>
-                <option value="14" class="selectstatus" style="color: black;">14 Day</option>
-                <option value="15" class="selectstatus" style="color: black;">15 Day</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <div class="form-floating">
-                <textarea class="form-control" id="notes" style="height: 100px" name="notes"></textarea>
-                <label for="notes">Notes</label>
-            </div>
-        </div> --}}
         <div class="mb-3 float-end">
-            <button type="button" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Save</button>
+            <button type="button" class="btn btn-outline-primary btn-sm">Next</button>
         </div>
     </div>
 
@@ -544,63 +516,8 @@
                         <option value="newtask" class="selectstatus" style="color: black;">+ Create New</option>
                 </select>
             </div>
-            {{-- <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Start Day</label>
-                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="start_day">
-                    <option value="1" class="selectstatus" style="color: black;">Day 1</option>
-                    <option value="2" class="selectstatus" style="color: black;">Day 2</option>
-                    <option value="3" class="selectstatus" style="color: black;">Day 3</option>
-                    <option value="4" class="selectstatus" style="color: black;">Day 4</option>
-                    <option value="5" class="selectstatus" style="color: black;">Day 5</option>
-                    <option value="6" class="selectstatus" style="color: black;">Day 6</option>
-                    <option value="7" class="selectstatus" style="color: black;">Day 7</option>
-                    <option value="8" class="selectstatus" style="color: black;">Day 8</option>
-                    <option value="9" class="selectstatus" style="color: black;">Day 9</option>
-                    <option value="10" class="selectstatus" style="color: black;">Day 10</option>
-                    <option value="11" class="selectstatus" style="color: black;">Day 11</option>
-                    <option value="12" class="selectstatus" style="color: black;">Day 12</option>
-                    <option value="13" class="selectstatus" style="color: black;">Day 13</option>
-                    <option value="14" class="selectstatus" style="color: black;">Day 14</option>
-                    <option value="15" class="selectstatus" style="color: black;">Day 15</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Frequency</label>
-                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="frequency_id">
-                    @foreach ($frequencies as $frequency)
-                        <option value="{{ $frequency->id }}" class="selectstatus" style="color: black;">{{ $frequency->frequency_name }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
-                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="duration">
-                    <option value="1" class="selectstatus" style="color: black;">1 Day</option>
-                    <option value="2" class="selectstatus" style="color: black;">2 Day</option>
-                    <option value="3" class="selectstatus" style="color: black;">3 Day</option>
-                    <option value="4" class="selectstatus" style="color: black;">4 Day</option>
-                    <option value="5" class="selectstatus" style="color: black;">5 Day</option>
-                    <option value="6" class="selectstatus" style="color: black;">6 Day</option>
-                    <option value="7" class="selectstatus" style="color: black;">7 Day</option>
-                    <option value="8" class="selectstatus" style="color: black;">8 Day</option>
-                    <option value="9" class="selectstatus" style="color: black;">9 Day</option>
-                    <option value="10" class="selectstatus" style="color: black;">10 Day</option>
-                    <option value="11" class="selectstatus" style="color: black;">11 Day</option>
-                    <option value="12" class="selectstatus" style="color: black;">12 Day</option>
-                    <option value="13" class="selectstatus" style="color: black;">13 Day</option>
-                    <option value="14" class="selectstatus" style="color: black;">14 Day</option>
-                    <option value="15" class="selectstatus" style="color: black;">15 Day</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <div class="form-floating">
-                    <textarea class="form-control" id="notes" style="height: 100px" name="notes"></textarea>
-                    <label for="notes">Notes</label>
-                </div>
-            </div> --}}
             <div class="mb-3 float-end">
-                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Save</button>
+                <button type="submit" class="btn btn-outline-primary btn-sm">Next</button>
             </div>
         </form>
     </div>

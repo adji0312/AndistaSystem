@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('location_contact_phones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('location_id');
-            $table->foreignId('usage_phone_contact_id');
-            $table->string('phone_number');
-            $table->string('phone_type');
+            $table->foreignId('location_id')->nullable();
+            $table->foreignId('usage_phone_contact_id')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('phone_type')->nullable();
             $table->timestamps();
         });
     }

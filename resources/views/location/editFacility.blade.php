@@ -9,12 +9,15 @@
                     <a class="navbar-brand" href="#">{{ $facility->facility_name }}</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                          <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="/facility" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
-                          </li>
-                          <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" onclick="saveFacility()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
-                          </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/facility" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" onclick="saveFacility()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#discardFacility" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/discard.png" alt="" style="width: 22px"> Discard</a>
+                        </li>
                       </ul>
                       <form class="d-flex" role="search">
                           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -38,18 +41,7 @@
                                 <label for="capacity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Capacity</label>
                                 <input type="number" class="form-control" id="capacity" name="capacity" value="{{ $facility->capacity }}">
                             </div>
-                            <div class="mb-3">
-                              <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
-                              <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="status" name="status">
-                                @if ($facility->status == "Active")
-                                    <option value="Active" class="selectstatus" style="color: black;" selected>Active</option>
-                                    <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
-                                @else
-                                    <option value="Active" class="selectstatus" style="color: black;">Active</option>
-                                    <option value="Disabled" class="selectstatus" style="color: black;" selected>Disabled</option>
-                                @endif
-                              </select>
-                            </div>
+                            
                         </div>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
@@ -63,19 +55,18 @@
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach
                                 </select>
-                              </div>
+                            </div>
                             <div class="mb-3">
-                              <label for="share_facility" class="form-label" style="font-size: 15px; color: #7C7C7C;">Share With</label>
-                              <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="share_facility" name="share_facility">
-                                <option value="0" class="selectstatus" style="color: black;">none</option>
-                                @foreach ($locations as $location)
-                                    @if ($facility->share_facility == $location->id)
-                                        <option value="{{ $location->id }}" class="selectstatus" style="color: black;" selected>{{ $location->location_name }}</option>
-                                        @continue
-                                    @endif
-                                    <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                                @endforeach
-                              </select>
+                                <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="status" name="status">
+                                  @if ($facility->status == "Active")
+                                      <option value="Active" class="selectstatus" style="color: black;" selected>Active</option>
+                                      <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
+                                  @else
+                                      <option value="Active" class="selectstatus" style="color: black;">Active</option>
+                                      <option value="Disabled" class="selectstatus" style="color: black;" selected>Disabled</option>
+                                  @endif
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -187,23 +178,6 @@
                             </table>
                         </div>
                     </div>
-
-                    <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                        <h5 class="m-3 mb-0">Photos</h5>
-                        <div class="m-3 mt-3">
-                            @if ($facility->image == '-')
-                                <img src="/img/icon/noimage.png" alt="" width="25%">
-                            @else
-                                <img src="/storage/{{ substr($facility->image, 7) }}" alt="" width="20%">
-                            @endif
-                        </div>
-                        <div class="m-3 mt-0">
-                          <div class="mb-3">
-                            <label for="image" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                            <input type="file" class="form-control mt-1" id="image" name="image">
-                          </div>
-                        </div>
-                    </div>
                     
                 {{-- </forma> --}}
             </div>
@@ -246,4 +220,26 @@
         </div>
     </div>
 
+    <div class="modal fade" id="discardFacility" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Discard {{ $facility->facility_name }}</h1>
+            </div>
+            
+            <form action="/discardFacility/{{ $facility->id }}" method="GET">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-1">
+                        <small class="fs-6" style="font-weight: 300">Are you sure discard this item?</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Discard</button>
+                </div>
+            </form>
+          </div>
+        </div>
+    </div>
 @endsection

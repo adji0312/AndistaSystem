@@ -25,7 +25,7 @@
                 <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col" style="color: #7C7C7C; width: 50px;">No</th>
+                        <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
                         <th scope="col" style="color: #7C7C7C">Name</th>
                         <th scope="col" style="color: #7C7C7C">Type</th>
                         <th scope="col" style="color: #7C7C7C">Address</th>

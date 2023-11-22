@@ -8,5 +8,18 @@
         <li style="cursor: pointer" class="{{ ($title === "Booking") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/newBooking" class="px-4"><img src="/img/icon/plusgrey.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Create Booking</a>
         </li>
+        {{-- <li style="cursor: pointer" class="{{ ($title === "List Booking") ? 'active' : '' }}">
+            <a id="locationsdashboard" href="/list-booking" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; List Booking</a>
+        </li> --}}
+        <li style="cursor: pointer" class="{{ ($title === "Sale List Paid" || $title === "Sale List Unpaid") ? 'active' : '' }}">
+            <a id="locationslist" class="dropdown-toggle px-4" data-bs-toggle="dropdown">
+                <img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; List Booking
+            </a>
+            <ul class="dropdown-menu mx-3">
+                <li><a class="dropdown-item {{ ($title === "Sale List Unpaid") ? 'active' : '' }}" href="/sale/list/unpaid">Darurat</a></li>
+                <li><a class="dropdown-item {{ ($title === "Sale List Paid") ? 'active' : '' }}" href="/sale/list/paid">Langsung Datang</a></li>
+                <li><a class="dropdown-item {{ ($title === "Sale List Unpaid") ? 'active' : '' }}" href="/sale/list/unpaid">Rawat Inap</a></li>
+            </ul>
+        </li>
     </ul>
 </nav>

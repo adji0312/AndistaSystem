@@ -280,3 +280,7 @@ trix-toolbar[data-trix-button-group="file-tools"]{
 .hovertext:hover{
     text-decoration: underline;
 }
+
+.dropdown-toggle::after { 
+    content: none; 
+} 

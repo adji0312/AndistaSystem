@@ -20,7 +20,7 @@ class PlanController extends Controller
             'duration' => 'required',
         ]);
 
-        // $validatedData['duration'] = 0;
+        $validatedData['temp'] = 0;
         Plan::create($validatedData);
 
         return redirect('/service/treatmentplan/add'.'/'.$request->name);
@@ -45,6 +45,7 @@ class PlanController extends Controller
             'name' => 'required:unique:plans',
             'location_id' => 'required',
             'diagnosis_id' => 'required',
+            'duration' => 'required'
         ]);
 
         Plan::where('id', $plan->id)->update($validatedData);

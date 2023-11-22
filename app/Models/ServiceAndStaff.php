@@ -15,7 +15,7 @@ class ServiceAndStaff extends Model
         return $this->belongsTo(Service::class);
     }
 
-    // public function staff(){
-    //     return $this->belongsTo(Staff::class);
-    // }
+    public function staff(){
+        return $this->belongsTo(Staff::class, "staff_id");
+    }
 }

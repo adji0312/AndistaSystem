@@ -17,28 +17,33 @@
         </nav>
 
         <div id="dashboard" class="mx-3 mt-4">
-            {{-- get date now --}}
-            <p class="mx-2" style="font-size: 18px; font-weight: 700; color: black;">{{ date_format(Date::now(),"d F Y") }}</p> 
-            <table class="table w-100">
-                <thead>
-                  <tr >
-                    <th scope="col" style="color: #7C7C7C;">Staff Name</th>
-                    <th scope="col" style="color: #7C7C7C;">Check In</th>
-                    <th scope="col" style="color: #7C7C7C;">Check Out</th>
-                    <th scope="col" style="color: #7C7C7C;">Shift</th>
-                    <th scope="col" style="color: #7C7C7C;">Location</th>
+          <div class="mb-3"> 
+            <input type="text" class="form-control mt-1 w-50" id="qrid" name="qrid" placeholder="scan qr here">
+          </div>
+          {{-- get date now --}}
+          <small>jarak waktu = </small>{{ $timeDifference }} menit<br>
+          {{ $timeDateNow }}
+          <p class="mx-2" style="font-size: 18px; font-weight: 700; color: black;">{{ date_format(Date::now(),"d F Y") }}</p> 
+          <table class="table w-100">
+              <thead>
+                <tr >
+                  <th scope="col" style="color: #7C7C7C;">Staff Name</th>
+                  <th scope="col" style="color: #7C7C7C;">Check In</th>
+                  <th scope="col" style="color: #7C7C7C;">Check Out</th>
+                  <th scope="col" style="color: #7C7C7C;">Shift</th>
+                  <th scope="col" style="color: #7C7C7C;">Location</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>Adji Budhi</td>
+                      <td>08:00 AM</td>
+                      <td>16:20 PM</td>
+                      <td>1</td>
+                      <td>Andista Animal Care</td>
                   </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Adji Budhi</td>
-                        <td>08:00 AM</td>
-                        <td>16:20 PM</td>
-                        <td>1</td>
-                        <td>Andista Animal Care</td>
-                    </tr>
-                </tbody>
-            </table>
+              </tbody>
+          </table>
         </div>    
     </div>
   </div>

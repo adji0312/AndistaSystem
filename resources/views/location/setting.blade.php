@@ -15,27 +15,6 @@
         <div id="dashboard" class="mx-3 mt-3">
 
             <div class="d-flex gap-2">
-                {{-- <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 100%">
-                    <div class="d-flex justify-content-between">
-                        <h5 class="m-3">Usage Address</h5>
-                        <div class="m-3">
-                            <button type="button" class="btn btn-sm btn-outline-dark insert_unit" id="insert_unit"><i class="fas fa-plus"></i> Add</button>
-                        </div>
-                    </div>
-                    <div class="m-3 mt-0 d-flex gap-5">
-                        <table class="table">
-                            <thead>
-                              <tr>
-                                <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
-                                <th scope="col" style="color: #7C7C7C">Usage Name</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                </div> --}}
 
                 <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 100%">
                     <div class="d-flex justify-content-between">

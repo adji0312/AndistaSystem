@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->string('booking_name')->unique();
             $table->foreignId('customer_id');
             $table->foreignId('location_id');
-            $table->foreignId('treatment_id');
-            $table->foreignId('statistik_id');
-            $table->foreignId('catatan_id');
-            $table->string('product_id');
-            $table->string('status'); //confirmed, started, completed, paid, unpaid (default saat pertama booking confirmed)
-            $table->string('category');
-            $table->text('resepsionisNotes');
+            $table->date('booking_date');
+            $table->string('category'); //tidak dikenakan biaya, langsung datang, rawat inap, darurat
+            $table->text('resepsionisNotes')->nullable();
+            $table->integer('total_price')->nullable(); //ambil dari table bookingservice where booking_id sama, ambil dari table bookingcart where booking_id sama
+            $table->string('status')->default('confirmed'); //confirmed, started, completed (kalau sudah completed, langsung masuk ke table sale dengan status unpain)
+            $table->integer('temp')->default(1);
+            $table->integer('duration')->nullable();
+            $table->string('alasan_kunjungan')->nullable();
             $table->timestamps();
         });
     }

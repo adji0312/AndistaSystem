@@ -15,7 +15,7 @@
                         <a class="nav-link active" aria-current="page" href="/location/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" onclick="saveLocation()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
+                        <a class="nav-link active" aria-current="page" onclick="saveLocation()" style="color: #f28123; cursor: pointer;">Next <img src="/img/icon/continue.png" alt="" style="width: 22px"></a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
@@ -48,7 +48,12 @@
               <div class="m-3 d-flex gap-5">
                   <div class="mb-3">
                       <label for="location_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location Name</label>
-                      <input type="text" class="form-control" id="location_name" name="location_name">
+                      <input type="text" class="form-control @error('location_name') is-invalid @enderror" id="location_name" name="location_name" value="{{ old('location_name') }}" required>
+                      @error('location_name')
+                          <div class="invalid-feedback">
+                              {{ $message }}
+                          </div>
+                      @enderror
                   </div>
                   <div class="mb-3">
                     <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
@@ -63,31 +68,6 @@
             {{-- OPERATING HOURS --}}
             <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
               <h5 class="m-3">Operating Hours</h5>
-
-              {{-- <div class="m-3 mb-0 mt-4 mx-5 d-flex gap-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="toggleAll" name="">
-                  <label class="form-check-label" for="toggleAll" style="font-size: 15px; width: 100px">
-                    Toggle All
-                  </label>
-                </div>
-                <div class="mb-3 d-flex align-items-center">
-                  <i class="far fa-clock icon" style="color: #949494;">
-                  </i>
-                  <input type="text" class="form-control" name="all_time_on" id="all_time_on" oninput="inputAllDayTimeOn()" placeholder="From" style="width: 150px;" maxlength="5" disabled>
-                </div>
-                <div class="mb-3 d-flex align-items-center">
-                  <i class="far fa-clock icon" style="color: #949494;">
-                  </i>
-                  <input type="text" class="form-control" name="all_time_off" id="all_time_off" oninput="inputAllDayTimeOff()" placeholder="To" style="width: 150px;" maxlength="5" disabled>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="all_day" name="all_day" disabled>
-                  <label class="form-check-label" for="all_day" style="font-size: 15px;">
-                    All Day
-                  </label>
-                </div>
-              </div> --}}
 
               {{-- MONDAY --}}
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
@@ -294,7 +274,7 @@
             </div>
 
             {{-- ADDRESS --}}
-            <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+            <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
               <h5 class="m-3">Address</h5>
               <div class="m-3 d-flex flex-column">
                   <div class="mb-3" style="width: 70%">
@@ -335,7 +315,7 @@
 
           
             {{-- CONTACT --}}
-            <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+            {{-- <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
               <h5 class="m-3">Contact</h5>
               <div class="mt-2 m-5" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                 <h6 class="m-3">Phone</h6>
@@ -434,18 +414,7 @@
                   <button type="button" class="btn btn-sm btn-outline-dark" onclick="duplicateMessenger()"><i class="fas fa-plus"></i> Add</button>
                 </div>
               </div>
-            </div>
-            
-            {{-- PHOTOS --}}
-            <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-              <h5 class="m-3 mb-0">Photos</h5>
-              <div class="m-3 mt-0">
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;"></label>
-                  <input type="file" class="form-control mt-1" name="image">
-                </div>
-              </div>
-            </div>
+            </div> --}}
 
             <button type="submit" id="submitLocation" hidden></button>
           </form>

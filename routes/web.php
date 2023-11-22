@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryServiceController;
+use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ListPlanController;
@@ -9,6 +11,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MessengerTypeController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\TaskController;
@@ -19,6 +22,7 @@ use App\Http\Controllers\UsageAddressController;
 use App\Http\Controllers\UsageContactController;
 use App\Http\Controllers\StaffController;
 use App\Models\Attendance;
+use App\Models\Booking;
 use App\Models\Facility;
 use App\Models\UsageContact;
 use Illuminate\Support\Facades\Route;
@@ -36,19 +40,29 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'home']);
 Route::get('/upcoming-booking', [IndexController::class, 'upcomingbooking']);
+
+//AUTO SEARCHING
 Route::get('/location/list/add/autocomplete-search', [IndexController::class, 'autocompleteSearch']);
+Route::get('/newBooking/autocomplete-search', [IndexController::class, 'serviceAutocompleteSearch']);
+Route::get('/newBooking/alasan/autocomplete-search', [IndexController::class, 'alasanKunjunganSearch']);
 
 //Location
 Route::get('/location', [IndexController::class, 'locationDashboard']);
 Route::get('/location/list', [IndexController::class, 'locationList']);
 Route::get('/location/list/add', [IndexController::class, 'addLocation']);
 Route::post('/addLocation', [LocationController::class, 'store']);
+Route::post('/editLocation/{id}', [LocationController::class, 'edit']);
 Route::get('/location/{location_name}', [IndexController::class, 'editLocation']);
 Route::get('/location-setting', [IndexController::class, 'settingLocation']);
 
 // Finance
 Route::get('/finance', [IndexController::class, 'financeDashboard']);
-Route::get('/finance/list', [IndexController::class, 'financeList']);
+Route::get('/sale/list/paid', [IndexController::class, 'salelistpaid']);
+Route::get('/sale/list/unpaid', [IndexController::class, 'salelistunpaid']);
+Route::get('/quotation/list', [QuotationController::class, 'quotationList']);
+Route::get('/quotation/add', [QuotationController::class, 'addquotation']);
+Route::get('/quotation/add/{name}', [QuotationController::class, 'addquotationdetail']);
+Route::post('/storeQuotation', [QuotationController::class, 'storeQuotation']);
 Route::get('/finance/taxrate', [IndexController::class, 'financeTaxRate']);
 Route::post('/addTaxRate', [TaxRateController::class, 'store']);
 Route::post('/updateTaxRate/{id}', [TaxRateController::class, 'update']);
@@ -77,15 +91,21 @@ Route::post('/addPriceService', [ServiceController::class, 'addPriceService']);
 Route::post('/updatePriceService/{id}', [ServiceController::class, 'updatePriceService']);
 Route::get('/deletePriceService/{id}', [ServiceController::class, 'deletePriceService']);
 Route::post('/addFacilityService', [ServiceController::class, 'addFacilityService']);
+Route::post('/addStaffService', [ServiceController::class, 'addStaffService']);
 Route::get('/deleteFacilityService/{id}', [ServiceController::class, 'deleteFacilityService']);
+Route::get('/deleteStaffService/{id}', [ServiceController::class, 'deleteStaffService']);
 
 
 
 // Service Category
 Route::get('/service/category', [IndexController::class, 'serviceCategory']);
+Route::get('/service/diagnosis', [IndexController::class, 'serviceDiagnosis']);
 Route::post('/addCategory', [CategoryServiceController::class, 'store']);
+Route::post('/addDiagnosis', [DiagnosisController::class, 'store']);
 Route::post('/updateCategory/{id}', [CategoryServiceController::class, 'update']);
+Route::post('/updateDiagnosis/{id}', [DiagnosisController::class, 'update']);
 Route::get('/deleteCategory', [CategoryServiceController::class, 'deleteCategory']);
+Route::get('/deleteDiagnosis', [DiagnosisController::class, 'deleteDiagnosis']);
 
 Route::post('/post', [IndexController::class, 'store']);
 
@@ -102,20 +122,22 @@ Route::post('/editFacility/{id}', [FacilityController::class, 'edit']);
 Route::post('/updateunitfacility/{id}', [UnitFacilityController::class, 'editUnit']);
 Route::get('/location/facility/{facility_name}', [IndexController::class, 'editFacility']);
 Route::get('/deleteUnit/{id}', [UnitFacilityController::class, 'deleteUnit']);
+Route::get('/discardFacility/{id}', [FacilityController::class, 'discardFacility']);
 
 
 
 //Treatment Plan
 Route::get('/service/treatmentplan/add/{name}', [ListPlanController::class, 'index']);
 Route::post('/addTreatment', [PlanController::class, 'storeTreatment']);
-Route::post('/addDiagnosis', [PlanController::class, 'storeDiagnosis']);
 Route::get('/deleteItem/{id}', [ListPlanController::class, 'deleteItem']);
 Route::post('/updateTreatment/{id}', [PlanController::class, 'updateTreatment']);
 Route::get('/deletePlan', [PlanController::class, 'deletePlan']);
 
 //List Plan in Treatment
 Route::post('/addTaskPlan', [ListPlanController::class, 'addTaskPlan']); //task
+Route::post('/editTaskPlan/{id}', [ListPlanController::class, 'editTaskPlan']);
 Route::post('/addServicePlan', [ListPlanController::class, 'addServicePlan']); //task
+Route::post('/editServicePlan/{id}', [ListPlanController::class, 'editServicePlan']);
 
 
 // Usage Contact
@@ -150,7 +172,9 @@ Route::get('/report', [IndexController::class, 'allReport']);
 
 //Calendar
 Route::get('/calendar', [IndexController::class, 'dashboardCalendar']);
-Route::get('/newBooking', [IndexController::class, 'createbooking']);
+Route::get('/list-booking', [BookingController::class, 'listBooking']);
+Route::get('/newBooking', [BookingController::class, 'createbooking']);
+Route::get('/newBooking/{name}', [BookingController::class, 'createbookingDetail']);
 Route::get('/bookingdetail', [IndexController::class, 'bookingdetail']);
 
 //Presence
@@ -169,7 +193,11 @@ Route::post('/addEmailLocation', [LocationController::class, 'addEmailLocation']
 Route::get('/deleteEmail/{id}', [LocationController::class, 'deleteEmail']);
 Route::post('/updateEmailLocation/{id}', [LocationController::class, 'updateEmailLocation']);
 
-Route::post('/selectService', [IndexController::class, 'selectService']);
+// Booking
+Route::post('/addBooking', [BookingController::class, 'storeBooking']);
+Route::post('/editBooking/{id}', [BookingController::class, 'editBooking']);
+Route::post('/addBookingService', [BookingController::class, 'addBookingService']);
+Route::post('/editBookingService/{id}', [BookingController::class, 'editBookingService']);
 
 // Staff
 Route::get('/Staff',[IndexController::class,'staffDashboard']);

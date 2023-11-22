@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    console.log('everywhere');
+    // console.log('everywhere');
     $("#sidebar").mCustomScrollbar({
         theme: "minimal"
     });
@@ -16,40 +16,7 @@ $(document).ready(function () {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
 
-    
-    
-    // $("#locationslist").on("click", function (event) {
-    //     event.preventDefault();
-    //     console.log('list');
-    //     $("#dashboard").load("/location/list");
-    // });
-
-    // $("#locationsfacilities").on("click", function (event) {
-    //     event.preventDefault();
-    //     console.log('facility');
-    //     $("#dashboard").load("/location/facility");
-    // });
-
-    // $("#locationsdashboard").on("click", function (event) {
-    //     event.preventDefault();
-    //     console.log('dashboard');
-    //     $("#dashboard").load("/location");
-    // });
 });
-
-// $(document).ready(function(){
-    // $('#myselect').on("change", function() { //jQuery Change Function
-        // console.log('openselect');
-        // var sOptionVal =$(this).val();
-        // if(sOptionVal=='openmodalusage'){
-        //         $('#usagephone').modal('show');
-        // }
-        // var opval = $(this).val(); //Get value from select element
-        // if(opval=="openmodalusage"){ //Compare it and if true
-        //     $('#usagephone').modal("show"); //Open Modal
-        // }
-    // });
-// });
 
 var e = document.getElementById("mySelectPhone");
 var f = document.getElementById("mySelectEmail");
@@ -271,39 +238,39 @@ $("input[name='checkBox']").change(function() {
 
 var arrayOfIdStaff = [];
 // document.cookie = "name = " + arrayOfIdStaff;
-let cookieVal;
-$("input[name='getIdStaff']").change(function() {
-    console.log('di add staff');
-    var checked = $(this).val();
-    console.log(checked);
-    if ($(this).is(':checked')) {
-        arrayOfIdStaff.push(checked);
-    }else{
-        arrayOfIdStaff.splice($.inArray(checked, arrayOfIdStaff),1);
-    }
+// let cookieVal;
+// $("input[name='getIdStaff']").change(function() {
+//     console.log('di add staff');
+//     var checked = $(this).val();
+//     console.log(checked);
+//     if ($(this).is(':checked')) {
+//         arrayOfIdStaff.push(checked);
+//     }else{
+//         arrayOfIdStaff.splice($.inArray(checked, arrayOfIdStaff),1);
+//     }
 
-    document.getElementById('idstaff').value = arrayOfIdStaff;
-    document.cookie = "value = " + arrayOfIdStaff;
-    cookieVal = document.cookie =  arrayOfIdStaff;
-    document.cookie = "lengthStaff = " + arrayOfIdStaff.length;
+//     document.getElementById('idstaff').value = arrayOfIdStaff;
+//     document.cookie = "value = " + arrayOfIdStaff;
+//     cookieVal = document.cookie =  arrayOfIdStaff;
+//     document.cookie = "lengthStaff = " + arrayOfIdStaff.length;
 
-    console.log(cookieVal);
+//     console.log(cookieVal);
 
-    // var x = document.getElementById("deleteButton");
-    // if(arrayOfIdStaff.length != 0){
-    //     x.style.display = "block";
-    //     console.log('tidak');
-    // }else{
-    //     x.style.display = "none";
-    //     console.log('yes');
-    // }
+//     // var x = document.getElementById("deleteButton");
+//     // if(arrayOfIdStaff.length != 0){
+//     //     x.style.display = "block";
+//     //     console.log('tidak');
+//     // }else{
+//     //     x.style.display = "none";
+//     //     console.log('yes');
+//     // }
 
-    console.log(arrayOfIdStaff);
-});
+//     console.log(arrayOfIdStaff);
+// });
 
-function viewId(){
-    console.log(cookieVal);
-}
+// function viewId(){
+//     console.log(cookieVal);
+// }
 
 function saveStaff(){
     $('#staffservice').modal("hide");
@@ -335,6 +302,14 @@ function saveService(){
 
 function saveLocation(){
     let a = document.getElementById('submitLocation').click();
+
+}
+function saveQuotation(){
+    let a = document.getElementById('submitQuotation').click();
+}
+
+function saveBooking(){
+    let a = document.getElementById('submitBooking').click();
 }
 
 
@@ -1713,16 +1688,42 @@ $('.searchcountry').on('typeahead:selected', function (e, datum) {
     console.log(datum);
     // $('#item_code').val(datum.item_code);
 });
-// $('#searchcountry').on('typeahead:select', function (e, datum) {
-//     console.log(e);
-// });
 
-// window.onbeforeunload = function() {
-//     let item = localStorage.setItem("service_name", $('#service_name').val());
-//     console.log(item);
-//     // localStorage.setItem("email", $('#inputEmail').val());
-//     // ...
-// }
+var route1 = "/newBooking/autocomplete-search";
+    $('#searchService').typeahead({
+        source: function (query, process) {
+            console.log(query);
+            return $.get(route1, {
+                query: query
+            }, function (data) {
+                console.log(data);
+                return process(data);
+            });
+        }
+    });
+
+$('.searchService').on('typeahead:selected', function (e, datum) {
+    console.log(datum);
+    // $('#item_code').val(datum.item_code);
+});
+
+var route2 = "/newBooking/alasan/autocomplete-search";
+    $('#alasan_kunjungan').typeahead({
+        source: function (query, process) {
+            console.log(query);
+            return $.get(route2, {
+                query: query
+            }, function (data) {
+                console.log(data);
+                return process(data);
+            });
+        }
+    });
+
+$('.alasan_kunjungan').on('typeahead:selected', function (e, datum) {
+    console.log(datum);
+    // $('#item_code').val(datum.item_code);
+});
 
 function updateUnit(e){
     let unit_name = document.getElementById('unit_name' + e);
@@ -1753,6 +1754,17 @@ function inputCategoryService(){
     }
 }
 
+function inpuDiagnosisService(){
+    let diagnosis_name = document.getElementById('diagnosis_name');
+
+    let buttonSubmitDiagnosis = document.getElementById('saveDiagnosis');
+    if(diagnosis_name.value == null || diagnosis_name.value == ''){
+        buttonSubmitDiagnosis.disabled = true;
+    }else{
+        buttonSubmitDiagnosis.disabled = false;
+    }
+}
+
 
 
 
@@ -1773,3 +1785,69 @@ function changeLocation(e){
         filterLocation2.action = "managestaff/" + e.value;
     }
 }
+
+var arrayOfCategory = [];
+
+// $("input[name='checkBox']").change(function() {
+//     var checked = $(this).val();
+//     if ($(this).is(':checked')) {
+//         arrayOfId.push(checked);
+//         arrayOfName.push(checked);
+//     }else{
+//         arrayOfId.splice($.inArray(checked, arrayOfId),1);
+//     }
+
+//     var x = document.getElementById("deleteButton");
+//     if(arrayOfId.length != 0){
+//         x.style.display = "block";
+//         console.log('tidak');
+//     }else{
+//         x.style.display = "none";
+//         console.log('yes');
+//     }
+
+//     console.log(arrayOfId);
+// });
+
+$("input[name='checkCategory']").change(function() {
+    var checkedValue = $(this).val();
+
+    if ($(this).is(':checked')) {
+        arrayOfCategory.push(checkedValue);
+    }else{
+        arrayOfCategory.splice($.inArray(checkedValue, arrayOfCategory),1);
+    }
+
+    let category = document.getElementById('category');
+    category.value = arrayOfCategory;
+});
+
+$("#rawat_inap").change(function(){
+    if ($(this).is(':checked')) {
+        let duration_field = document.getElementById('duration_field');
+        duration_field.style.display = "block";
+    }else{
+        let duration_field = document.getElementById('duration_field');
+        duration_field.style.display = "none";
+    }
+});
+
+// $("#service_price_id").change(function(){
+    
+//     let price = document.getElementById('service_price2');
+//     console.log(price);
+// });
+
+// function selectPrice(){
+//     console.log(($(this)));
+//     var e = document.getElementById("service_price_id");
+//     var value = e.value;
+    
+//     var f = document.getElementById("selectedPrice" + value);
+//     // console.log(f.value);
+
+//     var price = document.getElementById("price");
+//     price.value = f.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+// }
+
+// var text = e.options[e.selectedIndex].text;

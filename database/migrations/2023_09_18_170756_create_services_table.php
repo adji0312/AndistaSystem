@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('location_id');
             $table->foreignId('tax_id');
             $table->foreignId('category_service_id');
-            $table->foreignId('policy_id');
+            $table->foreignId('policy_id')->nullable();
             $table->string('service_name');
             $table->string('simple_service_name');
             $table->string('status');

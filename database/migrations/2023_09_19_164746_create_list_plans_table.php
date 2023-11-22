@@ -18,8 +18,10 @@ return new class extends Migration
             $table->foreignId('service_id');
             $table->foreignId('product_id');
             $table->foreignId('frequency_id');
+            $table->foreignId('service_price_id');
             $table->integer('start_day');
             $table->integer('duration');
+            $table->integer('quantity');
             $table->integer('temp');
             $table->text('notes')->nullable();
             $table->timestamps();
