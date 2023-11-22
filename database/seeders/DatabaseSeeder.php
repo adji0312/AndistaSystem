@@ -22,29 +22,15 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            RoleSeeder::class,
-            StaffBackgroundSeeder::class,
-            StaffJobSeeder::class,
-            PositionSeeder::class,
-            StaffSeeder::class,
-            LocationSeeder::class,
-            StaffAddressSeeder::class,
             BrandSeeder::class,
-            CategorySeeder::class,
-            ProductSeeder::class,
             SupplierSeeder::class,
-            TaxRateSeeder::class,
-            CountrySeeder::class,
-            AddressSeeder::class,
-            IDTypeSeeder::class,
-            JobSeeder::class,
-            ClientGrupSeeder::class,
-            SubCustomerSeeder::class,
-            BackgroundSeeder::class,
-            AddressSeeder::class,
+            CategoryProductSeeder::class,
+            ProductSeeder::class,
             CustomerSeeder::class,
-            
-
+            PetSeeder::class,
+            StaffSeeder::class,
+            RoleSeeder::class,
+            PositionSeeder::class
         ]);
 
         Frequency::create([

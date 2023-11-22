@@ -18,8 +18,8 @@ class StaffSeeder extends Seeder
         Staff::insert([
             [
                 'role_id'=>'1',
-                // 'service_id'=>'1',
-                'first_name'=>'Joko',
+                'position_id'=>'1',
+                'first_name'=>'Joko1',
                 'middle_name'=>'ui',
                 'last_name'=>'1',
                 'nickname'=>'zokowi1',
@@ -28,13 +28,15 @@ class StaffSeeder extends Seeder
                 'descriptions'=>'mantap',
                 'phone'=>'123456789',
                 'email'=>'a@yahoo.com',
-                'image'=>'pathtoimage',
-                'uuid'=> Str::uuid()
+                'messenger'=>'@jokoui',
+                'uuid'=> Str::uuid(),
+                'address'=>"Jl in aja dulu",
+                "shifts_id"=>"1"
             ],
             [
                 'role_id'=>'2',
-                // 'service_id'=>'1',
-                'first_name'=>'Joko',
+                'position_id'=>'2',
+                'first_name'=>'Joko2',
                 'middle_name'=>'ui',
                 'last_name'=>'2',
                 'nickname'=>'zokowi2',
@@ -43,13 +45,15 @@ class StaffSeeder extends Seeder
                 'descriptions'=>'mantap',
                 'phone'=>'123456789',
                 'email'=>'a@yahoo.com',
-                'image'=>'pathtoimage',
-                'uuid'=> Str::uuid()
+                'messenger'=>'@jokoui',
+                'uuid'=> Str::uuid(),
+                'address'=>"Jl in aja dulu",
+                "shifts_id"=>"1"
             ],
             [
                 'role_id'=>'3',
-                // 'service_id'=>'1',
-                'first_name'=>'Joko',
+                'position_id'=>'3',
+                'first_name'=>'Joko3',
                 'middle_name'=>'ui',
                 'last_name'=>'3',
                 'nickname'=>'zokowi3',
@@ -58,13 +62,15 @@ class StaffSeeder extends Seeder
                 'descriptions'=>'mantap',
                 'phone'=>'123456789',
                 'email'=>'a@yahoo.com',
-                'image'=>'pathtoimage',
-                'uuid'=> Str::uuid()
+                'messenger'=>'@jokoui',
+                'uuid'=> Str::uuid(),
+                'address'=>"Jl in aja dulu",
+                "shifts_id"=>"1"
             ],
             [
                 'role_id'=>'4',
-                // 'service_id'=>'1',
-                'first_name'=>'Joko',
+                'position_id'=>'4',
+                'first_name'=>'Joko2',
                 'middle_name'=>'ui',
                 'last_name'=>'4',
                 'nickname'=>'zokowi4',
@@ -73,28 +79,32 @@ class StaffSeeder extends Seeder
                 'descriptions'=>'mantap',
                 'phone'=>'123456789',
                 'email'=>'a@yahoo.com',
-                'image'=>'pathtoimage',
-                'uuid'=> Str::uuid()
+                'messenger'=>'@jokoui',
+                'uuid'=> Str::uuid(),
+                'address'=>"Jl in aja dulu",
+                "shifts_id"=>"1"
             ],
             [
                 'role_id'=>'5',
-                // 'service_id'=>'1',
-                'first_name'=>'Joko',
+                'position_id'=>'5',
+                'first_name'=>'Joko5',
                 'middle_name'=>'ui',
-                'last_name'=>'5',
+                'last_name'=>'2',
                 'nickname'=>'zokowi5',
                 'gender'=>'male',
                 'status'=>'oke',
                 'descriptions'=>'mantap',
                 'phone'=>'123456789',
                 'email'=>'a@yahoo.com',
-                'image'=>'pathtoimage',
-                'uuid'=> Str::uuid()
+                'messenger'=>'@jokoui',
+                'uuid'=> Str::uuid(),
+                'address'=>"Jl in aja dulu",
+                "shifts_id"=>"1"
             ],
             [
                 'role_id'=>'6',
-                // 'service_id'=>'1',
-                'first_name'=>'Joko',
+                'position_id'=>'6',
+                'first_name'=>'Joko6',
                 'middle_name'=>'ui',
                 'last_name'=>'6',
                 'nickname'=>'zokowi6',
@@ -103,13 +113,15 @@ class StaffSeeder extends Seeder
                 'descriptions'=>'mantap',
                 'phone'=>'123456789',
                 'email'=>'a@yahoo.com',
-                'image'=>'pathtoimage',
-                'uuid'=> Str::uuid()
+                'messenger'=>'@jokoui',
+                'uuid'=> Str::uuid(),
+                'address'=>"Jl in aja dulu",
+                "shifts_id"=>"1"
             ],
             [
                 'role_id'=>'7',
-                // 'service_id'=>'1',
-                'first_name'=>'Joko',
+                'position_id'=>'7',
+                'first_name'=>'Joko7',
                 'middle_name'=>'ui',
                 'last_name'=>'7',
                 'nickname'=>'zokowi7',
@@ -118,23 +130,10 @@ class StaffSeeder extends Seeder
                 'descriptions'=>'mantap',
                 'phone'=>'123456789',
                 'email'=>'a@yahoo.com',
-                'image'=>'pathtoimage',
-                'uuid'=> Str::uuid()
-            ],
-            [
-                'role_id'=>'4',
-                // 'service_id'=>'1',
-                'first_name'=>'Joko',
-                'middle_name'=>'ui',
-                'last_name'=>'8',
-                'nickname'=>'zokowi8',
-                'gender'=>'male',
-                'status'=>'oke',
-                'descriptions'=>'mantap',
-                'phone'=>'123456789',
-                'email'=>'a@yahoo.com',
-                'image'=>'pathtoimage',
-                'uuid'=> Str::uuid()
+                'messenger'=>'@jokoui',
+                'uuid'=> Str::uuid(),
+                'address'=>"Jl in aja dulu",
+                "shifts_id"=>"1"
             ],
         ]);
     }

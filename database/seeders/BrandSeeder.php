@@ -21,6 +21,25 @@ class BrandSeeder extends Seeder
             [
                 'brand_name'=>'pet fill'
             ],
+            [
+                'brand_name'=>'pepsodent'
+            ],
+            [
+                'brand_name'=>'sensodyne'
+            ],
+            [
+                'brand_name'=>'royal canin'
+            ],
+            [
+                'brand_name'=>'pedigree'
+            ],
+            [
+                'brand_name'=>'purina'
+            ],
+            [
+                'brand_name'=>'friskies'
+            ],
+            
         ]);
     }
 }

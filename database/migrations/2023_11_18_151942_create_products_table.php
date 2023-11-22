@@ -26,10 +26,8 @@ return new class extends Migration
             $table->string('supplier_pid');
             $table->float('price');
             $table->integer('stock');
-            $table->integer('quantity');
             $table->string('description');
             $table->string('status');
-            $table->string('image');
         });
     }
 

@@ -21,7 +21,19 @@ class SupplierSeeder extends Seeder
             ],
             [
                 "suppliers_name"=>"PT Kucing Sejahtera"
-            ]
+            ],
+            [
+                "suppliers_name"=>"PT Sari Bumi Raya"
+            ],
+            [
+                "suppliers_name"=>"PT Alfamidi Trijaya"
+            ],
+            [
+                "suppliers_name"=>"PT Koperasi Simpan Pinjam"
+            ],
+            [
+                "suppliers_name"=>"PT Botol Sejahtera"
+            ],
         ]);
     }
 }
