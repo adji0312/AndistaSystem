@@ -13,7 +13,7 @@
     </nav>
 
         <div id="dashboard" class="mx-3 mt-3">
-            {{ $title }}
+          <div id='calendar' style="width: 60%"></div>
         </div>
     </div>
   </div>

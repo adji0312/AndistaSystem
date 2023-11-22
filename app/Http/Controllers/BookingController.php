@@ -10,6 +10,7 @@ use App\Models\Service;
 use App\Models\ServiceAndStaff;
 use App\Models\ServicePrice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
@@ -27,6 +28,48 @@ class BookingController extends Controller
         return view('calendar.createBooking', [
             "title" => "Booking",
             "locations" => Location::all()->where('status', 'Active')
+        ]);
+    }
+
+    // Jenis jenis booking
+    public function bookingdarurat(){
+        return view('calendar.darurat', [
+            "title" => "Darurat"
+        ]);
+    }
+
+    public function bookingterjadwal(){
+        return view('calendar.terjadwal', [
+            "title" => "Terjadwal"
+        ]);
+    }
+
+    public function bookingkedatangan(){
+
+        $bookingkedatangan = Booking::where('category', 'LIKE', "%langsung_datang%")->where('status', 'Datang')->get();
+        // dd($bookingkedatangan);
+
+        return view('calendar.kedatangan', [
+            "title" => "Kedatangan",
+            "bookings" => $bookingkedatangan
+        ]);
+    }
+
+    public function bookingrawatinap(){
+        return view('calendar.rawatinap', [
+            "title" => "Rawat Inap"
+        ]);
+    }
+
+    public function bookingmemulai(){
+        return view('calendar.memulai', [
+            "title" => "Memulai"
+        ]);
+    }
+
+    public function bookingselesai(){
+        return view('calendar.selesai', [
+            "title" => "Selesai"
         ]);
     }
     
@@ -49,9 +92,6 @@ class BookingController extends Controller
 
         $alasan = AlasanKunjungan::all()->where('name', $request->alasan_kunjungan)->first();
         if($alasan == null){
-            // $validatedAlasan = $request->validate([
-            //     'alasan_kunjungan' => ''
-            // ]);
             $validatedAlasan['name'] = $request->alasan_kunjungan;
             AlasanKunjungan::create($validatedAlasan);
         }else{
@@ -74,12 +114,19 @@ class BookingController extends Controller
             $validatedData['booking_name'] = "BOOK-" . $nextNumber;
         }
 
-        // dd($validatedData['booking_name']);
-
         if($request->category != null || $request->category != ''){
             $validatedData['category'] = $request->category;
         }else{
             $validatedData['category'] = '-';
+        }
+        
+        if(strpos($validatedData['category'], "langsung_datang") !== false){
+            $validatedData['status'] = "Datang";
+            $date = Date::now();
+            // $dateBooking = date_format($date, 'Y-d-m');
+            $validatedData['booking_date'] = $date;
+        }else{
+            $validatedData['status'] = "Terkonfirmasi";
         }
 
         if($request->duration != null || $request->duration != ''){
@@ -101,7 +148,6 @@ class BookingController extends Controller
         }
 
         $validatedData['total_price'] = 0;
-        $validatedData['status'] = "confirmed";
         $validatedData['temp'] = 1;
 
         Booking::create($validatedData);
@@ -198,6 +244,22 @@ class BookingController extends Controller
     }
 
     public function editBookingService(Request $request, $id){
+
+        // Save ke table staff_sibuk
+        // - booking_date
+        // - service_time
+        // - staff_id
+        // - duration
+        // - max_time
+
+        // query where last booking.staff_id (skrg) = staff_id;
+        // trus cek tanggal skrg = booking_date;
+
+
+
+        // trus cek time lebih besar gk dari max time -> aman
+        // tapi kalu cek time k
+        // if(booking_date == )
 
         // dd($request->all());
         $bookingservice = BookingService::find($id);

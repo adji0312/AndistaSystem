@@ -1829,25 +1829,8 @@ $("#rawat_inap").change(function(){
     }else{
         let duration_field = document.getElementById('duration_field');
         duration_field.style.display = "none";
+
+        let value = document.getElementById('duration');
+        value.value = '';
     }
 });
-
-// $("#service_price_id").change(function(){
-    
-//     let price = document.getElementById('service_price2');
-//     console.log(price);
-// });
-
-// function selectPrice(){
-//     console.log(($(this)));
-//     var e = document.getElementById("service_price_id");
-//     var value = e.value;
-    
-//     var f = document.getElementById("selectedPrice" + value);
-//     // console.log(f.value);
-
-//     var price = document.getElementById("price");
-//     price.value = f.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-// }
-
-// var text = e.options[e.selectedIndex].text;

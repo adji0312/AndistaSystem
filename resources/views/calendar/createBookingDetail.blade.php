@@ -187,6 +187,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-2">
+                                                <button type="button" class="btn btn-outline-primary btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteUnit"><i class="fas fa-check"></i> Check</button>
                                                 <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteUnit"><i class="fas fa-trash"></i> Delete</button>
                                             </div>
                                         </td>

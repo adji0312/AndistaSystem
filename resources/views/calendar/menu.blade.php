@@ -8,18 +8,26 @@
         <li style="cursor: pointer" class="{{ ($title === "Booking") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/newBooking" class="px-4"><img src="/img/icon/plusgrey.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Create Booking</a>
         </li>
-        {{-- <li style="cursor: pointer" class="{{ ($title === "List Booking") ? 'active' : '' }}">
-            <a id="locationsdashboard" href="/list-booking" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; List Booking</a>
-        </li> --}}
-        <li style="cursor: pointer" class="{{ ($title === "Sale List Paid" || $title === "Sale List Unpaid") ? 'active' : '' }}">
-            <a id="locationslist" class="dropdown-toggle px-4" data-bs-toggle="dropdown">
-                <img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; List Booking
-            </a>
-            <ul class="dropdown-menu mx-3">
-                <li><a class="dropdown-item {{ ($title === "Sale List Unpaid") ? 'active' : '' }}" href="/sale/list/unpaid">Darurat</a></li>
-                <li><a class="dropdown-item {{ ($title === "Sale List Paid") ? 'active' : '' }}" href="/sale/list/paid">Langsung Datang</a></li>
-                <li><a class="dropdown-item {{ ($title === "Sale List Unpaid") ? 'active' : '' }}" href="/sale/list/unpaid">Rawat Inap</a></li>
-            </ul>
+        <li style="cursor: pointer" class="{{ ($title === "List Booking") ? 'active' : '' }}">
+            <a id="locationsdashboard" href="/list-booking" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; List All Booking</a>
+        </li>
+        <li style="cursor: pointer" class="{{ ($title === "Darurat") ? 'active' : '' }}">
+            <a id="locationsdashboard" href="/booking/darurat" class="px-4"><img src="/img/icon/darurat.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Darurat</a>
+        </li>
+        <li style="cursor: pointer" class="{{ ($title === "Terjadwal") ? 'active' : '' }}">
+            <a id="locationsdashboard" href="/booking/terjadwal" class="px-4"><img src="/img/icon/terjadwal.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Terjadwal</a>
+        </li>
+        <li style="cursor: pointer" class="{{ ($title === "Kedatangan") ? 'active' : '' }}">
+            <a id="locationsdashboard" href="/booking/kedatangan" class="px-4"><img src="/img/icon/kedatangan.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Kedatangan</a>
+        </li>
+        <li style="cursor: pointer" class="{{ ($title === "Rawat Inap") ? 'active' : '' }}">
+            <a id="locationsdashboard" href="/booking/rawatinap" class="px-4"><img src="/img/icon/rawatinap.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Rawat Inap</a>
+        </li>
+        <li style="cursor: pointer" class="{{ ($title === "Memulai") ? 'active' : '' }}">
+            <a id="locationsdashboard" href="/booking/memulai" class="px-4"><img src="/img/icon/memulai.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Memulai</a>
+        </li>
+        <li style="cursor: pointer" class="{{ ($title === "Selesai") ? 'active' : '' }}">
+            <a id="locationsdashboard" href="/booking/selesai" class="px-4"><img src="/img/icon/selesai.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Selesai</a>
         </li>
     </ul>
 </nav>

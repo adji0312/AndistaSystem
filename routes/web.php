@@ -177,6 +177,15 @@ Route::get('/newBooking', [BookingController::class, 'createbooking']);
 Route::get('/newBooking/{name}', [BookingController::class, 'createbookingDetail']);
 Route::get('/bookingdetail', [IndexController::class, 'bookingdetail']);
 
+//Booking
+Route::get('/booking/darurat', [BookingController::class, 'bookingdarurat']);
+Route::get('/booking/terjadwal', [BookingController::class, 'bookingterjadwal']);
+Route::get('/booking/kedatangan', [BookingController::class, 'bookingkedatangan']);
+Route::get('/booking/rawatinap', [BookingController::class, 'bookingrawatinap']);
+Route::get('/booking/memulai', [BookingController::class, 'bookingmemulai']);
+Route::get('/booking/selesai', [BookingController::class, 'bookingselesai']);
+
+
 //Presence
 Route::get('/presence', [IndexController::class, 'absent']);
 Route::get('/presence/list', [IndexController::class, 'presencelist']);
