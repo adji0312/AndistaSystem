@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\TaxRate;
+use App\Models\Location;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TaxRateSeeder extends Seeder
+class LocationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,12 +14,12 @@ class TaxRateSeeder extends Seeder
     public function run(): void
     {
         //
-        TaxRate::insert([
+        Location::insert([
             [
-                "tax_name"=>"PPN",
-                "tax_rate"=>0.1,
-                "created_by"=>"Joko",
-                "updated_by"=>"Joko"
+                "location_name"=>"Apotik Andista",
+                "status"=>"Active",
+                "image"=>"pathtoimage",
+                "type"=>"active"
             ]
         ]);
     }

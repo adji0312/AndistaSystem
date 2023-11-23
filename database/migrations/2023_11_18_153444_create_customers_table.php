@@ -14,16 +14,24 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('client_grup_id');
-            $table->foreignId('location_id');
-            $table->string('first_name');
-            $table->string('middle_name');
-            $table->string('last_name');
-            $table->string('degree');
-            $table->string('nickname');
-            $table->string('phone');
-            $table->string('email');
-            $table->string('image');
+            $table->foreignId('location_id')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('middle_name')->nullable();
+            $table->string('last_name')->nullable();    
+            $table->string('degree')->nullable();
+            $table->string('nickname')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('messenger')->nullable();
+            $table->foreignId('messengerId')->nullable();
+            $table->string('address')->nullable();
+            $table->string('card_type')->nullable();
+            $table->string('job_name')->nullable();
+            $table->string('no_id')->nullable();
+            $table->string('join_date')->nullable();
+            $table->string('gender')->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->string('religion')->nullable();
         });
     }
 

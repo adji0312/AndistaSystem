@@ -22,12 +22,15 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            RoleSeeder::class,
-            StaffBackgroundSeeder::class,
-            StaffJobSeeder::class,
-            PositionSeeder::class,
+            BrandSeeder::class,
+            SupplierSeeder::class,
+            CategoryProductSeeder::class,
+            ProductSeeder::class,
+            CustomerSeeder::class,
+            PetSeeder::class,
             StaffSeeder::class,
-            StaffAddressSeeder::class,
+            RoleSeeder::class,
+            PositionSeeder::class,
             CountrySeeder::class,
             FrequencySeeder::class
         ]);

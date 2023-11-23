@@ -14,10 +14,7 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('staff_id');
-            $table->foreignId('job_id');
-            $table->string('start_date');
-            $table->string('end_date');
+            $table->string("position_name");
         });
     }
 

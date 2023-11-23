@@ -15,7 +15,7 @@ class Staff extends Model
         return $this->hasOne(Role::class,'id');
     }
 
-    public function service(){
-        return $this->hasMany(Position::class);
-    }
+    // public function service(){
+    //     return $this->hasMany(Position::class);
+    // }
 }
