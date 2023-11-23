@@ -16,7 +16,7 @@ class LocationController extends Controller
 
     public function store(Request $request){
 
-        dd($request->all());
+        // dd($request->all());
         //working_hours
         $day = $request->get('day');
         $time_on = $request->get('time_on');

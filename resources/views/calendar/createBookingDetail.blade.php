@@ -98,6 +98,107 @@
             </form>
                 <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                     <div class="d-flex gap-1 m-2">
+                        <h5 class="m-3">Sub Account</h5>
+                        <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addSubAccount"><i class="fas fa-plus"></i> Add</button>
+                    </div>
+                    <div class="mx-4 table-responsive">
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Sub Account Name</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col" class="text-center">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <?php $index = 0?>
+                                {{-- @foreach ($booking_services as $bs)
+                                    <?php $index += 1; ?>
+                                    <tr>
+                                        <td>{{ $index }}</td>
+                                        <td>{{ $bs->service->service_name }}</td>
+                                        <td>{{ $bs->time }}</td>
+                                        <td>
+                                            <form action="/editBookingService/{{ $bs->id }}" method="POST">
+                                                @csrf
+                                                <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="service_staff_id" id="service_staff_id{{ $bs->id }}" onchange="selectStaff({{ $bs->id }})">
+                                                    <option value="" disabled selected>Select Staff</option>
+                                                    @foreach ($service_staff->where('service_id', $bs->service_id) as $ss)
+                                                        @if ($ss->staff_id == $bs->service_staff_id)
+                                                            <option selected value="{{ $ss->staff_id }}" class="selectstatus" style="color: black;">{{ $ss->staff->first_name }}</option>
+                                                            @continue;
+                                                        @endif
+                                                        <option value="{{ $ss->staff_id }}" class="selectstatus" style="color: black;">{{ $ss->staff->first_name }}</option>
+                                                    @endforeach
+                                                    
+                                                </select>
+                                                <button type="submit" hidden id="editBookingService2{{ $bs->id }}"></button>
+                                                <script>
+                                                    function selectStaff(id){
+                                                        let button = document.getElementById('editBookingService2' + id).click();
+                                                    }
+                                                </script>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="/editBookingService/{{ $bs->id }}" method="POST">
+                                                @csrf
+                                                <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="service_price_id" id="service_price_id{{ $bs->id }}" onchange="selectPrice({{ $bs->id }})">
+                                                    
+                                                    <option value="" disabled selected>Select Duration</option>
+                                                    
+                                                    @foreach ($service_prices->where('service_id', $bs->service_id) as $sp)
+                                                        @if ($sp->id == $bs->service_price_id)
+                                                            <option selected value="{{ $sp->id }}" class="selectstatus" style="color: black;">{{ $sp->duration }} {{$sp->duration_type}}({{ $sp->price_title }}) (Rp {{ number_format($sp->price) }})</option>
+                                                            @continue;
+                                                        @endif
+                                                        <option value="{{ $sp->id }}" class="selectstatus" style="color: black;">{{ $sp->duration }} {{$sp->duration_type}}({{ $sp->price_title }}) (Rp {{ number_format($sp->price) }})</option>
+                                                        <option value="{{ $sp->price }}" id="selectedPrice{{ $sp->id }}" hidden></option>
+                                                    @endforeach
+                                                </select>
+                                                <button type="submit" hidden id="editBookingService{{ $bs->id }}"></button>
+                                                <script>
+                                                    function selectPrice(id){
+                                                        console.log(id);
+                                                        var e = document.getElementById("service_price_id" + id);
+                                                        var value = e.value;
+                                                        
+                                                        var f = document.getElementById("selectedPrice" + value);
+
+                                                        var price = document.getElementById("price" + id);
+                                                        price.value = f.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                                                        let button = document.getElementById('editBookingService' + id).click();
+                                                        // console.log(button);
+                                                    }
+                                                </script>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            @if ($bs->price == 0)
+                                                <input disabled class="form-control" type="text" style="border-bottom: none;" id="price{{ $bs->id }}" name="price" value="0">
+                                            @else
+                                                <input disabled class="form-control" type="text" style="border-bottom: none;" id="price{{ $bs->id }}" name="price" value="{{ number_format($bs->price) }}">
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <button type="button" class="btn btn-outline-primary btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteUnit"><i class="fas fa-check"></i> Check</button>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteUnit"><i class="fas fa-trash"></i> Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach --}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {{-- Services --}}
+                <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+                    <div class="d-flex gap-1 m-2">
                         <h5 class="m-3">Services</h5>
                         <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addBookingService"><i class="fas fa-plus"></i> Add</button>
                     </div>
@@ -209,6 +310,48 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Add Service</h1>
+                </div>
+                <form action="/addBookingService" method="post">
+                    @csrf
+                    <input type="text" hidden name="booking_id" value="{{ $booking->id }}">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="duration_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Services</label>
+                            <input type="text" class="form-control" id="searchService" name="service_name" value="" placeholder="Search Service" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="time" class="form-label" style="font-size: 15px; color: #7C7C7C;">Time</label>
+                            <?php 
+                                $timeNow = date('H:i');
+                            ?>
+                            <input type="text" class="form-control" name="time" value="{{ $timeNow }}">
+                        </div>
+                        {{-- <div class="mb-3">
+                            <label for="service_price_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
+                            <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="service_price_id" id="service_price_id">
+                                @foreach ($service_prices as $sp)
+                                    <option value="{{ $sp->id }}" class="selectstatus" style="color: black;">{{ $sp->duration }} {{$sp->duration_type}}({{ $sp->price_title }}) (Rp {{ number_format($sp->price) }})</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price_title" class="form-label" style="font-size: 15px; color: #7C7C7C;">Price</label>
+                            <input type="text" class="form-control" id="price_title" name="price_title">
+                        </div> --}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                    </div>
+                </form>    
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addSubAccount" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Sub Account</h1>
                 </div>
                 <form action="/addBookingService" method="post">
                     @csrf

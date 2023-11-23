@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('booking_name')->unique();
             $table->foreignId('customer_id');
+            $table->foreignId('subAccount_id')->nullable();
             $table->foreignId('location_id');
             $table->date('booking_date');
             $table->string('category'); //tidak dikenakan biaya, langsung datang, rawat inap, darurat

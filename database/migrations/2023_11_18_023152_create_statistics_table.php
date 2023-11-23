@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('statistics', function (Blueprint $table) {
             $table->id();
             $table->foreignId('booking_id');
+            $table->foreignId('pet_id');
             $table->string('suhu');
             $table->string('berat');
             $table->string('perilaku');

@@ -25,33 +25,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="align-middle">
-                            <a href="/booking/detail" class="d-flex flex-column text-primary">
-                                22 Nov 2023 <br>
-                                01:00
-                            </a>
-                        </td>
-                        <td>
-                            <div class="d-flex flex-column align-middle">
-                                Adji Budhi <br>
-                                <div>
-                                    <img src="/img/icon/paws.png" alt="" style="width: 18px"> Cato (Kucing) <br>
+                    @foreach ($bookings as $booking)
+                        <tr>
+                            <td class="align-middle">
+                                <a href="/booking/detail" class="d-flex flex-column text-primary">
+                                    <?php $date = date_create($booking->booking_date); ?>
+                                    {{ date_format($date, "d M Y") }} <br>
+                                    01:00
+                                </a>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column align-middle">
+                                    {{ $booking->customer_id }} <br>
+                                    <div>
+                                        <img src="/img/icon/paws.png" alt="" style="width: 18px"> Cato (Kucing) <br>
+                                    </div>
+                                    <div>
+                                        <img src="/img/icon/information.png" alt="" style="width: 17px"> {{ $booking->alasan_kunjungan }}
+                                    </div>
                                 </div>
-                                <div>
-                                    <img src="/img/icon/information.png" alt="" style="width: 17px"> Batuk
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle">
-                            Konsultasi / Jasa Dokter Pemeriksaan
-                        </td>
-                        <td class="align-middle">Drh Benny Andista</td>
-                        <td class="align-middle">Andista Animal Care</td>
-                        <td class="align-middle">
-                            <button type="button" class="btn btn-sm" style="background-color: #97cbfe">Terkonfirmasi</button>
-                        </td>
-                    </tr>
+                            </td>
+                            <td class="align-middle">
+                                Konsultasi / Jasa Dokter Pemeriksaan
+                            </td>
+                            <td class="align-middle">Drh Benny Andista</td>
+                            <td class="align-middle">{{ $booking->location->location_name }}</td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-sm" style="background-color: #97cbfe">{{ $booking->status }}</button>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

@@ -33,8 +33,12 @@ class BookingController extends Controller
 
     // Jenis jenis booking
     public function bookingdarurat(){
+
+        $bookingdarurat = Booking::where('category', 'LIKE', "%darurat%")->where('status', 'Terkonfirmasi')->get();
+        // dd($bookingdarurat);
         return view('calendar.darurat', [
-            "title" => "Darurat"
+            "title" => "Darurat",
+            "bookings" => $bookingdarurat
         ]);
     }
 
