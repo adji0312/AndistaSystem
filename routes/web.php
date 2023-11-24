@@ -3,6 +3,7 @@
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryServiceController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\IndexController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MessengerTypeController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ShiftController;
@@ -208,18 +210,39 @@ Route::get('/staff/working-hours',[StaffController::class,'staffWorkingHours']);
 Route::get('/staff/access-control',[StaffController::class,'staffAccessControl']);
 Route::get('/staff/security-groups',[StaffController::class,'staffSecurityGroups']);
 
+//Staff Add
 Route::get('/staff/new-staff',[StaffController::class,'newStaff']);
 Route::post('/addnewstaff', [StaffController::class, 'addStaff']);
 
+//Staff Update
+
+//Staff Delete
+
 
 //Customer
-Route::get('/customer/dashboard',[IndexController::class,'customerDashboard']);
-Route::get('/customer/list',[IndexController::class,'customerList']);
-Route::get('/customer/sub-customer-list',[IndexController::class,'subCustomerList']);
+Route::get('/customer',[IndexController::class,'customerDashboard']);
+Route::get('/customer/list',[CustomerController::class,'customerList']);
+Route::get('/customer/sub-customer-list',[CustomerController::class,'CustomerSubList']);
+
+//Customer Add
+
+//Customer Update
+
+//Customer Delete
 
 //Product
 Route::get('/product', [IndexController::class, 'productDashboard']);
-Route::get('/product/list', [IndexController::class, 'productList']);
-Route::get('/product/brand',[IndexController::class, 'productBrand']);
-Route::get('/product/category',[IndexController::class, 'productCategory']);
-Route::get('/product/suppliers',[IndexController::class, 'productSupplier']);
+Route::get('/product/list', [ProductController::class, 'productList']);
+Route::get('/product/brand',[ProductController::class, 'brands']);
+Route::get('/product/category',[ProductController::class, 'categories']);
+Route::get('/product/suppliers',[ProductController::class, 'suppliers']);
+
+//Product Add
+
+// Route::post('/add-product')
+
+//Product Update
+
+// Route::post('/update-product')
+
+//Product Delete
