@@ -48,7 +48,7 @@
                                     </div>
                                 </th> --}}
                                 {{-- @dd($customer) --}}
-                                <td><a href="/customer/list/{{ $customer->id }}" class="text-primary">{{ $customer->first_name }}</a></td>
+                                <td><a href="/customer/detail/{{ $customer->id }}" class="text-primary">{{ $customer->first_name }}</a></td>
                                 <td>{{ $customer->pets->pet_name}}</td>
                                 <td>{{ $customer->phone }}</td>
                                 <td>{{ $customer->email }}</td>

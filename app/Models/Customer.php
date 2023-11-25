@@ -24,7 +24,7 @@ class Customer extends Model
         return $this->hasOne(ClientGrup::class);
     }
 
-    public function messenger(){
+    public function messeng(){
         return $this->hasOne(MessengerType::class);
     }
 

@@ -223,14 +223,14 @@ Route::post('/addnewstaff', [StaffController::class, 'addStaff']);
 Route::get('/customer',[IndexController::class,'customerDashboard']);
 Route::get('/customer/list',[CustomerController::class,'customerList']);
 Route::get('/customer/sub-customer-list',[CustomerController::class,'petList']);
+Route::get('/customer/detail/{id}',[CustomerController::class,'customerdetail']);
 
 //Customer Add
 Route::get('/customer/list/add', [CustomerController::class,'addCustomer']);
 Route::post('/addCustomer', [CustomerController::class, 'store']);
 //Customer Update
 Route::get('/customer/list/update/{id}',[CustomerController::class, 'updateCustomer']);
-//Customer Update value saved
-Route::get('/saveCustomerUpdate}',[CustomerController::class, 'saveUpdateCustomer']);
+Route::post('/saveUpdateCustomer/{id}',[CustomerController::class, 'saveUpdateCustomer']);
 //Customer Delete
 Route::get('/customer/list/delete/{id}',[CustomerController::class, 'deleteCustomer']);
 

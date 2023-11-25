@@ -317,6 +317,10 @@ function saveCustomer(){
     let a = document.getElementById('submitCustomer').click();
 }
 
+function saveUpdateCustomer(){
+    let a = document.getElementById('saveUpdateCustomer').click();
+}
+
 //save product
 function saveProduct(){
     let a = document.getElementById('submitProduct').click();

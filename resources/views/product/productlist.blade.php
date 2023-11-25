@@ -31,31 +31,30 @@
             <thead>
               <tr>
                 {{-- <th scope="col" style="color: #7C7C7C; width: 50px;">#</th> --}}
-                <th scope="col" style="color: #7C7C7C">Owner</th>
-                <th scope="col" style="color: #7C7C7C">Pet Name </th>
-                <th scope="col" style="color: #7C7C7C">Pet Type</th>
-                <th scope="col" style="color: #7C7C7C">Pet Breed</th>
-                <th scope="col" style="color: #7C7C7C">Pet Gender</th>
+                <th scope="col" style="color: #7C7C7C">Name</th>
+                <th scope="col" style="color: #7C7C7C">Price </th>
+                <th scope="col" style="color: #7C7C7C">Created</th>
+                <th scope="col" style="color: #7C7C7C">Status</th>
+                {{-- <th scope="col" style="color: #7C7C7C">Pet Gender</th> --}}
               </tr>
             </thead>
             <tbody>
-                {{-- @dd($pets) --}}
-                {{-- @foreach ($pets as $pet) --}}
+                {{-- @dd($products->all()) --}}
+                @foreach ($products as $product)
                     <tr>
                         {{-- <th scope="row">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="checkBox[{{ $service->id }}]" name="checkBox"  value="{{ $service->id }}">
                                 <input type="hidden" id="serviceName{{ $service->id }}" value="{{ $service->service_name }}">
                             </div>
-                        </th> --}}
-                        {{-- <td><a href="/service/list/{{ $service->service_name }}" class="text-primary">{{ $service->service_name }}</a></td> --}}
-                        {{-- <td>{{ $pet->customer->first_name}}</td>
-                        <td>{{ $pet->pet_name }}</td>
-                        <td>{{ $pet->pet_type }}</td>
-                        <td>{{ $pet->pet_ras }}</td>
-                        <td>{{ $pet->pet_gender }}</td> --}}
+                        </th>  --}}
+                        <td><a href="/service/list/{{ $product->product_name }}" class="text-primary">{{ $product->product_name }}</a></td>
+                        <td>{{ $product->product_name}}</td>
+                        <td>{{ $product->price }}</td>
+                        <td>{{ $product->created_at }}</td>
+                        <td>{{ $product->status }}</td>
                     </tr>
-                {{-- @endforeach --}}
+                @endforeach
             </tbody>
         </table>
     </div>
