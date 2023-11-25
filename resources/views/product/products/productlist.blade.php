@@ -49,7 +49,7 @@
                                 <input type="hidden" id="serviceName{{ $product->id }}" value="{{ $product->service_name }}">
                             </div>
                         </th> 
-                        <td><a href="/service/list/{{ $product->product_name }}" class="text-primary">{{ $product->product_name }}</a></td>
+                        <td><a href="/product/edit/{{ $product->id }}" class="text-primary">{{ $product->product_name }}</a></td>
                         <td>{{ $product->product_name}}</td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->status }}</td>
@@ -73,10 +73,10 @@
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Customer</h1>
+      <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Product</h1>
     </div>
     
-    <form action="/deleteCustomer" method="GET">
+    <form action="/deleteProduct" method="GET">
         @csrf
         <div class="modal-body">
             <div class="mb-1">

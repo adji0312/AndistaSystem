@@ -261,13 +261,20 @@ Route::post('/addSupplier', [ProductController::class, 'addSupplier']);
 Route::post('/editSupplier/{id}',[ProductController::class,'editSupplier']);
 Route::get('/deleteSupplier',[ProductController::class,'deleteSupplier']);
 //Product Update
-Route::get('/product/list/update/{id}',[ProductController::class, 'deleteCustomer']);
-Route::get('/product/list/brand/update/{id}', [ProductController::class,'addBrand']);
-Route::get('/product/list/category/update/{id}', [ProductController::class,'addBrand']);
-Route::get('/product/list/supplier/update/{id}', [ProductController::class,'addBrand']);
+// Route::get('/product/list/update/{id}',[ProductController::class, 'deleteCustomer']);
+// Route::get('/product/list/brand/update/{id}', [ProductController::class,'addBrand']);
+// Route::get('/product/list/category/update/{id}', [ProductController::class,'addBrand']);
+// Route::get('/product/list/supplier/update/{id}', [ProductController::class,'addBrand']);
 
 //Product Delete
-Route::get('/product/list/delete/{id}',[ProductController::class, 'deleteCustomer']);
-Route::get('/product/list/brand/delete/{id}',[ProductController::class, 'deleteCustomer']);
-Route::get('/product/list/category/delete/{id}',[ProductController::class, 'deleteCustomer']);
-Route::get('/product/list/supplier/delete/{id}',[ProductController::class, 'deleteCustomer']);
+// Route::get('/product/list/delete/{id}',[ProductController::class, 'deleteCustomer']);
+// Route::get('/product/list/brand/delete/{id}',[ProductController::class, 'deleteCustomer']);
+// Route::get('/product/list/category/delete/{id}',[ProductController::class, 'deleteCustomer']);
+// Route::get('/product/list/supplier/delete/{id}',[ProductController::class, 'deleteCustomer']);
+
+//Product Modal Delete
+Route::get('/deleteProduct',[ProductController::class,'deleteProduct']);
+
+//Product Edit
+Route::get('/product/edit/{id}',[ProductController::class,'editProduct']);
+Route::post('/saveEditProduct/{id}',[ProductController::class,'saveEditProduct']);
