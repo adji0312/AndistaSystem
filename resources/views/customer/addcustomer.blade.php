@@ -102,11 +102,11 @@
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="email" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Email</label>
-                                <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}">
+                                <input type="text" class="form-control" name="email" id="email" value="{{ old('email') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="messenger_type" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Messenger</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="messenger_type" id="messenger_type" required>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="messenger_type" id="messenger_type" >
                                     <option value="" class="selectstatus" style="color: black;" selected disabled>Select Messenger Type</option>
                                     @foreach ($messengerType as $mt)
                                         <option value="{{ $mt->id }}" class="selectstatus" style="color: black;">{{ $mt->type_name }}</option>

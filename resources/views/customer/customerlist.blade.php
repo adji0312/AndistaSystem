@@ -49,7 +49,11 @@
                                 </th> --}}
                                 {{-- @dd($customer) --}}
                                 <td><a href="/customer/detail/{{ $customer->id }}" class="text-primary">{{ $customer->first_name }}</a></td>
-                                <td>{{ $customer->pets->pet_name}}</td>
+                                <td>
+                                    @foreach ($customer->pets as $pet)
+                                        {{ $pet->pet_name}}<br>
+                                    @endforeach
+                                </td>
                                 <td>{{ $customer->phone }}</td>
                                 <td>{{ $customer->email }}</td>
                                 <td>{{ $customer->created_at ? $customer->created_at : "-" }}</td>

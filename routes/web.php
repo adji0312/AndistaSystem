@@ -245,12 +245,21 @@ Route::get('/product/suppliers',[ProductController::class, 'suppliers']);
 //Product Add
 Route::get('/product/list/add', [ProductController::class,'addProduct']);
 Route::post('/addProduct', [ProductController::class, 'storeProduct']);
-Route::get('/product/list/brand', [ProductController::class,'addBrand']);
-Route::post('/addBrand', [ProductController::class, 'storeBrand']);
+//Brand
+// Route::get('/product/list/brand', [ProductController::class,'addBrand']);
+Route::post('/addBrand', [ProductController::class, 'addBrand']);
+Route::get('/deleteBrand',[ProductController::class,'deleteBrand']);
+Route::post('/editBrand/{id}',[ProductController::class,'editBrand']);
+//Product Category
 Route::get('/product/list/category', [ProductController::class,'addCategory']);
-Route::post('/addCategory', [ProductController::class, 'storeCategory']);
+Route::post('/addProductCategory', [ProductController::class, 'addCategoryProduct']);
+Route::get('/deleteCategoryProduct',[ProductController::class,'deleteCategoryProduct']);
+Route::post('/editCategory/{id}',[ProductController::class,'editCategory']);
+//Supplier
 Route::get('/product/list/supplier', [ProductController::class,'addSupplier']);
-Route::post('/addSupplier', [ProductController::class, 'storeSupplier']);
+Route::post('/addSupplier', [ProductController::class, 'addSupplier']);
+Route::post('/editSupplier/{id}',[ProductController::class,'editSupplier']);
+Route::get('/deleteSupplier',[ProductController::class,'deleteSupplier']);
 //Product Update
 Route::get('/product/list/update/{id}',[ProductController::class, 'deleteCustomer']);
 Route::get('/product/list/brand/update/{id}', [ProductController::class,'addBrand']);

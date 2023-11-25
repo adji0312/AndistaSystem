@@ -11,9 +11,9 @@
             <a class="navbar-brand" href="#">{{ $title }}</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {{-- <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/customer/list/add" style="color: #f28123"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
-                    </li> --}}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/product/list/add" style="color: #f28123"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
+                    </li>
                     <li class="nav-item" id="deleteButton" style="display: none;">
                         <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#deleteCustomer" onclick="clickDeleteButton()" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/trash.png" alt="" style="width: 22px"> Delete</a>
                     </li>
@@ -30,11 +30,12 @@
         <table class="table">
             <thead>
               <tr>
-                {{-- <th scope="col" style="color: #7C7C7C; width: 50px;">#</th> --}}
+                <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
                 <th scope="col" style="color: #7C7C7C">Name</th>
                 <th scope="col" style="color: #7C7C7C">Price </th>
                 <th scope="col" style="color: #7C7C7C">Created</th>
                 <th scope="col" style="color: #7C7C7C">Status</th>
+                {{-- <th scope="col" style="color: #7C7C7C">Action</th> --}}
                 {{-- <th scope="col" style="color: #7C7C7C">Pet Gender</th> --}}
               </tr>
             </thead>
@@ -42,17 +43,23 @@
                 {{-- @dd($products->all()) --}}
                 @foreach ($products as $product)
                     <tr>
-                        {{-- <th scope="row">
+                        <th scope="row">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="checkBox[{{ $service->id }}]" name="checkBox"  value="{{ $service->id }}">
-                                <input type="hidden" id="serviceName{{ $service->id }}" value="{{ $service->service_name }}">
+                                <input class="form-check-input" type="checkbox" id="checkBox[{{ $product->id }}]" name="checkBox"  value="{{ $product->id }}">
+                                <input type="hidden" id="serviceName{{ $product->id }}" value="{{ $product->service_name }}">
                             </div>
-                        </th>  --}}
+                        </th> 
                         <td><a href="/service/list/{{ $product->product_name }}" class="text-primary">{{ $product->product_name }}</a></td>
                         <td>{{ $product->product_name}}</td>
                         <td>{{ $product->price }}</td>
-                        <td>{{ $product->created_at }}</td>
                         <td>{{ $product->status }}</td>
+                        {{-- <td>
+                            <div class="btn-group">
+                                <a href="/customer/list/update/{{ $product->id }}" class="btn btn-primary active me-1">Edit
+                                </a>
+                                <a href="/customer/list/delete/{{ $product->id }}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td> --}}
                     </tr>
                 @endforeach
             </tbody>

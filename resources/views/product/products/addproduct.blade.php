@@ -2,19 +2,19 @@
 @section('container')
 
     <div class="wrapper">
-        @include('customer.menu')
+        @include('product.menu')
 
         <div id="contents">
             <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Edit Customer</a>
+                    <a class="navbar-brand" href="#">New Product</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="/customer/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
+                              <a class="nav-link active" aria-current="page" href="/product/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
                           <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" onclick="saveUpdateCustomer()" style="color: #f28123; cursor: pointer;">Save <img src="/img/icon/save.png" alt="" style="width: 22px"></a>
+                              <a class="nav-link active" aria-current="page" onclick="saveCustomer()" style="color: #f28123; cursor: pointer;">Save <img src="/img/icon/save.png" alt="" style="width: 22px"></a>
                           </li>
                       </ul>
                       <form class="d-flex" role="search">
@@ -26,15 +26,14 @@
             </nav>
 
             <div id="dashboard" class="mx-3 mt-4">
-                <form action="/saveUpdateCustomer/{{ $customer->id }}" method="POST" enctype="multipart/form-data">
+                <form action="/addCustomer" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                        {{-- @dd($customer->join_date) --}}
-                        <h5 class="m-3">Edit Customer {{ $customer->first_name }}</h5>
+                        <h5 class="m-3">Basic Details</h5>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="first_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">First Name</label>
-                                <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="first_name" value="{{ $customer->first_name }}" required>
+                                <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="first_name" value="{{ old('service_name') }}" required>
                                 @error('first_name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -43,11 +42,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="middle_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Middle Name</label>
-                                <input type="text" class="form-control" name="middle_name" id="middle_name" value="{{ $customer->middle_name }}">
+                                <input type="text" class="form-control" name="middle_name" id="middle_name" value="{{ old('middle_name') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="last_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Last Name</label>
-                                <input type="text" class="form-control" name="last_name" id="last_name" value="{{ $customer->last_name }}">
+                                <input type="text" class="form-control" name="last_name" id="last_name" value="{{ old('last_name') }}">
                             </div>
                             {{-- <div class="mb-3">
                                 <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
@@ -61,7 +60,7 @@
                             <div class="mb-3">
                                 <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Degree</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="customer_degree" id="customer_degree" required>
-                                    <option value="{{ $customer->degree }}" class="selectstatus" style="color: black;" selected>{{ $customer->degree }}</option>
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Degree</option>
                                     {{-- @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach --}}
@@ -73,11 +72,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="nick_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Nick Name</label>
-                                <input type="text" class="form-control" name="nick_name" id="nick_name" value="{{$customer->nickname}}">
+                                <input type="text" class="form-control" name="nick_name" id="nick_name" value="{{ old('nick_name') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="phone_customer" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Phone</label>
-                                <input type="text" class="form-control" name="phone_customer" id="phone_customer" value="{{ $customer->phone}}">
+                                <input type="text" class="form-control" name="phone_customer" id="phone_customer" value="{{ old('phone_customer') }}">
                             </div>
                             {{-- <div class="mb-3">
                                 <label for="category_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Category</label>
@@ -103,23 +102,23 @@
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="email" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Email</label>
-                                <input type="email" class="form-control" name="email" id="email" value="{{ $customer->email}}">
+                                <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="messenger_type" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Messenger</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="messenger_type" id="messenger_type" required>
-                                    <option value="{{ $customer->messengerId }}" class="selectstatus" style="color: black;" selected >{{ $messengerTypeCurr->type_name }}</option>
-                                    @foreach ($messengerType as $mt)
-                                        <option value="{{ $customer->messengerId }}" class="selectstatus" style="color: black;">{{ $mt->type_name }}</option>
-                                    @endforeach
-                                    {{-- <option value="Tn" class="selectstatus" style="color: black;">Tn</option>  
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Messenger Type</option>
+                                    {{-- @foreach ($messengerType as $mt)
+                                        <option value="{{ $mt->id }}" class="selectstatus" style="color: black;">{{ $mt->type_name }}</option>
+                                    @endforeach --}}
+                                    {{-- <option value="Tn" class="selectstatus" style="color: black;">Tn</option>
                                     <option value="Ny" class="selectstatus" style="color: black;">Ny</option>
                                     <option value="Mrs" class="selectstatus" style="color: black;">Mrs</option> --}}
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="messenger" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Messengger ID</label>
-                                <input type="text" class="form-control" name="messenger" id="messenger" value="{{ $customer->messenger }}">
+                                <input type="text" class="form-control" name="messenger" id="messenger" value="{{ old('messenger') }}">
                             </div>
                             {{-- <div class="mb-3">
                                 <label for="address" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Address</label>
@@ -132,7 +131,7 @@
                             <div class="mb-3">
                                 <label for="card_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Card Type</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="card_type" id="card_type" required>
-                                    <option value="{{ $customer->card_type }}" class="selectstatus" style="color: black;" selected>{{ $customer->card_type }}</option>
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Card Type</option>
                                     {{-- @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach --}}
@@ -145,18 +144,21 @@
                             <div class="mb-3">
                                 {{-- id number --}}
                                 <label for="id_no" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">ID Number</label>
-                                <input type="text" class="form-control" name="id_no" id="id_no" value="{{ $customer->no_id }}" required>
+                                <input type="text" class="form-control" name="id_no" id="id_no" value="{{ old('id_no') }}" required>
                             </div>
-                            {{-- <div class="mb-3">
-                                join date
+                            <div class="mb-3">
+                                {{-- join date --}}
                                 <label for="join_date" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Join Date</label>
-                                <input type="date" class="form-control" id="date_of_birth_customer" name="date_of_birth_customer" value="{{ $customer->join_date }}" required>
+                                <input type="date" class="form-control" id="join_date" name="join_date" required>
                             
-                            </div> --}}
+                            </div>
+                        </div>
+
+                        <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="customer_gender" class="form-label" style="font-size: 15px; color: #7C7C7C;">Gender</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="customer_gender" id="customer_gender" required>
-                                    <option value="{{ $customer->gender }}" class="selectstatus" style="color: black;" selected>{{ $customer->gender }}</option>
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Gender</option>
                                     {{-- @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach --}}
@@ -164,35 +166,31 @@
                                     <option value="Female" class="selectstatus" style="color: black;">Female</option>
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="m-3 d-flex gap-5">
-                            
                             <div class="mb-3">
                                 {{-- date of birth --}}
                                 <label for="date_of_birth_customer" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Date Of Birth</label>
-                                <input type="date" class="form-control" id="date_of_birth_customer" name="date_of_birth_customer" value="{{ $customer->date_of_birth }}" required>
+                                <input type="date" class="form-control" id="date_of_birth_customer" name="date_of_birth_customer" required>
                             
                             </div>
                             <div class="mb-3">
                                 <label for="address" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Address</label>
-                                <input type="text" class="form-control" name="address" id="address" value="{{ $customer->address }}">
+                                <input type="text" class="form-control" name="address" id="address" value="{{ old('address') }}">
                             </div>
                         </div>
 
-                        {{-- <div class="m-3 d-flex gap-5">
+                        <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="location" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location" id="gender" required>
-                                    <option value="{{ $customer->location_id }}" class="selectstatus" style="color: black;" selected disabled>Select Location</option>
-                                    @foreach ($locations as $location)
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Location</option>
+                                    {{-- @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                                    @endforeach
-                                    <option value="Tn" class="selectstatus" style="color: black;">Male</option>
-                                    <option value="Ny" class="selectstatus" style="color: black;">Female</option>
+                                    @endforeach --}}
+                                    {{-- <option value="Tn" class="selectstatus" style="color: black;">Male</option>
+                                    <option value="Ny" class="selectstatus" style="color: black;">Female</option> --}}
                                 </select>
                             </div>
-                        </div> --}}
+                        </div>
 
                         {{-- <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
@@ -229,28 +227,27 @@
 
                     {{-- Sub Customer List (PET) --}}
                     <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                        <h5 class="m-3">Sub Customer (Pet)</h5>
-                        {{-- @dd($customer->pets) --}}
+                        <h5 class="m-3">Pricing</h5>
                         <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                             <div class="m-3 d-flex gap-5">
-                                {{-- <div class="mb-3">
+                                <div class="mb-3">
                                     <label for="pet_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Pet Name</label>
-                                    <input type="text" class="form-control" name="pet_name" id="pet_name" value="{{ $customer->pets->pet_name }}">
+                                    <input type="text" class="form-control" name="pet_name" id="pet_name" value="{{ old('pet_name') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="pet_type" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Pet Type</label>
-                                    <input type="text" class="form-control" name="pet_type" id="pet_type" value="{{ $customer->pets->pet_type }}">
+                                    <input type="text" class="form-control" name="pet_type" id="pet_type" value="{{ old('pet_type') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="pet_ras" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Pet Ras</label>
-                                    <input type="text" class="form-control" name="pet_ras" id="pet_ras" value="{{ $customer->pets->pet_ras }}">
-                                </div> --}}
+                                    <input type="text" class="form-control" name="pet_ras" id="pet_ras" value="{{ old('pet_ras') }}">
+                                </div>
                             </div>
                             <div class="m-3 d-flex gap-5">
                                 <div class="mb-3">
                                     <label for="pet_gender" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Pet Gender</label>
                                     <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="gender" id="gender" required>
-                                        {{-- <option value="{{ $customer->pets->pet_gender }}" class="selectstatus" style="color: black;" selected>{{ $customer->pets->pet_gender }}</option> --}}
+                                        <option value="" class="selectstatus" style="color: black;" selected disabled>Select Gender</option>
                                         {{-- @foreach ($locations as $location)
                                             <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                         @endforeach --}}
@@ -258,14 +255,14 @@
                                         <option value="Female" class="selectstatus" style="color: black;">Female</option>
                                     </select>
                                 </div>
-                                {{-- <div class="mb-3">
+                                <div class="mb-3">
                                     <label for="date_of_birth_pet" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Date of Birth</label>
-                                    <input type="date" class="form-control" id="date_of_birth_pet" name="date_of_birth_pet" value="{{ $customer->pets->date_of_birth }}" required>
+                                    <input type="date" class="form-control" id="date_of_birth_pet" name="date_of_birth_pet" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="pet_color" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Pet Color</label>
-                                    <input type="text" class="form-control" name="pet_color" id="pet_color" value="{{ $customer->pets->pet_color }}">
-                                </div> --}}
+                                    <input type="text" class="form-control" name="pet_color" id="pet_color" value="{{ old('pet_color') }}">
+                                </div>
                             </div>
                         </div>
                         {{-- <div id="afterPrice" class="table-responsive"> --}}
@@ -323,7 +320,7 @@
                     </div>
                     
 
-                    <button type="submit" id="saveUpdateCustomer" hidden></button>
+                    <button type="submit" id="submitCustomer" hidden></button>
                 </form>
             </div>
         </div>

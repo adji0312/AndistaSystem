@@ -1773,6 +1773,40 @@ function inputCategoryService(){
     }
 }
 
+function inputProductBrandService(){
+    let product_brand_name = document.getElementById('product_brand_name');
+
+    let buttonSubmitProductBrand = document.getElementById('saveBrand');
+    if(product_brand_name.value == null || product_brand_name.value == ''){
+        buttonSubmitProductBrand.disabled = true;
+    }else{
+        buttonSubmitProductBrand.disabled = false;
+    }
+}
+
+function inputProductCategoryService(){
+    let product_brand_name = document.getElementById('category_name');
+
+    let buttonSubmitProductBrand = document.getElementById('saveCategoryProduct');
+    if(product_brand_name.value == null || product_brand_name.value == ''){
+        buttonSubmitProductBrand.disabled = true;
+    }else{
+        buttonSubmitProductBrand.disabled = false;
+    }
+}
+
+function inputProductSupplierService(){
+    let product_brand_name = document.getElementById('suppliers_name');
+
+    let buttonSubmitProductBrand = document.getElementById('saveSupplier');
+    if(product_brand_name.value == null || product_brand_name.value == ''){
+        buttonSubmitProductBrand.disabled = true;
+    }else{
+        buttonSubmitProductBrand.disabled = false;
+    }
+}
+
+
 function inpuDiagnosisService(){
     let diagnosis_name = document.getElementById('diagnosis_name');
 

@@ -10,7 +10,6 @@ class Pet extends Model
     use HasFactory;
 
     public function customers(){
-       return $this->belongsTo(Customer::class,
-       'customer_id','id');
+       return $this->belongsTo(Customer::class);
     }
 }

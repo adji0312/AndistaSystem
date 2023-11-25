@@ -29,6 +29,6 @@ class Customer extends Model
     }
 
     public function pets(){
-        return $this->hasOne(Pet::class,'id');
+        return $this->hasMany(Pet::class,'customer_id');
     }
 }
