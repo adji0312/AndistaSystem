@@ -222,13 +222,18 @@ Route::post('/addnewstaff', [StaffController::class, 'addStaff']);
 //Customer
 Route::get('/customer',[IndexController::class,'customerDashboard']);
 Route::get('/customer/list',[CustomerController::class,'customerList']);
-Route::get('/customer/sub-customer-list',[CustomerController::class,'CustomerSubList']);
+Route::get('/customer/sub-customer-list',[CustomerController::class,'petList']);
 
 //Customer Add
-
+Route::get('/customer/list/add', [CustomerController::class,'addCustomer']);
+Route::post('/addCustomer', [CustomerController::class, 'store']);
 //Customer Update
-
+Route::get('/customer/list/update/{id}',[CustomerController::class, 'updateCustomer']);
+//Customer Update value saved
+Route::get('/saveCustomerUpdate}',[CustomerController::class, 'saveUpdateCustomer']);
 //Customer Delete
+Route::get('/customer/list/delete/{id}',[CustomerController::class, 'deleteCustomer']);
+
 
 //Product
 Route::get('/product', [IndexController::class, 'productDashboard']);
@@ -238,11 +243,22 @@ Route::get('/product/category',[ProductController::class, 'categories']);
 Route::get('/product/suppliers',[ProductController::class, 'suppliers']);
 
 //Product Add
-
-// Route::post('/add-product')
-
+Route::get('/product/list/add', [ProductController::class,'addProduct']);
+Route::post('/addProduct', [ProductController::class, 'storeProduct']);
+Route::get('/product/list/brand', [ProductController::class,'addBrand']);
+Route::post('/addBrand', [ProductController::class, 'storeBrand']);
+Route::get('/product/list/category', [ProductController::class,'addCategory']);
+Route::post('/addCategory', [ProductController::class, 'storeCategory']);
+Route::get('/product/list/supplier', [ProductController::class,'addSupplier']);
+Route::post('/addSupplier', [ProductController::class, 'storeSupplier']);
 //Product Update
-
-// Route::post('/update-product')
+Route::get('/product/list/update/{id}',[ProductController::class, 'deleteCustomer']);
+Route::get('/product/list/brand/update/{id}', [ProductController::class,'addBrand']);
+Route::get('/product/list/category/update/{id}', [ProductController::class,'addBrand']);
+Route::get('/product/list/supplier/update/{id}', [ProductController::class,'addBrand']);
 
 //Product Delete
+Route::get('/product/list/delete/{id}',[ProductController::class, 'deleteCustomer']);
+Route::get('/product/list/brand/delete/{id}',[ProductController::class, 'deleteCustomer']);
+Route::get('/product/list/category/delete/{id}',[ProductController::class, 'deleteCustomer']);
+Route::get('/product/list/supplier/delete/{id}',[ProductController::class, 'deleteCustomer']);

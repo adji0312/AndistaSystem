@@ -312,6 +312,21 @@ function saveBooking(){
     let a = document.getElementById('submitBooking').click();
 }
 
+//save customer
+function saveCustomer(){
+    let a = document.getElementById('submitCustomer').click();
+}
+
+//save product
+function saveProduct(){
+    let a = document.getElementById('submitProduct').click();
+}
+
+//save staff
+function saveStaff(){
+    let a = document.getElementById('submitStaff').click();
+}
+
 
 
 //CEK FOR WORKING HOURS

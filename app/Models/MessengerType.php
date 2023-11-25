@@ -14,4 +14,8 @@ class MessengerType extends Model
     public function locations(){
         return $this->hasMany(LocationContactMessenger::class);
     }
+
+    public function Customer(){
+        return $this->hasOne(MessengerType::class);
+    }
 }

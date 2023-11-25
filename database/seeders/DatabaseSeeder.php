@@ -30,7 +30,9 @@ class DatabaseSeeder extends Seeder
             PetSeeder::class,
             StaffSeeder::class,
             RoleSeeder::class,
-            PositionSeeder::class
+            PositionSeeder::class,
+            MessengerTypeSeeder::class,
+            LocationSeeder::class,
         ]);
 
         Frequency::create([
