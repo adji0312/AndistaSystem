@@ -6,6 +6,7 @@ use App\Models\AlasanKunjungan;
 use App\Models\Booking;
 use App\Models\CategoryService;
 use App\Models\Country;
+use App\Models\Customer;
 use App\Models\Diagnosis;
 use App\Models\Facility;
 use App\Models\Frequency;
@@ -308,6 +309,22 @@ class IndexController extends Controller
         $dataModified = array();
         foreach ($datas as $data){
             $dataModified[] = $data->name;
+        }
+
+        return response()->json($dataModified);
+    }
+
+    public function customerSearch(Request $request){
+        // $query = $request->get('query');
+        // $filterResult = Country::where('country_name', 'LIKE', '%'. $query. '%')->get();
+        // return response()->json($filterResult);
+
+        $datas = Customer::select("id", "first_name", "phone")
+            ->where("first_name","LIKE","%{$request->input('query')}%")->orWhere("phone","LIKE","%{$request->input('query')}%")
+            ->get();
+        $dataModified = array();
+        foreach ($datas as $data){
+            $dataModified[] = $data->first_name . " (" . $data->phone . ")";
         }
 
         return response()->json($dataModified);

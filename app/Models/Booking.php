@@ -18,4 +18,21 @@ class Booking extends Model
     public function services(){
         return $this->hasMany(BookingService::class);
     }
+
+    public function servicesPrice(){
+        return $this->hasMany(ServicePrice::class);
+    }
+
+    public function service(){
+        return $this->belongsTo(Service::class ,'');
+    }
+
+
+    public function customer(){
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    public function staff(){
+        return $this->belongsTo(Staff::class, 'staff_id');
+    }
 }

@@ -18,13 +18,17 @@ return new class extends Migration
             $table->foreignId('subAccount_id')->nullable();
             $table->foreignId('location_id');
             $table->date('booking_date');
-            $table->string('category'); //tidak dikenakan biaya, langsung datang, rawat inap, darurat
-            $table->text('resepsionisNotes')->nullable();
+            $table->integer('tidak_dikenakan_biaya'); //1 itu tidak, 0 itu iya
+            $table->integer('langsung_datang');
+            $table->integer('rawat_inap');
+            $table->integer('darurat');
             $table->integer('total_price')->nullable(); //ambil dari table bookingservice where booking_id sama, ambil dari table bookingcart where booking_id sama
-            $table->string('status')->default('confirmed'); //confirmed, started, completed (kalau sudah completed, langsung masuk ke table sale dengan status unpain)
+            $table->string('status')->default('Terkonfirmasi'); //Terkonfirmasi, Dimulai, Selesai (kalau sudah completed, langsung masuk ke table sale dengan status unpain)
             $table->integer('temp')->default(1);
             $table->integer('duration')->nullable();
             $table->string('alasan_kunjungan')->nullable();
+            $table->foreignId('staff_id');
+            $table->foreignId('booking_service_id');
             $table->timestamps();
         });
     }

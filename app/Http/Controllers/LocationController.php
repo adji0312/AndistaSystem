@@ -81,170 +81,21 @@ class LocationController extends Controller
         LocationAddress::create($validatedData1);
 
         return redirect('/location' . '/' . $lastLocations->location_name);
-
-
-
-        // dd($request->all());
-        // $checked = $request->has('all_day[]') ? 1 : 0;
-        // dd($checked);
-        // $checkAllDay = $request->has('all_day') ? 1 : 0;
-        // dd($checkAllDay);
-            
-
-        // $lastLocations = DB::table('locations')->latest('created_at')->first();
-        // $idLocation = 0;
-        // if($lastLocations == null){
-        //     $idLocation = 1;
-        // }else{
-        //     $idLocation = $lastLocations->id + 1;
-        // }
-
-        // dd($idLocation);
-
-        // //phone
-        // $usage_phone_contact_id = $request->get('usage_phone_contact_id');
-        // $phone_type = $request->get('phone_type');
-        // $phone_number = $request->get('phone_number');
-        
-        // //email
-        // $usage_email_contact_id = $request->get('usage_email_contact_id');
-        // $email_address = $request->get('email_address');
-        
-        // //messenger
-        // $usage_messenger_contact_id = $request->get('usage_messenger_contact_id');
-        // $username = $request->get('username');
-        // $messenger_type_id = $request->get('messenger_type_id');
-        // // dd($usage_messenger_contact_id);
-
-        
-        // // dd($all_day);
-        
-        // // kondisi tanpa perlu phone, email dan messenger working hours harus ada tidak boleh null
-        // if($usage_phone_contact_id == null && $usage_email_contact_id == null && $usage_messenger_contact_id == null){
-
-        //     dd("null contact");
-        //     $validatedData = $request->validate([
-        //         'location_name' => 'required|unique:locations',
-        //         'type' => 'required',
-        //         'status' => 'required'
-        //     ]);
-
-        //     if($request->image){
-        //         $validatedData['image'] = $request->image;
-        //     }else{
-        //         $validatedData['image'] = '-';
-        //     }
-
-        //     Location::create($validatedData);
-
-        //     $lastLocations = DB::table('locations')->latest('created_at')->first();
-        //     //Operating Hours
-        //     for($i = 0 ; $i < count($day) ; $i++){
-        //         WorkingHours::create([
-        //             'day' => $day[$i],
-        //             'time_on' => $time_on[$i],
-        //             'time_off' => $time_off[$i],
-        //             'all_day' => $all_day[$i],
-        //             'location_id' => $lastLocations->id
-        //         ]); 
-        //     }
-
-        //     return redirect('/location/list');
-        // }else{
-
-        //     if($usage_phone_contact_id != null){
-        //         dd("phone tidak null");
-        //     }else if($usage_email_contact_id != null){
-        //         dd("email tidak null");
-        //     }else if($usage_messenger_contact_id != null){
-        //         dd("messenger tidak null");
-        //     }
-        //     // kondisi kalau phone tidak null
-
-        //     dd("tidak null");
-        //     $validatedData = $request->validate([
-        //         'location_name' => 'required|unique:locations',
-        //         'type' => 'required',
-        //         'status' => 'required'
-        //     ]);
-
-        //     if($request->image){
-        //         $validatedData['image'] = $request->image;
-        //     }else{
-        //         $validatedData['image'] = '-';
-        //     }
-
-        //     Location::create($validatedData);
-
-        //     $lastLocations = DB::table('locations')->latest('created_at')->first();
-        //     //Operating Hours
-        //     for($i = 0 ; $i < count($day) ; $i++){
-        //         WorkingHours::create([
-        //             'day' => $day[$i],
-        //             'time_on' => $time_on[$i],
-        //             'time_off' => $time_off[$i],
-        //             'all_day' => $all_day[$i],
-        //             'location_id' => $lastLocations->id
-        //         ]); 
-        //     }
-
-            
-            
-        
-        //     //Phone
-        //     for($i = 0 ; $i < count($phone_type) ; $i++){
-        //         LocationContactPhone::create([
-        //             'usage_phone_contact_id' => $usage_phone_contact_id[$i],
-        //             'phone_number' => $phone_number[$i],
-        //             'phone_type' => $phone_type[$i],
-        //             'location_id' => $lastLocations->id
-        //         ]); 
-        //     }
-    
-        //     //Email
-        //     for($i = 0 ; $i < count($email_address) ; $i++){
-        //         LocationContactEmail::create([
-        //             'usage_email_contact_id' => $usage_email_contact_id[$i],
-        //             'email_address' => $email_address[$i],
-        //             'location_id' => $lastLocations->id
-        //         ]); 
-        //     }
-    
-        //     //Messenger
-        //     for($i = 0 ; $i < count($username) ; $i++){
-        //         print_r($i);
-        //         LocationContactMessenger::create([
-        //             'usage_messenger_contact_id' => $usage_messenger_contact_id[$i],
-        //             'username' => $username[$i],
-        //             'messenger_type_id' => $messenger_type_id[$i],
-        //             'location_id' => $lastLocations->id
-        //         ]); 
-        //     }
-        // }
-
-    
-
-        
-    
-        
-        
-        
-    
-    
-    
-        // Location::create($validatedData);
-        // return redirect('/location/list');
     }
 
     public function edit(Request $request, $id){
-        dd($request->all());
+        // dd($request->all());
         $location = Location::find($id);
         // dd(count($location->locationaddresses));
         $rules = [
-            'location_name' => 'required',
             'type' => 'required',
             'status' => 'required',
         ]; 
+
+        if($request->location_name != $location->location_name){
+            $rules['location_name'] = 'required|unique:locations';
+        }
+
         $validatedData = $request->validate($rules);
 
         Location::where('id', $location->id)->update($validatedData);
@@ -253,11 +104,13 @@ class LocationController extends Controller
         
         if(count($location->locationaddresses) != 0){
             $rules2 = [
-                'street_address' => '',
                 'usage_address_id' => '',
+                'country' => '',
+                'street_address' => '',
+                'additional_info' => '',
                 'city' => '',
                 'state' => '',
-                'country' => ''
+                'postal_code' => ''
             ];
             
             $validatedData2 = $request->validate($rules2);
@@ -265,27 +118,16 @@ class LocationController extends Controller
             LocationAddress::where('location_id', $location->id)->update($validatedData2);
         }else{
             $validatedData1 = $request->validate([
-                'street_address' => '',
                 'usage_address_id' => '',
+                'country' => '',
+                'street_address' => '',
+                'additional_info' => '',
                 'city' => '',
                 'state' => '',
-                'country' => ''
+                'postal_code' => ''
             ]);
     
             $validatedData1['location_id'] = $location->id;
-            $validatedData1['usage_address_id'] = $request->usage_address_id;
-    
-            if($request->additional_info){
-                $validatedData1['additional_info'] = $request->additional_info;
-            }else{
-                $validatedData1['additional_info'] = '';
-            }
-    
-            if($request->postal_code){
-                $validatedData1['postal_code'] = $request->postal_code;
-            }else{
-                $validatedData1['postal_code'] = '';
-            }
             
             LocationAddress::create($validatedData1);
         }
@@ -320,6 +162,20 @@ class LocationController extends Controller
 
         return redirect()->back();
     }
+    
+    public function addMessengerLocation(Request $request){
+        // dd($request->all());
+        $validatedData = $request->validate([
+            'usage_messenger_contact_id' => 'required',
+            'username' => 'required',
+            'location_id' => 'required',
+            'messenger_type_id' => 'required',
+        ]);
+
+        LocationContactMessenger::create($validatedData);
+
+        return redirect()->back();
+    }
 
     public function deletePhoneLocation($id){
         // dd($id);
@@ -330,6 +186,11 @@ class LocationController extends Controller
 
     public function deleteEmail($id){
         DB::table('location_contact_emails')->where('id', $id)->delete();
+        return redirect()->back();
+    }
+
+    public function deleteMessengerLocation($id){
+        DB::table('location_contact_messengers')->where('id', $id)->delete();
         return redirect()->back();
     }
 
@@ -361,6 +222,22 @@ class LocationController extends Controller
         $validatedData = $request->validate($rules);
 
         LocationContactEmail::where('id', $email->id)->update($validatedData);
+        return redirect()->back();
+    }
+
+    public function updateMessengerLocation(Request $request, $id){
+        // dd($request->all());
+        $messenger = LocationContactMessenger::find($id);
+
+        $rules = [
+            'usage_messenger_contact_id' => 'required',
+            'location_id' => 'required',
+            'username' => 'required',
+            'messenger_type_id' => 'required'
+        ];
+        $validatedData = $request->validate($rules);
+
+        LocationContactMessenger::where('id', $messenger->id)->update($validatedData);
         return redirect()->back();
     }
 }

@@ -225,13 +225,30 @@ $("input[name='checkBox']").change(function() {
     }
 
     var x = document.getElementById("deleteButton");
-    if(arrayOfId.length != 0){
-        x.style.display = "block";
-        console.log('tidak');
-    }else{
-        x.style.display = "none";
-        console.log('yes');
+    if(x){
+        if(arrayOfId.length != 0){
+            x.style.display = "block";
+            console.log('tidak');
+        }else{
+            x.style.display = "none";
+            console.log('yes');
+        }
     }
+
+    console.log(arrayOfId);
+});
+
+$("input[name='checkBoxPet']").change(function() {
+    var checked = $(this).val();
+    if ($(this).is(':checked')) {
+        arrayOfId.push(checked);
+        arrayOfName.push(checked);
+    }else{
+        arrayOfId.splice($.inArray(checked, arrayOfId),1);
+    }
+
+    let field = document.getElementById("subAccount");
+    field.value = arrayOfId;
 
     console.log(arrayOfId);
 });
@@ -310,6 +327,18 @@ function saveQuotation(){
 
 function saveBooking(){
     let a = document.getElementById('submitBooking').click();
+}
+
+function checkService(){
+    let a = document.getElementById('checkService1').click();
+}
+
+function submitCheckForm(){
+    let a = document.getElementById('checkService1').click();
+}
+
+function submitStatistic(){
+    let a = document.getElementById('submitStatistic').click();
 }
 
 
@@ -1721,6 +1750,23 @@ var route2 = "/newBooking/alasan/autocomplete-search";
     });
 
 $('.alasan_kunjungan').on('typeahead:selected', function (e, datum) {
+    console.log(datum);
+    // $('#item_code').val(datum.item_code);
+});
+
+var route3 = "/newBooking/customer/autocomplete-search";
+    $('#customer_id').typeahead({
+        source: function (query, process) {
+            // console.log(query);
+            return $.get(route3, {
+                query: query
+            }, function (data) {
+                return process(data);
+            });
+        }
+    });
+
+$('.customer_id').on('typeahead:selected', function (e, datum) {
     console.log(datum);
     // $('#item_code').val(datum.item_code);
 });

@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('statistics', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('booking_id');
-            $table->foreignId('pet_id');
-            $table->string('suhu');
-            $table->string('berat');
-            $table->string('perilaku');
-            $table->string('bcs');
-            $table->string('gula_darah');
-            $table->string('tekanan_darah');
-            $table->string('crt');
-            $table->string('detak_jantung');
-            $table->string('mm');
-            $table->string('saturasi_oksigen');
-            $table->string('tingkat_pernapasan');
+            $table->foreignId('sub_booking_id')->nullable();
+            $table->foreignId('pet_id')->nullable();
+            $table->string('suhu')->nullable();
+            $table->string('berat')->nullable();
+            $table->string('perilaku')->nullable();
+            $table->string('bcs')->nullable();
+            $table->string('gula_darah')->nullable();
+            $table->string('tekanan_darah')->nullable();
+            $table->string('crt')->nullable();
+            $table->string('detak_jantung')->nullable();
+            $table->string('mm')->nullable();
+            $table->string('saturasi_oksigen')->nullable();
+            $table->string('tingkat_pernapasan')->nullable();
             $table->timestamps();
         });
     }

@@ -45,6 +45,7 @@ Route::get('/upcoming-booking', [IndexController::class, 'upcomingbooking']);
 Route::get('/location/list/add/autocomplete-search', [IndexController::class, 'autocompleteSearch']);
 Route::get('/newBooking/autocomplete-search', [IndexController::class, 'serviceAutocompleteSearch']);
 Route::get('/newBooking/alasan/autocomplete-search', [IndexController::class, 'alasanKunjunganSearch']);
+Route::get('/newBooking/customer/autocomplete-search', [IndexController::class, 'customerSearch']);
 
 //Location
 Route::get('/location', [IndexController::class, 'locationDashboard']);
@@ -176,8 +177,9 @@ Route::get('/list-booking', [BookingController::class, 'listBooking']);
 Route::get('/newBooking', [BookingController::class, 'createbooking']);
 Route::get('/newBooking/{name}', [BookingController::class, 'createbookingDetail']);
 Route::get('/bookingdetail', [IndexController::class, 'bookingdetail']);
+Route::get('/booking/detail/{id}', [BookingController::class, 'detailBookingById']);
 
-//Booking
+//Booking List
 Route::get('/booking/darurat', [BookingController::class, 'bookingdarurat']);
 Route::get('/booking/terjadwal', [BookingController::class, 'bookingterjadwal']);
 Route::get('/booking/kedatangan', [BookingController::class, 'bookingkedatangan']);
@@ -201,12 +203,27 @@ Route::post('/updatePhoneLocation/{id}', [LocationController::class, 'updatePhon
 Route::post('/addEmailLocation', [LocationController::class, 'addEmailLocation']);
 Route::get('/deleteEmail/{id}', [LocationController::class, 'deleteEmail']);
 Route::post('/updateEmailLocation/{id}', [LocationController::class, 'updateEmailLocation']);
+// Contact Location - messenger
+Route::post('/addMessengerLocation', [LocationController::class, 'addMessengerLocation']);
+Route::get('/deleteMessengerLocation/{id}', [LocationController::class, 'deleteMessengerLocation']);
+Route::post('/updateMessengerLocation/{id}', [LocationController::class, 'updateMessengerLocation']);
 
 // Booking
+Route::post('/addNewCustomer', [BookingController::class, 'addNewCustomer']);
+Route::post('/addSubAccount', [BookingController::class, 'addSubAccount']);
 Route::post('/addBooking', [BookingController::class, 'storeBooking']);
 Route::post('/editBooking/{id}', [BookingController::class, 'editBooking']);
 Route::post('/addBookingService', [BookingController::class, 'addBookingService']);
 Route::post('/editBookingService/{id}', [BookingController::class, 'editBookingService']);
+Route::get('/discardBooking/{id}', [BookingController::class, 'discardBooking']);
+Route::post('/checkBookingService/{id}', [BookingController::class, 'checkBookingService']);
+Route::get('/deleteBookingService/{id}', [BookingController::class, 'deleteBookingService']);
+Route::post('/changeStatus/{id}', [BookingController::class, 'changeStatus']);
+
+// Sub Account
+Route::post('/updateSubAccount/{id}', [BookingController::class, 'updateSubAccount']);
+Route::get('/deleteSubAccount/{id}', [BookingController::class, 'deleteSubAccount']);
+
 
 // Staff
 Route::get('/Staff',[IndexController::class,'staffDashboard']);
@@ -232,3 +249,6 @@ Route::get('/product/list', [IndexController::class, 'productList']);
 Route::get('/product/brand',[IndexController::class, 'productBrand']);
 Route::get('/product/category',[IndexController::class, 'productCategory']);
 Route::get('/product/suppliers',[IndexController::class, 'productSupplier']);
+
+//Statistic
+Route::post('/addStatistic', [BookingController::class, 'addStatistic']);

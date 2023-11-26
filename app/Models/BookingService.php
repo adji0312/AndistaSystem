@@ -14,4 +14,12 @@ class BookingService extends Model
     public function service(){
         return $this->belongsTo(Service::class, 'service_id');
     }
+
+    public function servicePrice(){
+        return $this->belongsTo(ServicePrice::class, 'service_price_id');
+    }
+
+    public function staff(){
+        return $this->belongsTo(Staff::class, 'service_staff_id');
+    }
 }
