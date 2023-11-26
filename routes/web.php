@@ -228,11 +228,18 @@ Route::get('/customer/detail/{id}',[CustomerController::class,'customerdetail'])
 //Customer Add
 Route::get('/customer/list/add', [CustomerController::class,'addCustomer']);
 Route::post('/addCustomer', [CustomerController::class, 'store']);
+Route::get('/customer/list/add/next/{id}',[CustomerController::class,'addPets']);
+Route::post('/addPets', [CustomerController::class, 'storePets']);
+Route::get('/discardAddCustomer',[CustomerController::class],'discardAll');
+
 //Customer Update
-Route::get('/customer/list/update/{id}',[CustomerController::class, 'updateCustomer']);
-Route::post('/saveUpdateCustomer/{id}',[CustomerController::class, 'saveUpdateCustomer']);
-//Customer Delete
-Route::get('/customer/list/delete/{id}',[CustomerController::class, 'deleteCustomer']);
+// Route::get('/customer/list/update/{id}',[CustomerController::class, 'updateCustomer']);
+// Route::post('/saveUpdateCustomer/{id}',[CustomerController::class, 'saveUpdateCustomer']);
+// //Customer Delete
+// Route::get('/customer/list/delete/{id}',[CustomerController::class, 'deleteCustomer']);
+
+//CustomerDelete
+Route::get('/deleteCustomer',[CustomerController::class,'deleteCustomer']);
 
 
 //Product
@@ -260,17 +267,6 @@ Route::get('/product/list/supplier', [ProductController::class,'addSupplier']);
 Route::post('/addSupplier', [ProductController::class, 'addSupplier']);
 Route::post('/editSupplier/{id}',[ProductController::class,'editSupplier']);
 Route::get('/deleteSupplier',[ProductController::class,'deleteSupplier']);
-//Product Update
-// Route::get('/product/list/update/{id}',[ProductController::class, 'deleteCustomer']);
-// Route::get('/product/list/brand/update/{id}', [ProductController::class,'addBrand']);
-// Route::get('/product/list/category/update/{id}', [ProductController::class,'addBrand']);
-// Route::get('/product/list/supplier/update/{id}', [ProductController::class,'addBrand']);
-
-//Product Delete
-// Route::get('/product/list/delete/{id}',[ProductController::class, 'deleteCustomer']);
-// Route::get('/product/list/brand/delete/{id}',[ProductController::class, 'deleteCustomer']);
-// Route::get('/product/list/category/delete/{id}',[ProductController::class, 'deleteCustomer']);
-// Route::get('/product/list/supplier/delete/{id}',[ProductController::class, 'deleteCustomer']);
 
 //Product Modal Delete
 Route::get('/deleteProduct',[ProductController::class,'deleteProduct']);

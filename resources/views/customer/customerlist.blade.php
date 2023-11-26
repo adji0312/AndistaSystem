@@ -28,25 +28,24 @@
                 <table class="table">
                     <thead>
                       <tr>
-                        {{-- <th scope="col" style="color: #7C7C7C; width: 50px;">#</th> --}}
+                        <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
                         <th scope="col" style="color: #7C7C7C">Customer Name</th>
                         <th scope="col" style="color: #7C7C7C">Pet Name</th>
                         <th scope="col" style="color: #7C7C7C">Phone</th>
                         <th scope="col" style="color: #7C7C7C">Email</th>
                         <th scope="col" style="color: #7C7C7C">Created At</th>
-                        <th scope="col-2" style="color: #7C7C7C">Action</th>
                       </tr>
                     </thead>
                     <tbody>
                         @foreach ($customers as $customer)
                             {{-- @dd($customer) --}}
                             <tr>
-                                {{-- <th scope="row">
+                                <th scope="row">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="checkBox[{{ $service->id }}]" name="checkBox"  value="{{ $service->id }}">
-                                        <input type="hidden" id="serviceName{{ $service->id }}" value="{{ $service->service_name }}">
+                                        <input class="form-check-input" type="checkbox" id="checkBox[{{ $customer->id }}]" name="checkBox"  value="{{ $customer->id }}">
+                                        <input type="hidden" id="serviceName{{ $customer->id }}" value="{{ $customer->service_name }}">
                                     </div>
-                                </th> --}}
+                                </th>
                                 {{-- @dd($customer) --}}
                                 <td><a href="/customer/detail/{{ $customer->id }}" class="text-primary">{{ $customer->first_name }}</a></td>
                                 <td>
@@ -57,13 +56,6 @@
                                 <td>{{ $customer->phone }}</td>
                                 <td>{{ $customer->email }}</td>
                                 <td>{{ $customer->created_at ? $customer->created_at : "-" }}</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a href="/customer/list/update/{{ $customer->id }}" class="btn btn-primary active me-1">Edit
-                                        </a>
-                                        <a href="/customer/list/delete/{{ $customer->id }}" class="btn btn-danger">Delete</a>
-                                    </div>
-                                </td>
                             </tr>
                         @endforeach
                     </tbody>

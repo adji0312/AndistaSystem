@@ -28,6 +28,7 @@
                 <table class="table w-100">
                     <thead>
                       <tr >
+                        <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
                         <th scope="col" style="color: #7C7C7C; width: 15%;">Name</th>
                         <th scope="col" style="color: #7C7C7C; width: 15%;">Telephone</th>
                         <th scope="col" style="color: #7C7C7C; width: 20%;">Email</th>
@@ -39,7 +40,12 @@
                     <tbody>
                         @foreach($staffs as $staff)
                         <tr>
-                            
+                            <th scope="row">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="checkBox[{{ $staff->id }}]" name="checkBox"  value="{{ $staff->id }}">
+                                    <input type="hidden" id="serviceName{{ $staff->id }}" value="{{ $staff->service_name }}">
+                                </div>
+                            </th>
                             <td class="text-primary" style="cursor: pointer;">{{ $staff->first_name }} {{ $staff->middle_name }} {{ $staff->last_name }}</td>
                             <td>{{ $staff->phone }}</td>
                             <td>{{ $staff->email }}</td>

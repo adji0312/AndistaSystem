@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -38,8 +39,9 @@ class StaffController extends Controller
 
     //staffSecurityGroups
     public function staffSecurityGroups(){
-        return view('staff.dashboard',[
-            "title" => "Staff Security Groups"
+        return view('staff.securitygroup',[
+            "title" => "Staff Security Groups",
+            "roles" => Role::all()
         ]);
     }
 

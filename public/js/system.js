@@ -185,6 +185,15 @@ function duplicatePriceService(){
 }
 
 var p = 0;
+var petTable = document.getElementById('petsDuplicate');
+function duplicatePetService(){
+    var clone = petTable.cloneNode(true);
+    clone.id = "petsDuplicate" + ++p;
+    let cloned = document.getElementById("afterPets").appendChild(clone);
+    console.log(cloned);
+}
+
+var p = 0;
 var phoneContent = document.getElementById('phoneDuplicate');
 function duplicatePhone(){
     var clone = phoneContent.cloneNode(true);
@@ -319,6 +328,10 @@ function saveCustomer(){
 
 function saveUpdateCustomer(){
     let a = document.getElementById('saveUpdateCustomer').click();
+}
+
+function savePets(){
+    let a = document.getElementById('submitPets').click();
 }
 
 //save product

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Location;
 use App\Models\MessengerType;
 use App\Models\Pet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
@@ -63,41 +65,45 @@ class CustomerController extends Controller
         
         $customer->save();
 
-        $pet = new Pet;
-        $pet->customer_id = $customer->id;
-        $pet->pet_name = $request->pet_name;
-        $pet->pet_type = $request->pet_type;
-        $pet->pet_ras = $request->pet_ras;
-        $pet->pet_color = $request->pet_color;
-        $pet->date_of_birth = $request->date_of_birth_pet;
-        $pet->pet_gender = $request->gender;
+        // $pet = new Pet;
+        // $pet->customer_id = $customer->id;
+        // $pet->pet_name = $request->pet_name;
+        // $pet->pet_type = $request->pet_type;
+        // $pet->pet_ras = $request->pet_ras;
+        // $pet->pet_color = $request->pet_color;
+        // $pet->date_of_birth = $request->date_of_birth_pet;
+        // $pet->pet_gender = $request->gender;
 
-        $pet->save();
+        // $pet->save();
 
-        return view('customer.customerlist',[
-            "title" => "Customer List",
-            "customers" => Customer::all()
-        ])->with('success', 'Customer created successfully');
+        return redirect('/customer/list/add/next'.'/'.$customer->id);
+
+        // return view('customer.storePetDetail',[
+        //     "title" => "Customer List",
+        //     "customers" => Customer::all()
+        // ])->with('success', 'Customer created successfully');
     }
 
-    public function deleteCustomer(Request $request){
-        $pet = Pet::where('customer_id',$request->id)->get();
-        foreach($pet as $p){
-            $p->delete();
-        }
-        $customer = Customer::find($request->id);
-        $customer->delete();
-        return view('customer.customerlist',[
-            "title" => "Customer List",
-            "customers" => Customer::all()
-        ])->with('success', 'Customer deleted successfully');
-    }
 
     public function petList(){
         // @dd(Pet::all());
         return view('customer.customersublist',[
             "title" => "Customer Sub List",
             "pets" => Pet::all()
+        ]);
+    }
+
+    public function addPets($id){
+        $cust = Customer::find($id);
+        return view('customer.storePetDetail', [
+            "title" => "Add Pets",
+            "customers" => Customer::find($id),
+            "locations" => Location::all(),
+            "locCurr"=>Location::find($cust->location_id),
+            "messengerType" => MessengerType::all(),
+            "messengerTypeCurr" => MessengerType::find(Customer::find($id)->messengerId),
+            "pets" => Pet::where('id',$cust->customer_id),
+            "booking" => null
         ]);
     }
 
@@ -171,6 +177,21 @@ class CustomerController extends Controller
             // "facilities" => Facility::all()->where('status', 'Active'),
             // "staff" => Staff::all()
         ]);
+    }
+
+    public function deleteCustomer(Request $request){
+        $myString = $request->deleteId;
+        $myArray = explode(',', $myString);
+        // dd(count($myArray));
+        $length = count($myArray);
+
+        for($i = 0 ; $i < $length ; $i++){
+            $service = Customer::find($myArray[$i]);
+            DB::table('pets')->where('customer_id', $service->id)->delete();
+            DB::table('customers')->where('id', $service->id)->delete();
+        }
+
+        return redirect('/customer/list');
     }
 
 }
