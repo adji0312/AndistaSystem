@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Position;
 use App\Models\Role;
 use App\Models\Staff;
 use Illuminate\Http\Request;
@@ -19,8 +20,9 @@ class StaffController extends Controller
 
     //staffPosition
     public function staffPosition(){
-        return view('staff.dashboard',[
-            "title" => "Staff Position"
+        return view('staff.jobposition',[
+            "title" => "Staff Position",
+            "position" => Position::all()
         ]);
     }
 

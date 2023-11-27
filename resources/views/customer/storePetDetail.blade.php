@@ -7,14 +7,17 @@
         <div id="contents">
             <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">New Service</a>
+                    <a class="navbar-brand" href="#">Edit Customer</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="/service/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
+                              <a class="nav-link active" aria-current="page" href="/customer/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
                           <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" onclick="savePets()" style="color: #f28123; cursor: pointer;">Next <img src="/img/icon/continue.png" alt="" style="width: 22px"></a>
+                            <a class="nav-link active" aria-current="page" href="/discardCustomer/{{ $customers->id }}" style="color: #f28123; cursor: pointer;">Discard <img src="/img/icon/discard.png" alt="" style="width: 22px"></a>
+                            </li>
+                          <li class="nav-item">
+                              <a class="nav-link active" aria-current="page" onclick="savePets()" style="color: #f28123; cursor: pointer;">Save <img src="/img/icon/save.png" alt="" style="width: 22px"></a>
                           </li>
                       </ul>
                       <form class="d-flex" role="search">
@@ -26,7 +29,7 @@
             </nav>
 
             <div id="dashboard" class="mx-3 mt-4">
-                <form action="/addService" method="POST" enctype="multipart/form-data">
+                <form action="/saveEditCustomer/{{ $customers->id }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Customer Info</h5>
@@ -97,6 +100,8 @@
                                     @endforeach
                                 </select>
                             </div> --}}
+
+                            
                         </div>
 
                         <div class="m-3 d-flex gap-5">
@@ -182,7 +187,7 @@
                             <div class="mb-3">
                                 <label for="location" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location" id="gender" required>
-                                    <option value="{{ $customers->location_id }}" class="selectstatus" style="color: black;" selected disabled>{{ $locCurr->location_name }}</option>
+                                    <option value="{{ $customers->location_id }}" class="selectstatus" style="color: black;" selected disabled>{{ $locCurr->location_name ?? '' }}</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach
@@ -191,12 +196,40 @@
                                 </select>
                             </div>
                         </div>
-
+                        <button type="submit" id="submitPets" hidden></button>
+                    </form>
                     {{-- Sub Customer List (PET) --}}
                     <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <div class="d-flex gap-1 m-2">
                             <h5 class="m-3">Sub Account</h5>
-                            <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addSubAccount"><i class="fas fa-plus"></i> Add New Sub Account</button>
+                            <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addPets{{ $customers->id }}"><i class="fas fa-plus"></i> Add New Sub Account</button>
+                        </div>
+                        {{-- <div class="d-flex gap-1 m-2">
+                            <h5 class="m-3">Sub Account</h5>
+                            <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#jokowiPresiden"><i class="fas fa-plus"></i> Add New Sub Account</button>
+                        </div> --}}
+
+                        
+                        {{-- <div class="modal fade" id="jokowiPresiden" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Add Brand</h1>
+                                </div>
+                                <form action="/addBrand" method="post">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="mb-1">
+                                            <input type="text" class="form-control mt-1" id="product_brand_name" name="brand_name" oninput="inputProductBrandService()">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                        <button type="submit" class="btn btn-sm btn-outline-primary" id="saveBrand" disabled><i class="fas fa-save"></i> Save changes</button>
+                                    </div>
+                                </form>    
+                              </div>
+                            </div> --}}
                         </div>
                         <div class="mx-4 table-responsive">
                             <table class="table">
@@ -242,7 +275,7 @@
                                                   <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Sub Account</h1>
                                                 </div>
                                                 
-                                                <form action="/deleteSubAccount/{{ $pet->id }}" method="GET">
+                                                <form action="/deletePets/{{ $pet->id }}" method="GET">
                                                     @csrf
                                                     <div class="modal-body">
                                                         <div class="mb-1">
@@ -251,7 +284,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Discard</button>
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
                                                     </div>
                                                 </form>
                                               </div>
@@ -264,7 +297,7 @@
                                                 <div class="modal-header">
                                                   <h1 class="modal-title fs-5" id="exampleModalLabel">Update Sub Account</h1>
                                                 </div>
-                                                <form action="/updateSubAccount/{{ $pet->id }}" method="post">
+                                                <form action="/saveEditPets/{{ $pet->id }}" method="post">
                                                     @csrf
                                                     <div class="modal-body">
                                                         <div class="mb-3">
@@ -291,7 +324,7 @@
                                                         <div class="mb-3">
                                                             <label for="pet_gender" class="form-label" style="font-size: 15px; color: #7C7C7C;">Gender</label>
                                                             <select class="form-select" style="font-size: 15px; color: #7C7C7C;" id="pet_gender" name="pet_gender" required>
-                                                                @if ($pet->pet_gender == "Male")
+                                                                @if ($pet->pet_gender ?? '' == "Male")
                                                                     <option value="Male" class="selectstatus" name="pet_gender" style="color: black;" selected>Male</option>
                                                                     <option value="Female" class="selectstatus" name="pet_gender" style="color: black;">Female</option>
                                                                 @else
@@ -308,59 +341,7 @@
                                                 </form>    
                                               </div>
                                             </div>
-                                        </div>
-
-                                        <div class="modal fade" id="addSubAccount{{ $pet->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Add Sub Account</h1>
-                                                </div>
-                                                <form action="/addSubAccount/{{ $pet->id }}" method="post">
-                                                    @csrf
-                                                    <div class="modal-body">
-                                                        <div class="mb-3">
-                                                            {{-- <input type="hidden" value="{{ $booking->customer->id }}" name="customer_id"> --}}
-                                                            <label for="pet_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Name</label>
-                                                            <input type="text" class="form-control" id="pet_name" name="pet_name" value="{{ $pet->pet_name }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="pet_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Type</label>
-                                                            <input type="text" class="form-control" id="pet_type" name="pet_type" value="{{ $pet->pet_type }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="pet_ras" class="form-label" style="font-size: 15px; color: #7C7C7C;">Ras</label>
-                                                            <input type="text" class="form-control" id="pet_ras" name="pet_ras" value="{{ $pet->pet_ras }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="pet_color" class="form-label" style="font-size: 15px; color: #7C7C7C;">Color</label>
-                                                            <input type="text" class="form-control" id="pet_color" name="pet_color" value="{{ $pet->pet_color }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="date_of_birth" class="form-label" style="font-size: 15px; color: #7C7C7C;">Date of Birth</label>
-                                                            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ $pet->date_of_birth }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="pet_gender" class="form-label" style="font-size: 15px; color: #7C7C7C;">Gender</label>
-                                                            <select class="form-select" style="font-size: 15px; color: #7C7C7C;" id="pet_gender" name="pet_gender" required>
-                                                                @if ($pet->pet_gender == "Male")
-                                                                    <option value="Male" class="selectstatus" name="pet_gender" style="color: black;" selected>Male</option>
-                                                                    <option value="Female" class="selectstatus" name="pet_gender" style="color: black;">Female</option>
-                                                                @else
-                                                                    <option value="Male" class="selectstatus" name="pet_gender" style="color: black;">Male</option>
-                                                                    <option value="Female" class="selectstatus" name="pet_gender" style="color: black;" selected>Female</option>
-                                                                @endif
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                                                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
-                                                    </div>
-                                                </form>    
-                                              </div>
-                                            </div>
-                                        </div>
+                                        </div>  
                                     @endforeach
                                 </tbody>
                             </table>
@@ -421,8 +402,7 @@
                     </div>
                     
 
-                    <button type="submit" id="submitPets" hidden></button>
-                </form>
+                    
             </div>
         </div>
     </div>
@@ -504,6 +484,59 @@
                 <button type="button" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
               </div>
             </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="addPets{{ $customers->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Add Sub Account</h1>
+            </div>
+            <form action="/addCustomerPets/{{ $customers->id }}" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        {{-- <input type="hidden" value="{{ $booking->customer->id }}" name="customer_id"> --}}
+                        <label for="pet_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Name</label>
+                        <input type="text" class="form-control" id="pet_name" name="pet_name" value="{{ old('pet_name') }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pet_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Type</label>
+                        <input type="text" class="form-control" id="pet_type" name="pet_type" value="{{ old('pet_type') }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pet_ras" class="form-label" style="font-size: 15px; color: #7C7C7C;">Ras</label>
+                        <input type="text" class="form-control" id="pet_ras" name="pet_ras" value="{{ old('pet_ras') }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pet_color" class="form-label" style="font-size: 15px; color: #7C7C7C;">Color</label>
+                        <input type="text" class="form-control" id="pet_color" name="pet_color" value="{{ old('pet_color') }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="date_of_birth" class="form-label" style="font-size: 15px; color: #7C7C7C;">Date of Birth</label>
+                        <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ old('date_of_birth') }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pet_gender" class="form-label" style="font-size: 15px; color: #7C7C7C;">Gender</label>
+                        <select class="form-select" style="font-size: 15px; color: #7C7C7C;" id="pet_gender" name="pet_gender" required>
+                            @if ($pet->pet_gender ?? '' == "Male")
+                                <option value="Male" class="selectstatus" name="pet_gender" style="color: black;" selected>Male</option>
+                                <option value="Female" class="selectstatus" name="pet_gender" style="color: black;">Female</option>
+                            @else
+                                <option value="Male" class="selectstatus" name="pet_gender" style="color: black;">Male</option>
+                                <option value="Female" class="selectstatus" name="pet_gender" style="color: black;" selected>Female</option>
+                            @endif
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                </div>
+            </form>    
+          </div>
         </div>
     </div>
 @endsection

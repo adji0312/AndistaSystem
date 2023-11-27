@@ -201,6 +201,7 @@ Route::post('/editBooking/{id}', [BookingController::class, 'editBooking']);
 Route::post('/addBookingService', [BookingController::class, 'addBookingService']);
 Route::post('/editBookingService/{id}', [BookingController::class, 'editBookingService']);
 
+// -- SEMUA ROUTING STAFF
 // Staff
 Route::get('/Staff',[IndexController::class,'staffDashboard']);
 Route::get('/staff',[IndexController::class,'staffDashboard']);
@@ -209,6 +210,7 @@ Route::get('/staff/position',[StaffController::class,'staffPosition']);
 Route::get('/staff/working-hours',[StaffController::class,'staffWorkingHours']);
 Route::get('/staff/access-control',[StaffController::class,'staffAccessControl']);
 Route::get('/staff/security-groups',[StaffController::class,'staffSecurityGroups']);
+
 
 //Staff Add
 Route::get('/staff/new-staff',[StaffController::class,'newStaff']);
@@ -219,6 +221,7 @@ Route::post('/addnewstaff', [StaffController::class, 'addStaff']);
 //Staff Delete
 
 
+//--SEMUA ROUTING CUSTOMER
 //Customer
 Route::get('/customer',[IndexController::class,'customerDashboard']);
 Route::get('/customer/list',[CustomerController::class,'customerList']);
@@ -228,8 +231,13 @@ Route::get('/customer/detail/{id}',[CustomerController::class,'customerdetail'])
 //Customer Add
 Route::get('/customer/list/add', [CustomerController::class,'addCustomer']);
 Route::post('/addCustomer', [CustomerController::class, 'store']);
-Route::get('/customer/list/add/next/{id}',[CustomerController::class,'addPets']);
-Route::post('/addPets', [CustomerController::class, 'storePets']);
+Route::get('/customer/list/edit/{id}',[CustomerController::class,'addPets']);
+Route::post('/saveEditCustomer/{id}',[CustomerController::class, 'saveEditProcess']);
+//All About Pets
+Route::post('/addCustomerPets/{id}', [CustomerController::class, 'saveAddPets']);
+Route::post('/saveEditPets/{id}',[CustomerController::class, 'saveEditPets']);
+Route::get('/deletePets/{id}',[CustomerController::class, 'deletePets']);
+
 Route::get('/discardAddCustomer',[CustomerController::class],'discardAll');
 
 //Customer Update
@@ -240,8 +248,14 @@ Route::get('/discardAddCustomer',[CustomerController::class],'discardAll');
 
 //CustomerDelete
 Route::get('/deleteCustomer',[CustomerController::class,'deleteCustomer']);
+Route::get('/discardCustomer/{id}',[CustomerController::class,'discardCustomer']);
+
+//--SEMUA ROUTING PETS
+Route::post('/addPets/{id}',[PetController::class,'SubAccount']);
 
 
+
+//-- SEMUA ROUTING PRODUCT --
 //Product
 Route::get('/product', [IndexController::class, 'productDashboard']);
 Route::get('/product/list', [ProductController::class, 'productList']);
@@ -274,3 +288,4 @@ Route::get('/deleteProduct',[ProductController::class,'deleteProduct']);
 //Product Edit
 Route::get('/product/edit/{id}',[ProductController::class,'editProduct']);
 Route::post('/saveEditProduct/{id}',[ProductController::class,'saveEditProduct']);
+

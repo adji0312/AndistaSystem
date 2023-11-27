@@ -17,17 +17,27 @@ class PositionSeeder extends Seeder
         //
         Position::insert([
             [
-                "position_name"=>"dokter"
+                "position_name"=>"Dokter Umum"
             ],
             [
-                "position_name"=>"Resepsionis"
+                "position_name"=>"Front Office"
             ],
             [
-                "position_name"=>"Frontliner"
+                "position_name"=>"Divisi Multimedia dan Keuangan"
             ],
             [
-                "position_name"=>"Asisten Dokter"
+                "position_name"=>"Manajer"
             ],            
+            [
+                "position_name"=>"Paramedis Rawat Inap"
+            ], 
+            [
+                "position_name"=>"Divisi Laboratorium dan Radiologi"
+            ], 
+            [
+                "position_name"=>"Kepala Klinik"
+            ],
+            
         ]);
     }
 }

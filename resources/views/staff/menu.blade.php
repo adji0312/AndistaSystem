@@ -14,9 +14,9 @@
         <li style="cursor: pointer" class="{{ ($title === "Position") ? 'active' : '' }}">
             <a id="locationslist" href="/staff/position" class="px-4"><img src="/img/icon/position.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Job</a>
         </li>
-        <li style="cursor: pointer" class="{{ ($title === "Working Hours") ? 'active' : '' }}">
+        {{-- <li style="cursor: pointer" class="{{ ($title === "Working Hours") ? 'active' : '' }}">
             <a id="locationslist" href="/staff/working-hours" class="px-4"><img src="/img/icon/WorkingHours.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Working Hours</a>
-        </li>
+        </li> --}}
         <li style="cursor: pointer" class="{{ ($title === "Access Control") ? 'active' : '' }}">
             <a id="locationslist" href="/staff/access-control" class="px-4"><img src="/img/icon/AccessControl.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Access Control</a>
         </li>

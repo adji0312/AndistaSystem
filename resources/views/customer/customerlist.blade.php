@@ -47,7 +47,7 @@
                                     </div>
                                 </th>
                                 {{-- @dd($customer) --}}
-                                <td><a href="/customer/detail/{{ $customer->id }}" class="text-primary">{{ $customer->first_name }}</a></td>
+                                <td><a href="/customer/list/edit/{{ $customer->id }}" class="text-primary">{{ $customer->first_name }}</a></td>
                                 <td>
                                     @foreach ($customer->pets as $pet)
                                         {{ $pet->pet_name}}<br>

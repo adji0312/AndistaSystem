@@ -331,6 +331,7 @@ function saveUpdateCustomer(){
 }
 
 function savePets(){
+    console.log('clicked');
     let a = document.getElementById('submitPets').click();
 }
 
