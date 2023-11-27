@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('booking_notes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('booking_id');
+            $table->foreignId('sub_booking_id');
             $table->text('text');
             $table->timestamps();
         });

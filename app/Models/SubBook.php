@@ -18,4 +18,8 @@ class SubBook extends Model
     public function pet(){
         return $this->belongsTo(Pet::class, 'subAccount_id');
     }
+    
+    public function carts(){
+        return $this->hasMany(CartBooking::class, 'sub_booking_id');
+    }
 }

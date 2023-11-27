@@ -341,6 +341,14 @@ function submitStatistic(){
     let a = document.getElementById('submitStatistic').click();
 }
 
+function submitTextBooking(){
+    let a = document.getElementById('submitTextBooking').click();
+}
+
+function editTextBooking(){
+    let a = document.getElementById('editTextBooking').click();
+}
+
 
 
 //CEK FOR WORKING HOURS
@@ -1767,6 +1775,23 @@ var route3 = "/newBooking/customer/autocomplete-search";
     });
 
 $('.customer_id').on('typeahead:selected', function (e, datum) {
+    console.log(datum);
+    // $('#item_code').val(datum.item_code);
+});
+
+var route4 = "/cart/product/autocomplete-search";
+    $('#product_id_cart').typeahead({
+        source: function (query, process) {
+            console.log(query);
+            return $.get(route4, {
+                query: query
+            }, function (data) {
+                return process(data);
+            });
+        }
+    });
+
+$('.product_id_cart').on('typeahead:selected', function (e, datum) {
     console.log(datum);
     // $('#item_code').val(datum.item_code);
 });

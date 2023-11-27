@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CartBookingController;
 use App\Http\Controllers\CategoryServiceController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\FacilityController;
@@ -46,6 +47,8 @@ Route::get('/location/list/add/autocomplete-search', [IndexController::class, 'a
 Route::get('/newBooking/autocomplete-search', [IndexController::class, 'serviceAutocompleteSearch']);
 Route::get('/newBooking/alasan/autocomplete-search', [IndexController::class, 'alasanKunjunganSearch']);
 Route::get('/newBooking/customer/autocomplete-search', [IndexController::class, 'customerSearch']);
+Route::get('/cart/product/autocomplete-search', [IndexController::class, 'cartProductSearch']);
+Route::get('/cart/service/autocomplete-search', [IndexController::class, 'cartServiceSearch']);
 
 //Location
 Route::get('/location', [IndexController::class, 'locationDashboard']);
@@ -252,3 +255,11 @@ Route::get('/product/suppliers',[IndexController::class, 'productSupplier']);
 
 //Statistic
 Route::post('/addStatistic', [BookingController::class, 'addStatistic']);
+
+//Detail Booking
+Route::post('/addCartProduct', [CartBookingController::class, 'addCartProduct']);
+Route::post('/updateCartBooking/{id}', [CartBookingController::class, 'updateCartBooking']);
+Route::get('/deleteCartBooking/{id}', [CartBookingController::class, 'deleteCartBooking']);
+Route::post('/saveCartBooking/{id}', [CartBookingController::class, 'saveCartBooking']);
+Route::post('/submitTextBooking', [CartBookingController::class, 'submitTextBooking']);
+Route::post('/editTextBooking/{id}', [CartBookingController::class, 'editTextBooking']);

@@ -12,14 +12,15 @@
                     <a class="navbar-brand" href="#">{{ $title }}</a>
                     <form action="/changeStatus/{{ $booking->id }}" method="POST">
                         @csrf
-                        @if ($booking->booking->status == "Terkonfirmasi" && $booking->status == "Terkonfirmasi")
+                        @if ($booking->status == "Terkonfirmasi")
                             <input type="text" hidden name="status" value="Dimulai">
-                        @elseif ($booking->booking->status == "Dimulai" && $booking->status == "Dimulai")
+                            <button type="submit" class="btn btn-outline-primary btn-sm" style="height: 100%;">Mulai</button>
+                        @elseif ($booking->status == "Dimulai")
+                            <button type="submit" class="btn btn-outline-success btn-sm" style="height: 100%;">Selesai</button>
                             <input type="text" hidden name="status" value="Selesai">
-                        @elseif ($booking->booking->status == "Selesai" && $booking->status == "Selesai")
+                        @elseif ($booking->status == "Selesai")
 
                         @endif
-                        <button type="submit" class="btn btn-outline-primary btn-sm" style="height: 100%;">Mulai</button>
                     </form>
                 </div>
             </div>
@@ -37,7 +38,13 @@
                     </div>
                     <div class="m-3">
                         <h6 style="color: black; font-weight: 400">Total : Rp {{ number_format($booking->booking->total_price) }}</h6>
-                        <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97cbfe">{{ $booking->booking->status }}</button></h6>
+                        @if ($booking->status == "Terkonfirmasi")
+                            <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97cbfe">{{ $booking->status }}</button></h6>
+                        @elseif ($booking->status == "Dimulai")
+                            <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #fee497">{{ $booking->status }}</button></h6>
+                        @elseif ($booking->status == "Selesai")
+                            <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97fe99">{{ $booking->status }}</button></h6>
+                        @endif
                         <h6 style="color: black; font-weight: 400">Alasan Kunjungan : {{ $booking->booking->alasan_kunjungan }}</h6>
                     </div>
                     <div class="m-3 d-flex flex-column gap-1">
@@ -74,10 +81,10 @@
                 </div>
             </div>
             
-            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-3">
+            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4">
                 <div class="m-2 d-flex">
                     <h5 class="m-3">Statistik</h5>
-                    <button type="button" class="btn btn-sm btn-outline-dark m-2" onclick="submitStatistic()"><i class="fas fa-save"></i> Save Changes</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary m-2" onclick="submitStatistic()"><i class="fas fa-save"></i> Save Changes</button>
                 </div>
                 <div class="mx-3 mb-3 mt-4 d-flex flex-column gap-1">
                     <div class="table-responsive">
@@ -101,7 +108,7 @@
                                         <td class="text-primary" style="cursor: pointer">
                                             <input type="text" placeholder="0 °C" style="width: 70px;" name="suhu">
                                         </td>
-                                        @if ($latestStatistic)
+                                        {{-- @if ($latestStatistic)
                                             <td>{{ $latestStatistic[0]->suhu }} °C</td>
                                         @else
                                             <td>-</td>    
@@ -110,7 +117,7 @@
                                             <td>{{ $beforeStatistic[1]->suhu }} °C</td>
                                         @else
                                             <td>-</td>
-                                        @endif
+                                        @endif --}}
                                         <td>-</td>
                                     </tr>
                                     <tr>
@@ -118,7 +125,7 @@
                                         <td class="text-primary" style="cursor: pointer">
                                             <input type="text" placeholder="0 kg" style="width: 70px;" name="berat">
                                         </td>
-                                        @if ($latestStatistic)
+                                        {{-- @if ($latestStatistic)
                                             <td>{{ $latestStatistic[0]->berat }} kg</td>
                                         @else
                                             <td>-</td>
@@ -127,7 +134,7 @@
                                             <td>{{ $beforeStatistic[1]->berat }} kg</td>
                                         @else
                                             <td>-</td>
-                                        @endif
+                                        @endif --}}
                                         <td>-</td>
                                     </tr>
                                     <tr>
@@ -209,9 +216,200 @@
                     </div>
                 </div>
             </div>
+
+            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-4">
+                <div class="m-2 d-flex">
+                    <h5 class="m-3">Catatan</h5>
+                    @if (count($note) == 0)
+                        <button type="button" class="btn btn-sm btn-outline-primary m-2" onclick="submitTextBooking()"><i class="fas fa-save"></i> Save</button>
+                    @else
+                        <button type="button" class="btn btn-sm btn-outline-primary m-2" onclick="editTextBooking()"><i class="fas fa-save"></i> Update</button>
+                    @endif
+                </div>
+                @if (count($note) == 0)
+                    <form action="/submitTextBooking" method="POST">
+                        @csrf
+                        <div class="m-3">
+                            <input type="text" hidden name="booking_id" value="{{ $booking->booking->id }}">
+                            <input type="text" hidden name="sub_booking_id" value="{{ $booking->id }}">
+                            <input id="text" type="hidden" name="text" value="<div><strong>Anamnesa<br></strong><br></div><ul><li><br></li></ul><div><strong>Diagnosis / DD<br></strong><br></div><ul><li><br></li></ul><div><strong>Drh PJ<br></strong><br></div><ul><li><br></li></ul><div><strong>Terapi&nbsp;<br></strong><br></div><ul><li><br><br></li></ul>">
+                            <trix-editor input="text"></trix-editor>
+                        </div>
+                        <button type="submit" hidden id="submitTextBooking"></button>
+                    </form>
+                @else
+                    <form action="/editTextBooking/{{ $note->first()->id }}" method="POST">
+                        @csrf
+                        <div class="m-3">
+                            <input type="text" hidden name="booking_id" value="{{ $booking->booking->id }}">
+                            <input type="text" hidden name="sub_booking_id" value="{{ $booking->id }}">
+                            <input id="text" type="hidden" name="text" value="{{ $note->first()->text }}">
+                            <trix-editor input="text"></trix-editor>
+                        </div>
+                        <button type="submit" hidden id="editTextBooking"></button>
+                    </form>
+                @endif
+            </div>
+            
+            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-4">
+                <div class="m-2 d-flex">
+                    <h5 class="m-3">Keranjang Pasien</h5>
+                    <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartProduct"><i class="fas fa-plus"></i> Add Product</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartService"><i class="fas fa-plus"></i> Add Service</button>
+                    <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addCartService"><i class="fas fa-coins"></i> Total : Rp {{ number_format($totalPrice) }}</button>
+                </div>
+                <div class="table-responsive m-3">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">No</th>
+                            <th scope="col" style="width: 20%">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                            <th scope="col" class="text-center">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $index1 = 0; ?>
+                            @foreach ($carts as $cart)
+                                <?php $index1 += 1; ?>
+                                <tr>
+                                    <th>{{ $index1 }}</th>
+                                    @if ($cart->product_id == null && $cart->service_id != null)
+                                        <td>{{ $cart->service->service_name }}</td>
+                                    @elseif ($cart->product_id != null && $cart->service_id == null)
+                                        <td>{{ $cart->product->product_name }}</td>
+                                    @endif
+                                    @if ($cart->product_id == null && $cart->service_id != null)
+                                        <td>Rp </td>
+                                    @elseif ($cart->product_id != null && $cart->service_id == null)
+                                        <td>Rp {{ number_format($cart->product->price) }}</td>
+                                    @endif
+                                    <td>{{ $cart->quantity }}</td>
+                                    <td>Rp {{ number_format($cart->total_price) }}</td>
+                                    <td>
+                                        @if ($cart->flag == 1)
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#updateCartBooking{{ $cart->id }}"><i class="fas fa-pencil-alt"></i> Update</button>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{ $cart->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                <form action="/saveCartBooking/{{ $cart->id }}" method="post" style="width: 100%">
+                                                    @csrf
+                                                    <input type="text" hidden name="booking_id" value="{{ $booking->booking_id }}">
+                                                    <button type="submit" class="btn btn-outline-primary btn-sm" style="width: 100%; height: 100%;"><i class="fas fa-save"></i> Save Cart</button>
+                                                </form>
+                                            </div>
+                                        @else
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 100px" disabled><i class="fas fa-check"></i> Selected</button>
+                                            </div>
+                                        @endif
+                                    </td>
+                                </tr>
+
+                                <div class="modal fade" id="deleteCartBooking{{ $cart->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Product</h1>
+                                        </div>
+                                        
+                                        <form action="/deleteCartBooking/{{ $cart->id }}" method="GET">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="mb-1">
+                                                    <small class="fs-6" style="font-weight: 300">Are you sure delete this item?</small>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                            </div>
+                                        </form>
+                                      </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="updateCartBooking{{ $cart->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel">Update Quantity Product</h1>
+                                        </div>
+                                        <form action="/updateCartBooking/{{ $cart->id }}" method="post">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Stock Product</label>
+                                                    <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $cart->product->stock }}" disabled>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Quantity</label>
+                                                    <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $cart->quantity }}">
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                            </div>
+                                        </form>    
+                                      </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
   </div>
+
+<div class="modal fade" id="addCartProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Product</h1>
+        </div>
+        <form action="/addCartProduct" method="post">
+            @csrf
+            <div class="modal-body">
+                <div class="mb-3">
+                    <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
+                    <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
+                    <input type="text" class="form-control" id="product_id_cart" name="product_id" placeholder="Search here ...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+            </div>
+        </form>    
+      </div>
+    </div>
+</div>
+<div class="modal fade" id="addCartService" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Service</h1>
+        </div>
+        <form action="/addCartService" method="post">
+            @csrf
+            <div class="modal-body">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="searchService" name="service_name" value="" placeholder="Search Service" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+            </div>
+        </form>    
+      </div>
+    </div>
+</div>
 
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">

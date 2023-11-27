@@ -18,6 +18,7 @@ use App\Models\LocationContactPhone;
 use App\Models\MessengerType;
 use App\Models\Plan;
 use App\Models\Policy;
+use App\Models\Product;
 use App\Models\Service;
 use App\Models\ServiceAndFacility;
 use App\Models\ServiceAndStaff;
@@ -315,9 +316,6 @@ class IndexController extends Controller
     }
 
     public function customerSearch(Request $request){
-        // $query = $request->get('query');
-        // $filterResult = Country::where('country_name', 'LIKE', '%'. $query. '%')->get();
-        // return response()->json($filterResult);
 
         $datas = Customer::select("id", "first_name", "phone")
             ->where("first_name","LIKE","%{$request->input('query')}%")->orWhere("phone","LIKE","%{$request->input('query')}%")
@@ -325,6 +323,19 @@ class IndexController extends Controller
         $dataModified = array();
         foreach ($datas as $data){
             $dataModified[] = $data->first_name . " (" . $data->phone . ")";
+        }
+
+        return response()->json($dataModified);
+    }
+
+    public function cartProductSearch(Request $request){
+
+        $datas = Product::select("product_name")
+            ->where("product_name","LIKE","%{$request->input('query')}%")->where("stock", ">" , 0)
+            ->get();
+        $dataModified = array();
+        foreach ($datas as $data){
+            $dataModified[] = $data->product_name;
         }
 
         return response()->json($dataModified);

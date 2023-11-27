@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\AlasanKunjungan;
 use App\Models\Booking;
+use App\Models\BookingNote;
 use App\Models\BookingService;
+use App\Models\CartBooking;
 use App\Models\CheckStaff;
 use App\Models\Customer;
 use App\Models\Location;
@@ -459,19 +461,40 @@ class BookingController extends Controller
     public function detailBookingById($id){
         $booking = SubBook::find($id);
         $latestStatistic = Statistic::where('sub_booking_id', $booking->id)->orderBy('created_at', 'desc')->get();
+        $cart = CartBooking::where('sub_booking_id', $booking->id)->get();
+        $selectedCart = CartBooking::where('sub_booking_id', $booking->id)->where('flag', 0)->get();
+        $totalPrice = $selectedCart->sum('total_price');
+        $note = BookingNote::where('sub_booking_id', $booking->id)->get();
         
         return view('calendar.bookingdetail', [
             'booking' => $booking,
             'title' => "Detail Booking",
             'latestStatistic' => $latestStatistic->take(1),
-            'beforeStatistic' => $latestStatistic
+            'beforeStatistic' => $latestStatistic,
+            'carts' => $cart,
+            'totalPrice' => $totalPrice,
+            'note' => $note
         ]);
     }
 
     public function changeStatus(Request $request, $id){
-        dd($request->all());
+        // dd($request->all());
         $subbooking = SubBook::find($id);
         $booking = Booking::find($subbooking->booking_id);
+        
+        if($subbooking->status == "Terkonfirmasi" && $request->status == "Dimulai"){
+            $subbooking->status = "Dimulai";
+            $subbooking->save();
+        }elseif ($subbooking->status == "Dimulai" && $request->status == "Selesai"){
+            $subbooking->status = "Selesai";
+            $subbooking->save();
+
+            //save ke table sale dengan status unpaid
+        }elseif ($subbooking->status == "Selesai" && $request->status == "Dimulai"){
+
+        }
+
+        return redirect()->back();
     }
 
     public function addStatistic(Request $request){
