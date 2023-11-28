@@ -1798,6 +1798,17 @@ function inputProductBrandService(){
     }
 }
 
+function inputPositionService(){
+    let product_brand_name = document.getElementById('product_brand_name');
+
+    let buttonSubmitProductBrand = document.getElementById('saveBrand');
+    if(product_brand_name.value == null || product_brand_name.value == ''){
+        buttonSubmitProductBrand.disabled = true;
+    }else{
+        buttonSubmitProductBrand.disabled = false;
+    }
+}
+
 function inputProductCategoryService(){
     let product_brand_name = document.getElementById('category_name');
 

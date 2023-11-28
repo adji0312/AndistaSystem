@@ -215,10 +215,23 @@ Route::get('/staff/security-groups',[StaffController::class,'staffSecurityGroups
 //Staff Add
 Route::get('/staff/new-staff',[StaffController::class,'newStaff']);
 Route::post('/addnewstaff', [StaffController::class, 'addStaff']);
+//Staff Position Add
+Route::post('/addPosition',[StaffController::class,'addStaffPosition']);
+//Staff Position Update
+Route::post('/updatePosition/{id}',[StaffController::class,'updateStaffPosition']);
 
-//Staff Update
+//Staff Position Delete
+Route::get('/deleteStaffJob',[StaffController::class,'deleteStaffJob']);
 
-//Staff Delete
+//JOB
+Route::post('/addJob', [ProductController::class, 'addJob']);
+Route::get('/deleteJob',[ProductController::class,'deleteJob']);
+Route::post('/editJob/{id}',[ProductController::class,'editJob']);
+
+//SECURITY Groups
+Route::post('/addJob', [ProductController::class, 'addJob']);
+Route::get('/deleteJob',[ProductController::class,'deleteJob']);
+Route::post('/editJob/{id}',[ProductController::class,'editJob']);
 
 
 //--SEMUA ROUTING CUSTOMER
