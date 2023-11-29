@@ -29,37 +29,37 @@ return new class extends Migration
             $table->tinyInteger('staff_access_control')->nullable();
             $table->tinyInteger('staff_security_groups')->nullable();
             //Service
-            $table->tinyInteger('service_dashboard');
-            $table->tinyInteger('service_list');
-            $table->tinyInteger('service_treatment_plan');
-            $table->tinyInteger('service_category');
-            $table->tinyInteger('service_diagnosis');
-            $table->tinyInteger('service_policy');
+            $table->tinyInteger('service_dashboard')->nullable();
+            $table->tinyInteger('service_list')->nullable();
+            $table->tinyInteger('service_treatment_plan')->nullable();
+            $table->tinyInteger('service_category')->nullable();
+            $table->tinyInteger('service_diagnosis')->nullable();
+            $table->tinyInteger('service_policy')->nullable();
             //Product
-            $table->tinyInteger('product_dashboard');
-            $table->tinyInteger('product_list');
-            $table->tinyInteger('product_brand');
-            $table->tinyInteger('product_category');
-            $table->tinyInteger('product_suppliers');
+            $table->tinyInteger('product_dashboard')->nullable();
+            $table->tinyInteger('product_list')->nullable();
+            $table->tinyInteger('product_brand')->nullable();
+            $table->tinyInteger('product_category')->nullable();
+            $table->tinyInteger('product_suppliers')->nullable();
             //Location
-            $table->tinyInteger('dashboard_location');
-            $table->tinyInteger('location_list');
-            $table->tinyInteger('facilities');
-            $table->tinyInteger('setting_location');
+            $table->tinyInteger('dashboard_location')->nullable();
+            $table->tinyInteger('location_list')->nullable();
+            $table->tinyInteger('facilities')->nullable();
+            $table->tinyInteger('setting_location')->nullable();
             //Finance
-            $table->tinyInteger('dashboard_finance');
-            $table->tinyInteger('sale_list');
-            $table->tinyInteger('quotation_list');
-            $table->tinyInteger('tax_rate');
+            $table->tinyInteger('dashboard_finance')->nullable();
+            $table->tinyInteger('sale_list')->nullable();
+            $table->tinyInteger('quotation_list')->nullable();
+            $table->tinyInteger('tax_rate')->nullable();
             //Attendance
-            $table->tinyInteger('dashboard_attendance');
-            $table->tinyInteger('attendance_list');
-            $table->tinyInteger('working_shift');
-            $table->tinyInteger('manage_staff_shift');
+            $table->tinyInteger('dashboard_attendance')->nullable();
+            $table->tinyInteger('attendance_list')->nullable();
+            $table->tinyInteger('working_shift')->nullable();
+            $table->tinyInteger('manage_staff_shift')->nullable();
             //Presence
-            $table->tinyInteger('absent');
+            $table->tinyInteger('absent')->nullable();
             //Reports
-            $table->tinyInteger('reports_all');
+            $table->tinyInteger('reports_all')->nullable();
         });
     }
 

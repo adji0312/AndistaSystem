@@ -38,8 +38,61 @@ class StaffController extends Controller
 
     public function staffAccessControl(){
         return view('staff.dashboard',[
-            "title" => "Staff Access Control"
+            "title" => "Staff Access Control",
         ]);
+    }
+
+    public function saveStaffAccessControl(Request $request,$id){
+        
+        $roles = Role::find($id);
+
+        //home
+        $roles->role_name = $request->role_name;
+        $roles->home_upcoming_booking = $request->home_upcoming_booking;
+        //calendar
+        $roles->calendar_calendar = $request->calendar_calendar;
+        $roles->calendar_create_booking = $request->calendar_create_booking;
+        $roles->calendar_list_booking = $request->calendar_list_booking;
+        //Staff
+        $roles->staff_dashboard = $request->staff_dashboard;
+        $roles->staff_staff_list = $request->staff_staff_list;
+        $roles->staff_job = $request->staff_job;
+        $roles->staff_access_control = $request->staff_access_control;
+        $roles->staff_security_group = $request->staff_security_group;
+        //Service
+        $roles->service_dashboard = $request->service_dashboard;
+        $roles->service_list = $request->service_list;
+        $roles->service_treatment_plan = $request->service_treatment_plan;
+        $roles->service_category = $request->service_category;
+        $roles->service_diagnosis = $request->service_diagnosis;
+        $roles->service_policy = $request->service_policy;
+        //Product
+        $roles->product_dashboard = $request->product_dashboard;
+        $roles->product_list = $request->product_list;
+        $roles->product_brand = $request->product_brand;
+        $roles->product_category = $request->product_category;
+        $roles->product_suppliers = $request->product_suppliers;
+        //Location
+        $roles->dashboard_location = $request->dashboard_location;
+        $roles->location_list = $request->location_list;
+        $roles->facilities = $request->facilities;
+        $roles->setting_location = $request->setting_location;
+        //Finance
+        $roles->dashboard_finance = $request->dashboard_finance;
+        $roles->sale_list = $request->sale_list;
+        $roles->quotation_list = $request->quotation_list;
+        $roles->tax_rate = $request->tax_rate;
+        //Attendance
+        $roles->dashboard_attendance = $request->dashboard_attendance;
+        $roles->attendance_list = $request->attendance_list;
+        $roles->working_shift = $request->working_shift;
+        $roles->manage_staff_shift = $request->manage_staff_shift;
+        //Presence
+        $roles->absent = $request->absent;
+        //Reports
+        $roles->reports_all = $request->reports_all;
+
+        $roles->update();
     }
 
     //staffSecurityGroups
@@ -151,4 +204,5 @@ class StaffController extends Controller
 
         return redirect('/staff/position')->with('success','Job Position Updated Successfully');
     }
+    
 }
