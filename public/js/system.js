@@ -335,6 +335,20 @@ function savePets(){
     let a = document.getElementById('submitPets').click();
 }
 
+//save staff
+function saveStaff(){
+    let a = document.getElementById('submitStaff').click();
+}
+
+function saveUpdateStaff(){
+    let a = document.getElementById('saveUpdateStaff').click();
+}
+
+function saveStaff(){
+    console.log('clicked');
+    let a = document.getElementById('submitStaff').click();
+}
+
 //save product
 function saveProduct(){
     let a = document.getElementById('submitProduct').click();

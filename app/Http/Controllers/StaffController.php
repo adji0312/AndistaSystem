@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\Location;
+use App\Models\MessengerType;
 use App\Models\Position;
 use App\Models\Role;
+use App\Models\Shift;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,9 +20,21 @@ class StaffController extends Controller
     public function staffList(){
         return view('staff.stafflist',[
             "staffs" => Staff::all(),
-            "title" => "Staff List"
+            "title" => "Staff List",
         ]);
     }
+
+    public function addNewStaff(){
+        return view('staff.addstaff',[
+            "title" => "Add New Staff",
+            "roles" => Role::all(),
+            "positions" => Position::all(),
+            "shift" => Shift::all(),
+            "messengerType" => MessengerType::all(),
+            "locations" => Location::all()
+        ]);
+    }
+    
 
     //staffPosition
     public function staffPosition(){
@@ -36,8 +51,9 @@ class StaffController extends Controller
         ]);
     }
 
+    //Staff Access Control
     public function staffAccessControl(){
-        return view('staff.dashboard',[
+        return view('staff.accesscontrol',[
             "title" => "Staff Access Control",
         ]);
     }

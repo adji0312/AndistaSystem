@@ -213,8 +213,8 @@ Route::get('/staff/security-groups',[StaffController::class,'staffSecurityGroups
 
 
 //Staff Add
-Route::get('/staff/new-staff',[StaffController::class,'newStaff']);
-Route::post('/addnewstaff', [StaffController::class, 'addStaff']);
+Route::get('/staff/add-new-staff',[StaffController::class,'addNewStaff']);
+Route::post('/saveNewStaff', [StaffController::class, 'addStaff']);
 //Staff Position Add
 Route::post('/addPosition',[StaffController::class,'addStaffPosition']);
 //Staff Position Update
