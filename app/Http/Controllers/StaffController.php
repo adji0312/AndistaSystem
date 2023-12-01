@@ -55,6 +55,7 @@ class StaffController extends Controller
     public function staffAccessControl(){
         return view('staff.accesscontrol',[
             "title" => "Staff Access Control",
+            "roles" => Role::all(),
         ]);
     }
 
@@ -109,6 +110,8 @@ class StaffController extends Controller
         $roles->reports_all = $request->reports_all;
 
         $roles->update();
+
+        return redirect('/staff/access-control')->with('success','Staff Access Control Updated Successfully');
     }
 
     //staffSecurityGroups
