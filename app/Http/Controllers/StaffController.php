@@ -60,7 +60,6 @@ class StaffController extends Controller
     }
 
     public function saveStaffAccessControl(Request $request,$id){
-        
         $roles = Role::find($id);
 
         //home
@@ -130,6 +129,8 @@ class StaffController extends Controller
     }
 
     public function addStaff(Request $request){
+        @dd($request->all());
+
         // dd($request->all());
         // echo("sip");
         $validated = $request->validate([

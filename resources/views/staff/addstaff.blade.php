@@ -14,7 +14,7 @@
                               <a class="nav-link active" aria-current="page" href="/staff/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" onclick="saveCustomer()" style="color: #f28123; cursor: pointer;">Next <img src="/img/icon/continue.png" alt="" style="width: 22px"></a>
+                            <a class="nav-link active" aria-current="page" onclick="saveStaff()" style="color: #f28123; cursor: pointer;">Next <img src="/img/icon/continue.png" alt="" style="width: 22px"></a>
                         </li>
                       </ul>
                       <form class="d-flex" role="search">
@@ -26,7 +26,7 @@
             </nav>
 
             <div id="dashboard" class="mx-3 mt-4">
-                <form action="/addCustomer" method="POST" enctype="multipart/form-data">
+                <form action="/saveNewStaff" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Staff Info</h5>
@@ -57,26 +57,44 @@
                             </div> --}}
                         </div>
                         <div class="m-3 d-flex gap-5">
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Degree</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="customer_degree" id="customer_degree">
                                     <option value="" class="selectstatus" style="color: black;" selected disabled>Select Degree</option>
-                                    {{-- @foreach ($locations as $location)
+                                    @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                                    @endforeach --}}
+                                    @endforeach
                                     <option value="Tn" class="selectstatus" style="color: black;">Tn</option>
                                     <option value="Ny" class="selectstatus" style="color: black;">Ny</option>
                                     <option value="Mr" class="selectstatus" style="color: black;">Mr</option>
                                     <option value="Mrs" class="selectstatus" style="color: black;">Mrs</option>
                                 </select>
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <label for="nick_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Nick Name</label>
                                 <input type="text" class="form-control" name="nick_name" id="nick_name" value="{{ old('nick_name') }}">
                             </div>
+                            {{-- <div class="mb-3">
+                                <label for="phone" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Phone</label>
+                                <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone_customer') }}" >
+                            </div> --}}
                             <div class="mb-3">
-                                <label for="phone_customer" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Phone</label>
-                                <input type="text" class="form-control" name="phone_customer" id="phone_customer" value="{{ old('phone_customer') }}" >
+                                <label for="position_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Job Position</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="position_id" id="position_id" required>
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Position</option>
+                                    @foreach ($positions as $position)
+                                        <option value="{{ $position->id }}" class="selectstatus" style="color: black;">{{ $position->position_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="role" class="form-label" style="font-size: 15px; color: #7C7C7C;">Roles</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="role" id="role" required>
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Role</option>
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->id }}" class="selectstatus" style="color: black;">{{ $role->role_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             {{-- <div class="mb-3">
                                 <label for="category_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Category</label>
@@ -129,56 +147,57 @@
                         
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
-                                <label for="card_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Card Type</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="card_type" id="card_type" >
-                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Card Type</option>
-                                    {{-- @foreach ($locations as $location)
-                                        <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                                    @endforeach --}}
-                                    <option value="Passport" class="selectstatus" style="color: black;">Passport</option>
+                                <label for="shifts_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Shifts</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="shifts_id" id="shifts_id" >
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Shift</option>
+                                    @foreach ($shift as $s)
+                                        <option value="{{ $s->id }}" class="selectstatus" style="color: black;">{{ $s->shift_name }}</option>
+                                    @endforeach
+                                    {{-- <option value="Passport" class="selectstatus" style="color: black;">Passport</option>
                                     <option value="KTP" class="selectstatus" style="color: black;">KTP</option>
                                     <option value="SIM" class="selectstatus" style="color: black;">SIM</option>
-                                    <option value="Others" class="selectstatus" style="color: black;">Others</option>
+                                    <option value="Others" class="selectstatus" style="color: black;">Others</option> --}}
                                 </select>
                             </div>
                             <div class="mb-3">
                                 {{-- id number --}}
-                                <label for="id_no" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">ID Number</label>
-                                <input type="text" class="form-control" name="id_no" id="id_no" value="{{ old('id_no') }}" >
+                                <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Status</label>
+                                <input type="text" class="form-control" name="status" id="status" value="{{ old('status') }}" >
                             </div>
                             <div class="mb-3">
-                                {{-- join date --}}
+                                {{-- id number --}}
+                                <label for="Address" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Address</label>
+                                <input type="text" class="form-control" name="Address" id="Address" value="{{ old('Address') }}" >
+                            </div>
+                            {{-- <div class="mb-3">
+                                join date
                                 <label for="join_date" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Join Date</label>
                                 <input type="date" class="form-control" id="join_date" name="join_date" >
                             
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="m-3 d-flex gap-5">
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="customer_gender" class="form-label" style="font-size: 15px; color: #7C7C7C;">Gender</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="customer_gender" id="customer_gender" >
                                     <option value="" class="selectstatus" style="color: black;" selected disabled>Select Gender</option>
-                                    {{-- @foreach ($locations as $location)
+                                    @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                                    @endforeach --}}
+                                    @endforeach
                                     <option value="Male" class="selectstatus" style="color: black;">Male</option>
                                     <option value="Female" class="selectstatus" style="color: black;">Female</option>
                                 </select>
-                            </div>
-                            <div class="mb-3">
-                                {{-- date of birth --}}
+                            </div> --}}
+                            {{-- <div class="mb-3">
+                                date of birth
                                 <label for="date_of_birth_customer" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Date Of Birth</label>
                                 <input type="date" class="form-control" id="date_of_birth_customer" name="date_of_birth_customer" >
                             
-                            </div>
-                            <div class="mb-3">
-                                <label for="address" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Address</label>
-                                <input type="text" class="form-control" name="address" id="address" value="{{ old('address') }}">
-                            </div>
+                            </div> --}}
                         </div>
 
-                        <div class="m-3 d-flex gap-5">
+                        {{-- <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="location" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location" id="gender" required>
@@ -186,11 +205,9 @@
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach
-                                    {{-- <option value="Tn" class="selectstatus" style="color: black;">Male</option>
-                                    <option value="Ny" class="selectstatus" style="color: black;">Female</option> --}}
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
 
                         {{-- <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
