@@ -129,53 +129,93 @@ class StaffController extends Controller
     }
 
     public function addStaff(Request $request){
-        @dd($request->all());
 
-        // dd($request->all());
-        // echo("sip");
-        $validated = $request->validate([
-            'first_name' => 'required',
-            'middle_email' => 'required',
-            'last_name' => 'required',
-            'nickname' => 'required',
-            'gender' => 'required',
-        ]);
+        $staff = new Staff();
+        $staff->first_name = $request->first_name;
+        $staff->middle_name = $request->middle_name;
+        $staff->last_name = $request->last_name;
+        $staff->nickname = $request->nickname;
+        $staff->position_id = $request->position_id;
+        $staff->role_id = $request->role_id;
+        $staff->email = $request->email;
+        $staff->phone = $request->phone;
+        $staff->messenger = $request->messenger;
+        $staff->status = $request->status;
+        $staff->Address = $request->Address;
+        $staff->descriptions = $request->descriptions;
+        $staff->shifts_id = $request->shifts_id;
+        $staff->password = bcrypt("12345678");
+        $staff->UUID = Str::uuid();
+        $staff->save();
 
-        // echo("sip");
-
-        Staff::create($validated);
 
         return redirect('/staff/list')->with('success','New Staff Added Successfully');
     }
 
-    public function update(Request $request, $id){
-        $request->validate([
-            'first_name' => 'required',
-            'middle_email' => 'required',
-            'last_name' => 'required',
-            'nickname' => 'required',
-            'gender' => 'required',
-            'status' => 'required',
-            'description' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
-            'image' => 'required',
+    public function viewUpdateStaff($id){
+        $staffid = Staff::find($id);
+        return view('staff.editstaff',[
+            "title" => "Update Staff",
+            "staff" => Staff::find($id),
+            "roles" => Role::all(),
+            "uroles" => Role::find($staffid->id),
+            "positions" => Position::all(),
+            "upositions" => Position::find($staffid->id),
+            "shift" => Shift::all(),
+            "ushift" => Shift::find($staffid->id),
+            "messengerType" => MessengerType::all(),
+            "umessengerType" => MessengerType::find($staffid->id),
+            "locations" => Location::all(),
+            "ulocations" => Location::find($staffid->id),
         ]);
+    }
 
+    public function saveUpdateStaff(Request $request, $id){
+        // $request->validate([
+        //     'first_name' => 'required',
+        //     'middle_email' => 'required',
+        //     'last_name' => 'required',
+        //     'nickname' => 'required',
+        //     'gender' => 'required',
+        //     'status' => 'required',
+        //     'description' => 'required',
+        //     'phone' => 'required',
+        //     'email' => 'required',
+        //     'image' => 'required',
+        // ]);
+
+        // $staff = Staff::find($id);
+        // $staff->first_name = $request->first_name;
+        // $staff->middle_name = $request->middle_name;
+        // $staff->last_name = $request->last_name;
+        // $staff->nickname = $request->nickname;
+        // $staff->gender = $request->gender;
+        // $staff->status = $request->status;
+        // $staff->description = $request->description;
+        // $staff->phone = $request->phone;
+        // $staff->email = $request->email;
+        // $staff->image = $request->image;
+        // $staff->save();
+
+        // return redirect('/staff/stafflist')->with('success','Staff Updated Successfully');
         $staff = Staff::find($id);
         $staff->first_name = $request->first_name;
         $staff->middle_name = $request->middle_name;
         $staff->last_name = $request->last_name;
         $staff->nickname = $request->nickname;
-        $staff->gender = $request->gender;
-        $staff->status = $request->status;
-        $staff->description = $request->description;
-        $staff->phone = $request->phone;
+        $staff->position_id = $request->position_id;
+        $staff->role_id = $request->role_id;
         $staff->email = $request->email;
-        $staff->image = $request->image;
+        $staff->phone = $request->phone;
+        $staff->messenger = $request->messenger;
+        $staff->status = $request->status;
+        $staff->Address = $request->Address;
+        $staff->descriptions = $request->descriptions;
+        $staff->shifts_id = $request->shifts_id;
+        $staff->password = bcrypt($request->password_hash);
         $staff->save();
-
-        return redirect('/staff/stafflist')->with('success','Staff Updated Successfully');
+    
+        return redirect('/staff/list')->with('success','Staff Updated Successfully');
     }
 
     public function delete($id){
@@ -202,6 +242,23 @@ class StaffController extends Controller
         return redirect('/staff/position');
     }
 
+    public function deleteStaff(Request $request){
+        $myString = $request->deleteId;
+        $myArray = explode(',', $myString);
+        // print_r($myArray);
+        $length = count($myArray);
+
+        for($i = 0 ; $i < $length ; $i++){
+            $supplier = Staff::find($myArray[$i]);
+            // @dd($supplier);
+            // print_r($supplier);
+            DB::table('staff')->where('id', $supplier->id)->delete();
+            Log::info('Staff is deleted',['job'=>$supplier]);
+        }
+
+        return redirect('/staff/list');
+    }
+
     public function addStaffPosition(Request $request){
         $validated = $request->validate([
             'position_name' => 'required',
@@ -225,4 +282,9 @@ class StaffController extends Controller
         return redirect('/staff/position')->with('success','Job Position Updated Successfully');
     }
     
+
+    public function saveAccessControl(Request $request){
+
+        return redirect('/staff/access-control');
+    }
 }

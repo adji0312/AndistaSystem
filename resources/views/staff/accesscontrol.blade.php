@@ -13,7 +13,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" onclick="saveUpdateCustomer()" style="color: #f28123; cursor: pointer;">Save <img src="/img/icon/save.png" alt="" style="width: 22px"></a>
+                  <a class="nav-link active" aria-current="page" onclick="saveUpdateAccessControl()" style="color: #f28123; cursor: pointer;">Save <img src="/img/icon/save.png" alt="" style="width: 22px"></a>
                 </li>
               </ul>
               <form class="d-flex" role="search">
@@ -32,7 +32,8 @@
         {{-- <div>
           {{ $roles }}
         </div> --}}
-
+      <form action="/saveAccessControl" method="POST" enctype="multipart/form-data">
+        @csrf
         <div class="m-3 d-flex gap-5">
           <div class="mb-3">
             <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label>
@@ -823,5 +824,7 @@
           </tbody>
         </table>
     </div>
+    <button type="submit" id="submitSaveUpdateAccessControl" hidden></button>
+  </form>
   </div>
 @endsection

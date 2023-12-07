@@ -35,7 +35,8 @@ class DatabaseSeeder extends Seeder
             LocationSeeder::class,
             TaxRateSeeder::class,
             CategoryServiceSeeder::class,
-            PolicySeeder::class
+            PolicySeeder::class,
+            ShiftSeeder::class
         ]);
 
         Frequency::create([

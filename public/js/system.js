@@ -330,6 +330,10 @@ function saveUpdateCustomer(){
     let a = document.getElementById('saveUpdateCustomer').click();
 }
 
+function saveUpdateAccessControl(){
+    let a = document.getElementById('submitSaveUpdateAccessControl').click();
+}
+
 function savePets(){
     console.log('clicked');
     let a = document.getElementById('submitPets').click();

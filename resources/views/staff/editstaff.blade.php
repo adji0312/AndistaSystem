@@ -26,14 +26,14 @@
             </nav>
 
             <div id="dashboard" class="mx-3 mt-4">
-                <form action="/saveNewStaff" method="POST" enctype="multipart/form-data">
+                <form action="/saveUpdateStaff/{{ $staff->id }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Staff Info</h5>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="first_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">First Name</label>
-                                <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="first_name" value="{{ old('first_name') }}" required>
+                                <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="first_name" value="{{ $staff->first_name }}" required>
                                 @error('first_name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -42,11 +42,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="middle_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Middle Name</label>
-                                <input type="text" class="form-control" name="middle_name" id="middle_name" value="{{ old('middle_name') }}">
+                                <input type="text" class="form-control" name="middle_name" id="middle_name" value="{{ $staff->middle_name }}">
                             </div>
                             <div class="mb-3">
                                 <label for="last_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Last Name</label>
-                                <input type="text" class="form-control" name="last_name" id="last_name" value="{{ old('last_name') }}" required>
+                                <input type="text" class="form-control" name="last_name" id="last_name" value="{{ $staff->last_name }}" required>
                             </div>
                             {{-- <div class="mb-3">
                                 <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
@@ -72,7 +72,7 @@
                             </div> --}}
                             <div class="mb-3">
                                 <label for="nickname" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Nick Name</label>
-                                <input type="text" class="form-control" name="nickname" id="nickname" value="{{ old('nick_name') }}">
+                                <input type="text" class="form-control" name="nickname" id="nickname" value="{{ $staff->nickname }}">
                             </div>
                             {{-- <div class="mb-3">
                                 <label for="phone" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Phone</label>
@@ -81,7 +81,7 @@
                             <div class="mb-3">
                                 <label for="position_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Job Position</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="position_id" id="position_id" required>
-                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Position</option>
+                                    <option value="{{ $staff->position_id }}" class="selectstatus" style="color: black;" selected >{{ $upositions->position_name }}</option>
                                     @foreach ($positions as $position)
                                         <option value="{{ $position->id }}" class="selectstatus" style="color: black;">{{ $position->position_name }}</option>
                                     @endforeach
@@ -90,7 +90,7 @@
                             <div class="mb-3">
                                 <label for="role_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Roles</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="role_id" id="role_id" required>
-                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Role</option>
+                                    <option value="{{ $staff->role_id }}" class="selectstatus" style="color: black;" selected>{{ $uroles->role_name }}</option>
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->id }}" class="selectstatus" style="color: black;">{{ $role->role_name }}</option>
                                     @endforeach
@@ -120,12 +120,12 @@
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="email" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Email</label>
-                                <input type="text" class="form-control" name="email" id="email" value="{{ old('email') }}">
+                                <input type="text" class="form-control" name="email" id="email" value="{{ $staff->email }}">
                             </div>
                             <div class="mb-3">
                                 <label for="messenger_type" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Messenger</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="messenger_id" id="messenger_id" >
-                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Messenger Type</option>
+                                    <option value="{{ $staff->messengerId }}" class="selectstatus" style="color: black;" selected >{{ $umessengerType->type_name }}</option>
                                     @foreach ($messengerType as $mt)
                                         <option value="{{ $mt->id }}" class="selectstatus" style="color: black;">{{ $mt->type_name }}</option>
                                     @endforeach
@@ -136,7 +136,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="messenger" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Messengger ID</label>
-                                <input type="text" class="form-control" name="messenger" id="messenger" value="{{ old('messenger') }}">
+                                <input type="text" class="form-control" name="messenger" id="messenger" value="{{ $staff->messenger }}">
                             </div>
                             {{-- <div class="mb-3">
                                 <label for="address" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Address</label>
@@ -149,7 +149,7 @@
                             <div class="mb-3">
                                 <label for="shifts_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Shifts</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="shifts_id" id="shifts_id" >
-                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Shift</option>
+                                    <option value="{{ $staff->id }}" class="selectstatus" style="color: black;" selected>{{ $ushift->shift_name }}</option>
                                     @foreach ($shift as $s)
                                         <option value="{{ $s->id }}" class="selectstatus" style="color: black;">{{ $s->shift_name }}</option>
                                     @endforeach
@@ -162,12 +162,12 @@
                             <div class="mb-3">
                                 {{-- id number --}}
                                 <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Status</label>
-                                <input type="text" class="form-control" name="status" id="status" value="{{ old('status') }}" >
+                                <input type="text" class="form-control" name="status" id="status" value="{{ $staff->status }}" >
                             </div>
                             <div class="mb-3">
                                 {{-- id number --}}
                                 <label for="Address" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Address</label>
-                                <input type="text" class="form-control" name="Address" id="Address" value="{{ old('Address') }}" >
+                                <input type="text" class="form-control" name="Address" id="Address" value="{{ $staff->status }}" >
                             </div>
                             {{-- <div class="mb-3">
                                 join date
@@ -181,12 +181,12 @@
                             <div class="mb-3">
                                 {{-- id number --}}
                                 <label for="descriptions" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Descriptions</label>
-                                <input type="text" class="form-control" name="descriptions" id="descriptions" value="{{ old('Address') }}" >
+                                <input type="text" class="form-control" name="descriptions" id="descriptions" value="{{ $staff->Address }}" >
                             </div>
                             <div class="mb-3">
                                 {{-- id number --}}
                                 <label for="phone" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Phone</label>
-                                <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone') }}" >
+                                <input type="text" class="form-control" name="phone" id="phone" value="{{ $staff->phone }}" >
                             </div>
                             {{-- <div class="mb-3">
                                 join date

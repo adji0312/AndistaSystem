@@ -215,6 +215,11 @@ Route::get('/staff/security-groups',[StaffController::class,'staffSecurityGroups
 //Staff Add
 Route::get('/staff/add-new-staff',[StaffController::class,'addNewStaff']);
 Route::post('/saveNewStaff', [StaffController::class, 'addStaff']);
+//Staff Update
+Route::get('/staff/update-data/{id}',[StaffController::class,'viewUpdateStaff']);
+Route::post('/saveUpdateStaff/{id}',[StaffController::class,'saveUpdateStaff']);
+//StaffDelete
+Route::get('/deleteStaff',[StaffController::class,'deleteStaff']);
 //Staff Position Add
 Route::post('/addPosition',[StaffController::class,'addStaffPosition']);
 //Staff Position Update
@@ -222,6 +227,9 @@ Route::post('/updatePosition/{id}',[StaffController::class,'updateStaffPosition'
 
 //Staff Position Delete
 Route::get('/deleteStaffJob',[StaffController::class,'deleteStaffJob']);
+
+//Staff Save Access Control
+Route::post('/saveAccessControl',[StaffController::class,'saveAccessControl']);
 
 //JOB
 Route::post('/addJob', [ProductController::class, 'addJob']);
