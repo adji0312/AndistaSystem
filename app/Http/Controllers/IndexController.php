@@ -19,6 +19,7 @@ use App\Models\MessengerType;
 use App\Models\Plan;
 use App\Models\Policy;
 use App\Models\Product;
+use App\Models\Sale;
 use App\Models\Service;
 use App\Models\ServiceAndFacility;
 use App\Models\ServiceAndStaff;
@@ -245,8 +246,12 @@ class IndexController extends Controller
         ]);
     }
     public function salelistunpaid(){
+
+        $sales = Sale::all()->where('status', 1);
+
         return view('finance.salelistunpaid', [
-            "title" => "Sale List Unpaid"
+            "title" => "Sale List Unpaid",
+            "sales" => $sales
         ]);
     }
 

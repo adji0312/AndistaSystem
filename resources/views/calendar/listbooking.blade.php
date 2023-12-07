@@ -20,7 +20,6 @@
                         <th scope="col" style="color: #7C7C7C">Name</th>
                         <th scope="col" style="color: #7C7C7C">Location</th>
                         <th scope="col" style="color: #7C7C7C">Customer</th>
-                        <th scope="col" style="color: #7C7C7C">Category</th>
                         <th scope="col" style="color: #7C7C7C">Date</th>
                     </tr>
                 </thead>
@@ -37,8 +36,7 @@
                                 <a href="/newBooking/{{ $booking->booking_name }}">{{ $booking->booking_name }}</a>
                             </td>
                             <td>{{ $booking->location->location_name }}</td>
-                            <td>{{ $booking->customer_id }}</td>
-                            <td>{{ $booking->category }}</td>
+                            <td>{{ $booking->customer->first_name }}</td>
                             <?php $booking_date = strtotime($booking->booking_date); ?>
                             <td>{{ date('d F Y',$booking_date) }}</td>
                         </tr>

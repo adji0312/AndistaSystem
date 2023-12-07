@@ -19,10 +19,9 @@ return new class extends Migration
             $table->string('deskripsi_tambahan_biaya')->nullable();
             $table->integer('tambahan_biaya')->nullable();
             $table->string('metode')->nullable(); //cash, debit, credit-card, bank transfer
-            $table->string('catatan')->nullable();
             $table->integer('status')->nullable(); //unpaid: 1, paid: 0
             $table->integer('is_delete')->nullable(); //delete: 0, undeleted: 1
-            $table->integer('total_price');
+            $table->integer('total_price')->nullable();
             $table->timestamps();
         });
     }

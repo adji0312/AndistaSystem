@@ -247,6 +247,7 @@
                         @if (count($booking_services) <= 0)
                             <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addBookingService"><i class="fas fa-plus"></i> Add</button>
                         @endif
+                        <button type="button" class="btn btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#checkModal"><i class="fas fa-check"></i> Check Staff</button>
                     </div>
                     <div class="mx-4 table-responsive">
                         <table class="table">
@@ -363,7 +364,6 @@
                                                         <input type="text" name="checkStaff" value="{{ $bs->service_staff_id }}" hidden>
                                                         <input type="text" name="checkDuration" value="{{ $bs->service_price_id }}" hidden>
                                                         <input type="date" name="checkDate" value="{{ $booking->booking_date }}" hidden>
-                                                        <button type="submit" class="btn btn-outline-primary btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#checkModal"><i class="fas fa-check"></i> Check</button>
                                                     </form>    
                                                     <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteBookingService{{ $bs->id }}"><i class="fas fa-trash"></i> Delete</button>
                                                 </div>
@@ -511,19 +511,37 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Check Modal</h1>
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Staff Schedule</h1>
             </div>
             
             <form action="/checkModal/{{ $booking->id }}" method="GET">
                 @csrf
                 <div class="modal-body">
-                    <div class="mb-1">
-                        <small class="fs-6" style="font-weight: 300">Are you sure discard this booking?</small>
-                    </div>
+                    <?php $bookingDate = date_create($booking->booking_date) ?>
+                    <p class="mx-1" style="font-size: 16px; font-weight: 450; color: black;">{{ date_format($bookingDate,"d F Y") }}</p> 
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Staff Name</th>
+                            <th scope="col">Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $indexBook = 0; ?>
+                            @foreach ($staff_book->where('booking_date', $booking->booking_date)->where('staff_id', '!=', 0) as $sb)
+                                <?php $indexBook += 1; ?>
+                                <tr>
+                                    <th scope="row">{{ $indexBook }}</th>
+                                    <td>{{ $sb->staff->first_name }}</td>
+                                    <td>{{ $sb->services[0]->time }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Discard</button>
                 </div>
             </form>
           </div>

@@ -84,7 +84,11 @@
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4">
                 <div class="m-2 d-flex">
                     <h5 class="m-3">Statistik</h5>
-                    <button type="button" class="btn btn-sm btn-outline-primary m-2" onclick="submitStatistic()"><i class="fas fa-save"></i> Save Changes</button>
+                    @if ($booking->status == "Dimulai")
+                        <button type="button" class="btn btn-sm btn-outline-primary m-2" onclick="submitStatistic()"><i class="fas fa-save"></i> Save Changes</button>
+                    @else
+                        <button type="button" class="btn btn-sm btn-outline-secondary m-2" disabled><i class="fas fa-save"></i> Save Changes</button>
+                    @endif
                 </div>
                 <div class="mx-3 mb-3 mt-4 d-flex flex-column gap-1">
                     <div class="table-responsive">
@@ -98,120 +102,193 @@
                                 <td scope="col">Perubahan</td>
                               </tr>
                             </thead>
-                            <form action="/addStatistic" method="POST">
-                                @csrf
-                                <input type="text" name="sub_booking_id" value="{{ $booking->id }}" hidden>
-                                <input type="text" name="pet_id" value="{{ $booking->subAccount_id }}" hidden>
-                                <tbody>
-                                    <tr>
-                                        <td>Suhu</td>
-                                        <td class="text-primary" style="cursor: pointer">
-                                            <input type="text" placeholder="0 °C" style="width: 70px;" name="suhu">
-                                        </td>
-                                        {{-- @if ($latestStatistic)
-                                            <td>{{ $latestStatistic[0]->suhu }} °C</td>
-                                        @else
-                                            <td>-</td>    
-                                        @endif
-                                        @if (count($beforeStatistic) > 1)
-                                            <td>{{ $beforeStatistic[1]->suhu }} °C</td>
-                                        @else
+                            @if ($booking->status == "Dimulai")
+                                <form action="/addStatistic" method="POST">
+                                    @csrf
+                                    <input type="text" name="sub_booking_id" value="{{ $booking->id }}" hidden>
+                                    <input type="text" name="pet_id" value="{{ $booking->subAccount_id }}" hidden>
+                                    <tbody>
+                                        <tr>
+                                            <td>Suhu</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0 °C" style="width: 70px;" name="suhu">
+                                            </td>
                                             <td>-</td>
-                                        @endif --}}
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Berat</td>
-                                        <td class="text-primary" style="cursor: pointer">
-                                            <input type="text" placeholder="0 kg" style="width: 70px;" name="berat">
-                                        </td>
-                                        {{-- @if ($latestStatistic)
-                                            <td>{{ $latestStatistic[0]->berat }} kg</td>
-                                        @else
+                                        </tr>
+                                        <tr>
+                                            <td>Berat</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0 kg" style="width: 70px;" name="berat">
+                                            </td>
                                             <td>-</td>
-                                        @endif
-                                        @if (count($beforeStatistic) > 1)
-                                            <td>{{ $beforeStatistic[1]->berat }} kg</td>
-                                        @else
+                                        </tr>
+                                        <tr>
+                                            <td>Perilaku</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="..." style="width: 70px;" name="perilaku">
+                                            </td>
                                             <td>-</td>
-                                        @endif --}}
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Perilaku</td>
-                                        <td class="text-primary" style="cursor: pointer">
-                                            <input type="text" placeholder="..." style="width: 70px;" name="perilaku">
-                                        </td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>BCS</td>
-                                        <td class="text-primary" style="cursor: pointer">
-                                            <input type="text" placeholder="..." style="width: 70px;" name="bcs">
-                                        </td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Gula Darah</td>
-                                        <td class="text-primary" style="cursor: pointer">
-                                            <input type="text" placeholder="0 mmol/L" style="width: 70px;" name="gula_darah">
-                                        </td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tekanan Darah</td>
-                                        <td class="text-primary" style="cursor: pointer">
-                                            <input type="text" placeholder="0/0 mmHg" style="width: 70px;" name="tekanan_darah">
-                                        </td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>CRT</td>
-                                        <td class="text-primary" style="cursor: pointer">
-                                            <input type="text" placeholder="..." style="width: 70px;" name="crt">
-                                        </td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Detak Jantung</td>
-                                        <td class="text-primary" style="cursor: pointer">
-                                            <input type="text" placeholder="0 bpm" style="width: 70px;" name="detak_jantung">
-                                        </td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>MM</td>
-                                        <td class="text-primary" style="cursor: pointer">
-                                            <input type="text" placeholder="..." style="width: 70px;" name="mm">
-                                        </td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Saturasi Oksigen</td>
-                                        <td class="text-primary" style="cursor: pointer">
-                                            <input type="text" placeholder="0 %" style="width: 70px;" name="saturasi_oksigen">
-                                        </td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tingkat Pernapasan</td>
-                                        <td class="text-primary" style="cursor: pointer">
-                                            <input type="text" placeholder="0 bpm" style="width: 70px;" name="tingkat_pernapasan">
-                                        </td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-                                </tbody>
-                                <button type="submit" id="submitStatistic" hidden></button>
-                            </form>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>BCS</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="..." style="width: 70px;" name="bcs">
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gula Darah</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0 mmol/L" style="width: 70px;" name="gula_darah">
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tekanan Darah</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0/0 mmHg" style="width: 70px;" name="tekanan_darah">
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>CRT</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="..." style="width: 70px;" name="crt">
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Detak Jantung</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0 bpm" style="width: 70px;" name="detak_jantung">
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>MM</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="..." style="width: 70px;" name="mm">
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Saturasi Oksigen</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0 %" style="width: 70px;" name="saturasi_oksigen">
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tingkat Pernapasan</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0 bpm" style="width: 70px;" name="tingkat_pernapasan">
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <button type="submit" id="submitStatistic" hidden></button>
+                                </form>
+                            @else
+                                <form action="" method="">
+                                    <tbody>
+                                        <tr>
+                                            <td>Suhu</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0 °C" style="width: 70px;" name="suhu" disabled>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Berat</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0 kg" style="width: 70px;" name="berat" disabled>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Perilaku</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="..." style="width: 70px;" name="perilaku" disabled>
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>BCS</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="..." style="width: 70px;" name="bcs" disabled>
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gula Darah</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0 mmol/L" style="width: 70px;" name="gula_darah" disabled>
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tekanan Darah</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0/0 mmHg" style="width: 70px;" name="tekanan_darah" disabled>
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>CRT</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="..." style="width: 70px;" name="crt" disabled>
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Detak Jantung</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0 bpm" style="width: 70px;" name="detak_jantung" disabled>
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>MM</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="..." style="width: 70px;" name="mm" disabled>
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Saturasi Oksigen</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0 %" style="width: 70px;" name="saturasi_oksigen" disabled>
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tingkat Pernapasan</td>
+                                            <td class="text-primary" style="cursor: pointer">
+                                                <input type="text" placeholder="0 bpm" style="width: 70px;" name="tingkat_pernapasan" disabled>
+                                            </td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </form>
+                            @endif
                         </table>
                     </div>
                 </div>
@@ -220,10 +297,18 @@
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-4">
                 <div class="m-2 d-flex">
                     <h5 class="m-3">Catatan</h5>
-                    @if (count($note) == 0)
-                        <button type="button" class="btn btn-sm btn-outline-primary m-2" onclick="submitTextBooking()"><i class="fas fa-save"></i> Save</button>
+                    @if ($booking->status == "Dimulai")
+                        @if (count($note) == 0)
+                            <button type="button" class="btn btn-sm btn-outline-primary m-2" onclick="submitTextBooking()"><i class="fas fa-save"></i> Save</button>
+                        @else
+                            <button type="button" class="btn btn-sm btn-outline-primary m-2" onclick="editTextBooking()"><i class="fas fa-save"></i> Update</button>
+                        @endif
                     @else
-                        <button type="button" class="btn btn-sm btn-outline-primary m-2" onclick="editTextBooking()"><i class="fas fa-save"></i> Update</button>
+                        @if (count($note) == 0)
+                            <button type="button" class="btn btn-sm btn-outline-secondary m-2" disabled><i class="fas fa-save"></i> Save</button>
+                        @else
+                            <button type="button" class="btn btn-sm btn-outline-secondary m-2" disabled><i class="fas fa-save"></i> Update</button>
+                        @endif
                     @endif
                 </div>
                 @if (count($note) == 0)
@@ -256,7 +341,7 @@
                     <h5 class="m-3">Keranjang Pasien</h5>
                     <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartProduct"><i class="fas fa-plus"></i> Add Product</button>
                     <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartService"><i class="fas fa-plus"></i> Add Service</button>
-                    <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addCartService"><i class="fas fa-coins"></i> Total : Rp {{ number_format($totalPrice) }}</button>
+                    <button type="button" class="btn btn-sm btn-outline-dark m-2"><i class="fas fa-coins"></i> Total : Rp {{ number_format($totalPrice) }}</button>
                 </div>
                 <div class="table-responsive m-3">
                     <table class="table">

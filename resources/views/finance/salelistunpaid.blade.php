@@ -10,9 +10,7 @@
                     <a class="navbar-brand" href="#">{{ $title }}</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/service/list/add" style="color: #f28123"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
-                            </li>
+
                         </ul>
                         <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -35,7 +33,17 @@
                       </tr>
                     </thead>
                     <tbody>
-                        
+                        @foreach ($sales as $sale)
+                            <tr>
+                                <td>1</td>
+                                <td class="text-primary" style="cursor: pointer">{{ $sale->no_invoice }}</td>
+                                <td>{{ $sale->booking->location->location_name }}</td>
+                                <?php $date = date_create($sale->booking->booking_date) ?>
+                                <td>{{ date_format($date, 'd M Y') }}</td>
+                                <td>{{ $sale->booking->customer->first_name }}</td>
+                                <td>Rp {{ number_format($sale->total_price) }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

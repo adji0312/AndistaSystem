@@ -11,6 +11,7 @@ use App\Models\CheckStaff;
 use App\Models\Customer;
 use App\Models\Location;
 use App\Models\Pet;
+use App\Models\Sale;
 use App\Models\Service;
 use App\Models\ServiceAndStaff;
 use App\Models\ServicePrice;
@@ -77,14 +78,19 @@ class BookingController extends Controller
     }
 
     public function bookingmemulai(){
+
+        $subBooks = SubBook::all();
         return view('calendar.memulai', [
-            "title" => "Memulai"
+            "title" => "Memulai",
+            "bookings" => $subBooks
         ]);
     }
 
     public function bookingselesai(){
+        $subBooks = SubBook::all();
         return view('calendar.selesai', [
-            "title" => "Selesai"
+            "title" => "Selesai",
+            "bookings" => $subBooks
         ]);
     }
     
@@ -99,7 +105,8 @@ class BookingController extends Controller
             "service_prices" => ServicePrice::all(),
             "service_staff" => ServiceAndStaff::all(),
             "booking_services" => BookingService::all()->where('booking_id', $booking->id),
-            "pets" => Pet::all()
+            "pets" => Pet::all(),
+            "staff_book" => Booking::all()
         ]);
     }
 
@@ -287,7 +294,7 @@ class BookingController extends Controller
             }
         }
 
-        return redirect('/calendar');
+        return redirect('/list-booking');
     }
 
     public function addBookingService(Request $request){
@@ -485,9 +492,34 @@ class BookingController extends Controller
         if($subbooking->status == "Terkonfirmasi" && $request->status == "Dimulai"){
             $subbooking->status = "Dimulai";
             $subbooking->save();
+            $booking->start_booking = Date::now();
+            $booking->save();
         }elseif ($subbooking->status == "Dimulai" && $request->status == "Selesai"){
+            $lastSales = DB::table('sales')->latest('created_at')->first();
+            $sales = new Sale();
+            // dd($lastSales);
+            if($lastSales == null || $lastSales == ''){
+                $nextNumber = sprintf("%05d", 1);
+                $sales->no_invoice = "INV-" . $nextNumber;
+            }else{
+                $nextNumber = sprintf("%05d", $lastSales->id + 1);
+                $sales->no_invoice = "INV-" . $nextNumber;
+            }
+            $sales->booking_id = $booking->id;
+            $sales->diskon = 0;
+            $sales->deskripsi_tambahan_biaya = '-';
+            $sales->tambahan_biaya = 0;
+            $sales->metode = '-';
+            $sales->status = 1;
+            $sales->is_delete = 1;
+            $sales->total_price = $booking->total_price;
+            $sales->save();
+
             $subbooking->status = "Selesai";
             $subbooking->save();
+            $booking->end_booking = Date::now();
+            $booking->save();
+
 
             //save ke table sale dengan status unpaid
         }elseif ($subbooking->status == "Selesai" && $request->status == "Dimulai"){

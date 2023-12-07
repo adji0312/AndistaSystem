@@ -29,6 +29,8 @@ return new class extends Migration
             $table->string('alasan_kunjungan')->nullable();
             $table->foreignId('staff_id');
             $table->foreignId('booking_service_id');
+            $table->timestamp('start_booking')->nullable();
+            $table->timestamp('end_booking')->nullable();
             $table->timestamps();
         });
     }

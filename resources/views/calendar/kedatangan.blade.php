@@ -25,7 +25,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($bookings as $booking)
+                    @foreach ($bookings->where('status', 'Terkonfirmasi') as $booking)
+                        @if ($booking->booking->temp == 1)
+                            @continue
+                        @endif
                         @if ($booking->booking->langsung_datang == 0)
                             <tr>
                                 <td class="align-middle">
