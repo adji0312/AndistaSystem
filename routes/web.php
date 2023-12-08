@@ -231,6 +231,9 @@ Route::get('/deleteStaffJob',[StaffController::class,'deleteStaffJob']);
 //Staff Save Access Control
 Route::post('/saveAccessControl',[StaffController::class,'saveAccessControl']);
 
+//Staff Access Control detail
+Route::get('/staff/access-control/detail/{id}',[StaffController::class,'staffAccessControlDetail']);
+
 //JOB
 Route::post('/addJob', [ProductController::class, 'addJob']);
 Route::get('/deleteJob',[ProductController::class,'deleteJob']);

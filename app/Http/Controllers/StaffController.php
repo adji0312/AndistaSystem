@@ -59,6 +59,13 @@ class StaffController extends Controller
         ]);
     }
 
+    public function staffAccessControlDetail($id){
+        return view('staff.accesscontroldetail',[
+            "title" => "Staff Access Control Detail",
+            "roles" => Role::find($id),
+        ]);
+    }
+
     public function saveStaffAccessControl(Request $request,$id){
         $roles = Role::find($id);
 
