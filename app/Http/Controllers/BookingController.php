@@ -42,18 +42,21 @@ class BookingController extends Controller
 
     // Jenis jenis booking
     public function bookingdarurat(){
-
-        $bookingdarurat = Booking::where('category', 'LIKE', "%darurat%")->where('status', 'Terkonfirmasi')->get();
         // dd($bookingdarurat);
+        $subBooks = SubBook::all();
         return view('calendar.darurat', [
             "title" => "Darurat",
-            "bookings" => $bookingdarurat
+            "bookings" => $subBooks
         ]);
     }
 
     public function bookingterjadwal(){
+        $bookingterjadwal = Booking::where('langsung_datang', 1)->get();
+        $subBooks = SubBook::all();
+
         return view('calendar.terjadwal', [
-            "title" => "Terjadwal"
+            "title" => "Terjadwal",
+            "bookings" => $subBooks
         ]);
     }
 
@@ -72,8 +75,10 @@ class BookingController extends Controller
     }
 
     public function bookingrawatinap(){
+        $subBooks = SubBook::all()->where('rawat_inap', 1);
         return view('calendar.rawatinap', [
-            "title" => "Rawat Inap"
+            "title" => "Rawat Inap",
+            "bookings" => $subBooks
         ]);
     }
 
@@ -488,6 +493,39 @@ class BookingController extends Controller
         // dd($request->all());
         $subbooking = SubBook::find($id);
         $booking = Booking::find($subbooking->booking_id);
+
+        if($request->status == "Rawat Inap"){
+
+            if(count($booking->subbookings) > 1){
+                $subbooking->rawat_inap = 1;
+                $subbooking->booking_date = $request->booking_date;
+                $subbooking->booking_date = $request->duration;
+                $subbooking->save();
+            }else{
+                $booking->rawat_inap = 0;
+                $booking->save();
+
+                $subbooking->rawat_inap = 1;
+                $subbooking->booking_date = $request->booking_date;
+                $subbooking->duration = $request->duration;
+                $subbooking->save();
+
+            }
+
+        }
+
+        if($subbooking->rawat_inap == 1 && $request->status == "di rawat inap"){
+            if(count($booking->subbookings) > 1){
+                $subbooking->status = $request->status;
+                $subbooking->save();
+            }else{
+                $booking->status = $request->status;
+                $booking->save();
+                
+                $subbooking->status = $request->status;
+                $subbooking->save();
+            }
+        }
         
         if($subbooking->status == "Terkonfirmasi" && $request->status == "Dimulai"){
             $subbooking->status = "Dimulai";

@@ -9,6 +9,23 @@
         <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/booking/darurat">Booking {{ $title }}</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item" id="deleteButton">
+                            <?php 
+                                $date = Date::now();
+                            ?>
+                            <input type="date" class="form-control" id="booking_date" name="booking_date" value="">
+                        </li>
+                        <li class="nav-item mx-2" id="deleteButton">
+                            <button type="button" class="btn btn-primary">Filter</button>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
             </div>
         </nav>
 
@@ -25,33 +42,41 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="align-middle">
-                            <a href="/booking/detail" class="d-flex flex-column text-primary">
-                                22 Nov 2023 <br>
-                                01:00
-                            </a>
-                        </td>
-                        <td>
-                            <div class="d-flex flex-column align-middle">
-                                Adji Budhi <br>
-                                <div>
-                                    <img src="/img/icon/paws.png" alt="" style="width: 18px"> Cato (Kucing) <br>
-                                </div>
-                                <div>
-                                    <img src="/img/icon/information.png" alt="" style="width: 17px"> Batuk
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle">
-                            Konsultasi / Jasa Dokter Pemeriksaan
-                        </td>
-                        <td class="align-middle">Drh Benny Andista</td>
-                        <td class="align-middle">Andista Animal Care</td>
-                        <td class="align-middle">
-                            <button type="button" class="btn btn-sm" style="background-color: #97cbfe">Terkonfirmasi</button>
-                        </td>
-                    </tr>
+                    @foreach ($bookings->where('status', '!=', "Selesai")->where('status', '!=', "Dimulai") as $booking)
+                        @if ($booking->booking->temp == 1)
+                            @continue
+                        @endif
+                        @if ($booking->booking->langsung_datang == 1 && $booking->booking->darurat == 0 && $booking->rawat_inap == 1)
+                            <tr>
+                                <td class="align-middle">
+                                    <a href="/booking/detail/{{ $booking->id }}" class="d-flex flex-column text-primary">
+                                        <?php $date = date_create($booking->booking->booking_date); ?>
+                                        {{ date_format($date, 'd M Y') }} <br>
+                                        {{ $booking->booking->services[0]->time }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column align-middle">
+                                        {{ $booking->booking->customer->first_name }} <br>
+                                        <div>
+                                            <img src="/img/icon/paws.png" alt="" style="width: 18px"> {{ $booking->pet->pet_name }} ({{ $booking->pet->pet_type }}) <br>
+                                        </div>
+                                        <div>
+                                            <img src="/img/icon/information.png" alt="" style="width: 17px"> {{ $booking->booking->alasan_kunjungan }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    {{ $booking->booking->services[0]->service->service_name }}
+                                </td>
+                                <td class="align-middle">{{ $booking->booking->staff->first_name }}</td>
+                                <td class="align-middle">{{ $booking->booking->location->location_name }}</td>
+                                <td class="align-middle">
+                                    <button type="button" class="btn btn-sm" style="background-color: #97cbfe;">{{ $booking->status }}</button>
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
                 </tbody>
             </table>
         </div>

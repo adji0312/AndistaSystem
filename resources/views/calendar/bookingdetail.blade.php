@@ -10,25 +10,51 @@
             <div class="container-fluid">
                 <div class="d-flex">
                     <a class="navbar-brand" href="#">{{ $title }}</a>
-                    <form action="/changeStatus/{{ $booking->id }}" method="POST">
-                        @csrf
-                        @if ($booking->status == "Terkonfirmasi")
-                            <input type="text" hidden name="status" value="Dimulai">
-                            <button type="submit" class="btn btn-outline-primary btn-sm" style="height: 100%;">Mulai</button>
-                        @elseif ($booking->status == "Dimulai")
-                            <button type="submit" class="btn btn-outline-success btn-sm" style="height: 100%;">Selesai</button>
-                            <input type="text" hidden name="status" value="Selesai">
-                        @elseif ($booking->status == "Selesai")
+                    @if ($booking->rawat_inap != 1)
+                        <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                            @csrf
+                            @if ($booking->status == "Terkonfirmasi")
+                                <input type="text" hidden name="status" value="Dimulai">
+                                <button type="submit" class="btn btn-outline-primary btn-sm" style="height: 100%;">Mulai</button>
+                            @elseif ($booking->status == "Dimulai")
+                                <button type="submit" class="btn btn-outline-success btn-sm" style="height: 100%;">Selesai</button>
+                                <input type="text" hidden name="status" value="Selesai">
+                            @elseif ($booking->status == "Selesai")
 
+                            @endif
+                        </form>
+                    @endif
+                    @if ($booking->status == "Dimulai")
+                        @if ($booking->rawat_inap != 1)
+                            <button type="button" class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#rawatinap"><i class="fas fa-hospital"></i> Rawat Inap</button>
+                        @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->status != "di rawat inap")
+                            <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                                @csrf
+                                <input type="text" hidden name="status" value="di rawat inap">
+                                <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Mulai Rawat Inap</button>
+                            </form>
                         @endif
-                    </form>
+                    @elseif($booking->status == "di rawat inap")    
+                        <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                            @csrf
+                            <input type="text" hidden name="status" value="Selesai">
+                            <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </nav>
 
         <div id="dashboard" class="mx-3 mt-3">
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                <h5 class="m-3">Information</h5>
+                @if ($booking->rawat_inap == 1)
+                    <div class="d-flex justify-content-between">
+                        <h5 class="m-3">Information</h5>
+                        <h5 class="m-3"><i class="fas fa-hospital"></i> Rawat Inap</h5>
+                    </div>
+                @else
+                    <h5 class="m-3">Information</h5>
+                @endif
                 <div class="d-flex gap-3">
                     <div class="m-3 d-flex flex-column gap-1">
                         <h6 style="color: black; font-weight: 400;">Location : {{ $booking->booking->location->location_name }}</h6>
@@ -62,10 +88,10 @@
                                 <thead>
                                   <tr>
                                     <td scope="col">Service Name</td>
-                                    <td scope="col" style="width: 10%">Time</td>
+                                    <td scope="col">Time</td>
                                     <td scope="col">Staff</td>
-                                    <td scope="col">Duration</td>
-                                    <td scope="col">Price (Rp)</td>
+                                    <td scope="col" style="width: 20%">Duration</td>
+                                    <td scope="col" style="width: 20%">Price (Rp)</td>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -339,8 +365,13 @@
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-4">
                 <div class="m-2 d-flex">
                     <h5 class="m-3">Keranjang Pasien</h5>
-                    <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartProduct"><i class="fas fa-plus"></i> Add Product</button>
-                    <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartService"><i class="fas fa-plus"></i> Add Service</button>
+                    @if ($booking->status == "Dimulai")
+                        <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartProduct"><i class="fas fa-plus"></i> Add Product</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartService"><i class="fas fa-plus"></i> Add Service</button>
+                    @else
+                        <button type="button" class="btn btn-sm btn-outline-secondary m-2" disabled><i class="fas fa-plus"></i> Add Product</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary m-2" disabled><i class="fas fa-plus"></i> Add Service</button>    
+                    @endif
                     <button type="button" class="btn btn-sm btn-outline-dark m-2"><i class="fas fa-coins"></i> Total : Rp {{ number_format($totalPrice) }}</button>
                 </div>
                 <div class="table-responsive m-3">
@@ -537,4 +568,32 @@
       </div>
     </div>
   </div>
+
+    <div class="modal fade" id="rawatinap" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Rawat Inap</h1>
+            </div>
+            <form action="/changeStatus/{{ $booking->id }}" method="post">
+                @csrf
+                <input type="text" hidden name="status" value="Rawat Inap">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="booking_date" class="form-label" style="font-size: 15px; color: #7C7C7C;">Date</label>
+                        <input type="date" class="form-control" id="booking_date" name="booking_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration (days)</label>
+                        <input type="number" class="form-control" id="duration" name="duration" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    <button type="submit" class="btn btn-sm btn-outline-primary" id="saveCategory"><i class="fas fa-save"></i> Save changes</button>
+                </div>
+            </form>    
+        </div>
+        </div>
+    </div>
 @endsection

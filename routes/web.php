@@ -63,6 +63,7 @@ Route::get('/location-setting', [IndexController::class, 'settingLocation']);
 Route::get('/finance', [IndexController::class, 'financeDashboard']);
 Route::get('/sale/list/paid', [IndexController::class, 'salelistpaid']);
 Route::get('/sale/list/unpaid', [IndexController::class, 'salelistunpaid']);
+Route::get('/sale/list/unpaid/{name}', [IndexController::class, 'detailinvoice']);
 Route::get('/quotation/list', [QuotationController::class, 'quotationList']);
 Route::get('/quotation/add', [QuotationController::class, 'addquotation']);
 Route::get('/quotation/add/{name}', [QuotationController::class, 'addquotationdetail']);

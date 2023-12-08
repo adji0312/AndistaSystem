@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AlasanKunjungan;
 use App\Models\Booking;
+use App\Models\BookingService;
 use App\Models\CategoryService;
 use App\Models\Country;
 use App\Models\Customer;
@@ -252,6 +253,20 @@ class IndexController extends Controller
         return view('finance.salelistunpaid', [
             "title" => "Sale List Unpaid",
             "sales" => $sales
+        ]);
+    }
+
+    public function detailinvoice($name){
+
+        $sale = Sale::all()->where('status', 1)->where('no_invoice', $name)->first();
+        $bookingService = BookingService::all()->where('booking_id', $sale->booking_id)->first();
+        $item = $sale->booking;
+
+        return view('finance.detailsalelistunpaid', [
+            "title" => "Sale List Unpaid",
+            "sale" => $sale,
+            "bookingService" => $bookingService,
+            "item" => $item
         ]);
     }
 

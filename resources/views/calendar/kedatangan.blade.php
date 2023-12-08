@@ -29,7 +29,7 @@
                         @if ($booking->booking->temp == 1)
                             @continue
                         @endif
-                        @if ($booking->booking->langsung_datang == 0)
+                        @if ($booking->booking->langsung_datang == 0 && $booking->booking->darurat == 1 && $booking->booking->rawat_inap == 1)
                             <tr>
                                 <td class="align-middle">
                                     <a href="/booking/detail/{{ $booking->id }}" class="d-flex flex-column text-primary">

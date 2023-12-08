@@ -26,98 +26,58 @@
                     <tr>
                         <th scope="col" style="color: #7C7C7C">Time</th>
                         <th scope="col" style="color: #7C7C7C">Day</th>
-                        <th scope="col" style="color: #7C7C7C; width: 15%">Client</th>
-                        <th scope="col" style="color: #7C7C7C; width: 20%">Servis</th>
+                        <th scope="col" style="color: #7C7C7C; width: 20%">Client</th>
+                        <th scope="col" style="color: #7C7C7C; width: 15%">Servis</th>
                         <th scope="col" style="color: #7C7C7C; width: 15%">Staff</th>
                         <th scope="col" style="color: #7C7C7C; width: 10%">Location</th>
                         <th scope="col" style="color: #7C7C7C">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="align-middle">
-                            <a href="/booking/detail" class="d-flex flex-column text-primary">
-                                22 Nov 2023 <br>
-                                01:00
-                            </a>
-                        </td>
-                        <td class="align-middle">1 days</td>
-                        <td>
-                            <div class="d-flex flex-column align-middle">
-                                Adji Budhi <br>
-                                <div>
-                                    <img src="/img/icon/paws.png" alt="" style="width: 18px"> Cato (Kucing) <br>
+                    @foreach ($bookings as $booking)
+                        @if ($booking->booking->temp == 1)
+                            @continue
+                        @endif
+                        <tr>
+                            <td class="align-middle">
+                                <a href="/booking/detail/{{ $booking->id }}" class="d-flex flex-column text-primary">
+                                    <?php $date = date_create($booking->booking->booking_date); ?>
+                                    {{ date_format($date, 'd M Y') }} <br>
+                                    {{ $booking->booking->services[0]->time }}
+                                </a>
+                            </td>
+                            <td class="align-middle">
+                                {{ $booking->duration }}
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column align-middle">
+                                    {{ $booking->booking->customer->first_name }} <br>
+                                    <div>
+                                        <img src="/img/icon/paws.png" alt="" style="width: 18px"> {{ $booking->pet->pet_name }} ({{ $booking->pet->pet_type }}) <br>
+                                    </div>
+                                    <div>
+                                        <img src="/img/icon/information.png" alt="" style="width: 17px"> {{ $booking->booking->alasan_kunjungan }}
+                                    </div>
                                 </div>
-                                <div>
-                                    <img src="/img/icon/information.png" alt="" style="width: 17px"> Batuk
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle">
-                            Konsultasi / Jasa Dokter Pemeriksaan
-                        </td>
-                        <td class="align-middle">Drh Benny Andista</td>
-                        <td class="align-middle">Andista Animal Care</td>
-                        <td class="align-middle">
-                            <button type="button" class="btn btn-sm" style="background-color: #97cbfe">Terkonfirmasi</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="align-middle">
-                            <a href="/booking/detail" class="d-flex flex-column text-primary">
-                                22 Nov 2023 <br>
-                                01:00
-                            </a>
-                        </td>
-                        <td class="align-middle">1 days</td>
-                        <td>
-                            <div class="d-flex flex-column align-middle">
-                                Adji Budhi <br>
-                                <div>
-                                    <img src="/img/icon/paws.png" alt="" style="width: 18px"> Cato (Kucing) <br>
-                                </div>
-                                <div>
-                                    <img src="/img/icon/information.png" alt="" style="width: 17px"> Batuk
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle">
-                            Konsultasi / Jasa Dokter Pemeriksaan
-                        </td>
-                        <td class="align-middle">Drh Benny Andista</td>
-                        <td class="align-middle">Andista Animal Care</td>
-                        <td class="align-middle">
-                            <button type="button" class="btn btn-sm" style="background-color: #ffc89c">Dirawat Inap</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="align-middle">
-                            <a href="/booking/detail" class="d-flex flex-column text-primary">
-                                22 Nov 2023 <br>
-                                01:00
-                            </a>
-                        </td>
-                        <td class="align-middle">1 days</td>
-                        <td>
-                            <div class="d-flex flex-column align-middle">
-                                Adji Budhi <br>
-                                <div>
-                                    <img src="/img/icon/paws.png" alt="" style="width: 18px"> Cato (Kucing) <br>
-                                </div>
-                                <div>
-                                    <img src="/img/icon/information.png" alt="" style="width: 17px"> Batuk
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle">
-                            Konsultasi / Jasa Dokter Pemeriksaan
-                        </td>
-                        <td class="align-middle">Drh Benny Andista</td>
-                        <td class="align-middle">Andista Animal Care</td>
-                        <td class="align-middle">
-                            <button type="button" class="btn btn-sm" style="background-color: #cef9bf">Selesai</button>
-                        </td>
-                    </tr>
+                            </td>
+                            <td class="align-middle">
+                                {{ $booking->booking->services[0]->service->service_name }}
+                            </td>
+                            <td class="align-middle">{{ $booking->booking->staff->first_name }}</td>
+                            <td class="align-middle">{{ $booking->booking->location->location_name }}</td>
+                            <td class="align-middle">
+                                @if ($booking->status == "dimulai")
+                                    <button type="button" class="btn btn-sm" style="background-color: #97cbfe;">Terkonfirmasi</button>
+                                @else
+                                    @if ($booking->status == "di rawat inap")
+                                        <button type="button" class="btn btn-sm" style="background-color: #fee497;">Di Rawat Inap</button>
+                                    @else
+                                        <button type="button" class="btn btn-sm" style="background-color: #cef9bf;">Selesai</button>
+                                    @endif
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

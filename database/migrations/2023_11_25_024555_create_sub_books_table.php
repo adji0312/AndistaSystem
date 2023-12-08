@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('langsung_datang')->nullable();
             $table->integer('rawat_inap')->nullable();
             $table->integer('darurat')->nullable();
+            $table->integer('duration')->nullable();
             $table->timestamps();
         });
     }

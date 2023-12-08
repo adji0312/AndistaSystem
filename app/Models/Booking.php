@@ -35,4 +35,12 @@ class Booking extends Model
     public function staff(){
         return $this->belongsTo(Staff::class, 'staff_id');
     }
+
+    public function carts(){
+        return $this->hasMany(CartBooking::class);
+    }
+
+    public function subbookings(){
+        return $this->hasMany(SubBook::class);
+    }
 }
