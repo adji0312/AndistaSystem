@@ -569,6 +569,8 @@ class BookingController extends Controller
 
     public function addStatistic(Request $request){
 
+        // dd($request->all());
+
         $validatedData = $request->validate([
             'sub_booking_id' => 'required',
             'pet_id' => 'required'
@@ -577,67 +579,67 @@ class BookingController extends Controller
         if($request->suhu != null){
             $validatedData['suhu'] = $request->suhu;
         }else{
-            $validatedData['suhu'] = 0;
+            $validatedData['suhu'] = "-";
         }
         
         if($request->berat != null){
             $validatedData['berat'] = $request->berat;
         }else{
-            $validatedData['berat'] = 0;
+            $validatedData['berat'] = "-";
         }
 
         if($request->perilaku != null){
             $validatedData['perilaku'] = $request->perilaku;
         }else{
-            $validatedData['perilaku'] = 0;
+            $validatedData['perilaku'] = "-";
         }
 
         if($request->bcs != null){
             $validatedData['bcs'] = $request->bcs;
         }else{
-            $validatedData['bcs'] = 0;
+            $validatedData['bcs'] = "-";
         }
 
         if($request->gula_darah != null){
             $validatedData['gula_darah'] = $request->gula_darah;
         }else{
-            $validatedData['gula_darah'] = 0;
+            $validatedData['gula_darah'] = "-";
         }
 
         if($request->tekanan_darah != null){
             $validatedData['tekanan_darah'] = $request->tekanan_darah;
         }else{
-            $validatedData['tekanan_darah'] = 0;
+            $validatedData['tekanan_darah'] = "-";
         }
 
         if($request->crt != null){
             $validatedData['crt'] = $request->crt;
         }else{
-            $validatedData['crt'] = 0;
+            $validatedData['crt'] = "-";
         }
 
         if($request->detak_jantung != null){
             $validatedData['detak_jantung'] = $request->detak_jantung;
         }else{
-            $validatedData['detak_jantung'] = 0;
+            $validatedData['detak_jantung'] = "-";
         }
 
         if($request->mm != null){
             $validatedData['mm'] = $request->mm;
         }else{
-            $validatedData['mm'] = 0;
+            $validatedData['mm'] = "-";
         }
 
         if($request->saturasi_oksigen != null){
             $validatedData['saturasi_oksigen'] = $request->saturasi_oksigen;
         }else{
-            $validatedData['saturasi_oksigen'] = 0;
+            $validatedData['saturasi_oksigen'] = "-";
         }
 
         if($request->tingkat_pernapasan != null){
             $validatedData['tingkat_pernapasan'] = $request->tingkat_pernapasan;
         }else{
-            $validatedData['tingkat_pernapasan'] = 0;
+            $validatedData['tingkat_pernapasan'] = "-";
         }
 
         Statistic::create($validatedData);

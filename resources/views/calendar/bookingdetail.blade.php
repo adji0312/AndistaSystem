@@ -121,11 +121,11 @@
                         <table class="table">
                             <thead>
                               <tr>
-                                <td scope="col" style="width: 20%">Data</td>
-                                <td scope="col" style="width: 30%">New</td>
-                                <td scope="col" style="width: 30%">Latest</td>
-                                <td scope="col" style="width: 30%">Before</td>
-                                <td scope="col">Perubahan</td>
+                                <th scope="col" style="width: 20%">Data</th>
+                                <th scope="col" style="width: 23%">New</th>
+                                <th scope="col" style="width: 23%">Latest</th>
+                                <th scope="col" style="width: 17%">Before</th>
+                                <th scope="col">Updated At</th>
                               </tr>
                             </thead>
                             @if ($booking->status == "Dimulai")
@@ -136,89 +136,212 @@
                                     <tbody>
                                         <tr>
                                             <td>Suhu</td>
-                                            <td class="text-primary" style="cursor: pointer">
-                                                <input type="text" placeholder="0 °C" style="width: 70px;" name="suhu">
+                                            <td class="text-primary">
+                                                <input type="text" placeholder="0 °C" style="width: 90px;" name="suhu">
                                             </td>
-                                            <td>-</td>
+                                            @if (count($beforeStatistic) != 0)
+                                                <td>{{ $latestStatistic[0]->suhu }} °C</td>
+                                                @if (count($beforeStatistic) > 1)
+                                                    <td>{{ $beforeStatistic[1]->suhu }} °C</td>
+                                                @else
+                                                    <td>-</td>
+                                                @endif
+                                                <td>{{ date_format($latestStatistic[0]->updated_at, 'd M Y h:i') }}</td>
+                                            @else 
+                                                <td>-</td>    
+                                                <td>-</td>    
+                                                <td>-</td>    
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>Berat</td>
-                                            <td class="text-primary" style="cursor: pointer">
-                                                <input type="text" placeholder="0 kg" style="width: 70px;" name="berat">
+                                            <td class="text-primary">
+                                                <input type="text" placeholder="0 kg" style="width: 90px;" name="berat">
                                             </td>
-                                            <td>-</td>
+                                            @if (count($beforeStatistic) != 0)
+                                                <td>{{ $latestStatistic[0]->berat }} kg</td>
+                                                @if (count($beforeStatistic) > 1)
+                                                    <td>{{ $beforeStatistic[1]->berat }} kg</td>
+                                                @else
+                                                    <td>-</td>
+                                                @endif
+                                                <td>{{ date_format($latestStatistic[0]->updated_at, 'd M Y h:i') }}</td>
+                                            @else
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>Perilaku</td>
-                                            <td class="text-primary" style="cursor: pointer">
-                                                <input type="text" placeholder="..." style="width: 70px;" name="perilaku">
+                                            <td class="text-primary">
+                                                <input type="text" placeholder="..." style="width: 90px;" name="perilaku">
                                             </td>
-                                            <td>-</td>
-                                            <td>-</td>
+                                            @if (count($beforeStatistic) != 0)
+                                                <td>{{ $latestStatistic[0]->perilaku }}</td>
+                                                @if (count($beforeStatistic) > 1)
+                                                    <td>{{ $beforeStatistic[1]->perilaku }}</td>
+                                                @else
+                                                    <td>-</td>
+                                                @endif
+                                                <td>{{ date_format($latestStatistic[0]->updated_at, 'd M Y h:i') }}</td>
+                                            @else
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>BCS</td>
-                                            <td class="text-primary" style="cursor: pointer">
-                                                <input type="text" placeholder="..." style="width: 70px;" name="bcs">
+                                            <td class="text-primary">
+                                                <input type="text" placeholder="..." style="width: 90px;" name="bcs">
                                             </td>
-                                            <td>-</td>
-                                            <td>-</td>
+                                            @if (count($beforeStatistic) != 0)
+                                                <td>{{ $latestStatistic[0]->bcs }}</td>
+                                                @if (count($beforeStatistic) > 1)
+                                                    <td>{{ $beforeStatistic[1]->bcs }}</td>
+                                                @else
+                                                    <td>-</td>
+                                                @endif
+                                                <td>{{ date_format($latestStatistic[0]->updated_at, 'd M Y h:i') }}</td>
+                                            @else
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>Gula Darah</td>
-                                            <td class="text-primary" style="cursor: pointer">
-                                                <input type="text" placeholder="0 mmol/L" style="width: 70px;" name="gula_darah">
+                                            <td class="text-primary">
+                                                <input type="text" placeholder="0 mmol/L" style="width: 90px;" name="gula_darah">
                                             </td>
-                                            <td>-</td>
-                                            <td>-</td>
+                                            @if (count($beforeStatistic) != 0)
+                                                <td>{{ $latestStatistic[0]->gula_darah }} mmol/L</td>
+                                                @if (count($beforeStatistic) > 1)
+                                                    <td>{{ $beforeStatistic[1]->gula_darah }} mmol/L</td>
+                                                @else
+                                                    <td>-</td>
+                                                @endif
+                                                <td>{{ date_format($latestStatistic[0]->updated_at, 'd M Y h:i') }}</td>
+                                            @else
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>Tekanan Darah</td>
-                                            <td class="text-primary" style="cursor: pointer">
-                                                <input type="text" placeholder="0/0 mmHg" style="width: 70px;" name="tekanan_darah">
+                                            <td class="text-primary">
+                                                <input type="text" placeholder="0/0 mmHg" style="width: 90px;" name="tekanan_darah">
                                             </td>
-                                            <td>-</td>
-                                            <td>-</td>
+                                            @if (count($beforeStatistic) != 0)
+                                                <td>{{ $latestStatistic[0]->tekanan_darah }} mmHg</td>
+                                                @if (count($beforeStatistic) > 1)
+                                                    <td>{{ $beforeStatistic[1]->tekanan_darah }} mmHg</td>
+                                                @else
+                                                    <td>-</td>
+                                                @endif
+                                                <td>{{ date_format($latestStatistic[0]->updated_at, 'd M Y h:i') }}</td>
+                                            @else
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>CRT</td>
-                                            <td class="text-primary" style="cursor: pointer">
-                                                <input type="text" placeholder="..." style="width: 70px;" name="crt">
+                                            <td class="text-primary">
+                                                <input type="text" placeholder="..." style="width: 90px;" name="crt">
                                             </td>
-                                            <td>-</td>
-                                            <td>-</td>
+                                            @if (count($beforeStatistic) != 0)
+                                                <td>{{ $latestStatistic[0]->crt }}</td>
+                                                @if (count($beforeStatistic) > 1)
+                                                    <td>{{ $beforeStatistic[1]->crt }}</td>
+                                                @else
+                                                    <td>-</td>
+                                                @endif
+                                                <td>{{ date_format($latestStatistic[0]->updated_at, 'd M Y h:i') }}</td>
+                                            @else
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>Detak Jantung</td>
-                                            <td class="text-primary" style="cursor: pointer">
-                                                <input type="text" placeholder="0 bpm" style="width: 70px;" name="detak_jantung">
+                                            <td class="text-primary">
+                                                <input type="text" placeholder="0 bpm" style="width: 90px;" name="detak_jantung">
                                             </td>
-                                            <td>-</td>
-                                            <td>-</td>
+                                            @if (count($beforeStatistic) != 0)
+                                                <td>{{ $latestStatistic[0]->detak_jantung }} bpm</td>
+                                                @if (count($beforeStatistic) > 1)
+                                                    <td>{{ $beforeStatistic[1]->detak_jantung }} bpm</td>
+                                                @else
+                                                    <td>-</td>
+                                                @endif
+                                                <td>{{ date_format($latestStatistic[0]->updated_at, 'd M Y h:i') }}</td>
+                                            @else
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>MM</td>
-                                            <td class="text-primary" style="cursor: pointer">
-                                                <input type="text" placeholder="..." style="width: 70px;" name="mm">
+                                            <td class="text-primary">
+                                                <input type="text" placeholder="..." style="width: 90px;" name="mm">
                                             </td>
-                                            <td>-</td>
-                                            <td>-</td>
+                                            @if (count($beforeStatistic) != 0)
+                                                <td>{{ $latestStatistic[0]->mm }}</td>
+                                                @if (count($beforeStatistic) > 1)
+                                                    <td>{{ $beforeStatistic[1]->mm }}</td>
+                                                @else
+                                                    <td>-</td>
+                                                @endif
+                                                <td>{{ date_format($latestStatistic[0]->updated_at, 'd M Y h:i') }}</td>
+                                            @else
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>Saturasi Oksigen</td>
-                                            <td class="text-primary" style="cursor: pointer">
-                                                <input type="text" placeholder="0 %" style="width: 70px;" name="saturasi_oksigen">
+                                            <td class="text-primary">
+                                                <input type="text" placeholder="0 %" style="width: 90px;" name="saturasi_oksigen">
                                             </td>
-                                            <td>-</td>
-                                            <td>-</td>
+                                            @if (count($beforeStatistic) != 0)
+                                                <td>{{ $latestStatistic[0]->saturasi_oksigen }}%</td>
+                                                @if (count($beforeStatistic) > 1)
+                                                    <td>{{ $beforeStatistic[1]->saturasi_oksigen }}%</td>
+                                                @else
+                                                    <td>-</td>
+                                                @endif
+                                                <td>{{ date_format($latestStatistic[0]->updated_at, 'd M Y h:i') }}</td>
+                                            @else
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>Tingkat Pernapasan</td>
-                                            <td class="text-primary" style="cursor: pointer">
-                                                <input type="text" placeholder="0 bpm" style="width: 70px;" name="tingkat_pernapasan">
+                                            <td class="text-primary">
+                                                <input type="text" placeholder="0 bpm" style="width: 90px;" name="tingkat_pernapasan">
                                             </td>
-                                            <td>-</td>
-                                            <td>-</td>
+                                            @if (count($beforeStatistic) != 0)
+                                                <td>{{ $latestStatistic[0]->tingkat_pernapasan }} bpm</td>
+                                                @if (count($beforeStatistic) > 1)
+                                                    <td>{{ $beforeStatistic[1]->tingkat_pernapasan }} bpm</td>
+                                                @else
+                                                    <td>-</td>
+                                                @endif
+                                                <td>{{ date_format($latestStatistic[0]->updated_at, 'd M Y h:i') }}</td>
+                                            @else
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                            @endif
                                         </tr>
                                     </tbody>
                                     <button type="submit" id="submitStatistic" hidden></button>
@@ -228,21 +351,21 @@
                                     <tbody>
                                         <tr>
                                             <td>Suhu</td>
-                                            <td class="text-primary" style="cursor: pointer">
+                                            <td class="text-primary">
                                                 <input type="text" placeholder="0 °C" style="width: 70px;" name="suhu" disabled>
                                             </td>
                                             <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>Berat</td>
-                                            <td class="text-primary" style="cursor: pointer">
+                                            <td class="text-primary">
                                                 <input type="text" placeholder="0 kg" style="width: 70px;" name="berat" disabled>
                                             </td>
                                             <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>Perilaku</td>
-                                            <td class="text-primary" style="cursor: pointer">
+                                            <td class="text-primary">
                                                 <input type="text" placeholder="..." style="width: 70px;" name="perilaku" disabled>
                                             </td>
                                             <td>-</td>
@@ -250,7 +373,7 @@
                                         </tr>
                                         <tr>
                                             <td>BCS</td>
-                                            <td class="text-primary" style="cursor: pointer">
+                                            <td class="text-primary">
                                                 <input type="text" placeholder="..." style="width: 70px;" name="bcs" disabled>
                                             </td>
                                             <td>-</td>
@@ -258,7 +381,7 @@
                                         </tr>
                                         <tr>
                                             <td>Gula Darah</td>
-                                            <td class="text-primary" style="cursor: pointer">
+                                            <td class="text-primary">
                                                 <input type="text" placeholder="0 mmol/L" style="width: 70px;" name="gula_darah" disabled>
                                             </td>
                                             <td>-</td>
@@ -266,7 +389,7 @@
                                         </tr>
                                         <tr>
                                             <td>Tekanan Darah</td>
-                                            <td class="text-primary" style="cursor: pointer">
+                                            <td class="text-primary">
                                                 <input type="text" placeholder="0/0 mmHg" style="width: 70px;" name="tekanan_darah" disabled>
                                             </td>
                                             <td>-</td>
@@ -274,7 +397,7 @@
                                         </tr>
                                         <tr>
                                             <td>CRT</td>
-                                            <td class="text-primary" style="cursor: pointer">
+                                            <td class="text-primary">
                                                 <input type="text" placeholder="..." style="width: 70px;" name="crt" disabled>
                                             </td>
                                             <td>-</td>
@@ -282,7 +405,7 @@
                                         </tr>
                                         <tr>
                                             <td>Detak Jantung</td>
-                                            <td class="text-primary" style="cursor: pointer">
+                                            <td class="text-primary">
                                                 <input type="text" placeholder="0 bpm" style="width: 70px;" name="detak_jantung" disabled>
                                             </td>
                                             <td>-</td>
@@ -290,7 +413,7 @@
                                         </tr>
                                         <tr>
                                             <td>MM</td>
-                                            <td class="text-primary" style="cursor: pointer">
+                                            <td class="text-primary">
                                                 <input type="text" placeholder="..." style="width: 70px;" name="mm" disabled>
                                             </td>
                                             <td>-</td>
@@ -298,7 +421,7 @@
                                         </tr>
                                         <tr>
                                             <td>Saturasi Oksigen</td>
-                                            <td class="text-primary" style="cursor: pointer">
+                                            <td class="text-primary">
                                                 <input type="text" placeholder="0 %" style="width: 70px;" name="saturasi_oksigen" disabled>
                                             </td>
                                             <td>-</td>
@@ -306,7 +429,7 @@
                                         </tr>
                                         <tr>
                                             <td>Tingkat Pernapasan</td>
-                                            <td class="text-primary" style="cursor: pointer">
+                                            <td class="text-primary">
                                                 <input type="text" placeholder="0 bpm" style="width: 70px;" name="tingkat_pernapasan" disabled>
                                             </td>
                                             <td>-</td>
@@ -505,6 +628,7 @@
       </div>
     </div>
 </div>
+
 <div class="modal fade" id="addCartService" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -527,73 +651,73 @@
     </div>
 </div>
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Info Hewan</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th style="width: 30%;">Name</th>
-                        <td>{{ $booking->pet->pet_name }}</td>
-                    </tr>
-                    <tr>
-                        <th style="width: 30%;">Type</th>
-                        <td>{{ $booking->pet->pet_type }}</td>
-                    </tr>
-                    <tr>
-                        <th style="width: 30%;">Gender</th>
-                        <td>{{ $booking->pet->pet_gender }}</td>
-                    </tr>
-                    <tr>
-                        <th style="width: 30%;">Ras</th>
-                        <td>{{ $booking->pet->pet_ras }}</td>
-                    </tr>
-                    <tr>
-                        <th style="width: 30%;">Color</th>
-                        <td>{{ $booking->pet->pet_color }}</td>
-                    </tr>
-                    <tr>
-                        <th style="width: 30%;">Date of Birth</th>
-                        <?php $date = date_create($booking->pet->date_of_birth) ?>
-                        <td>{{ date_format($date, "d F Y") }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-      </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Info Hewan</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
-  </div>
+    <div class="modal-body">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th style="width: 30%;">Name</th>
+                    <td>{{ $booking->pet->pet_name }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 30%;">Type</th>
+                    <td>{{ $booking->pet->pet_type }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 30%;">Gender</th>
+                    <td>{{ $booking->pet->pet_gender }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 30%;">Ras</th>
+                    <td>{{ $booking->pet->pet_ras }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 30%;">Color</th>
+                    <td>{{ $booking->pet->pet_color }}</td>
+                </tr>
+                <tr>
+                    <th style="width: 30%;">Date of Birth</th>
+                    <?php $date = date_create($booking->pet->date_of_birth) ?>
+                    <td>{{ date_format($date, "d F Y") }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+</div>
 
-    <div class="modal fade" id="rawatinap" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Rawat Inap</h1>
+<div class="modal fade" id="rawatinap" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Rawat Inap</h1>
+        </div>
+        <form action="/changeStatus/{{ $booking->id }}" method="post">
+            @csrf
+            <input type="text" hidden name="status" value="Rawat Inap">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="booking_date" class="form-label" style="font-size: 15px; color: #7C7C7C;">Date</label>
+                    <input type="date" class="form-control" id="booking_date" name="booking_date" required>
+                </div>
+                <div class="mb-3">
+                    <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration (days)</label>
+                    <input type="number" class="form-control" id="duration" name="duration" required>
+                </div>
             </div>
-            <form action="/changeStatus/{{ $booking->id }}" method="post">
-                @csrf
-                <input type="text" hidden name="status" value="Rawat Inap">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="booking_date" class="form-label" style="font-size: 15px; color: #7C7C7C;">Date</label>
-                        <input type="date" class="form-control" id="booking_date" name="booking_date" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration (days)</label>
-                        <input type="number" class="form-control" id="duration" name="duration" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                    <button type="submit" class="btn btn-sm btn-outline-primary" id="saveCategory"><i class="fas fa-save"></i> Save changes</button>
-                </div>
-            </form>    
-        </div>
-        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                <button type="submit" class="btn btn-sm btn-outline-primary" id="saveCategory"><i class="fas fa-save"></i> Save changes</button>
+            </div>
+        </form>    
     </div>
+    </div>
+</div>
 @endsection
