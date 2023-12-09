@@ -29,6 +29,7 @@ return new class extends Migration
             $table->uuid("UUID")->unique(); //20 char
             $table->string("Address")->nullable(); 
             $table->foreignId("shifts_id")->nullable();
+            $table->string("location_id")->nullable();
             $table->string("password")->nullable();
             $table->timestamps();
         });

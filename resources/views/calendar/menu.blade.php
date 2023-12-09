@@ -5,12 +5,18 @@
         </div>
     </div>
     <ul class="list-unstyled components">
+        @if(Auth::user()->role->calendar_create_booking != 4)
         <li style="cursor: pointer" class="{{ ($title === "Booking") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/newBooking" class="px-4"><img src="/img/icon/plusgrey.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Create Booking</a>
         </li>
+        @else
+
+        @endif
         {{-- <li style="cursor: pointer" class="{{ ($title === "List Booking") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/list-booking" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; List Booking</a>
         </li> --}}
+
+        @if(Auth::user()->role->calendar_list_booking != 4)
         <li style="cursor: pointer" class="{{ ($title === "Sale List Paid" || $title === "Sale List Unpaid") ? 'active' : '' }}">
             <a id="locationslist" class="dropdown-toggle px-4" data-bs-toggle="dropdown">
                 <img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; List Booking
@@ -21,5 +27,8 @@
                 <li><a class="dropdown-item {{ ($title === "Sale List Unpaid") ? 'active' : '' }}" href="/sale/list/unpaid">Rawat Inap</a></li>
             </ul>
         </li>
+        @else
+
+        @endif
     </ul>
 </nav>

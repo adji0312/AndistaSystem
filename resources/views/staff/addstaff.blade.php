@@ -162,7 +162,14 @@
                             <div class="mb-3">
                                 {{-- id number --}}
                                 <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Status</label>
-                                <input type="text" class="form-control" name="status" id="status" value="{{ old('status') }}" >
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="status" id="status" required>
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Status</option>
+                                    {{-- @foreach ($locations as $location)
+                                        <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
+                                    @endforeach --}}
+                                    <option value="Active" class="selectstatus" style="color: black;">Active</option>
+                                    <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 {{-- id number --}}
@@ -187,6 +194,17 @@
                                 {{-- id number --}}
                                 <label for="phone" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Phone</label>
                                 <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone') }}" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location_id" id="location_id" required>
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Location</option>
+                                    @foreach ($locations as $location)
+                                        <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
+                                    @endforeach
+                                    {{-- <option value="Tn" class="selectstatus" style="color: black;">Male</option>
+                                    <option value="Ny" class="selectstatus" style="color: black;">Female</option> --}}
+                                </select>
                             </div>
                             {{-- <div class="mb-3">
                                 join date

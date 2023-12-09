@@ -224,6 +224,48 @@
           </tbody>
         </table>
 
+         {{-- Customer --}}
+         <table class="table m-2">
+          <thead>
+            <tr>
+              <th scope="col"><b>Customer</b></th>
+              <th scope="col">Permission</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" style="color: #7C7C7C;width:300px">Customer List</th>
+              <td>
+                {{-- Role Dropdown --}}
+                <div class="mb-3">
+                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
+                  <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="customer_list" id="customer_list">
+                      <option value="{{ $roles->customer_list }}" class="selectstatus" style="color: black;" selected >
+                      @if($roles->customer_list === 1)
+                        Full
+                      @elseif($roles->customer_list === 2)
+                        Write
+                      @elseif($roles->customer_list === 3)
+                        Read
+                      @elseif($roles->customer_list === 4)
+                        None
+                      @else
+                        Select Permission
+                      @endif</option>
+                      {{-- @foreach ($locations as $location)
+                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
+                      @endforeach --}}
+                      <option value="1" class="selectstatus" style="color: black;">Full</option>
+                      <option value="2" class="selectstatus" style="color: black;">Write</option>
+                      <option value="3" class="selectstatus" style="color: black;">Read</option>
+                      <option value="4" class="selectstatus" style="color: black;">None</option>
+                      </select>
+              </div>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
 
 
         {{-- Staff --}}

@@ -163,6 +163,7 @@ class StaffController extends Controller
         $staff->Address = $request->Address;
         $staff->descriptions = $request->descriptions;
         $staff->shifts_id = $request->shifts_id;
+        $staff->location_id = $request->location_id;
         $staff->password = bcrypt("12345678");
         $staff->UUID = Str::uuid();
         $staff->save();
@@ -305,5 +306,28 @@ class StaffController extends Controller
     public function saveAccessControl(Request $request){
 
         return redirect('/staff/access-control');
+    }
+
+    public function saveStaffUpdateInformation(Request $request,$id){
+        // @dd($request->all());
+
+        $staff = Staff::find($id);
+        $staff->first_name = $request->first_name;
+        // $staff->middle_name = $request->middle_name;
+        // $staff->last_name = $request->last_name;
+        // $staff->nickname = $request->nickname;
+        // $staff->position_id = $request->position_id;
+        // $staff->role_id = $request->role_id;
+        $staff->email = $request->email;
+        // $staff->phone = $request->phone;
+        // $staff->messenger = $request->messenger;
+        // $staff->status = $request->status;
+        // $staff->Address = $request->Address;
+        // $staff->descriptions = $request->descriptions;
+        // $staff->shifts_id = $request->shifts_id;
+        $staff->password = bcrypt($request->password);
+        $staff->update();
+
+        return redirect('/')->with('success','Staff Updated Successfully');
     }
 }

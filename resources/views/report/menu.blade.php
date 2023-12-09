@@ -5,13 +5,19 @@
         </div>
     </div>
     <ul class="list-unstyled components">
+        @if(Auth::user()->role->reports_all != 4)
         <li style="cursor: pointer" class="{{ ($title === "Attendance Dashboard") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/attendance" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; All Report</a>
         </li>
+        @else
+        @endif
+        @if(Auth::user()->role->reports_booking != 4)
         <li style="cursor: pointer" class="{{ ($title === "Attendance List") ? 'active' : '' }}">
             <a id="locationslist" href="/attendance/list" class="px-4"><img src="/img/icon/booking.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Booking</a>
         </li>
-        <li style="cursor: pointer" class="{{ ($title === "Attendance List") ? 'active' : '' }}">
+        @else
+        @endif
+        {{-- <li style="cursor: pointer" class="{{ ($title === "Attendance List") ? 'active' : '' }}">
             <a id="locationslist" href="/attendance/list" class="px-4"><img src="/img/icon/customer.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Customer</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Working Shift") ? 'active' : '' }}">
@@ -25,12 +31,15 @@
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Manage Staff") ? 'active' : '' }}">
             <a id="locationslist" href="/attendance/managestaff" class="px-4"><img src="/img/icon/location.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Location</a>
-        </li>
+        </li> --}}
+        @if(Auth::user()->role->reports_finance != 4)
         <li style="cursor: pointer" class="{{ ($title === "Manage Staff") ? 'active' : '' }}">
             <a id="locationslist" href="/attendance/managestaff" class="px-4"><img src="/img/icon/finance.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Finance</a>
         </li>
-        <li style="cursor: pointer" class="{{ ($title === "Manage Staff") ? 'active' : '' }}">
+        @else
+        @endif
+        {{-- <li style="cursor: pointer" class="{{ ($title === "Manage Staff") ? 'active' : '' }}">
             <a id="locationslist" href="/attendance/managestaff" class="px-4"><img src="/img/icon/attendance.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Attendance</a>
-        </li>
+        </li> --}}
     </ul>
 </nav>

@@ -8,9 +8,13 @@
         {{-- <li style="cursor: pointer" class="{{ ($title === "Dashboard") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/customer" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Dashboard</a>
         </li> --}}
+        @if(Auth::user()->role->customer_list != 4)
         <li style="cursor: pointer" class="{{ ($title === "Customer List") ? 'active' : '' }}">
             <a id="locationslist" href="/customer/list" class="px-4"><img src="/img/icon/booking.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Customer List</a>
         </li>
+        @else
+
+        @endif
         {{-- <li style="cursor: pointer" class="{{ ($title === "Sub Customer List") ? 'active' : '' }}">
             <a id="locationslist" href="/customer/sub-customer-list" class="px-4"><img src="/img/icon/customer.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Sub Customer List</a>
         </li> --}}

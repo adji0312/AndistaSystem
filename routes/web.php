@@ -237,6 +237,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/staff/access-control-new',[StaffController::class,'newAccessControl']);
     Route::get('/staff/access-control/detail/{id}',[StaffController::class,'staffAccessControlDetail']);
     
+    //Staff Update Data
+    Route::post('/saveUpdatedStaffInfo/{id}',[StaffController::class,'saveStaffUpdateInformation']);
+
     //JOB
     Route::post('/addJob', [ProductController::class, 'addJob']);
     Route::get('/deleteJob',[ProductController::class,'deleteJob']);

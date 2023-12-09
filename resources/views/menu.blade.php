@@ -5,11 +5,20 @@
         </div>
     </div>
     <ul class="list-unstyled components">
+        @if(Auth::user()->role->home_overview != 4)
         <li style="cursor: pointer" class="{{ ($title === "Home") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/" class="px-4"><img src="/img/icon/overview.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Overview</a>
         </li>
+        @else
+
+        @endif
+        @if(Auth::user()->role->home_upcoming_booking != 4)
         <li style="cursor: pointer" class="{{ ($title === "Upcoming Booking") ? 'active' : '' }}">
             <a id="locationslist" href="/upcoming-booking" class="px-4"><img src="/img/icon/upcoming.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Upcoming Booking</a>
         </li>
+        @else
+        
+        @endif
+        
     </ul>
 </nav>

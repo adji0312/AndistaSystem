@@ -7,7 +7,7 @@
         <div id="contents">
             <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">New Staff</a>
+                    <a class="navbar-brand" href="#">Edit Staff</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
@@ -162,8 +162,14 @@
                             <div class="mb-3">
                                 {{-- id number --}}
                                 <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Status</label>
-                                <input type="text" class="form-control" name="status" id="status" value="{{ $staff->status }}" >
-                            </div>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="status" id="status" required>
+                                    <option value="{{ $staff->status }}" class="selectstatus" style="color: black;" selected >{{ $staff->status }}</option>
+                                    {{-- @foreach ($locations as $location)
+                                        <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
+                                    @endforeach --}}
+                                    <option value="Active" class="selectstatus" style="color: black;">Active</option>
+                                    <option value="Disabled" class="selectstatus" style="color: black;">Disabled</option>
+                                </select></div>
                             <div class="mb-3">
                                 {{-- id number --}}
                                 <label for="Address" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Address</label>
@@ -188,6 +194,18 @@
                                 <label for="phone" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Phone</label>
                                 <input type="text" class="form-control" name="phone" id="phone" value="{{ $staff->phone }}" >
                             </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location_id" id="location_id" required>
+                                    <option value="{{ $staff->location_id }}" class="selectstatus" style="color: black;" selected>{{ $staff->location->location_name }}</option>
+                                    @foreach ($locations as $location)
+                                        <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
+                                    @endforeach
+                                    {{-- <option value="Tn" class="selectstatus" style="color: black;">Male</option>
+                                    <option value="Ny" class="selectstatus" style="color: black;">Female</option> --}}
+                                </select>
+                            </div>
+
                             {{-- <div class="mb-3">
                                 join date
                                 <label for="join_date" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Join Date</label>

@@ -5,17 +5,33 @@
         </div>
     </div>
     <ul class="list-unstyled components">
+        @if(Auth::user()->role->dashboard_attendance != 4)
         <li style="cursor: pointer" class="{{ ($title === "Attendance Dashboard") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/attendance" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Dashboard</a>
         </li>
+        @else
+
+        @endif
+        @if(Auth::user()->role->attendance_list != 4)
         <li style="cursor: pointer" class="{{ ($title === "Attendance List") ? 'active' : '' }}">
             <a id="locationslist" href="/attendance/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Attendance List</a>
         </li>
+        @else
+
+        @endif
+        @if(Auth::user()->role->working_shift != 4)
         <li style="cursor: pointer" class="{{ ($title === "Working Shift") ? 'active' : '' }}">
             <a id="locationslist" href="/attendance/workingshift" class="px-4"><img src="/img/icon/shift.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Working Shift</a>
         </li>
+        @else
+
+        @endif
+        @if(Auth::user()->role->manage_staff_shift != 4)
         <li style="cursor: pointer" class="{{ ($title === "Manage Staff") ? 'active' : '' }}">
             <a id="locationslist" href="/attendance/managestaff" class="px-4"><img src="/img/icon/manageuser.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Manage Staff Shift</a>
         </li>
+        @else
+
+        @endif
     </ul>
 </nav>

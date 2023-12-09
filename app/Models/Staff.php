@@ -12,8 +12,12 @@ class Staff extends Authenticatable
 
     protected $guarded = ['id'];
 
-    public function roles(){
-        return $this->hasOne(Role::class,'id');
+    public function role(){
+        return $this->belongsTo(Role::class,'role_id');
+    }
+
+    public function location(){
+        return $this->belongsTo(Location::class,'location_id');
     }
 
     // public function service(){

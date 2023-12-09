@@ -5,9 +5,14 @@
         </div>
     </div>
     <ul class="list-unstyled components">
+        @if(Auth::user()->role->dashboard_finance != 4)
         <li style="cursor: pointer" class="{{ ($title === "Finance Dashboard") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/finance" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Dashboard</a>
         </li>
+        @else
+
+        @endif
+        @if(Auth::user()->role->sale_list != 4)
         <li style="cursor: pointer" class="{{ ($title === "Sale List Paid" || $title === "Sale List Unpaid") ? 'active' : '' }}">
             <a id="locationslist" class="dropdown-toggle px-4" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Sale List
@@ -17,11 +22,24 @@
                 <li><a class="dropdown-item {{ ($title === "Sale List Unpaid") ? 'active' : '' }}" href="/sale/list/unpaid">Sale Unpaid</a></li>
             </ul>
         </li>
+        @else
+
+        @endif
+
+        @if(Auth::user()->role->quotation_list != 4)
         <li style="cursor: pointer" class="{{ ($title === "Quotation List") ? 'active' : '' }}">
             <a id="locationslist" href="/quotation/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Quotation List</a>
         </li>
+        @else
+
+        @endif
+
+        @if(Auth::user()->role->tax_rate != 4)
         <li style="cursor: pointer" class="{{ ($title === "Tax Rate") ? 'active' : '' }}">
             <a id="locationslist" href="/finance/taxrate" class="px-4"><img src="/img/icon/tax.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Tax Rate</a>
         </li>
+        @else
+
+        @endif
     </ul>
 </nav>

@@ -13,9 +13,12 @@
                           <li class="nav-item">
                               <a class="nav-link active" aria-current="page" href="/product/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
+                          @if(Auth::user()->role->product_list === 1 || Auth::user()->role->product_list === 2)
                           <li class="nav-item">
                               <a class="nav-link active" aria-current="page" onclick="saveCustomer()" style="color: #f28123; cursor: pointer;">Save <img src="/img/icon/save.png" alt="" style="width: 22px"></a>
                           </li>
+                          @else
+                          @endif
                       </ul>
                       <form class="d-flex" role="search">
                           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
