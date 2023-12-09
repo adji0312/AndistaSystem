@@ -5,9 +5,9 @@
         </div>
     </div>
     <ul class="list-unstyled components">
-        <li style="cursor: pointer" class="{{ ($title === "Dashboard") ? 'active' : '' }}">
+        {{-- <li style="cursor: pointer" class="{{ ($title === "Dashboard") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/product" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Dashboard</a>
-        </li>
+        </li> --}}
         <li style="cursor: pointer" class="{{ ($title === "Product List") ? 'active' : '' }}">
             <a id="locationslist" href="/product/list" class="px-4"><img src="/img/icon/StaffList.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Product List</a>
         </li>

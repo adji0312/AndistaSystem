@@ -5,9 +5,9 @@
         </div>
     </div>
     <ul class="list-unstyled components">
-        <li style="cursor: pointer" class="{{ ($title === "Staff Dashboard") ? 'active' : '' }}">
+        {{-- <li style="cursor: pointer" class="{{ ($title === "Staff Dashboard") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/staff" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Dashboard</a>
-        </li>
+        </li> --}}
         <li style="cursor: pointer" class="{{ ($title === "Staff List") ? 'active' : '' }}">
             <a id="locationslist" href="/staff/list" class="px-4"><img src="/img/icon/StaffList.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Staff List</a>
         </li>
@@ -20,8 +20,8 @@
         <li style="cursor: pointer" class="{{ ($title === "Access Control") ? 'active' : '' }}">
             <a id="locationslist" href="/staff/access-control-new" class="px-4"><img src="/img/icon/AccessControl.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Access Control</a>
         </li>
-        <li style="cursor: pointer" class="{{ ($title === "Security Groups") ? 'active' : '' }}">
+        {{-- <li style="cursor: pointer" class="{{ ($title === "Security Groups") ? 'active' : '' }}">
             <a id="locationslist" href="/staff/security-groups" class="px-4"><img src="/img/icon/SecurityGroup.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Security Groups</a>
-        </li>
+        </li> --}}
     </ul>
 </nav>

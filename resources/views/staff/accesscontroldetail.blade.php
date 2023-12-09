@@ -54,7 +54,7 @@
         </div> --}}
 
         {{-- Home Page --}}
-        <table class="table table-striped m-2">
+        <table class="table m-2">
           <thead>
             <tr>
               <th scope="col"><b>Home</b></th>
@@ -126,7 +126,7 @@
 
 
         {{-- Calendar --}}
-        <table class="table table-striped m-2 mt-4">
+        <table class="table m-2 mt-4">
           <thead>
             <tr>
               <th scope="col"><b>Calendar</b></th>
@@ -227,7 +227,7 @@
 
 
         {{-- Staff --}}
-        <table class="table table-striped m-2 mt-4">
+        <table class="table m-2 mt-4">
           <thead>
             <tr>
               <th scope="col"><b>Staff</b></th>
@@ -356,7 +356,7 @@
 
 
         {{-- Service --}}
-        <table class="table table-striped m-2 mt-4">
+        <table class="table m-2 mt-4">
           <thead>
             <tr>
               <th scope="col"><b>Service</b></th>
@@ -543,7 +543,7 @@
 
 
         {{-- Product --}}
-        <table class="table table-striped m-2 mt-4">
+        <table class="table m-2 mt-4">
           <thead>
             <tr>
               <th scope="col"><b>Product</b></th>
@@ -700,7 +700,7 @@
         </table>
 
         {{-- Location --}}
-        <table class="table table-striped m-2 mt-4">
+        <table class="table m-2 mt-4">
           <thead>
             <tr>
               <th scope="col"><b>Location</b></th>
@@ -828,7 +828,7 @@
         </table>
 
         {{-- Finance --}}
-        <table class="table table-striped m-2 mt-4">
+        <table class="table m-2 mt-4">
           <thead>
             <tr>
               <th scope="col"><b>Finance</b></th>
@@ -956,7 +956,7 @@
         </table>
 
         {{-- Attendance --}}
-        <table class="table table-striped m-2 mt-4">
+        <table class="table m-2 mt-4">
           <thead>
             <tr>
               <th scope="col"><b>Attendance</b></th>
@@ -1084,7 +1084,7 @@
         </table>
 
         {{-- Presence --}}
-        <table class="table table-striped m-2 mt-4">
+        <table class="table m-2 mt-4">
           <thead>
             <tr>
               <th scope="col"><b>Presence</b></th>
@@ -1125,7 +1125,7 @@
         </table>
 
         {{-- Reports --}}
-        <table class="table table-striped m-2 mt-4 ">
+        <table class="table m-2 mt-4 ">
           <thead>
             <tr>
               <th scope="col"><b>Reports</b></th>

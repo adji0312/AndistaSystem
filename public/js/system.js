@@ -1862,6 +1862,15 @@ function inpuDiagnosisService(){
 }
 
 
+//show Password
+function showPassword() {
+    var x = document.getElementById("typePasswordX");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
 
 
 
@@ -1947,3 +1956,5 @@ $("#rawat_inap").change(function(){
 // }
 
 // var text = e.options[e.selectedIndex].text;
+
+
