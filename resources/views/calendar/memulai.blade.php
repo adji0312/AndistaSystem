@@ -40,7 +40,7 @@
                                     </a>
                                 </td>
                                 <td class="align-middle">
-                                    <?php $date1 = date_create($booking->booking->start_booking); ?>
+                                    <?php $date1 = date_create($booking->start_booking); ?>
                                     {{ date_format($date1, 'd M Y') }} <br>
                                     {{ date_format($date1, 'h:i') }}
                                 </td>

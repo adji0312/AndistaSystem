@@ -11,7 +11,7 @@
         <li style="cursor: pointer" class="{{ ($title === "Attendance List") ? 'active' : '' }}">
             <a id="locationslist" href="/attendance/list" class="px-4"><img src="/img/icon/booking.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Booking</a>
         </li>
-        <li style="cursor: pointer" class="{{ ($title === "Attendance List") ? 'active' : '' }}">
+        {{-- <li style="cursor: pointer" class="{{ ($title === "Attendance List") ? 'active' : '' }}">
             <a id="locationslist" href="/attendance/list" class="px-4"><img src="/img/icon/customer.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Customer</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Working Shift") ? 'active' : '' }}">
@@ -25,7 +25,7 @@
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Manage Staff") ? 'active' : '' }}">
             <a id="locationslist" href="/attendance/managestaff" class="px-4"><img src="/img/icon/location.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Location</a>
-        </li>
+        </li> --}}
         <li style="cursor: pointer" class="{{ ($title === "Manage Staff") ? 'active' : '' }}">
             <a id="locationslist" href="/attendance/managestaff" class="px-4"><img src="/img/icon/finance.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Finance</a>
         </li>

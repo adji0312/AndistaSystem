@@ -49,6 +49,7 @@ Route::get('/newBooking/alasan/autocomplete-search', [IndexController::class, 'a
 Route::get('/newBooking/customer/autocomplete-search', [IndexController::class, 'customerSearch']);
 Route::get('/cart/product/autocomplete-search', [IndexController::class, 'cartProductSearch']);
 Route::get('/cart/service/autocomplete-search', [IndexController::class, 'cartServiceSearch']);
+Route::get('/bookingDiagnosis/autocomplete-search', [IndexController::class, 'bookingDiagnosisSearch']);
 
 //Location
 Route::get('/location', [IndexController::class, 'locationDashboard']);
@@ -259,8 +260,12 @@ Route::post('/addStatistic', [BookingController::class, 'addStatistic']);
 
 //Detail Booking
 Route::post('/addCartProduct', [CartBookingController::class, 'addCartProduct']);
+Route::post('/addCartService', [CartBookingController::class, 'addCartService']);
+Route::post('/addBookingDiagnosis', [BookingController::class, 'addBookingDiagnosis']);
 Route::post('/updateCartBooking/{id}', [CartBookingController::class, 'updateCartBooking']);
 Route::get('/deleteCartBooking/{id}', [CartBookingController::class, 'deleteCartBooking']);
 Route::post('/saveCartBooking/{id}', [CartBookingController::class, 'saveCartBooking']);
 Route::post('/submitTextBooking', [CartBookingController::class, 'submitTextBooking']);
 Route::post('/editTextBooking/{id}', [CartBookingController::class, 'editTextBooking']);
+Route::get('/deleteBookingDiagnosis/{id}', [BookingController::class, 'deleteBookingDiagnosis']);
+Route::post('/editBookingDiagnosis/{id}', [BookingController::class, 'editBookingDiagnosis']);

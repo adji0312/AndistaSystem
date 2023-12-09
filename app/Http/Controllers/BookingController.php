@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\AlasanKunjungan;
 use App\Models\Booking;
+use App\Models\BookingDiagnosis;
 use App\Models\BookingNote;
 use App\Models\BookingService;
 use App\Models\CartBooking;
 use App\Models\CheckStaff;
 use App\Models\Customer;
+use App\Models\Diagnosis;
 use App\Models\Location;
 use App\Models\Pet;
+use App\Models\Plan;
 use App\Models\Sale;
 use App\Models\Service;
 use App\Models\ServiceAndStaff;
@@ -477,6 +480,10 @@ class BookingController extends Controller
         $selectedCart = CartBooking::where('sub_booking_id', $booking->id)->where('flag', 0)->get();
         $totalPrice = $selectedCart->sum('total_price');
         $note = BookingNote::where('sub_booking_id', $booking->id)->get();
+
+        $diagnosis = BookingDiagnosis::where('sub_booking_id', $booking->id)->get();
+        $treatments = Plan::all();
+        $servicePrice = ServicePrice::all();
         
         return view('calendar.bookingdetail', [
             'booking' => $booking,
@@ -485,7 +492,10 @@ class BookingController extends Controller
             'beforeStatistic' => $latestStatistic,
             'carts' => $cart,
             'totalPrice' => $totalPrice,
-            'note' => $note
+            'note' => $note,
+            'bookingDiagnosis' => $diagnosis,
+            'treatments' => $treatments,
+            'servicePrice' => $servicePrice
         ]);
     }
 
@@ -528,40 +538,210 @@ class BookingController extends Controller
         }
         
         if($subbooking->status == "Terkonfirmasi" && $request->status == "Dimulai"){
-            $subbooking->status = "Dimulai";
-            $subbooking->save();
-            $booking->start_booking = Date::now();
-            $booking->save();
+            
+            if(count($booking->subbookings) > 1){
+                $subbooking->status = "Dimulai";
+                $subbooking->start_booking = Date::now();
+                $subbooking->save();
+            }else{
+                $subbooking->status = "Dimulai";
+                $subbooking->start_booking = Date::now();
+                $subbooking->save();
+                $booking->status = "Dimulai";
+                $booking->save();
+            }
         }elseif ($subbooking->status == "Dimulai" && $request->status == "Selesai"){
             $lastSales = DB::table('sales')->latest('created_at')->first();
-            $sales = new Sale();
-            // dd($lastSales);
-            if($lastSales == null || $lastSales == ''){
-                $nextNumber = sprintf("%05d", 1);
-                $sales->no_invoice = "INV-" . $nextNumber;
-            }else{
-                $nextNumber = sprintf("%05d", $lastSales->id + 1);
-                $sales->no_invoice = "INV-" . $nextNumber;
-            }
-            $sales->booking_id = $booking->id;
-            $sales->diskon = 0;
-            $sales->deskripsi_tambahan_biaya = '-';
-            $sales->tambahan_biaya = 0;
-            $sales->metode = '-';
-            $sales->status = 1;
-            $sales->is_delete = 1;
-            $sales->total_price = $booking->total_price;
-            $sales->save();
+            $lastPenjualan = Sale::all()->where('booking_id', $booking->id)->first();
+            // dd($lastPenjualan->booking->booking_date);
+            
+            // dd($subbooking->carts);
+            
 
-            $subbooking->status = "Selesai";
-            $subbooking->save();
-            $booking->end_booking = Date::now();
-            $booking->save();
+            // kondisi sales pertama kali
+            if($lastSales == null){
+
+                //sales pertama 1 subbooking
+                if(count($booking->subbookings) == 1){
+                    $sales = new Sale();
+                    if($lastSales == null || $lastSales == ''){
+                        $nextNumber = sprintf("%05d", 1);
+                        $sales->no_invoice = "INV-" . $nextNumber;
+                    }else{
+                        $nextNumber = sprintf("%05d", $lastSales->id + 1);
+                        $sales->no_invoice = "INV-" . $nextNumber;
+                    }
+                    $sales->booking_id = $booking->id;
+                    $sales->diskon = 0;
+                    $sales->deskripsi_tambahan_biaya = '-';
+                    $sales->tambahan_biaya = 0;
+                    $sales->metode = '-';
+                    $sales->status = 1;
+                    $sales->is_delete = 1;
+
+                    $totalPrice = 0;
+
+                    foreach($subbooking->carts as $cart){
+                        $totalPrice += $cart->total_price;
+                    }
+
+                    // dd($booking->services[0]);
+
+                    $sales->total_price = $totalPrice + $booking->services[0]->price;
+                    // dd($sales->total_price);
+                    $sales->save();
+        
+                    $subbooking->status = "Selesai";
+                    $subbooking->end_booking = Date::now();
+                    $subbooking->save();
+
+                    $booking->status = "Selesai";
+                    $booking->save();
+                
+                }else{ //sales pertama lebih dari 1 subbooking
+                    
+                    if($lastPenjualan){
+                        dd("a");
+                    }else{//ini yg save pertama kali
+                        $sales = new Sale();
+                        if($lastSales == null || $lastSales == ''){
+                            $nextNumber = sprintf("%05d", 1);
+                            $sales->no_invoice = "INV-" . $nextNumber;
+                        }else{
+                            $nextNumber = sprintf("%05d", $lastSales->id + 1);
+                            $sales->no_invoice = "INV-" . $nextNumber;
+                        }
+                        $sales->booking_id = $booking->id;
+                        $sales->diskon = 0;
+                        $sales->deskripsi_tambahan_biaya = '-';
+                        $sales->tambahan_biaya = 0;
+                        $sales->metode = '-';
+                        $sales->status = 1;
+                        $sales->is_delete = 1;
+
+                        $totalPrice = 0;
+
+                        foreach($subbooking->carts as $cart){
+                            $totalPrice += $cart->total_price;
+                        }
+
+                        // dd($totalPrice);
+
+                        // dd($booking->services[0]);
+
+                        $sales->total_price = $totalPrice + $booking->services[0]->price;
+                        // dd($sales->total_price);
+                        $sales->save();
+            
+                        $subbooking->status = "Selesai";
+                        $subbooking->end_booking = Date::now();
+                        $subbooking->save();
+                    }
+                }
+
+                
+            }else{
+
+                // dd("here");
+                //untuk subbooking yang lebih dari 1
+                if(count($booking->subbookings) > 1){
+                    // dd($lastPenjualan);
+
+                    //last penjualan null (yang save pertama kali) => Buat Sales Baru
+                    if($lastPenjualan == null){
+                        $sales = new Sale();
+                        if($lastSales == null || $lastSales == ''){
+                            $nextNumber = sprintf("%05d", 1);
+                            $sales->no_invoice = "INV-" . $nextNumber;
+                        }else{
+                            $nextNumber = sprintf("%05d", $lastSales->id + 1);
+                            $sales->no_invoice = "INV-" . $nextNumber;
+                        }
+                        $sales->booking_id = $booking->id;
+                        $sales->diskon = 0;
+                        $sales->deskripsi_tambahan_biaya = '-';
+                        $sales->tambahan_biaya = 0;
+                        $sales->metode = '-';
+                        $sales->status = 1;
+                        $sales->is_delete = 1;
+                        $sales->total_price = $booking->total_price;
+                        $sales->save();
+            
+                        $subbooking->status = "Selesai";
+                        $subbooking->save();
+                        $booking->end_booking = Date::now();
+                        $booking->save();
+                    }else{
+                        $penjualanTerakhir = Sale::find($lastPenjualan->latest()->first()->id);
+                        // dd($penjualanTerakhir);
+                        $totalPrice = 0;
+
+                        foreach($subbooking->carts as $cart){
+                            $totalPrice += $cart->total_price;
+                        }
+
+                        // dd($totalPrice);
+                        $penjualanTerakhir->total_price = $penjualanTerakhir->total_price + $totalPrice;
+                        $penjualanTerakhir->save();
+
+                        $subbooking->status = "Selesai";
+                        $subbooking->end_booking = Date::now();
+                        $subbooking->save();
+                    }
+
+                    // if($lastPenjualan->booking_id == $booking->id){
+
+                    //     $updateSale = Sale::where('booking_id', $booking->id)->first();
+                    //     dd($updateSale);
+                    //     $totalPrice = 0;
+                    //     foreach($subbooking->carts as $cart){
+                    //         $totalPrice += $cart->total_price;
+                    //     }
+                    //     // dd($totalPrice);
+                    //     $lastPenjualan->total_price = $totalPrice;
+                    //     $lastPenjualan->save();
+
+                    //     $subbooking->status = "Selesai";
+                    //     $subbooking->end_booking = Date::now();
+                    //     $subbooking->save();
+                    // }else{
+                    //     dd("tidak sama");
+                    //     $sales = new Sale();
+                    //     // dd($lastSales);
+                    //     if($lastSales == null || $lastSales == ''){
+                    //         $nextNumber = sprintf("%05d", 1);
+                    //         $sales->no_invoice = "INV-" . $nextNumber;
+                    //     }else{
+                    //         $nextNumber = sprintf("%05d", $lastSales->id + 1);
+                    //         $sales->no_invoice = "INV-" . $nextNumber;
+                    //     }
+                    //     $sales->booking_id = $booking->id;
+                    //     $sales->diskon = 0;
+                    //     $sales->deskripsi_tambahan_biaya = '-';
+                    //     $sales->tambahan_biaya = 0;
+                    //     $sales->metode = '-';
+                    //     $sales->status = 1;
+                    //     $sales->is_delete = 1;
+                    //     $sales->total_price = $booking->total_price;
+                    //     $sales->save();
+            
+                    //     $subbooking->status = "Selesai";
+                    //     $subbooking->save();
+                    //     $booking->end_booking = Date::now();
+                    //     $booking->save();
+                    // }
+
+
+                // subbooking yang cuma 1
+                }else{
+    
+                }
+            }
+
+
 
 
             //save ke table sale dengan status unpaid
-        }elseif ($subbooking->status == "Selesai" && $request->status == "Dimulai"){
-
         }
 
         return redirect()->back();
@@ -643,6 +823,53 @@ class BookingController extends Controller
         }
 
         Statistic::create($validatedData);
+        return redirect()->back();
+    }
+
+    public function addBookingDiagnosis(Request $request){
+        // dd($request->all());
+        $diagnosis = Diagnosis::where('diagnosis_name', $request->diagnosis_name)->first();
+        
+        if($diagnosis == null){
+            $validatedData = $request->validate([
+                'diagnosis_name' => 'required|unique:diagnoses',
+            ]);
+    
+            Diagnosis::create($validatedData);
+
+            $lastDiagnosis = DB::table('diagnoses')->latest('created_at')->first();
+
+            $bookingDiagnosis = new BookingDiagnosis();
+            $bookingDiagnosis->diagnosis_id = $lastDiagnosis->id;
+            $bookingDiagnosis->booking_id = $request->booking_id;
+            $bookingDiagnosis->sub_booking_id = $request->sub_booking_id;
+            $bookingDiagnosis->save();
+
+        }else{
+            $bookingDiagnosis = new BookingDiagnosis();
+            $bookingDiagnosis->diagnosis_id = $diagnosis->id;
+            $bookingDiagnosis->booking_id = $request->booking_id;
+            $bookingDiagnosis->sub_booking_id = $request->sub_booking_id;
+            $bookingDiagnosis->save();
+        }
+
+        return redirect()->back();
+    }
+
+    public function deleteBookingDiagnosis($id){
+        $bd = BookingDiagnosis::find($id);
+
+        DB::table('booking_diagnoses')->where('id', $bd->id)->delete();
+        return redirect()->back();
+    }
+
+    public function editBookingDiagnosis(Request $request, $id){
+        // dd($request->all());
+
+        $bookingDiagnosis = BookingDiagnosis::find($id);
+        // dd($bookingDiagnosis);
+        $bookingDiagnosis->treatment_id = $request->treatment_id;
+        $bookingDiagnosis->save();
         return redirect()->back();
     }
 }

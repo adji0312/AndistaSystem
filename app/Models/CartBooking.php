@@ -18,4 +18,8 @@ class CartBooking extends Model
     public function service(){
         return $this->belongsTo(Service::class, 'service_id');
     }
+
+    public function servicePrice(){
+        return $this->belongsTo(ServicePrice::class, 'service_price_id');
+    }
 }

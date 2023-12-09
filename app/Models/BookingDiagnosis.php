@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class BookingDiagnosis extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function diagnosis(){
+        return $this->belongsTo(Diagnosis::class, 'diagnosis_id');
+    }
 }

@@ -6,6 +6,8 @@ use App\Models\Booking;
 use App\Models\BookingNote;
 use App\Models\CartBooking;
 use App\Models\Product;
+use App\Models\Service;
+use App\Models\ServicePrice;
 use App\Models\SubBook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,12 +21,35 @@ class CartBookingController extends Controller
         $validatedData = $request->validate([
             'booking_id' => 'required',
             'sub_booking_id' => 'required',
+            'staff_id' => 'required'
         ]);
 
         $validatedData['product_id'] = $product->id;
         $validatedData['quantity'] = 1;
         $validatedData['flag'] = 1;
         $validatedData['total_price'] = $product->price;
+
+        // DB::table('products')
+
+        CartBooking::create($validatedData);
+        return redirect()->back();
+    }
+
+    public function addCartService(Request $request){
+        // dd($request->all());
+        $service = Service::where('service_name', $request->service_name)->first();
+        // dd($service);
+
+        $validatedData = $request->validate([
+            'booking_id' => 'required',
+            'sub_booking_id' => 'required',
+            'staff_id' => 'required'
+        ]);
+
+        $validatedData['service_id'] = $service->id;
+        $validatedData['quantity'] = 1;
+        $validatedData['flag'] = 1;
+        // $validatedData['total_price'] = $product->price;
 
         // DB::table('products')
 
@@ -41,13 +66,27 @@ class CartBookingController extends Controller
 
     public function updateCartBooking(Request $request, $id){
         $cart = CartBooking::find($id);
+        $servicePrice = ServicePrice::find($request->service_price_id);
+        // dd($servicePice);
+        
+        if($cart->service_id != null){
+            // dd($request->all());
+            $totalPrice = $request->quantity * $servicePrice->price;
+            // dd($totalPrice);
+    
+            $cart->quantity = $request->quantity;
+            $cart->total_price = $totalPrice;
+            $cart->service_price_id = $servicePrice->id;
+            $cart->save();
+        }else{
+            $totalPrice = $request->quantity * $cart->product->price;
+            // dd($totalPrice);
+    
+            $cart->quantity = $request->quantity;
+            $cart->total_price = $totalPrice;
+            $cart->save();
+        }
 
-        $totalPrice = $request->quantity * $cart->product->price;
-        // dd($totalPrice);
-
-        $cart->quantity = $request->quantity;
-        $cart->total_price = $totalPrice;
-        $cart->save();
         return redirect()->back();
         // $cart->total_price = $request->quantity
     }
@@ -55,14 +94,16 @@ class CartBookingController extends Controller
     public function saveCartBooking(Request $request, $id){
         // dd($request->all());
         $cart = CartBooking::find($id);
-        $product = Product::find($cart->product->id);
         $booking = Booking::find($request->booking_id);
         // dd($cart->quantity);
         $cart->flag = 0;
         $cart->save();
         
-        $product->stock = $product->stock - $cart->quantity;
-        $product->save();
+        if($cart->product_id != null){
+            $product = Product::find($cart->product->id);
+            $product->stock = $product->stock - $cart->quantity;
+            $product->save();
+        }
 
         $booking->total_price = $booking->total_price + $cart->total_price;
         $booking->save();

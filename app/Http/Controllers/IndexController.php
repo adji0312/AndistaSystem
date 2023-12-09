@@ -361,6 +361,19 @@ class IndexController extends Controller
         return response()->json($dataModified);
     }
 
+    public function bookingDiagnosisSearch(Request $request){
+
+        $datas = Diagnosis::select("diagnosis_name")
+            ->where("diagnosis_name","LIKE","%{$request->input('query')}%")
+            ->get();
+        $dataModified = array();
+        foreach ($datas as $data){
+            $dataModified[] = $data->diagnosis_name;
+        }
+
+        return response()->json($dataModified);
+    }
+
     public function allReport(){
         return view('report.allreport', [
             "title" => "All Report"

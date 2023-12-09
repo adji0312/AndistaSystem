@@ -444,6 +444,98 @@
             </div>
 
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-4">
+                <div class="m-2 d-flex flex-column">
+                    <h5 class="m-3">Diagnosis</h5>
+                    <form action="/addBookingDiagnosis" method="POST">
+                        <div class="d-flex gap-2 mx-3 mt-2 w-100">
+                            @csrf
+                            <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
+                            <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
+                            <input type="text" style="width: 50%" class="form-control" id="booking_diagnosis_id" placeholder="Search Diagnosis..." name="diagnosis_name">
+                            <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Add Diagnosis</button>
+                        </div>
+                    </form>
+                    @if (count($bookingDiagnosis))
+                        <div class="table-responsive m-3">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Diagnosis Name</th>
+                                    <th scope="col">Treatment</th>
+                                    <th scope="col" class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $bdIndex = 0; ?>
+                                    @foreach ($bookingDiagnosis as $bd)
+                                        <?php $bdIndex += 1; ?>
+                                        <tr>
+                                            <th scope="row">{{ $bdIndex }}</th>
+                                            <td>{{ $bd->diagnosis->diagnosis_name }}</td>
+                                            @if ($bd->treatment == null)
+                                                <td>
+                                                    <form action="/editBookingDiagnosis/{{ $bd->id }}" method="POST">
+                                                        @csrf
+                                                        <select class="form-select" aria-label="Default select example" onchange="selectTreatment({{ $bd->id }})" name="treatment_id">
+                                                            <option selected disabled>Select Treament</option>
+                                                            @foreach ($treatments->where('diagnosis_id', $bd->diagnosis_id) as $treatment)
+                                                                @if ($treatment->id == $bd->treatment_id)
+                                                                    <option value="{{ $treatment->id }}" selected>{{ $treatment->name }}</option>
+                                                                    @continue;
+                                                                @endif
+                                                                <option value="{{ $treatment->id }}">{{ $treatment->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <button type="submit" hidden id="editBookingDiagnosis{{ $bd->id }}"></button>
+                                                        <script>
+                                                            function selectTreatment(id){
+                                                                let button = document.getElementById('editBookingDiagnosis' + id).click();
+                                                            }
+                                                        </script>
+                                                    </form>
+                                                </td>
+                                            @else
+                                                <td>-</td>    
+                                            @endif
+                                            <td>
+                                                <div class="d-flex justify-content-center gap-2">
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" style="width: 100px" data-bs-toggle="modal" data-bs-target="#deleteBookingDiagnosis{{ $bd->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <div class="modal fade" id="deleteBookingDiagnosis{{ $bd->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Diagnosis</h1>
+                                                </div>
+                                                
+                                                <form action="/deleteBookingDiagnosis/{{ $bd->id }}" method="GET">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <div class="mb-1">
+                                                            <small class="fs-6" style="font-weight: 300">Are you sure delete this item?</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                                    </div>
+                                                </form>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-4">
                 <div class="m-2 d-flex">
                     <h5 class="m-3">Catatan</h5>
                     @if ($booking->status == "Dimulai")
@@ -504,7 +596,7 @@
                             <th scope="col">No</th>
                             <th scope="col" style="width: 20%">Name</th>
                             <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
+                            <th scope="col">Qty</th>
                             <th scope="col">Total</th>
                             <th scope="col" class="text-center">Action</th>
                           </tr>
@@ -516,12 +608,12 @@
                                 <tr>
                                     <th>{{ $index1 }}</th>
                                     @if ($cart->product_id == null && $cart->service_id != null)
-                                        <td>{{ $cart->service->service_name }}</td>
+                                        <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $cart->service->service_name }}</td>
                                     @elseif ($cart->product_id != null && $cart->service_id == null)
-                                        <td>{{ $cart->product->product_name }}</td>
+                                        <td><img src="/img/icon/product.png" alt="" style="width: 22px"> {{ $cart->product->product_name }}</td>
                                     @endif
                                     @if ($cart->product_id == null && $cart->service_id != null)
-                                        <td>Rp </td>
+                                        <td>Rp {{ number_format($cart->servicePrice->price) }}</td>
                                     @elseif ($cart->product_id != null && $cart->service_id == null)
                                         <td>Rp {{ number_format($cart->product->price) }}</td>
                                     @endif
@@ -569,33 +661,76 @@
                                     </div>
                                 </div>
 
-                                <div class="modal fade" id="updateCartBooking{{ $cart->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h1 class="modal-title fs-5" id="exampleModalLabel">Update Quantity Product</h1>
+                                @if ($cart->product_id != null)
+                                    <div class="modal fade" id="updateCartBooking{{ $cart->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Update Quantity Product</h1>
+                                            </div>
+                                            <form action="/updateCartBooking/{{ $cart->id }}" method="post">
+                                                @csrf
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Stock Product</label>
+                                                        <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $cart->product->stock }}" disabled>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Quantity</label>
+                                                        <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $cart->quantity }}">
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                                </div>
+                                            </form>    
                                         </div>
-                                        <form action="/updateCartBooking/{{ $cart->id }}" method="post">
-                                            @csrf
-                                            <div class="modal-body">
-                                                <div class="mb-3">
-                                                    <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Stock Product</label>
-                                                    <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $cart->product->stock }}" disabled>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Quantity</label>
-                                                    <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $cart->quantity }}">
-                                                </div>
-                                                
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                                                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
-                                            </div>
-                                        </form>    
-                                      </div>
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    <div class="modal fade" id="updateCartBooking{{ $cart->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Update Service</h1>
+                                            </div>
+                                            <form action="/updateCartBooking/{{ $cart->id }}" method="post">
+                                                @csrf
+                                                <div class="modal-body">
+                                                    {{-- <div class="mb-3">
+                                                        <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Stock Product</label>
+                                                        <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $cart->product->stock }}" disabled>
+                                                    </div> --}}
+                                                    <div class="mb-3">
+                                                        <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Quantity</label>
+                                                        <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $cart->quantity }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Price</label>
+                                                        <select class="form-select" aria-label="Default select example" name="service_price_id">
+                                                            <option selected disabled>Select Price</option>
+                                                            @foreach ($servicePrice->where('service_id', $cart->service_id) as $sp)
+                                                                @if ($sp->id == $cart->service_price_id)
+                                                                    <option value="{{ $sp->id }}" selected>{{ $sp->duration }} {{$sp->duration_type}}({{ $sp->price_title }}) (Rp {{ number_format($sp->price) }})</option>
+                                                                    @continue; 
+                                                                @endif
+                                                                <option value="{{ $sp->id }}">{{ $sp->duration }} {{$sp->duration_type}}({{ $sp->price_title }}) (Rp {{ number_format($sp->price) }})</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                                </div>
+                                            </form>    
+                                        </div>
+                                        </div>
+                                    </div>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -617,6 +752,7 @@
                 <div class="mb-3">
                     <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
                     <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
+                    <input type="text" name="staff_id" hidden value="{{ $booking->booking->staff->id }}">
                     <input type="text" class="form-control" id="product_id_cart" name="product_id" placeholder="Search here ...">
                 </div>
             </div>
@@ -639,6 +775,9 @@
             @csrf
             <div class="modal-body">
                 <div class="mb-3">
+                    <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
+                    <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
+                    <input type="text" name="staff_id" hidden value="{{ $booking->booking->staff->id }}">
                     <input type="text" class="form-control" id="searchService" name="service_name" value="" placeholder="Search Service" required>
                 </div>
             </div>

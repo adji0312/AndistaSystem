@@ -1796,6 +1796,23 @@ $('.product_id_cart').on('typeahead:selected', function (e, datum) {
     // $('#item_code').val(datum.item_code);
 });
 
+var route5 = "/bookingDiagnosis/autocomplete-search";
+    $('#booking_diagnosis_id').typeahead({
+        source: function (query, process) {
+            console.log(query);
+            return $.get(route5, {
+                query: query
+            }, function (data) {
+                return process(data);
+            });
+        }
+    });
+
+$('.booking_diagnosis_id').on('typeahead:selected', function (e, datum) {
+    console.log(datum);
+    // $('#item_code').val(datum.item_code);
+});
+
 function updateUnit(e){
     let unit_name = document.getElementById('unit_name' + e);
     console.log(unit_name.value);

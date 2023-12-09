@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('booking_diagnoses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('booking_id');
-            $table->foreignId('diagnosis_id');
-            $table->string('treatment_id');
+            $table->foreignId('booking_id')->nullable();
+            $table->foreignId('sub_booking_id')->nullable();
+            $table->foreignId('diagnosis_id')->nullable();
+            $table->foreignId('treatment_id')->nullable();
             $table->timestamps();
         });
     }

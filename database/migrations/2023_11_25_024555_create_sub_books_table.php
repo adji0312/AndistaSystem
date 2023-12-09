@@ -22,6 +22,8 @@ return new class extends Migration
             $table->integer('rawat_inap')->nullable();
             $table->integer('darurat')->nullable();
             $table->integer('duration')->nullable();
+            $table->timestamp('start_booking')->nullable();
+            $table->timestamp('end_booking')->nullable();
             $table->timestamps();
         });
     }

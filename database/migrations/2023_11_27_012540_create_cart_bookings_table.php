@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('cart_bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('booking_id')->nullable();
+            $table->foreignId('staff_id')->nullable();
             $table->foreignId('sub_booking_id')->nullable();
             $table->foreignId('product_id')->nullable();
             $table->foreignId('service_id')->nullable();
+            $table->foreignId('service_price_id')->nullable();
             $table->integer('quantity')->nullable();
             $table->integer('total_price')->nullable();
             $table->integer('flag')->nullable();

@@ -40,12 +40,12 @@
                                 </a>
                             </td>
                             <td class="align-middle">
-                                <?php $date1 = date_create($booking->booking->start_booking); ?>
+                                <?php $date1 = date_create($booking->start_booking); ?>
                                 {{ date_format($date1, 'd M Y') }} <br>
                                 {{ date_format($date1, 'h:i') }}
                             </td>
                             <td class="align-middle">
-                                <?php $date2 = date_create($booking->booking->end_booking); ?>
+                                <?php $date2 = date_create($booking->end_booking); ?>
                                 {{ date_format($date2, 'd M Y') }} <br>
                                 {{ date_format($date2, 'h:i') }}
                             </td>

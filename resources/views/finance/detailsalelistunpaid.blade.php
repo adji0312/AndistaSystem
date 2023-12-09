@@ -30,9 +30,10 @@
                     @csrf
 
                     <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                        <div class="d-flex justify-content-between m-2">
+                        <div class="d-flex m-2">
                             <h5 class="m-3">Item</h5>
-                            {{-- <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addQuotationPrice"><i class="fas fa-plus"></i> Add</button> --}}
+                            <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartProduct"><i class="fas fa-plus"></i> Add Product</button>
+                            <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartService"><i class="fas fa-plus"></i> Add Service</button>
                         </div>
     
                         <div class="mx-4 table-responsive">
@@ -44,39 +45,48 @@
                                         <th scope="col">Quantity</th>
                                         <th scope="col">Staff</th>
                                         <th scope="col">Price</th>
-                                        {{-- <th scope="col" class="text-center">Action</th> --}}
+                                        <th scope="col" class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <th>1</th>
-                                        <td>{{ $bookingService->service->service_name }}</td>
+                                        <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $bookingService->service->service_name }}</td>
                                         <td>1</td>
                                         <td>{{ $bookingService->staff->first_name }}</td>
                                         <td>Rp {{ number_format($bookingService->servicePrice->price) }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteFacilityService"><i class="fas fa-trash"></i> Delete</button>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <?php $itemIndex = 1; ?>
                                     @foreach ($item->carts as $item)
                                         <?php $itemIndex += 1; ?>
                                         <tr>
                                             <th>{{ $itemIndex }}</th>
-                                            <td>{{ $item->product->product_name }}</td>
+                                            @if ($item->product_id != null)
+                                                <td><img src="/img/icon/product.png" alt="" style="width: 22px"> {{ $item->product->product_name }}</td>
+                                            @else
+                                                <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $item->service->service_name }}</td>
+                                            @endif
                                             <td>{{ $item->quantity }}</td>
                                             <td>{{ $bookingService->staff->first_name }}</td>
                                             <td>Rp {{ number_format($item->total_price) }}</td>
+                                            <td>
+                                                <div class="d-flex justify-content-center gap-2">
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteFacilityService"><i class="fas fa-trash"></i> Delete</button>
+                                                </div>
+                                            </td>
                                         </tr>
                                     @endforeach
-                                    {{-- <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteFacilityService"><i class="fas fa-trash"></i> Delete</button>
-                                        </div>
-                                    </td> --}}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     
-                    <div style="width: 35%;" class="float-end">
+                    <div style="width: 50%;" class="float-end mb-3">
                         <table class="table table-bordered">
                             <thead>
                               <tr>
@@ -169,6 +179,56 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
                     <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Make Payment</button>
+                </div>
+            </form>    
+          </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addCartProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Add Product</h1>
+            </div>
+            <form action="/addCartProduct" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        {{-- <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
+                        <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
+                        <input type="text" name="staff_id" hidden value="{{ $booking->booking->staff->id }}"> --}}
+                        <input type="text" class="form-control" id="product_id_cart" name="product_id" placeholder="Search here ...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                </div>
+            </form>    
+          </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="addCartService" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Add Service</h1>
+            </div>
+            <form action="/addCartService" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        {{-- <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
+                        <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
+                        <input type="text" name="staff_id" hidden value="{{ $booking->booking->staff->id }}"> --}}
+                        <input type="text" class="form-control" id="searchService" name="service_name" value="" placeholder="Search Service" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
                 </div>
             </form>    
           </div>

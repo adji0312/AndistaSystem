@@ -18,4 +18,8 @@ class ServicePrice extends Model
     public function booking(){
         return $this->belongsTo(Booking::class, 'booking_id');
     }
+
+    public function bookingCart(){
+        return $this->hasMany(CartBooking::class);
+    }
 }
