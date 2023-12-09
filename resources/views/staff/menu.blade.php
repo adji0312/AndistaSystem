@@ -18,7 +18,7 @@
             <a id="locationslist" href="/staff/working-hours" class="px-4"><img src="/img/icon/WorkingHours.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Working Hours</a>
         </li> --}}
         <li style="cursor: pointer" class="{{ ($title === "Access Control") ? 'active' : '' }}">
-            <a id="locationslist" href="/staff/access-control" class="px-4"><img src="/img/icon/AccessControl.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Access Control</a>
+            <a id="locationslist" href="/staff/access-control-new" class="px-4"><img src="/img/icon/AccessControl.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Access Control</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Security Groups") ? 'active' : '' }}">
             <a id="locationslist" href="/staff/security-groups" class="px-4"><img src="/img/icon/SecurityGroup.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Security Groups</a>

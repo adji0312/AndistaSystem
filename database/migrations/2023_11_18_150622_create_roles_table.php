@@ -23,10 +23,10 @@ return new class extends Migration
             $table->tinyInteger('calendar_create_booking')->nullable();
             $table->tinyInteger('calendar_list_booking')->nullable();
             //Staff
-            $table->tinyInteger('staff_dashboard')->nullable();
+            // $table->tinyInteger('staff_dashboard')->nullable();
             $table->tinyInteger('staff_staff_list')->nullable();
             $table->tinyInteger('staff_job')->nullable();
-            $table->tinyInteger('staff_access_control')->nullable();
+            $table->tinyInteger('staff_access_control')->nullable(); 
             $table->tinyInteger('staff_security_groups')->nullable();
             //Service
             $table->tinyInteger('service_dashboard')->nullable();

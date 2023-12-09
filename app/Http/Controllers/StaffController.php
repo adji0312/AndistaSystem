@@ -60,28 +60,33 @@ class StaffController extends Controller
     }
 
     public function staffAccessControlDetail($id){
+        // @dd($id);
         return view('staff.accesscontroldetail',[
             "title" => "Staff Access Control Detail",
-            "roles" => Role::find($id),
+            "roles" => Role::find($id)
         ]);
     }
 
     public function saveStaffAccessControl(Request $request,$id){
+        // @dd($request->all());
+        // @dd($id);
         $roles = Role::find($id);
+        // @dd($roles);
 
         //home
-        $roles->role_name = $request->role_name;
+        // $roles->role_name = $request->role_name;
+        $roles->home_overview = $request->home_overview;
         $roles->home_upcoming_booking = $request->home_upcoming_booking;
         //calendar
         $roles->calendar_calendar = $request->calendar_calendar;
         $roles->calendar_create_booking = $request->calendar_create_booking;
         $roles->calendar_list_booking = $request->calendar_list_booking;
         //Staff
-        $roles->staff_dashboard = $request->staff_dashboard;
+        // $roles->staff_dashboard = $request->staff_dashboard;
         $roles->staff_staff_list = $request->staff_staff_list;
         $roles->staff_job = $request->staff_job;
         $roles->staff_access_control = $request->staff_access_control;
-        $roles->staff_security_group = $request->staff_security_group;
+        $roles->staff_security_groups = $request->staff_security_groups;
         //Service
         $roles->service_dashboard = $request->service_dashboard;
         $roles->service_list = $request->service_list;
@@ -117,13 +122,20 @@ class StaffController extends Controller
 
         $roles->update();
 
-        return redirect('/staff/access-control')->with('success','Staff Access Control Updated Successfully');
+        return redirect('/staff/access-control-new')->with('success','Staff Access Control Updated Successfully');
     }
 
     //staffSecurityGroups
     public function staffSecurityGroups(){
         return view('staff.securitygroup',[
             "title" => "Staff Security Groups",
+            "roles" => Role::all()
+        ]);
+    }
+
+    public function newAccessControl(){
+        return view('staff.newaccesscontrol',[
+            "title" => "Staff Access Control",
             "roles" => Role::all()
         ]);
     }
