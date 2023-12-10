@@ -284,3 +284,11 @@ trix-toolbar[data-trix-button-group="file-tools"]{
 .dropdown-toggle::after { 
     content: none; 
 } 
+
+.gradient-custom{
+    background: #f0f0f0;
+}
+
+.bg-custom{
+    background: #ff9624;
+}

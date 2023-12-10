@@ -17,25 +17,32 @@ class RoleSeeder extends Seeder
         Role::insert(
             [
                 [
-                    'role_name' => 'Administrator'
+                    'role_name' => 'Administrator',
+                    'staff_access_control' => '1'
                 ],
                 [
-                    'role_name' => 'Manager'
+                    'role_name' => 'Manager',
+                    'staff_access_control' => '1'
                 ],
                 [
-                    'role_name' => 'Veterinarian'
+                    'role_name' => 'Veterinarian',
+                    'staff_access_control' => '4'
                 ],
                 [
-                    'role_name' => 'Veterinary Assistant'
+                    'role_name' => 'Veterinary Assistant',
+                    'staff_access_control' => '4'
                 ],
                 [
-                    'role_name' => 'Receptionist'
+                    'role_name' => 'Receptionist',
+                    'staff_access_control' => '4'
                 ],
                 [
-                    'role_name' => 'Support'
+                    'role_name' => 'Support',
+                    'staff_access_control' => '4'
                 ],
                 [
-                    'role_name' => 'Multimedia Staff'
+                    'role_name' => 'Multimedia Staff',
+                    'staff_access_control' => '4'
                 ]
                 ]
                 );

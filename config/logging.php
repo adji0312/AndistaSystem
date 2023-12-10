@@ -68,8 +68,12 @@ return [
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
-            'level' => env('LOG_LEVEL', 'debug'),
+            'level' => env('LOG_LEVEL', 'info'),
             'days' => 14,
+            'formatter' => MonologFormatterHtmlFormatter::class,
+            'formatter_with' => [
+                'dateFormat' => 'Y-m-d'
+            ],
             'replace_placeholders' => true,
         ],
 

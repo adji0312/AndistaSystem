@@ -5,6 +5,7 @@
         </div>
     </div>
     <ul class="list-unstyled components">
+        @if(Auth::user()->role->calendar_create_booking != 4)
         <li style="cursor: pointer" class="{{ ($title === "Booking") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/newBooking" class="px-4"><img src="/img/icon/plusgrey.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Create Booking</a>
         </li>
@@ -29,5 +30,8 @@
         <li style="cursor: pointer" class="{{ ($title === "Selesai") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/booking/selesai" class="px-4"><img src="/img/icon/selesai.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Selesai</a>
         </li>
+        @else
+
+        @endif
     </ul>
 </nav>

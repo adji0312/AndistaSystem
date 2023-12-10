@@ -14,20 +14,20 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('category_id');
-            $table->foreignId('brand_id');
-            $table->foreignId('supplier_id');
-            $table->foreignId('location_id');
-            $table->foreignId('tax_rate_id');
-            $table->string('product_name');
-            $table->string('simple_name');
-            $table->string('sku');
-            $table->string('upc_ean');
-            $table->string('supplier_pid');
-            $table->float('price');
-            $table->integer('stock');
-            $table->string('description');
-            $table->string('status');
+            $table->foreignId('category_id')->nullable();
+            $table->foreignId('brand_id')->nullable();
+            $table->foreignId('supplier_id')->nullable();
+            $table->foreignId('location_id')->nullable();
+            $table->foreignId('tax_rate_id')->nullable();
+            $table->string('product_name')->nullable();
+            $table->string('simple_name')->nullable();
+            $table->string('sku')->nullable();
+            $table->string('upc_ean')->nullable();
+            $table->string('supplier_pid')->nullable();
+            $table->float('price')->nullable();
+            $table->integer('stock')->nullable();
+            $table->string('description')->nullable();
+            $table->string('status')->nullable();
         });
     }
 

@@ -13,9 +13,12 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/service/treatmentplan" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                     </li>
+                    @if(Auth::user()->role->service_treatment_plan === 1|Auth::user()->role->service_treatment_plan === 2)
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#" style="color: #f28123" onclick="saveTreatment()"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
                     </li>
+                    @else
+                    @endif
                   </ul>
                   <form class="d-flex" role="search">
                       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -76,7 +79,10 @@
             <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                 <div class="d-flex">
                     <h5 class="m-3">Treatment List</h5>
+                    @if(Auth::user()->role->service_policy === 1|Auth::user()->role->service_policy === 2)
                     <a class="nav-link active m-3" aria-current="page" data-bs-toggle="offcanvas" data-bs-target="#addItemCanvas" aria-controls="addItemCanvas" style="color: #f28123; cursor: pointer;"><img src="/img/icon/plus.png" alt="" style="width: 22px"> Item</a>
+                    @else
+                    @endif
                 </div>
                 <div class="m-3">
                     <table class="table table-bordered">
@@ -111,7 +117,10 @@
                                                             {{ $list->task->task_name }}
                                                         </small>
                                                     @endif
+                                                    @if(Auth::user()->role->service_treatment_plan === 1)
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#deleteList{{ $list->id }}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</button>
+                                                    @else
+                                                    @endif
                                                 </div>
                                                 @if ($list->duration == 0 && $list->frequency_id == 0)
                                                     <small style="font-weight: 300; font-size: 15px;">Frequency and duration not yet assigned</small> <br>
@@ -160,7 +169,10 @@
                                                             {{ $list->task->task_name }}
                                                         </small>
                                                     @endif
+                                                    @if(Auth::user()->role->service_treatment_plan === 1)
                                                     <button type="button" data-bs-toggle="modal" data-bs-target="#deleteList{{ $list->id }}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</button>
+                                                    @else
+                                                    @endif
                                                 </div>
                                                 @if ($list->service_id != 0)
                                                     <small style="font-weight: 300; font-size: 15px;">Price: {{  $list->servicePrice->price_title }} {{ $list->servicePrice->duration }} {{ $list->servicePrice->duration_type }} (Rp {{ number_format($list->servicePrice->price) }})</small> <br>
@@ -192,7 +204,10 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                @if(Auth::user()->role->service_treatment === 1)
                                                 <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i> Delete</button>
+                                                @else
+                                                @endif
                                             </div>
                                         </form>
                                       </div>
@@ -288,9 +303,12 @@
                                                     @endif
                                                 </div>
                                             </div>
+                                            @if(Auth::user()->role->service_treatment_plan === 1|Auth::user()->role->service_treatment_plan === 2)
                                             <div class="mb-3 float-end">
                                                 <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Save</button>
                                             </div>
+                                            @else
+                                            @endif
                                         </form>
                                     </div>
                                 </div>
@@ -406,9 +424,12 @@
                                                     @endif
                                                 </div>
                                             </div>
+                                            @if(Auth::user()->role->service_treatment_plan === 1|Auth::user()->role->service_treatment_plan === 2)
                                             <div class="mb-3 float-end">
                                                 <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Save</button>
                                             </div>
+                                            @else
+                                            @endif
                                         </form>
                                     </div>
                                 </div>
@@ -539,7 +560,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                @if(Auth::user()->role->service_treatment_plan === 1|Auth::user()->role->service_treatment_plan === 2)
                 <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                @else
+                @endif
             </div>
         </form>
       </div>
@@ -562,7 +586,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                @if(Auth::user()->role->service_treatment_plan === 1|Auth::user()->role->service_treatment_plan === 2)
                 <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                @else
+                @endif
             </div>
         </form>
     </div>

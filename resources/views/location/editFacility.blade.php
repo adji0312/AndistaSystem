@@ -12,12 +12,18 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/facility" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                         </li>
+                        @if(Auth::user()->role->facilities === 1|Auth::user()->role->facilities === 2)
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" onclick="saveFacility()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
                         </li>
+                        @else
+                        @endif
+                        @if(Auth::user()->role->facilities === 1)
                         <li class="nav-item">
                         <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#discardFacility" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/discard.png" alt="" style="width: 22px"> Discard</a>
                         </li>
+                        @else
+                        @endif
                       </ul>
                       <form class="d-flex" role="search">
                           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -76,7 +82,10 @@
                     <div class="mt-4 mb-4" id="unitContainer" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <div class="d-flex justify-content-between m-2">
                             <h5 class="m-3">Units Available</h5>
+                            @if(Auth::user()->role->facilities === 1|Auth::user()->role->facilities === 2)
                             <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addunitfacility"><i class="fas fa-plus"></i> Add</button>
+                            @else
+                            @endif
                         </div>
                         <div class="mx-4 table-responsive">
                             <table class="table">
@@ -108,8 +117,14 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center gap-2">
+                                                    @if(Auth::user()->role->facilities === 1|Auth::user()->role->facilities === 2)
                                                     <button type="button" class="btn btn-outline-success btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#updateUnit{{ $unit->id }}" onclick="updateUnit({{ $unit->id }})"><i class="fas fa-pencil-alt"></i> Update</button>
+                                                    @else
+                                                    @endif
+                                                    @if(Auth::user()->role->facilities === 1)
                                                     <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteUnit{{ $unit->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                    @else
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>

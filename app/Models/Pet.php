@@ -10,4 +10,8 @@ class Pet extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function customers(){
+       return $this->belongsTo(Customer::class);
+    }
 }

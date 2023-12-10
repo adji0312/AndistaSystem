@@ -185,6 +185,15 @@ function duplicatePriceService(){
 }
 
 var p = 0;
+var petTable = document.getElementById('petsDuplicate');
+function duplicatePetService(){
+    var clone = petTable.cloneNode(true);
+    clone.id = "petsDuplicate" + ++p;
+    let cloned = document.getElementById("afterPets").appendChild(clone);
+    console.log(cloned);
+}
+
+var p = 0;
 var phoneContent = document.getElementById('phoneDuplicate');
 function duplicatePhone(){
     var clone = phoneContent.cloneNode(true);
@@ -347,6 +356,48 @@ function submitTextBooking(){
 
 function editTextBooking(){
     let a = document.getElementById('editTextBooking').click();
+}
+
+//save customer
+function saveCustomer(){
+    let a = document.getElementById('submitCustomer').click();
+}
+
+function saveUpdateCustomer(){
+    let a = document.getElementById('saveUpdateCustomer').click();
+}
+
+function saveUpdateAccessControl(){
+    let a = document.getElementById('submitSaveUpdateAccessControl').click();
+}
+
+function savePets(){
+    console.log('clicked');
+    let a = document.getElementById('submitPets').click();
+}
+
+//save staff
+function saveStaff(){
+    let a = document.getElementById('submitStaff').click();
+}
+
+function saveUpdateStaff(){
+    let a = document.getElementById('saveUpdateStaff').click();
+}
+
+function saveStaff(){
+    console.log('clicked');
+    let a = document.getElementById('submitStaff').click();
+}
+
+//save product
+function saveProduct(){
+    let a = document.getElementById('submitProduct').click();
+}
+
+//save staff
+function saveStaff(){
+    let a = document.getElementById('submitStaff').click();
 }
 
 
@@ -1842,6 +1893,51 @@ function inputCategoryService(){
     }
 }
 
+function inputProductBrandService(){
+    let product_brand_name = document.getElementById('product_brand_name');
+
+    let buttonSubmitProductBrand = document.getElementById('saveBrand');
+    if(product_brand_name.value == null || product_brand_name.value == ''){
+        buttonSubmitProductBrand.disabled = true;
+    }else{
+        buttonSubmitProductBrand.disabled = false;
+    }
+}
+
+function inputPositionService(){
+    let product_brand_name = document.getElementById('product_brand_name');
+
+    let buttonSubmitProductBrand = document.getElementById('saveBrand');
+    if(product_brand_name.value == null || product_brand_name.value == ''){
+        buttonSubmitProductBrand.disabled = true;
+    }else{
+        buttonSubmitProductBrand.disabled = false;
+    }
+}
+
+function inputProductCategoryService(){
+    let product_brand_name = document.getElementById('category_name');
+
+    let buttonSubmitProductBrand = document.getElementById('saveCategoryProduct');
+    if(product_brand_name.value == null || product_brand_name.value == ''){
+        buttonSubmitProductBrand.disabled = true;
+    }else{
+        buttonSubmitProductBrand.disabled = false;
+    }
+}
+
+function inputProductSupplierService(){
+    let product_brand_name = document.getElementById('suppliers_name');
+
+    let buttonSubmitProductBrand = document.getElementById('saveSupplier');
+    if(product_brand_name.value == null || product_brand_name.value == ''){
+        buttonSubmitProductBrand.disabled = true;
+    }else{
+        buttonSubmitProductBrand.disabled = false;
+    }
+}
+
+
 function inpuDiagnosisService(){
     let diagnosis_name = document.getElementById('diagnosis_name');
 
@@ -1854,6 +1950,15 @@ function inpuDiagnosisService(){
 }
 
 
+//show Password
+function showPassword() {
+    var x = document.getElementById("typePasswordX");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
 
 
 

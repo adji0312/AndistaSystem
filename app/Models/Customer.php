@@ -24,8 +24,8 @@ class Customer extends Model
         return $this->hasOne(ClientGrup::class);
     }
 
-    public function subcustomer(){
-        return $this->hasOne(SubCustomer::class);
+    public function messeng(){
+        return $this->hasOne(MessengerType::class);
     }
 
     public function pets(){

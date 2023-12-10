@@ -5,17 +5,31 @@
         </div>
     </div>
     <ul class="list-unstyled components">
+        @if(Auth::user()->role->dashboard_location != 4)
         <li style="cursor: pointer" class="{{ ($title === "Location Dashboard") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/location" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Dashboard</a>
         </li>
+        @else
+
+        @endif
+        @if(Auth::user()->role->location_list != 4)
         <li style="cursor: pointer" class="{{ ($title === "Location List") ? 'active' : '' }}">
             <a id="locationslist" href="/location/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Locations List</a>
         </li>
+        @else
+
+        @endif
+        @if(Auth::user()->role->facilities != 4)
         <li style="cursor: pointer" class="{{ ($title === "Facility") ? 'active' : '' }}">
             <a id="locationsfacilities" href="/facility" class="px-4"><img src="/img/icon/facilities.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Facilities</a>
         </li>
+        @else
+        @endif
+        @if(Auth::user()->role->setting_location != 4)
         <li style="cursor: pointer" class="{{ ($title === "Setting Location") ? 'active' : '' }}">
             <a id="locationsfacilities" href="/location-setting" class="px-4"><img src="/img/icon/setting.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Setting</a>
         </li>
+        @else
+        @endif
     </ul>
 </nav>

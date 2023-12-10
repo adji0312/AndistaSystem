@@ -29,7 +29,7 @@ class ProductSeeder extends Seeder
                 "price"=>100000,
                 "stock"=>10,
                 "description"=>"pet meals",
-                "status"=>"available",
+                "status"=>"active",
             ],
             [
                 "category_id"=>"3",
@@ -45,7 +45,7 @@ class ProductSeeder extends Seeder
                 "price"=>100000,
                 "stock"=>10,
                 "description"=>"pet meals",
-                "status"=>"available",
+                "status"=>"active",
             ],
             [
                 "category_id"=>"2",
@@ -61,7 +61,7 @@ class ProductSeeder extends Seeder
                 "price"=>100000,
                 "stock"=>10,
                 "description"=>"pet meals",
-                "status"=>"available",
+                "status"=>"active",
             ],
             [
                 "category_id"=>"3",
@@ -77,7 +77,7 @@ class ProductSeeder extends Seeder
                 "price"=>100000,
                 "stock"=>10,
                 "description"=>"pet meals",
-                "status"=>"available",
+                "status"=>"active",
             ],
             [
                 "category_id"=>"2",
@@ -93,7 +93,7 @@ class ProductSeeder extends Seeder
                 "price"=>100000,
                 "stock"=>103,
                 "description"=>"pet meals",
-                "status"=>"available",
+                "status"=>"active",
             ],
             [
                 "category_id"=>"1",
@@ -109,7 +109,7 @@ class ProductSeeder extends Seeder
                 "price"=>100000,
                 "stock"=>108,
                 "description"=>"pet meals",
-                "status"=>"available",
+                "status"=>"active",
             ],
         ]);
     }

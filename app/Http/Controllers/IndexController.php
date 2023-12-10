@@ -420,7 +420,8 @@ class IndexController extends Controller
 
     public function profile(){
         return view('profile.index', [
-            "title" => "My Profile"
+            "title" => "My Profile",
+            "locations"=>Location::all(),
         ]);
     }
 

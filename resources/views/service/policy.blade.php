@@ -9,12 +9,18 @@
                     <a class="navbar-brand" href="#">{{ $title }}</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            @if(Auth::user()->role->service_policy === 1|Auth::user()->role->service_policy === 2)
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="/service/policy/add" style="color: #f28123"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
                             </li>
+                            @else
+                            @endif
+                            @if(Auth::user()->role->service_policy === 1)
                             <li class="nav-item" id="deleteButton" style="display: none;">
                                 <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#deletePolicy" onclick="clickDeleteButton()" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/trash.png" alt="" style="width: 22px"> Delete</a>
                             </li>
+                            @else
+                            @endif
                         </ul>
                         <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

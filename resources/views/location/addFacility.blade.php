@@ -9,12 +9,16 @@
                     <a class="navbar-brand" href="#">New Facility</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                           <li class="nav-item">
                               <a class="nav-link active" aria-current="page" href="/facility" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
+                          @if(Auth::user()->role->facilities === 1|Auth::user()->role->facilities === 2)
                           <li class="nav-item">
                               <a class="nav-link active" aria-current="page" onclick="saveFacility()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
                           </li>
+                          @else
+                          @endif
                       </ul>
                       <form class="d-flex" role="search">
                           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -100,9 +104,12 @@
                                 </div>
                             </div>
                         </div>
+                        @if(Auth::user()->role->customer_list === 1|Auth::user()->role->customer_list === 2)
                         <div class="m-3">
                             <button type="button" class="btn btn-sm btn-outline-dark insert_unit" id="insert_unit" onclick="duplicateUnit()"><i class="fas fa-plus"></i> Add</button>
                         </div>
+                        @else
+                        @endif
                     </div>
                     <button type="submit" id="submitFacility" hidden></button>
                 </form>

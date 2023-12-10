@@ -84,7 +84,7 @@
         <div class="mx-3">
             <div class="dropdown">
                 <button class="btn text-white" style="background-color: transparent; outline: none;" type="button" data-bs-toggle="dropdown">
-                    <img src="/img/icon/profile.png" alt="" style="width: 22px"> Profile
+                    <img src="/img/icon/profile.png" alt="" style="width: 22px"> {{ Auth::user()->first_name }} - Profile
                 </button>
                 {{-- <a class="navbar-brand fs-5 text-white" href="/profile" data-bs-toggle="dropdown"><img src="/img/icon/profile.png" alt="" style="width: 22px"> Profile</a> --}}
                 <ul class="dropdown-menu">

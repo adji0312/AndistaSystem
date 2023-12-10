@@ -31,7 +31,9 @@ class StaffSeeder extends Seeder
                 'messenger'=>'@jokoui',
                 'uuid'=> Str::uuid(),
                 'address'=>"Jl in aja dulu",
-                "shifts_id"=>"1"
+                "shifts_id"=>"1",
+                "password"=>bcrypt("12345678"),
+                "location_id"=>"1"
             ],
             [
                 'role_id'=>'2',
@@ -48,7 +50,9 @@ class StaffSeeder extends Seeder
                 'messenger'=>'@jokoui',
                 'uuid'=> Str::uuid(),
                 'address'=>"Jl in aja dulu",
-                "shifts_id"=>"1"
+                "shifts_id"=>"1",
+                "password"=>bcrypt("12345678"),
+                "location_id"=>"1"
             ],
             [
                 'role_id'=>'3',
@@ -65,7 +69,9 @@ class StaffSeeder extends Seeder
                 'messenger'=>'@jokoui',
                 'uuid'=> Str::uuid(),
                 'address'=>"Jl in aja dulu",
-                "shifts_id"=>"1"
+                "shifts_id"=>"1",
+                "password"=>bcrypt("12345678"),
+                "location_id"=>"1"
             ],
             [
                 'role_id'=>'4',
@@ -82,7 +88,9 @@ class StaffSeeder extends Seeder
                 'messenger'=>'@jokoui',
                 'uuid'=> Str::uuid(),
                 'address'=>"Jl in aja dulu",
-                "shifts_id"=>"1"
+                "shifts_id"=>"1",
+                "password"=>bcrypt("12345678"),
+                "location_id"=>"1"
             ],
             [
                 'role_id'=>'5',
@@ -99,7 +107,9 @@ class StaffSeeder extends Seeder
                 'messenger'=>'@jokoui',
                 'uuid'=> Str::uuid(),
                 'address'=>"Jl in aja dulu",
-                "shifts_id"=>"1"
+                "shifts_id"=>"1",
+                "password"=>bcrypt("12345678"),
+                "location_id"=>"1"
             ],
             [
                 'role_id'=>'6',
@@ -116,7 +126,9 @@ class StaffSeeder extends Seeder
                 'messenger'=>'@jokoui',
                 'uuid'=> Str::uuid(),
                 'address'=>"Jl in aja dulu",
-                "shifts_id"=>"1"
+                "shifts_id"=>"1",
+                "password"=>bcrypt("12345678"),
+                "location_id"=>"1"
             ],
             [
                 'role_id'=>'7',
@@ -133,7 +145,9 @@ class StaffSeeder extends Seeder
                 'messenger'=>'@jokoui',
                 'uuid'=> Str::uuid(),
                 'address'=>"Jl in aja dulu",
-                "shifts_id"=>"1"
+                "shifts_id"=>"1",
+                "password"=>bcrypt("12345678"),
+                "location_id"=>"1"
             ],
         ]);
     }
