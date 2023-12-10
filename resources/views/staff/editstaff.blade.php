@@ -128,7 +128,7 @@
                             <div class="mb-3">
                                 <label for="messenger_type" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Messenger</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="messenger_id" id="messenger_id" >
-                                    <option value="{{ $staff->messengerId }}" class="selectstatus" style="color: black;" selected >{{ $umessengerType->type_name }}</option>
+                                    <option value="{{ $staff->messengerId }}" class="selectstatus" style="color: black;" selected >{{ $umessengerType->type_name ?? '' }}</option>
                                     @foreach ($messengerType as $mt)
                                         <option value="{{ $mt->id }}" class="selectstatus" style="color: black;">{{ $mt->type_name }}</option>
                                     @endforeach
@@ -152,7 +152,7 @@
                             <div class="mb-3">
                                 <label for="shifts_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Shifts</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="shifts_id" id="shifts_id" >
-                                    <option value="{{ $staff->id }}" class="selectstatus" style="color: black;" selected>{{ $ushift->shift_name }}</option>
+                                    <option value="{{ $staff->id }}" class="selectstatus" style="color: black;" selected>{{ $ushift->shift_name ?? '' }}</option>
                                     @foreach ($shift as $s)
                                         <option value="{{ $s->id }}" class="selectstatus" style="color: black;">{{ $s->shift_name }}</option>
                                     @endforeach
