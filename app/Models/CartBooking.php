@@ -27,5 +27,9 @@ class CartBooking extends Model
         return $this->belongsTo(SubBook::class, 'sub_booking_id');
     }
 
+    public function booking(){
+        return $this->belongsTo(Booking::class, 'booking_id');
+    }
+
 
 }

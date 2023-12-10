@@ -17,6 +17,7 @@ use App\Models\LocationContactEmail;
 use App\Models\LocationContactMessenger;
 use App\Models\LocationContactPhone;
 use App\Models\MessengerType;
+use App\Models\Pet;
 use App\Models\Plan;
 use App\Models\Policy;
 use App\Models\Product;
@@ -259,14 +260,19 @@ class IndexController extends Controller
     public function detailinvoice($name){
 
         $sale = Sale::all()->where('status', 1)->where('no_invoice', $name)->first();
+        // dd($sale->booking->customer->pets);
         $bookingService = BookingService::all()->where('booking_id', $sale->booking_id)->first();
         $item = $sale->booking;
+        $staff = Staff::all()->where('status', 'Active');
+        $subAccount = Pet::all()->where('customer_id', $sale->booking->customer->id);
 
         return view('finance.detailsalelistunpaid', [
             "title" => "Sale List Unpaid",
             "sale" => $sale,
             "bookingService" => $bookingService,
-            "item" => $item
+            "item" => $item,
+            "staffs" => $staff,
+            "subAccount" => $subAccount
         ]);
     }
 

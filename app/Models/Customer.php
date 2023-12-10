@@ -27,4 +27,8 @@ class Customer extends Model
     public function subcustomer(){
         return $this->hasOne(SubCustomer::class);
     }
+
+    public function pets(){
+        return $this->hasMany(Pet::class);
+    }
 }

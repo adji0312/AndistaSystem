@@ -260,10 +260,13 @@ Route::post('/addStatistic', [BookingController::class, 'addStatistic']);
 
 //Detail Booking
 Route::post('/addCartProduct', [CartBookingController::class, 'addCartProduct']);
+Route::post('/addCartProduct2', [CartBookingController::class, 'addCartProduct2']);
 Route::post('/addCartService', [CartBookingController::class, 'addCartService']);
 Route::post('/addBookingDiagnosis', [BookingController::class, 'addBookingDiagnosis']);
 Route::post('/updateCartBooking/{id}', [CartBookingController::class, 'updateCartBooking']);
+Route::post('/updateCartBooking2/{id}', [CartBookingController::class, 'updateCartBooking2']);
 Route::get('/deleteCartBooking/{id}', [CartBookingController::class, 'deleteCartBooking']);
+Route::get('/deleteCartBooking2/{id}', [CartBookingController::class, 'deleteCartBooking2']);
 Route::post('/saveCartBooking/{id}', [CartBookingController::class, 'saveCartBooking']);
 Route::post('/submitTextBooking', [CartBookingController::class, 'submitTextBooking']);
 Route::post('/editTextBooking/{id}', [CartBookingController::class, 'editTextBooking']);

@@ -597,7 +597,7 @@ class BookingController extends Controller
                 }else{ //sales pertama lebih dari 1 subbooking
                     
                     if($lastPenjualan){
-                        dd("a");
+                        // dd("a");
                     }else{//ini yg save pertama kali
                         $sales = new Sale();
                         if($lastSales == null || $lastSales == ''){

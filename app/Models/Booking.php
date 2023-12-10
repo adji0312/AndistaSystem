@@ -43,4 +43,8 @@ class Booking extends Model
     public function subbookings(){
         return $this->hasMany(SubBook::class);
     }
+
+    public function sale(){
+        return $this->hasMany(Sale::class);
+    }
 }
