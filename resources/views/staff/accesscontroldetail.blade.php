@@ -442,7 +442,7 @@
                 <div class="mb-3">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_list" id="service_list">
-                      <option value="{{ $roles->service_list }}" class="selectstatus" style="color: black;" selected disabled>@if($roles->service_list === 1)
+                      <option value="{{ $roles->service_list }}" class="selectstatus" style="color: black;" selected>@if($roles->service_list === 1)
                         Full
                       @elseif($roles->service_list === 2)
                         Write
@@ -658,7 +658,7 @@
                 <div class="mb-3">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_brand" id="product_brand">
-                      <option value="{{ $roles->product_brand }}" class="selectstatus" style="color: black;" selected disabled>@if($roles->product_brand === 1)
+                      <option value="{{ $roles->product_brand }}" class="selectstatus" style="color: black;" selected>@if($roles->product_brand === 1)
                         Full
                       @elseif($roles->product_brand === 2)
                         Write
@@ -687,7 +687,7 @@
                 <div class="mb-3">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_category" id="product_category">
-                      <option value="{{ $roles->product_category }}" class="selectstatus" style="color: black;" selected disabled>@if($roles->product_category === 1)
+                      <option value="{{ $roles->product_category }}" class="selectstatus" style="color: black;" selected>@if($roles->product_category === 1)
                         Full
                       @elseif($roles->product_category === 2)
                         Write
@@ -815,7 +815,7 @@
                 <div class="mb-3">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="facilities" id="facilities">
-                      <option value="{{ $roles->facilities }}" class="selectstatus" style="color: black;" selected disabled>@if($roles->facilities === 1)
+                      <option value="{{ $roles->facilities }}" class="selectstatus" style="color: black;" selected >@if($roles->facilities === 1)
                         Full
                       @elseif($roles->facilities === 2)
                         Write
@@ -1141,7 +1141,7 @@
                 <div class="mb-3">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="absent" id="absent">
-                      <option value="{{ $roles->absent }}" class="selectstatus" style="color: black;" selected disabled>@if($roles->absent === 1)
+                      <option value="{{ $roles->absent }}" class="selectstatus" style="color: black;" selected>@if($roles->absent === 1)
                         Full
                       @elseif($roles->absent === 2)
                         Write

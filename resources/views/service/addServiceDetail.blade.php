@@ -13,12 +13,18 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/service/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                         </li>
+                        @if(Auth::user()->role->service_list === 1|Auth::user()->role->service_list === 1)
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" onclick="saveFacility()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
                         </li>
+                        @else
+                        @endif
+                        @if(Auth::user()->role->service_list === 1|Auth::user()->role->service_list === 2)
                         <li class="nav-item">
                             <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#discardChange" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/discard.png" alt="" style="width: 22px"> Discard</a>
                         </li>
+                        @else
+                        @endif
                       </ul>
                       <form class="d-flex" role="search">
                           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -134,7 +140,10 @@
                 <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                     <div class="d-flex m-2">
                         <h5 class="m-3">Prices</h5>
+                        @if(Auth::user()->role->service_list === 1|Auth::user()->role->service_list === 2)
                         <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addPriceService"><i class="fas fa-plus"></i> Add</button>
+                        @else
+                        @endif
                     </div>
 
                     <div class="mx-4 table-responsive">
@@ -164,8 +173,14 @@
                                         <td>{{ $ps->price_title }}</td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-2">
+                                                @if(Auth::user()->role->service_list === 1|Auth::user()->role->service_list === 2)
                                                 <button type="button" class="btn btn-outline-success btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#updatePriceService{{ $ps->id }}"><i class="fas fa-pencil-alt"></i> Update</button>
+                                                @else
+                                                @endif
+                                                @if(Auth::user()->role->service_list === 1)  
                                                 <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deletePriceService{{ $ps->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                @else
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -186,7 +201,10 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                    @if(Auth::user()->role->service_list === 1)
                                                     <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                                    @else
+                                                    @endif
                                                 </div>
                                             </form>
                                           </div>
@@ -257,7 +275,10 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                    @if(Auth::user()->role->service_list === 1)
                                                     <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                                    @else
+                                                    @endif
                                                 </div>
                                             </form>    
                                           </div>
@@ -316,7 +337,10 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                    @if(Auth::user()->role->service_list === 1)
                                                     <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                                    @else
+                                                    @endif
                                                 </div>
                                             </form>
                                           </div>
@@ -359,9 +383,12 @@
                                         <td>{{ $sf->facility->capacity }}</td>
                                         <td>{{ $sf->facility->units->where('unit_status', "Active")->count() }}</td>
                                         <td>
+                                            @if(Auth::user()->role->service_list === 1)
                                             <div class="d-flex justify-content-center gap-2">
                                                 <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteFacilityService{{ $sf->id }}"><i class="fas fa-trash"></i> Delete</button>
                                             </div>
+                                            @else
+                                            @endif
                                         </td>
                                     </tr>
 
@@ -381,7 +408,10 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                    @if(Auth::user()->role->service_list === 1)
                                                     <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                                    @else
+                                                    @endif
                                                 </div>
                                             </form>
                                           </div>
@@ -441,7 +471,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    @if(Auth::user()->role->service_list === 1|Auth::user()->role->service_list === 2)
                     <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                    @else
+                    @endif
                 </div>
             </form>    
           </div>
@@ -488,7 +521,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                        @if(Auth::user()->role->service_list === 1|Auth::user()->role->service_list === 2)
                         <button type="submit" class="btn btn-sm btn-outline-primary" id="staffSave"><i class="fas fa-save"></i> Save changes</button>
+                        @else
+                        @endif
                     </div>
                 </form>
             </div>
@@ -536,7 +572,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                        @if(Auth::user()->role->service_list === 1|Auth::user()->role->service_list === 2)
                         <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                        @else
+                        @endif
                     </div>
                 </form>
             </div>
@@ -559,7 +598,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    @if(Auth::user()->role->service_list === 1|Auth::user()->role->service_list === 2)
                     <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Discard</button>
+                    @else
+                    @endif
                 </div>
             </form>
           </div>

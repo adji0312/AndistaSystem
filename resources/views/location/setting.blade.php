@@ -21,9 +21,12 @@
                         <div class="d-flex">
                             <h5 class="m-3">Usage Address</h5>
                         </div>
+                        @if(Auth::user()->role->setting_location === 1|Auth::user()->role->setting_location === 2)
                         <div class="m-3">
                             <button type="button" class="btn btn-sm btn-outline-dark insert_unit" data-bs-toggle="modal" data-bs-target="#addUsageAddress"><i class="fas fa-plus"></i> Add</button>
                         </div>
+                        @else
+                        @endif
                     </div>
                     <div class="m-3 mt-0 d-flex gap-5">
                         <table class="table">
@@ -95,9 +98,12 @@
                         <div class="d-flex">
                             <h5 class="m-3">Usage Contact</h5>
                         </div>
+                        @if(Auth::user()->role->setting_location === 1|Auth::user()->role->setting_location === 2)
                         <div class="m-3">
                             <button type="button" class="btn btn-sm btn-outline-dark insert_unit" data-bs-toggle="modal" data-bs-target="#addUsageContact"><i class="fas fa-plus"></i> Add</button>
                         </div>
+                        @else
+                        @endif
                     </div>
                     <div class="m-3 mt-0 d-flex gap-5">
                         <table class="table">
@@ -169,9 +175,12 @@
                         <div class="d-flex">
                             <h5 class="m-3">Type Messenger</h5>
                         </div>
+                        @if(Auth::user()->role->setting_location === 1|Auth::user()->role->setting_location === 2)
                         <div class="m-3">
                             <button type="button" class="btn btn-sm btn-outline-dark insert_unit" data-bs-toggle="modal" data-bs-target="#addTypeMessenger"><i class="fas fa-plus"></i> Add</button>
                         </div>
+                        @else
+                        @endif
                     </div>
                     <div class="m-3 mt-0 d-flex gap-5">
                         <table class="table">
