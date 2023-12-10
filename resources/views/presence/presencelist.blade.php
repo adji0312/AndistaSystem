@@ -1,11 +1,13 @@
 @extends('main')
 @section('container')
 
+  
   <div class="wrapper">
     
     @include('presence.menu')
 
     <div id="contents">
+      @if(Auth::user()->role->presence_today != 4)
         <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">{{ $title }}</a>
@@ -45,6 +47,9 @@
               </tbody>
           </table>
         </div>    
+        @else
+        @endif
     </div>
+    
   </div>
 @endsection

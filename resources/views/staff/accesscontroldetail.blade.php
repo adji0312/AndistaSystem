@@ -687,7 +687,7 @@
                 <div class="mb-3">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_category" id="product_category">
-                      <option value="{{ $roles->product_category }}" class="selectstatus" style="color: black;" selected>@if($roles->product_category === 1)
+                      <option value="{{ $roles->product_category }}" class="selectstatus" style="color: black;" selected disabled>@if($roles->product_category === 1)
                         Full
                       @elseif($roles->product_category === 2)
                         Write
@@ -1148,6 +1148,35 @@
                       @elseif($roles->absent === 3)
                         Read
                       @elseif($roles->absent === 4)
+                        None
+                      @else
+                        Select Permission
+                      @endif</option>
+                      {{-- @foreach ($locations as $location)
+                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
+                      @endforeach --}}
+                      <option value="1" class="selectstatus" style="color: black;">Full</option>
+                      <option value="2" class="selectstatus" style="color: black;">Write</option>
+                      <option value="3" class="selectstatus" style="color: black;">Read</option>
+                      <option value="4" class="selectstatus" style="color: black;">None</option>
+                      </select>
+              </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row" style="color: #7C7C7C;width:300px">Absent</th>
+              <td>
+                {{-- Role Dropdown --}}
+                <div class="mb-3">
+                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
+                  <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="presence_today" id="presence_today">
+                      <option value="{{ $roles->presence_today }}" class="selectstatus" style="color: black;" selected>@if($roles->presence_today === 1)
+                        Full
+                      @elseif($roles->presence_today === 2)
+                        Write
+                      @elseif($roles->presence_today === 3)
+                        Read
+                      @elseif($roles->presence_today === 4)
                         None
                       @else
                         Select Permission

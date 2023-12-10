@@ -5,14 +5,18 @@
         </div>
     </div>
     <ul class="list-unstyled components">
+        {{-- @dd((Auth::user()->role->absent != 4))
         @if(Auth::user()->role->absent != 4)
         <li style="cursor: pointer" class="{{ ($title === "Absent") ? 'active' : '' }}">
             <a id="locationsdashboard" href="/presence" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Absent</a>
         </li>
         @else
-        @endif
+        @endif --}}
+        @if(Auth::user()->role->presence_today === 1 ||Auth::user()->role->presence_today === 2 ||Auth::user()->role->absent === 3  )
         <li style="cursor: pointer" class="{{ ($title === "Presence List") ? 'active' : '' }}">
             <a id="locationslist" href="/presence/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Presence Today</a>
         </li>
+        @else
+        @endif
     </ul>
 </nav>

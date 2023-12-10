@@ -198,7 +198,7 @@ Route::middleware('auth')->group(function () {
 
 
     //Presence
-    Route::get('/presence', [IndexController::class, 'absent']);
+    Route::get('/presence', [IndexController::class, 'presencelist']);
     Route::get('/presence/list', [IndexController::class, 'presencelist']);
     
     //Profile
