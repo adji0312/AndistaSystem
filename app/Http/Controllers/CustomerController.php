@@ -135,6 +135,23 @@ class CustomerController extends Controller
         ]);
     }
 
+    public function editPets($id){
+        $cust = Customer::find($id);
+        // $pets = Pet::where('customer_id','=',1)->get();
+        // @dd($pets);
+        // @dd($cust);
+        return view('customer.storeEditPetDetail', [
+            "title" => "Add Pets",
+            "customers" => Customer::find($id),
+            "locations" => Location::all(),
+            "locCurr"=>Location::find($cust->location_id),
+            "messengerType" => MessengerType::all(),
+            "messengerTypeCurr" => MessengerType::find(Customer::find($id)->messengerId),
+            "pets" => Pet::where('customer_id',$cust->id)?->get(),
+            "booking" => null
+        ]);
+    }
+
     public function discardCustomer($id){
         $customer = Customer::find($id);
         DB::table('pets')->where('customer_id', $customer->id)->delete();

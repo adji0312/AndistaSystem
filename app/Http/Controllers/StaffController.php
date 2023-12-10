@@ -81,6 +81,8 @@ class StaffController extends Controller
         $roles->calendar_calendar = $request->calendar_calendar;
         $roles->calendar_create_booking = $request->calendar_create_booking;
         $roles->calendar_list_booking = $request->calendar_list_booking;
+        //Customer
+        $roles->customer_list = $request->customer_list;
         //Staff
         // $roles->staff_dashboard = $request->staff_dashboard;
         $roles->staff_staff_list = $request->staff_staff_list;
@@ -329,5 +331,13 @@ class StaffController extends Controller
         $staff->update();
 
         return redirect('/')->with('success','Staff Updated Successfully');
+    }
+
+    public function resetPassword(Request $request, $id){
+        $staff = Staff::find($id);
+        $staff->password = bcrypt('12345678');
+        $staff->update();
+
+        return redirect('/staff/list')->with('success','Staff Password Reset Successfully');
     }
 }

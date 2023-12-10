@@ -240,6 +240,9 @@ Route::middleware('auth')->group(function () {
     //Staff Update Data
     Route::post('/saveUpdatedStaffInfo/{id}',[StaffController::class,'saveStaffUpdateInformation']);
 
+    //Staff Reset Password
+    Route::post('/resetPassword/{id}',[StaffController::class,'resetPassword']);
+
     //JOB
     Route::post('/addJob', [ProductController::class, 'addJob']);
     Route::get('/deleteJob',[ProductController::class,'deleteJob']);
@@ -262,6 +265,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/customer/list/add', [CustomerController::class,'addCustomer']);
     Route::post('/addCustomer', [CustomerController::class, 'store']);
     Route::get('/customer/list/edit/{id}',[CustomerController::class,'addPets']);
+    Route::get('/customer/list/saved/edit/{id}',[CustomerController::class,'editPets']);
     Route::post('/saveEditCustomer/{id}',[CustomerController::class, 'saveEditProcess']);
     //All About Pets
     Route::post('/addCustomerPets/{id}', [CustomerController::class, 'saveAddPets']);

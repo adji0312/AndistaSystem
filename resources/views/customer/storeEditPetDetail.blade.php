@@ -13,9 +13,9 @@
                           <li class="nav-item">
                               <a class="nav-link active" aria-current="page" href="/customer/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
-                          @if(Auth::user()->role->customer_list === 1|Auth::user()->role->customer_list === 2)
+                          @if(Auth::user()->role->customer_list === 1)
                           <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/discardCustomer/{{ $customers->id }}" style="color: #f28123; cursor: pointer;">Discard <img src="/img/icon/discard.png" alt="" style="width: 22px"></a>
+                            <a class="nav-link active" aria-current="page" href="/discardCustomer/{{ $customers->id }}" style="color: #f28123; cursor: pointer;">Delete <img src="/img/icon/discard.png" alt="" style="width: 22px"></a>
                             </li>
                         @else
                             @endif
