@@ -613,7 +613,11 @@
                                         <td><img src="/img/icon/product.png" alt="" style="width: 22px"> {{ $cart->product->product_name }}</td>
                                     @endif
                                     @if ($cart->product_id == null && $cart->service_id != null)
-                                        <td>Rp {{ number_format($cart->servicePrice->price) }}</td>
+                                        @if ($cart->total_price == null)
+                                            <td>Rp 0</td> 
+                                        @else
+                                            <td>Rp {{ number_format($cart->servicePrice->price) }}</td>
+                                        @endif
                                     @elseif ($cart->product_id != null && $cart->service_id == null)
                                         <td>Rp {{ number_format($cart->product->price) }}</td>
                                     @endif

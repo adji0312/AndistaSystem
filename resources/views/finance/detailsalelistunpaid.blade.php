@@ -44,6 +44,7 @@
                                         <th scope="col">Item Name</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col">Staff</th>
+                                        <th scope="col">Sub Account</th>
                                         <th scope="col">Price</th>
                                         <th scope="col" class="text-center">Action</th>
                                     </tr>
@@ -54,6 +55,7 @@
                                         <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $bookingService->service->service_name }}</td>
                                         <td>1</td>
                                         <td>{{ $bookingService->staff->first_name }}</td>
+                                        <td>-</td>
                                         <td>Rp {{ number_format($bookingService->servicePrice->price) }}</td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-2">
@@ -73,6 +75,7 @@
                                             @endif
                                             <td>{{ $item->quantity }}</td>
                                             <td>{{ $bookingService->staff->first_name }}</td>
+                                            <td>{{ $item->subBooking->pet->pet_name }}</td>
                                             <td>Rp {{ number_format($item->total_price) }}</td>
                                             <td>
                                                 <div class="d-flex justify-content-center gap-2">
