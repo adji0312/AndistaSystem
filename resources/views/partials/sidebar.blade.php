@@ -89,6 +89,7 @@
                 {{-- <a class="navbar-brand fs-5 text-white" href="/profile" data-bs-toggle="dropdown"><img src="/img/icon/profile.png" alt="" style="width: 22px"> Profile</a> --}}
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="/profile">My Account</a></li>
+                  <li><a class="dropdown-item" href="/qr-attendance">Attendace</a><li>
                   <li><a class="dropdown-item" href="/logout">Logout</a></li>
                 </ul>
             </div>
