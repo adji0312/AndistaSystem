@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('quotation_items', function (Blueprint $table) {
+        Schema::create('attach_notes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id');
-            $table->foreignId('quotation_id');
-            $table->foreignId('staff_id');
-            $table->integer('quantity');
-            $table->integer('price');
-            $table->integer('flag');
-            $table->string('method')->nullable();
+            $table->foreignId('booking_id');
+            $table->foreignId('sub_booking_id');
+            $table->string('file_name');
+            $table->string('image');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quotation_items');
+        Schema::dropIfExists('attach_notes');
     }
 };

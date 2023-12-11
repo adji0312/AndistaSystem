@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AlasanKunjungan;
+use App\Models\AttachNote;
 use App\Models\Booking;
 use App\Models\BookingDiagnosis;
 use App\Models\BookingNote;
@@ -484,6 +485,7 @@ class BookingController extends Controller
         $diagnosis = BookingDiagnosis::where('sub_booking_id', $booking->id)->get();
         $treatments = Plan::all();
         $servicePrice = ServicePrice::all();
+        $files = AttachNote::all();
         
         return view('calendar.bookingdetail', [
             'booking' => $booking,
@@ -495,7 +497,8 @@ class BookingController extends Controller
             'note' => $note,
             'bookingDiagnosis' => $diagnosis,
             'treatments' => $treatments,
-            'servicePrice' => $servicePrice
+            'servicePrice' => $servicePrice,
+            'files' => $files
         ]);
     }
 
@@ -863,6 +866,37 @@ class BookingController extends Controller
         // dd($bookingDiagnosis);
         $bookingDiagnosis->treatment_id = $request->treatment_id;
         $bookingDiagnosis->save();
+        return redirect()->back();
+    }
+
+    public function makePayment(Request $request){
+        // dd($request->all());
+        $sale = Sale::find($request->sale_id);
+
+        //kasus tidak ada biaya apa apa lagi
+        $sale->metode = $request->payment_method;
+        $sale->note = $request->payment_note;
+        $sale->status = 0;
+        $sale->save();
+
+        return redirect('/sale/list/paid');
+    }
+
+    public function attachFile(Request $request){
+
+        // dd($request->image->getClientOriginalName());
+
+        $validatedData = $request->validate([
+            'booking_id' => 'required',
+            'sub_booking_id' => 'required',
+        ]);
+        
+        if($request->file('image')){
+            $validatedData['image'] = $request->file('image')->store('public');
+            $validatedData['file_name'] = $request->image->getClientOriginalName();
+        }
+
+        AttachNote::create($validatedData);
         return redirect()->back();
     }
 }

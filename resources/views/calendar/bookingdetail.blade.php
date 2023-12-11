@@ -452,7 +452,11 @@
                             <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
                             <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
                             <input type="text" style="width: 50%" class="form-control" id="booking_diagnosis_id" placeholder="Search Diagnosis..." name="diagnosis_name">
-                            <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Add Diagnosis</button>
+                            @if ($booking->status == "Dimulai")
+                                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Add Diagnosis</button>
+                            @else
+                                <button type="submit" class="btn btn-outline-secondary btn-sm" disabled><i class="fas fa-save"></i> Add Diagnosis</button>
+                            @endif
                         </div>
                     </form>
                     @if (count($bookingDiagnosis))
@@ -544,14 +548,41 @@
                         @else
                             <button type="button" class="btn btn-sm btn-outline-primary m-2" onclick="editTextBooking()"><i class="fas fa-save"></i> Update</button>
                         @endif
+                        <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-paperclip"></i> Attach File</button>  
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Attach File</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="/attachFile" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <input type="text" hidden name="booking_id" value="{{ $booking->booking->id }}">
+                                        <input type="text" hidden name="sub_booking_id" value="{{ $booking->id }}">
+                                        <input type="file" class="form-control" name="image">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                    </div>
+                                </form>
+                              </div>
+                            </div>
+                        </div>
                     @else
                         @if (count($note) == 0)
                             <button type="button" class="btn btn-sm btn-outline-secondary m-2" disabled><i class="fas fa-save"></i> Save</button>
                         @else
                             <button type="button" class="btn btn-sm btn-outline-secondary m-2" disabled><i class="fas fa-save"></i> Update</button>
                         @endif
+                        <button type="button" class="btn btn-sm btn-outline-secondary m-2" disabled><i class="fas fa-paperclip"></i> Add Photo</button>  
                     @endif
+                    
+
                 </div>
+                
                 @if (count($note) == 0)
                     <form action="/submitTextBooking" method="POST">
                         @csrf
@@ -575,6 +606,34 @@
                         <button type="submit" hidden id="editTextBooking"></button>
                     </form>
                 @endif
+
+                <div class="m-3 d-flex flex-column gap-1">
+                    <?php $index = 0; ?>
+                    @foreach ($files->where('sub_booking_id', $booking->id) as $file)
+                        <?php $index += 1; ?>
+                        <div class="p-2" style="background-color: rgb(226, 240, 255); border-radius: 7px; width: 30%">
+                            <a class="text-primary" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#fileAttach{{ $file->id }}">{{ $index }}. {{ $file->file_name }}</a>
+                        </div>
+
+                        <div class="modal fade" id="fileAttach{{ $file->id }}" tabindex="-1" aria-labelledby="fileAttachLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="fileAttachLabel">File</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <?php $image = substr($files[$index-1]->image, 7); ?>
+                                    <img src="/storage/{{ $image }}" alt="" style="">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
             
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-4">
@@ -712,7 +771,7 @@
                                                         <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $cart->quantity }}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Price</label>
+                                                        <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Service Price</label>
                                                         <select class="form-select" aria-label="Default select example" name="service_price_id">
                                                             <option selected disabled>Select Price</option>
                                                             @foreach ($servicePrice->where('service_id', $cart->service_id) as $sp)

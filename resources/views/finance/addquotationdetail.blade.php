@@ -9,17 +9,13 @@
                     <a class="navbar-brand" href="#">{{ $quotation->quotation_name }}</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                          <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="/quotation/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" onclick="saveQuotation()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/quotation/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#makePayment" style="color: #f28123; cursor: pointer;"><img src="/img/icon/paid.png" alt="" style="width: 22px"> Paid</a>
                         </li>
                       </ul>
-                      <form class="d-flex" role="search">
-                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                          <button class="btn btn-outline-success" type="submit">Search</button>
-                      </form>
                     </div>
                 </div>
             </nav>
@@ -58,15 +54,17 @@
                             </div>
                             <div class="mb-3">
                               <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Customer</label>
-                              <input type="text" class="form-control @error('capacity') is-invalid @enderror" id="capacity" name="capacity" value="{{ $quotation->customer_id }}">
+                              <input type="text" class="form-control @error('capacity') is-invalid @enderror" id="capacity" name="capacity" value="{{ $quotation->customer->first_name }}" disabled>
                             </div>
                         </div>
                     </div>
-
+                </form>
                     <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <div class="d-flex justify-content-between m-2">
-                            <h5 class="m-3">Item</h5>
-                            <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addQuotationPrice"><i class="fas fa-plus"></i> Add</button>
+                            <div class="d-flex m-2">
+                                <h5 class="m-3">Item</h5>
+                                <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartProduct"><i class="fas fa-plus"></i> Add Product</button>
+                            </div>
                         </div>
     
                         <div class="mx-4 table-responsive">
@@ -75,34 +73,118 @@
                                     <tr>
                                         <th scope="col" style="width: 5%">No</th>
                                         <th scope="col">Item Name</th>
-                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Qty</th>
                                         <th scope="col">Staff</th>
                                         <th scope="col">Price</th>
                                         <th scope="col" class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <th>1</th>
-                                    <td>Whiskas</td>
-                                    <td>1</td>
-                                    <td>Adji Budhi Setyawan</td>
-                                    <td>Price</td>
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteFacilityService"><i class="fas fa-trash"></i> Delete</button>
+                                    <?php $index = 0; ?>
+                                    @foreach ($quoItem as $qi)
+                                        <?php $index += 1; ?>
+                                        <tr>
+                                            <th>{{ $index }}</th>
+                                            <td>{{ $qi->product->product_name }}</td>
+                                            <td>{{ $qi->quantity }}</td>
+                                            <td>{{ $qi->staff->first_name }}</td>
+                                            <td>Rp {{ number_format($qi->price) }}</td>
+                                            @if ($qi->flag == 1)
+                                                <td>
+                                                    <div class="d-flex justify-content-center gap-2">
+                                                        <button type="button" class="btn btn-outline-success btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#updateCartBooking{{ $qi->id }}"><i class="fas fa-pencil-alt"></i> Update</button>
+                                                        <button type="button" class="btn btn-outline-danger btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{ $qi->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                        <form action="/saveCartBooking3/{{ $qi->id }}" method="post" style="width: 100%">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-outline-primary btn-sm" style="width: 100%; height: 100%;"><i class="fas fa-save"></i> Save</button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            @else
+                                                <td>
+                                                    <div class="d-flex justify-content-center gap-2">
+                                                        <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{ $qi->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                    </div>
+                                                </td>
+                                            @endif
+                                        </tr>
+
+                                        <div class="modal fade" id="updateCartBooking{{ $qi->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Update Product Cart</h1>
+                                                </div>
+                                                <form action="/updateCartBooking3/{{ $qi->id }}" method="post">
+                                                    @csrf
+                                                    <input type="text" name="quotation_id" value="{{ $quotation->id }}" hidden>
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Stock Product</label>
+                                                            <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $qi->product->stock }}" disabled>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Quantity</label>
+                                                            <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $qi->quantity }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Staff</label>
+                                                            <select class="form-select" aria-label="Default select example" name="staff_id">
+                                                                <option selected disabled>Select Staff</option>
+                                                                @foreach ($staffs as $staff)
+                                                                    @if ($staff->id == $qi->staff_id)
+                                                                        <option value="{{ $staff->id }}" selected>{{ $staff->first_name }}</option>
+                                                                        @continue;
+                                                                    @endif
+                                                                    <option value="{{ $staff->id }}">{{ $staff->first_name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                                    </div>
+                                                </form>    
+                                            </div>
+                                            </div>
                                         </div>
-                                    </td>
+
+                                        <div class="modal fade" id="deleteCartBooking{{ $qi->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Item</h1>
+                                                    </div>
+                                                    
+                                                    <form action="/deleteCartBooking3/{{ $qi->id }}" method="GET">
+                                                        @csrf
+                                                        <div class="modal-body">
+                                                            <div class="mb-1">
+                                                                <small class="fs-6" style="font-weight: 300">Are you sure delete this item?</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     
-                    <div style="width: 35%;" class="float-end">
+                    <div style="width: 50%;" class="float-end">
                         <table class="table table-bordered">
                             <thead>
                               <tr>
                                 <th scope="col" class="text-end">Sub-total</th>
-                                <td colspan="2">Rp 100,000</td>
+                                <td colspan="2">Rp {{ number_format($quotation->total_price) }}</td>
                               </tr>
                             </thead>
                             <tbody>
@@ -117,39 +199,38 @@
                               </tr>
                               <tr>
                                 <th scope="row" class="text-end">Total Price</th>
-                                <td colspan="2">Rp 100,000</td>
+                                <td colspan="2">Rp {{ number_format($quotation->total_price) }}</td>
                               </tr>
                             </tbody>
                         </table>
                     </div>
-                </form>
+                {{-- </form> --}}
             </div>
         </div>
     </div>
 
-
-    <div class="modal fade" id="addQuotationPrice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addCartProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Add Item</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Product</h1>
             </div>
-            <form action="/addQuotationPrice" method="post">
+            <form action="/addCartProduct3" method="post">
                 @csrf
+                <input type="text" value="{{ $quotation->id }}" name="quotation_id" hidden>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="tax_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Item Name</label>
-                        <input type="text" class="form-control" id="tax_name" name="tax_name">
+                        <input type="text" class="form-control" id="product_id_cart" name="product_id" placeholder="Search here ...">
                     </div>
                     <div class="mb-3">
-                        <label for="tax_rate" class="form-label" style="font-size: 15px; color: #7C7C7C;">Quantity</label>
-                        <input type="number" class="form-control" id="tax_rate" name="tax_rate">
+                        <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Staff</label>
+                        <select class="form-select" aria-label="Default select example" name="staff_id">
+                            <option selected disabled>Select Staff</option>
+                            @foreach ($staffs as $staff)
+                                <option value="{{ $staff->id }}">{{ $staff->first_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="mb-3">
-                        <label for="tax_rate" class="form-label" style="font-size: 15px; color: #7C7C7C;">Staff</label>
-                        <input type="text" class="form-control" id="tax_rate" name="tax_rate">
-                    </div>
-                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>

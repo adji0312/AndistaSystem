@@ -12,6 +12,7 @@ use App\Http\Controllers\ListPlanController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MessengerTypeController;
+use App\Http\Controllers\PetController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\ProductController;
@@ -77,6 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/addTaxRate', [TaxRateController::class, 'store']);
     Route::post('/updateTaxRate/{id}', [TaxRateController::class, 'update']);
     Route::get('/deleteTax', [TaxRateController::class, 'deleteTax']);
+    Route::post('/makePayment', [BookingController::class, 'makePayment']);
     
     //Service
     Route::get('/service', [IndexController::class, 'serviceDashboard']);
@@ -239,13 +241,19 @@ Route::middleware('auth')->group(function () {
     //Detail Booking
     Route::post('/addCartProduct', [CartBookingController::class, 'addCartProduct']);
     Route::post('/addCartProduct2', [CartBookingController::class, 'addCartProduct2']);
+    Route::post('/addCartProduct3', [CartBookingController::class, 'addCartProduct3']);
     Route::post('/addCartService', [CartBookingController::class, 'addCartService']);
+    Route::post('/addCartService2', [CartBookingController::class, 'addCartService2']);
     Route::post('/addBookingDiagnosis', [BookingController::class, 'addBookingDiagnosis']);
     Route::post('/updateCartBooking/{id}', [CartBookingController::class, 'updateCartBooking']);
     Route::post('/updateCartBooking2/{id}', [CartBookingController::class, 'updateCartBooking2']);
+    Route::post('/updateCartBooking3/{id}', [CartBookingController::class, 'updateCartBooking3']);
     Route::get('/deleteCartBooking/{id}', [CartBookingController::class, 'deleteCartBooking']);
     Route::get('/deleteCartBooking2/{id}', [CartBookingController::class, 'deleteCartBooking2']);
+    Route::get('/deleteCartBooking3/{id}', [CartBookingController::class, 'deleteCartBooking3']);
     Route::post('/saveCartBooking/{id}', [CartBookingController::class, 'saveCartBooking']);
+    Route::post('/saveCartBooking2/{id}', [CartBookingController::class, 'saveCartBooking2']);
+    Route::post('/saveCartBooking3/{id}', [CartBookingController::class, 'saveCartBooking3']);
     Route::post('/submitTextBooking', [CartBookingController::class, 'submitTextBooking']);
     Route::post('/editTextBooking/{id}', [CartBookingController::class, 'editTextBooking']);
     Route::get('/deleteBookingDiagnosis/{id}', [BookingController::class, 'deleteBookingDiagnosis']);
@@ -372,6 +380,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/product/edit/{id}',[ProductController::class,'editProduct']);
     Route::post('/saveEditProduct/{id}',[ProductController::class,'saveEditProduct']);
     
+
+    //Attach File
+    Route::post('/attachFile', [BookingController::class, 'attachFile']);
     
     
     //Logout Controller

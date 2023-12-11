@@ -35,12 +35,12 @@
                     <thead>
                       <tr >
                         <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
-                        <th scope="col" style="color: #7C7C7C; width: 15%;">Name</th>
-                        <th scope="col" style="color: #7C7C7C; width: 15%;">Telephone</th>
-                        <th scope="col" style="color: #7C7C7C; width: 20%;">Email</th>
+                        <th scope="col" style="color: #7C7C7C;">Name</th>
+                        <th scope="col" style="color: #7C7C7C;">Telephone</th>
+                        <th scope="col" style="color: #7C7C7C;">Email</th>
                         {{-- <th scope="col" style="color: #7C7C7C; width: 40px;">Gender</th> --}}
-                        <th scope="col" style="color: #7C7C7C; width: 20px;">Job Title</th>
-                        <th scope="col" style="color: #7C7C7C; width: 20px;">Status</th>
+                        <th scope="col" style="color: #7C7C7C;">Job Title</th>
+                        <th scope="col" style="color: #7C7C7C;">Status</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -55,8 +55,7 @@
                             <td class="text-primary" style="cursor: pointer;"><a href="/staff/update-data/{{ $staff->id }}"> {{$staff->first_name }} {{ $staff->middle_name }} {{ $staff->last_name }}</a></td>
                             <td>{{ $staff->phone }}</td>
                             <td>{{ $staff->email }}</td>
-                            {{-- <td class="text-primary" style="cursor: pointer;">{{ $staff->gender }}</td> --}}
-                            <td>{{ optional($staff->roles)->role_name }}</td>
+                            <td>{{ $staff->position->position_name }}</td>
                             <td>{{ $staff->status }}</td>
                         </tr>
                         @endforeach

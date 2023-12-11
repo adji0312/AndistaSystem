@@ -302,7 +302,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col" style="width: 5%">No</th>
-                                    <th scope="col" style="width: 77%">Staff Name</th>
+                                    <th scope="col">Staff Name</th>
+                                    <th scope="col" style="width: 50%">Gender</th>
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -314,6 +315,7 @@
                                     <tr>
                                         <th>{{ $index2 }}</th>
                                         <td>{{ $s->staff->first_name }}</td>
+                                        <td>{{ $s->staff->gender }}</td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-2">
                                                 <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteStaffService{{ $s->id }}"><i class="fas fa-trash"></i> Delete</button>
@@ -503,18 +505,20 @@
                             
                             <tbody>
                                 @foreach ($staff as $s)
-                                    @if (App\Models\ServiceAndStaff::where('service_id', $service->id)->where('staff_id', $s->id)->exists())
-                                        @continue;
+                                    @if ($s->position->position_name == "Dokter Umum")
+                                        @if (App\Models\ServiceAndStaff::where('service_id', $service->id)->where('staff_id', $s->id)->exists())
+                                            @continue;
+                                        @endif
+                                        <tr>
+                                            <th>
+                                                <input type="hidden" value="{{ $service->id }}" name="service_id">
+                                                <input class="form-check-input" type="checkbox" value="{{ $s->id }}" id="staff_id" name="staff_id[]">
+                                            </th>
+                                            <td>{{ $s->first_name }}</td>
+                                            <td>{{ $s->gender }}</td>
+                                            <td>{{ $s->position->position_name }}</td>
+                                        </tr>
                                     @endif
-                                    <tr>
-                                        <th>
-                                            <input type="hidden" value="{{ $service->id }}" name="service_id">
-                                            <input class="form-check-input" type="checkbox" value="{{ $s->id }}" id="staff_id" name="staff_id[]">
-                                        </th>
-                                        <td>{{ $s->first_name }}</td>
-                                        <td>{{ $s->gender }}</td>
-                                        <td>Doctor</td>
-                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

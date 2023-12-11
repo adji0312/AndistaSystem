@@ -31,5 +31,9 @@ class CartBooking extends Model
         return $this->belongsTo(Booking::class, 'booking_id');
     }
 
+    public function staff(){
+        return $this->belongsTo(Staff::class, 'staff_id');
+    }
+
 
 }

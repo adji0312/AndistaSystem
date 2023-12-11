@@ -243,8 +243,11 @@ class IndexController extends Controller
     }
     
     public function salelistpaid(){
+
+        $sales = Sale::all()->where('status', 0);
         return view('finance.salelistpaid', [
-            "title" => "Sale List Paid"
+            "title" => "Sale List Paid",
+            "sales" => $sales
         ]);
     }
     public function salelistunpaid(){
@@ -272,7 +275,8 @@ class IndexController extends Controller
             "bookingService" => $bookingService,
             "item" => $item,
             "staffs" => $staff,
-            "subAccount" => $subAccount
+            "subAccount" => $subAccount,
+            "servicePrice" => ServicePrice::all(),
         ]);
     }
 

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('staff_id');
             $table->date('check_in');
             $table->date('check_out');
-            $table->string('status');
-            $table->integer('over_hour');
+            $table->string('status'); //checkin
+            $table->integer('over_hour');//telat disimpan disini
             $table->timestamps();
         });
     }

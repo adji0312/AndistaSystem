@@ -2027,3 +2027,7 @@ $("#rawat_inap").change(function(){
         value.value = '';
     }
 });
+
+function clickAddPhoto(){
+    console.log('2089123');
+}
