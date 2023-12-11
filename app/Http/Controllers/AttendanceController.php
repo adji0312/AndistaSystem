@@ -21,12 +21,14 @@ class AttendanceController extends Controller
         ]);
     }
 
-    public function attendancelistbylocation($name){
+    public function attendancelistbylocation(Request $request, $name){
+        // dd($request->all());
         $location = Location::where('location_name', $name)->first();
-        // dd($location);
         return view('attendance.attendancelistbylocation', [
             "title" => "Attendance List",
-            "location" => $location
+            "location" => $location,
+            "month" => $request->month,
+            "year" => $request->year,
         ]);
     }
 

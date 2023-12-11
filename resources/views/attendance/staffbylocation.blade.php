@@ -13,9 +13,9 @@
                             <li class="nav-item" style="cursor: pointer;">
                                 <a href="/attendance/managestaff" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Back</a>
                             </li>
-                            <li class="nav-item" style="cursor: pointer;">
+                            {{-- <li class="nav-item" style="cursor: pointer;">
                                 <a class="nav-link active" style="color: #f28123" data-bs-toggle="modal" data-bs-target="#filterModal"><img src="/img/icon/filter.png" alt="" style="width: 22px"> Filter</a>
-                            </li>
+                            </li> --}}
                         </ul>
                         <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

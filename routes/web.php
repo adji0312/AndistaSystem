@@ -383,6 +383,7 @@ Route::middleware('auth')->group(function () {
 
     //Attach File
     Route::post('/attachFile', [BookingController::class, 'attachFile']);
+    Route::get('/deleteAttach/{id}', [BookingController::class, 'deleteAttach']);
     
     
     //Logout Controller

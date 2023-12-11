@@ -21,8 +21,36 @@
                     </div>
                 </div>
             </nav>
-
+            
+            <div class="m-3">
+                @if ($month == 1)
+                    <h5>Report for January {{ $year }}</h5>
+                @elseif($month == 2)
+                    <h5>Report for February {{ $year }}</h5>
+                @elseif($month == 3)
+                    <h5>Report for March {{ $year }}</h5>
+                @elseif($month == 4)
+                    <h5>Report for April {{ $year }}</h5>
+                @elseif($month == 5)
+                    <h5>Report for May {{ $year }}</h5>
+                @elseif($month == 6)
+                    <h5>Report for June {{ $year }}</h5>
+                @elseif($month == 7)
+                    <h5>Report for July {{ $year }}</h5>
+                @elseif($month == 8)
+                    <h5>Report for August {{ $year }}</h5>
+                @elseif($month == 9)
+                    <h5>Report for September {{ $year }}</h5>
+                @elseif($month == 10)
+                    <h5>Report for October {{ $year }}</h5>
+                @elseif($month == 11)
+                    <h5>Report for November {{ $year }}</h5>
+                @elseif($month == 12)
+                    <h5>Report for December {{ $year }}</h5>
+                @endif
+            </div>
             <div id="dashboard" class="mx-3 mt-4">
+                
                 <table class="table">
                     <thead>
                       <tr>

@@ -35,7 +35,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-outline-primary m-3 mt-0 btn-sm" id="buttonfilter" disabled>Submit</button>
+                        <button type="submit" class="btn btn-outline-primary m-3 mt-0 btn-sm" id="buttonfilter">Submit</button>
                     </div>
 
                     <button type="submit" hidden id="gotolocation"></button>

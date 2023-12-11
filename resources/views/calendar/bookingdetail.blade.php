@@ -612,7 +612,10 @@
                     @foreach ($files->where('sub_booking_id', $booking->id) as $file)
                         <?php $index += 1; ?>
                         <div class="p-2" style="background-color: rgb(226, 240, 255); border-radius: 7px; width: 30%">
-                            <a class="text-primary" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#fileAttach{{ $file->id }}">{{ $index }}. {{ $file->file_name }}</a>
+                            <div class="d-flex justify-content-between">
+                                <a class="text-primary" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#fileAttach{{ $file->id }}">{{ $index }}. {{ $file->file_name }}</a>
+                                <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAttach{{ $file->id }}"><i class="fas fa-save"></i> Delete</button>
+                            </div>
                         </div>
 
                         <div class="modal fade" id="fileAttach{{ $file->id }}" tabindex="-1" aria-labelledby="fileAttachLabel" aria-hidden="true">
@@ -624,11 +627,35 @@
                                 </div>
                                 <div class="modal-body">
                                     <?php $image = substr($files[$index-1]->image, 7); ?>
-                                    <img src="/storage/{{ $image }}" alt="" style="">
+                                    <img src="/storage/{{ $image }}" alt="" style="width: 100%">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
                                 </div>
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="deleteAttach{{ $file->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Delete File</h1>
+                                </div>
+                                
+                                <form action="/deleteAttach/{{ $file->id }}" method="GET">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="mb-1">
+                                            {{-- <input type="text" id="deleteId"> --}}
+                                            <input type="text" hidden id="deleteId" name="deleteId" value="Hapus" class="form-control mt-1">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                    </div>
+                                </form>
                               </div>
                             </div>
                         </div>

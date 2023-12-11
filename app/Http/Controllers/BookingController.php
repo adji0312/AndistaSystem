@@ -25,6 +25,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Storage;
 
 class BookingController extends Controller
 {
@@ -512,7 +513,7 @@ class BookingController extends Controller
             if(count($booking->subbookings) > 1){
                 $subbooking->rawat_inap = 1;
                 $subbooking->booking_date = $request->booking_date;
-                $subbooking->booking_date = $request->duration;
+                $subbooking->duration = $request->duration;
                 $subbooking->save();
             }else{
                 $booking->rawat_inap = 0;
@@ -897,6 +898,18 @@ class BookingController extends Controller
         }
 
         AttachNote::create($validatedData);
+        return redirect()->back();
+    }
+
+    public function deleteAttach($id){
+
+        $file = AttachNote::find($id);
+        Storage::delete($file->image);
+        DB::table('attach_notes')->where('id', $file->id)->delete();
+        // dd($file);
+        // dd($request->image->getClientOriginalName());
+
+        // AttachNote::create($validatedData);
         return redirect()->back();
     }
 }
