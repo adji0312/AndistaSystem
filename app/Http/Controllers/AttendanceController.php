@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Location;
+use App\Models\OffDay;
 use App\Models\Shift;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends Controller
 {
@@ -55,5 +57,47 @@ class AttendanceController extends Controller
             "shifts" => Shift::all(),
             "location" => $location
         ]);
+    }
+
+    public function managedayoff(){
+        $dayoff = OffDay::all();
+
+        return view('attendance.dayoff', [
+            "title" => "Manage Day Off",
+            "shifts" => Shift::all(),
+            "locations" => Location::all(),
+            "dayoff" => $dayoff
+        ]);
+    }
+
+    public function storeDayOff(Request $request){
+        $dayoff = new OffDay();
+        $dayoff->name = $request->name;
+        $dayoff->tanggal_merah = $request->tanggal_merah;
+        $dayoff->save();
+        return redirect()->back();
+    }
+
+    public function editDayOff(Request $request, $id){
+        $dayoff = OffDay::find($id);
+        $dayoff->name = $request->name;
+        $dayoff->tanggal_merah = $request->tanggal_merah;
+        $dayoff->save();
+        return redirect()->back();
+    }
+
+    public function deleteDayOff(Request $request){
+        
+        $myString = $request->deleteId;
+        $myArray = explode(',', $myString);
+        // print_r(count($myArray));
+        $length = count($myArray);
+
+        for($i = 0 ; $i < $length ; $i++){
+            $dayoff = OffDay::find($myArray[$i]);
+            DB::table('off_days')->where('id', $dayoff->id)->delete();
+        }
+
+        return redirect()->back();
     }
 }

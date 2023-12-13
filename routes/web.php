@@ -173,6 +173,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance/workingshift', [AttendanceController::class, 'workingshift']);
     Route::get('/attendance/managestaff', [AttendanceController::class, 'managestaff']);
     Route::get('/attendance/managestaff/{name}', [AttendanceController::class, 'staffbylocation']);
+    Route::get('/attendance/managedayoff', [AttendanceController::class, 'managedayoff']);
+    Route::post('/addDayOff', [AttendanceController::class, 'storeDayOff']);
+    Route::post('/editDayOff/{id}', [AttendanceController::class, 'editDayOff']);
+    Route::get('/deleteDayOff', [AttendanceController::class, 'deleteDayOff']);
     
     //Shift
     Route::post('/addShift', [ShiftController::class, 'addshift']);
@@ -203,6 +207,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/presence', [IndexController::class, 'presencelist']);
     Route::get('/presence/list', [IndexController::class, 'presencelist']);
     Route::post('/presence/scan', [IndexController::class, 'presencescan']);
+    Route::post('/checkoutButton/{id}', [IndexController::class, 'checkoutButton']);
     
     //Profile
     Route::get('/profile', [IndexController::class, 'profile']);

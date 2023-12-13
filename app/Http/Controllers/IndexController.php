@@ -18,6 +18,7 @@ use App\Models\LocationContactEmail;
 use App\Models\LocationContactMessenger;
 use App\Models\LocationContactPhone;
 use App\Models\MessengerType;
+use App\Models\OffDay;
 use App\Models\Pet;
 use App\Models\Plan;
 use App\Models\Policy;
@@ -39,7 +40,9 @@ use Illuminate\Support\Facades\DB;
 use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
+use RealRashid\SweetAlert\Facades\Alert;
 
 use function PHPSTORM_META\map;
 
@@ -415,65 +418,177 @@ class IndexController extends Controller
         $timeDateNow = Date::now();
         $hourminute = date_format($timeDateNow ,"H:i");
         $timeDifference  = Carbon::parse($hourminute)->diffInMinutes(Carbon::parse($shiftTime));
+        $attendances = Attendance::latest()->get();
         // dd($timeDifference);
         return view('presence.presencelist', [
             "title" => "Presence List",
             "timeDifference" => $timeDifference,
-            "timeDateNow" => $hourminute
+            "timeDateNow" => $hourminute,
+            "attendances" => $attendances
         ]);
     }
 
     public function presencescan(Request $request){
-        $staff = Staff::all()->where('UUID', $request->qrid)->first();
-        
-        if($staff->shift->start_hour == "00:00"){
-            $attendance = new Attendance();
-            $attendance->staff_id = $staff->id;
-            // $attendance->check_in = "03:00";
-            $attendance->check_in = Carbon::now()->setTimezone('Australia/Sydney');
-            $checkTime = $attendance->check_in->format('H:i');
-            // dd($checkTime);
-            // dd( $staff->shift->end_hour);
 
-            if($checkTime > $staff->shift->end_hour){
-                // dd("normal");
-                $attendance->status = 'Normal';
-                $attendance->created_at = Date::now()->addDays(1);
-                $attendance->over_hour = 0;
-                $attendance->save();
-            }else{
-                // dd("late");
-                $attendance->status = 'Late';
-                // $hourminute = date_format($attendance->check_in ,"H:i");
-                $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-                // dd($timeDifference);
-                $attendance->over_hour = $timeDifference;
-                $attendance->save();
-            }
-        }else{
+        $staff = Staff::all()->where('UUID', $request->qrid)->first();
+        if($staff == null){
+            Alert::warning('Not Found', "Your QR ID doesn't exist!");
+            return redirect()->back();
+        }
+
+        $dayoff = OffDay::all()->where('tanggal_merah', date_format(Date::now(), 'Y-m-d'));
+        if($dayoff){
             $attendance = new Attendance();
             $attendance->staff_id = $staff->id;
-            $attendance->check_in = Date::now();
-            // $attendance->check_out = Date::now();
-            $attendance->status = '-';
+            $attendance->check_in = Carbon::now();
+            $attendance->status = 'Hari Libur';
             $attendance->over_hour = 0;
             $attendance->save();
+        }else{
+            $attendance = Attendance::latest()->where('staff_id', $staff->id)->first();
+            // dd($staff->shift);
+            if($attendance){
+                if($attendance->check_out == null){
+                    Alert::warning('Sorry', 'You already check in, please check out first!');
+                    return redirect('/presence');
+                }else{
+                    //cuma khusus shift yang start hour nya jam 00:00
+                    if($staff->shift->start_hour == "00:00"){
+                        $attendance = new Attendance();
+                        $attendance->staff_id = $staff->id;
+                        $attendance->check_in = Carbon::now();
+                        $checkTime = $attendance->check_in->format('H:i');
+                        // $checkTime = '00:00';
+                        // dd($checkTime);
+            
+                        if($checkTime > $staff->shift->end_hour){
+                            // dd("normal");
+                            $attendance->status = 'Normal';
+                            $attendance->over_hour = 0;
+                            $attendance->save();
+                        }else{
+                            if($checkTime == $staff->shift->start_hour){
+                                $attendance->status = 'Normal';
+                                $attendance->over_hour = 0;
+                                $attendance->save();
+                            }else{
+                                $attendance->status = 'Late';
+                                $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
+                                $attendance->over_hour = $timeDifference;
+                                $attendance->save();
+                            }
+                        }
+                    }else{
+
+                        // dd('here');
+                        $attendance = new Attendance();
+                        $attendance->staff_id = $staff->id;
+                        $attendance->check_in = Carbon::now();
+                        $checkTime = $attendance->check_in->format('H:i');
+                        // $checkTime = '08:01';
+                        // dd($checkTime);
+
+                        if($checkTime > $staff->shift->start_hour){
+                            // dd("late");
+                            $attendance->status = 'Late';
+                            $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
+                            $attendance->over_hour = $timeDifference;
+                            $attendance->save();
+                        }else{
+                            // dd("normal");
+                            $attendance->status = 'Normal';
+                            $attendance->over_hour = 0;
+                            $attendance->save();
+                        }
+                    }
+                }
+            }else{
+                //cuma khusus shift yang start hour nya jam 00:00
+                if($staff->shift->start_hour == "00:00"){
+                    $attendance = new Attendance();
+                    $attendance->staff_id = $staff->id;
+                    $attendance->check_in = Carbon::now();
+                    $checkTime = $attendance->check_in->format('H:i');
+                    // $checkTime = '00:00';
+                    // dd($checkTime);
+        
+                    if($checkTime > $staff->shift->end_hour){
+                        $attendance->status = 'Normal';
+                        $attendance->over_hour = 0;
+                        $attendance->save();
+                    }else{
+                        if($checkTime == $staff->shift->start_hour){
+                            $attendance->status = 'Normal';
+                            $attendance->over_hour = 0;
+                            $attendance->save();
+                        }else{
+                            $attendance->status = 'Late';
+                            $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
+                            $attendance->over_hour = $timeDifference;
+                            $attendance->save();
+                        }
+                    }
+                }else{
+
+                    // dd('here');
+                    $attendance = new Attendance();
+                    $attendance->staff_id = $staff->id;
+                    $attendance->check_in = Carbon::now();
+                    $checkTime = $attendance->check_in->format('H:i');
+                    // $checkTime = '08:01';
+                    // dd($checkTime);
+
+                    if($checkTime > $staff->shift->start_hour){
+                        // dd("late");
+                        $attendance->status = 'Late';
+                        $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
+                        $attendance->over_hour = $timeDifference;
+                        $attendance->save();
+                    }else{
+                        // dd("normal");
+                        $attendance->status = 'Normal';
+                        $attendance->over_hour = 0;
+                        $attendance->save();
+                    }
+                }
+            }
         }
+        
         // dd(Date::now());
+        Alert::success('Success', 'You have successfully checked in!');
         return redirect()->back();
     }
 
+    public function checkoutButton(Request $request, $id){
+        $attendance = Attendance::find($id);
+        $staff = Auth::user();
+        $attendance->check_out = Carbon::now();
+        $checkTime = $attendance->check_out->format('H:i');
+        $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->end_hour));
+        $attendance->duration_work = $timeDifference;
+        $attendance->save();
+        Alert::success('Success', 'You have successfully check out!');
+        return redirect()->back();
+        // dd($request->all());
+        // dd($attendance);
+    }
+
     public function profile(){
+        // dd(Auth::user()->id);
+        $attendances = Attendance::latest()->where('staff_id', Auth::user()->id)->paginate(20)->withQueryString();
+        $dayoff = OffDay::all()->where('tanggal_merah', date_format(Date::now(), 'Y-m-d'));
         return view('profile.index', [
             "title" => "My Profile",
             "locations"=>Location::all(),
+            "attendances" => $attendances,
+            "dayoff" => $dayoff
         ]);
     }
 
     function selectService(Request $request){
         // dd($request->service_id); 
         $plan = Plan::find($request->plan_id);
-        dd($plan);
+        // dd($plan);
         // dd($request->all());
         return view('service.listPlan', [
             'title' => 'List Plan',

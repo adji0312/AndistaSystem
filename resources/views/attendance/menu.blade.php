@@ -33,5 +33,13 @@
         @else
 
         @endif
+
+        @if(Auth::user()->role->manage_staff_shift != 4)
+        <li style="cursor: pointer" class="{{ ($title === "Manage Day Off") ? 'active' : '' }}">
+            <a id="locationslist" href="/attendance/managedayoff" class="px-4"><img src="/img/icon/holiday.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Manage Day Off</a>
+        </li>
+        @else
+
+        @endif
     </ul>
 </nav>
