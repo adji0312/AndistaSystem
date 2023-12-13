@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attendances', function (Blueprint $table) {
+        Schema::create('off_days', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('staff_id');
-            $table->date('check_in');
-            $table->date('check_out')->nullable();
-            $table->string('status'); //checkin
-            $table->integer('over_hour');//telat disimpan disini
-            $table->integer('duration_work');//lebih jam kerja
+            $table->date('tanggal_merah');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendances');
+        Schema::dropIfExists('off_days');
     }
 };

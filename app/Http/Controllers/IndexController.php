@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AlasanKunjungan;
+use App\Models\Attendance;
 use App\Models\Booking;
 use App\Models\BookingService;
 use App\Models\CategoryService;
@@ -420,6 +421,46 @@ class IndexController extends Controller
             "timeDifference" => $timeDifference,
             "timeDateNow" => $hourminute
         ]);
+    }
+
+    public function presencescan(Request $request){
+        $staff = Staff::all()->where('UUID', $request->qrid)->first();
+        
+        if($staff->shift->start_hour == "00:00"){
+            $attendance = new Attendance();
+            $attendance->staff_id = $staff->id;
+            // $attendance->check_in = "03:00";
+            $attendance->check_in = Carbon::now()->setTimezone('Australia/Sydney');
+            $checkTime = $attendance->check_in->format('H:i');
+            // dd($checkTime);
+            // dd( $staff->shift->end_hour);
+
+            if($checkTime > $staff->shift->end_hour){
+                // dd("normal");
+                $attendance->status = 'Normal';
+                $attendance->created_at = Date::now()->addDays(1);
+                $attendance->over_hour = 0;
+                $attendance->save();
+            }else{
+                // dd("late");
+                $attendance->status = 'Late';
+                // $hourminute = date_format($attendance->check_in ,"H:i");
+                $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
+                // dd($timeDifference);
+                $attendance->over_hour = $timeDifference;
+                $attendance->save();
+            }
+        }else{
+            $attendance = new Attendance();
+            $attendance->staff_id = $staff->id;
+            $attendance->check_in = Date::now();
+            // $attendance->check_out = Date::now();
+            $attendance->status = '-';
+            $attendance->over_hour = 0;
+            $attendance->save();
+        }
+        // dd(Date::now());
+        return redirect()->back();
     }
 
     public function profile(){

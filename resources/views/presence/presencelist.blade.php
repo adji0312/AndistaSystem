@@ -20,7 +20,11 @@
 
         <div id="dashboard" class="mx-3 mt-4">
           <div class="mb-3"> 
-            <input type="text" class="form-control mt-1 w-50" id="qrid" name="qrid" placeholder="scan qr here">
+            <form action="/presence/scan" method="POST">
+              @csrf
+              <input type="text" class="form-control mt-1 w-50" id="qrid" name="qrid" placeholder="scan qr here">
+              <button type="submit" hidden></button>
+            </form>
           </div>
           {{-- get date now --}}
           <small>jarak waktu = </small>{{ $timeDifference }} menit<br>
