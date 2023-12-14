@@ -17,6 +17,7 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\TaskController;
@@ -395,6 +396,14 @@ Route::middleware('auth')->group(function () {
     
     //Logout Controller
     Route::get('/logout',[LoginController::class,'logout']);
+
+    //Report
+    Route::get('/report/daily', [ReportController::class, 'daily']);
+    Route::get('/report/monthly', [ReportController::class, 'monthly']);
+    Route::get('/report/byProduct', [ReportController::class, 'byProduct']);
+    Route::get('/report/byServices', [ReportController::class, 'byServices']);
+    Route::get('/report/byStaff', [ReportController::class, 'byStaff']);
+    Route::get('/report/quotation', [ReportController::class, 'quotationReport']);
 });
 
 

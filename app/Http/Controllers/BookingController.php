@@ -36,7 +36,7 @@ class BookingController extends Controller
         return view('calendar.listbooking', [
             "title" => "List Booking",
             "locations" => Location::all()->where('status', 'Active'),
-            "bookings" => Booking::all()
+            "bookings" => Booking::latest()->paginate(30)->withQueryString()
         ]);
     }
 
@@ -50,7 +50,7 @@ class BookingController extends Controller
     // Jenis jenis booking
     public function bookingdarurat(){
         // dd($bookingdarurat);
-        $subBooks = SubBook::all();
+        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
         return view('calendar.darurat', [
             "title" => "Darurat",
             "bookings" => $subBooks
@@ -59,7 +59,7 @@ class BookingController extends Controller
 
     public function bookingterjadwal(){
         $bookingterjadwal = Booking::where('langsung_datang', 1)->get();
-        $subBooks = SubBook::all();
+        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
 
         return view('calendar.terjadwal', [
             "title" => "Terjadwal",
@@ -71,7 +71,7 @@ class BookingController extends Controller
 
         $bookingkedatangan = Booking::where('langsung_datang', 0)->get();
         
-        $subBooks = SubBook::all();
+        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
         $listkedatangan = DB::table('sub_books')->select('*')->join('bookings', 'bookings.id' , '=', 'sub_books.booking_id')->join('locations', 'locations.id', '=', 'bookings.location_id')->join('staff', 'staff.id', '=', 'bookings.staff_id')->where('bookings.langsung_datang', 0)->get();
         // dd($listkedatangan);
 
@@ -82,7 +82,7 @@ class BookingController extends Controller
     }
 
     public function bookingrawatinap(){
-        $subBooks = SubBook::all()->where('rawat_inap', 1);
+        $subBooks = SubBook::latest()->where('rawat_inap', 1)->paginate(30)->withQueryString();
         $now = Carbon::now();
         return view('calendar.rawatinap', [
             "title" => "Rawat Inap",
@@ -93,7 +93,7 @@ class BookingController extends Controller
 
     public function bookingmemulai(){
 
-        $subBooks = SubBook::all();
+        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
         return view('calendar.memulai', [
             "title" => "Memulai",
             "bookings" => $subBooks
@@ -101,7 +101,7 @@ class BookingController extends Controller
     }
 
     public function bookingselesai(){
-        $subBooks = SubBook::all();
+        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
         return view('calendar.selesai', [
             "title" => "Selesai",
             "bookings" => $subBooks
@@ -583,7 +583,7 @@ class BookingController extends Controller
                 $subbooking->ranap = 3;
                 $subbooking->save();
             }
-            
+
             $lastSales = DB::table('sales')->latest('created_at')->first();
             $lastPenjualan = Sale::all()->where('booking_id', $booking->id)->first();
 
