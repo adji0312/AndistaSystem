@@ -40,7 +40,8 @@
                 <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
                 <th scope="col" style="color: #7C7C7C">Name</th>
                 <th scope="col" style="color: #7C7C7C">Price </th>
-                <th scope="col" style="color: #7C7C7C">Created</th>
+                <th scope="col" style="color: #7C7C7C">Stock </th>
+                {{-- <th scope="col" style="color: #7C7C7C">Created</th> --}}
                 <th scope="col" style="color: #7C7C7C">Status</th>
                 {{-- <th scope="col" style="color: #7C7C7C">Action</th> --}}
                 {{-- <th scope="col" style="color: #7C7C7C">Pet Gender</th> --}}
@@ -57,8 +58,9 @@
                             </div>
                         </th> 
                         <td><a href="/product/edit/{{ $product->id }}" class="text-primary">{{ $product->product_name }}</a></td>
-                        <td>{{ $product->product_name}}</td>
-                        <td>{{ $product->price }}</td>
+                        {{-- <td>{{ $product->product_name}}</td> --}}
+                        <td>Rp {{ number_format($product->price) }}</td>
+                        <td>{{ $product->stock }}</td>
                         <td>{{ $product->status }}</td>
                         {{-- <td>
                             <div class="btn-group">

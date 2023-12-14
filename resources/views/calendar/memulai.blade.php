@@ -26,7 +26,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($bookings->where('status', 'Dimulai') as $booking)
+                    @foreach ($bookings->where('status', 'Dimulai')->where('rawat_inap', '!=', 1) as $booking)
                         @if ($booking->booking->temp == 1)
                             @continue
                         @endif

@@ -14,201 +14,30 @@
 
         <div id="dashboard" class="mx-3 mt-4">
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                <h5 class="m-3">Booking</h5>
-                <div class="m-3 d-flex flex-column">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                </div>
-            </div>
-            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-3">
-                <h5 class="m-3">Customer</h5>
-                <div class="m-3 d-flex flex-column">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                </div>
-            </div>
-            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-3">
-                <h5 class="m-3">Staff</h5>
-                <div class="m-3 d-flex flex-column">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                </div>
-            </div>
-            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-3">
-                <h5 class="m-3">Service</h5>
-                <div class="m-3 d-flex flex-column">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                </div>
-            </div>
-            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-3">
-                <h5 class="m-3">Product</h5>
-                <div class="m-3 d-flex flex-column">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                </div>
-            </div>
-            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-3">
-                <h5 class="m-3">Location</h5>
-                <div class="m-3 d-flex flex-column">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                </div>
-            </div>
-            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-3">
                 <h5 class="m-3">Finance</h5>
-                <div class="m-3 d-flex flex-column">
+                <div class="m-3 mb-0 d-flex flex-column">
                     <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
+                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;"><a href="/report/daily">Daily Audit</a></label>
                     </div>
                     <hr class="mt-0">
                     <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
+                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;"><a href="/report/monthly">Monthly Audit</a></label>
                     </div>
                     <hr class="mt-0">
                     <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
+                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;"><a href="/report/byProduct">Sales by Product</a></label>
                     </div>
                     <hr class="mt-0">
                     <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
+                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;"><a href="/report/byServices">Sales by Services</a></label>
                     </div>
                     <hr class="mt-0">
                     <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                </div>
-            </div>
-            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-3 mb-5">
-                <h5 class="m-3">Attendance</h5>
-                <div class="m-3 d-flex flex-column">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
+                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;"><a href="/report/byStaff">Sales by Staff</a></label>
                     </div>
                     <hr class="mt-0">
                     <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;">Treatment Name</label>
+                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;"><a href="/report/byStaff">Quotation</a></label>
                     </div>
                     <hr class="mt-0">
                 </div>

@@ -17,7 +17,11 @@
                                 <input type="text" hidden name="status" value="Dimulai">
                                 <button type="submit" class="btn btn-outline-primary btn-sm" style="height: 100%;">Mulai</button>
                             @elseif ($booking->status == "Dimulai")
-                                <button type="submit" class="btn btn-outline-success btn-sm" style="height: 100%;">Selesai</button>
+                                @if ($booking->booking->staff_id == Auth::user()->id)
+                                    <button type="submit" class="btn btn-outline-success btn-sm" style="height: 100%;">Selesai</button>
+                                @else
+                                    <button type="submit" class="btn btn-outline-success btn-sm" style="height: 100%;" disabled>Selesai</button>
+                                @endif
                                 <input type="text" hidden name="status" value="Selesai">
                             @elseif ($booking->status == "Selesai")
 
@@ -25,26 +29,58 @@
                         </form>
                     @endif
                     @if ($booking->status == "Dimulai")
-                        @if ($booking->rawat_inap != 1)
-                            <button type="button" class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#rawatinap"><i class="fas fa-hospital"></i> Rawat Inap</button>
-                        @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->status != "di rawat inap")
+                        @if ($booking->booking->staff_id == Auth::user()->id)
+                            @if ($booking->rawat_inap != 1)
+                                <button type="button" class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#rawatinap"><i class="fas fa-hospital"></i> Rawat Inap</button>
+                            @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->ranap == 1) 
+                                <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                                    @csrf
+                                    <input type="text" hidden name="status" value="di rawat inap">
+                                    <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Mulai Rawat Inap</button>
+                                </form>
+                            @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->ranap == 2)
+                                <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                                    @csrf
+                                    <input type="text" hidden name="status" value="Selesai">
+                                    <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
+                                </form>
+                            @endif
+                        @else
+                            @if ($booking->rawat_inap != 1)
+                                <button type="button" class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#rawatinap" disabled><i class="fas fa-hospital"></i> Rawat Inap</button>
+                            @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->ranap == 1)
+                                <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                                    @csrf
+                                    <input type="text" hidden name="status" value="di rawat inap">
+                                    <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;" disabled><i class="fas fa-hospital"></i> Mulai Rawat Inap</button>
+                                </form>
+                            @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->ranap == 2)
+                                <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                                    @csrf
+                                    <input type="text" hidden name="status" value="Selesai">
+                                    <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;" disabled><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
+                                </form>
+                            @endif
+                        @endif
+                    {{-- @elseif($booking->status == "di rawat inap")   
+                        @if ($booking->booking->staff_id == Auth::user()->id)
                             <form action="/changeStatus/{{ $booking->id }}" method="POST">
                                 @csrf
-                                <input type="text" hidden name="status" value="di rawat inap">
-                                <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Mulai Rawat Inap</button>
+                                <input type="text" hidden name="status" value="Selesai">
+                                <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
                             </form>
-                        @endif
-                    @elseif($booking->status == "di rawat inap")    
-                        <form action="/changeStatus/{{ $booking->id }}" method="POST">
-                            @csrf
-                            <input type="text" hidden name="status" value="Selesai">
-                            <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
-                        </form>
+                        @else
+                            <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                                @csrf
+                                <input type="text" hidden name="status" value="Selesai">
+                                <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;" disabled><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
+                            </form>
+                        @endif --}}
                     @endif
                 </div>
             </div>
         </nav>
-
+        
         <div id="dashboard" class="mx-3 mt-3">
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                 @if ($booking->rawat_inap == 1)
@@ -64,12 +100,22 @@
                     </div>
                     <div class="m-3">
                         <h6 style="color: black; font-weight: 400">Total : Rp {{ number_format($booking->booking->total_price) }}</h6>
-                        @if ($booking->status == "Terkonfirmasi")
-                            <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97cbfe">{{ $booking->status }}</button></h6>
-                        @elseif ($booking->status == "Dimulai")
-                            <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #fee497">{{ $booking->status }}</button></h6>
-                        @elseif ($booking->status == "Selesai")
-                            <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97fe99">{{ $booking->status }}</button></h6>
+                        @if ($booking->rawat_inap == 1)
+                            @if ($booking->ranap == 1)
+                                <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97cbfe">Terkonfirmasi</button> (belum di rawat inap)</h6>
+                            @elseif ($booking->ranap == 2)
+                                <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #fee497">Di Rawat Inap</button></h6>
+                            @elseif ($booking->ranap == 3)
+                                <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97fe99">Selesai</button></h6>
+                            @endif
+                        @else
+                            @if ($booking->status == "Terkonfirmasi")
+                                <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97cbfe">{{ $booking->status }}</button></h6>
+                            @elseif ($booking->status == "Dimulai")
+                                <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #fee497">{{ $booking->status }}</button></h6>
+                            @elseif ($booking->status == "Selesai")
+                                <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97fe99">{{ $booking->status }}</button></h6>
+                            @endif
                         @endif
                         <h6 style="color: black; font-weight: 400">Alasan Kunjungan : {{ $booking->booking->alasan_kunjungan }}</h6>
                     </div>
@@ -77,7 +123,7 @@
                         <h6 style="color: black; font-weight: 400">Pemilik : {{ $booking->booking->customer->first_name }}</h6>
                         <div class="d-flex gap-1">
                             <h6 style="color: black; font-weight: 400">Hewan : {{ $booking->pet->pet_name }} ({{ $booking->pet->pet_type }})</h6>
-                            <small class="text-primary" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#exampleModal"> (info)</small>
+                            <small class="text-primary" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#infoHewan"> (info)</small>
                         </div>
                     </div>
                 </div>
@@ -90,14 +136,18 @@
                                     <td scope="col">Service Name</td>
                                     <td scope="col">Time</td>
                                     <td scope="col">Staff</td>
-                                    <td scope="col" style="width: 20%">Duration</td>
-                                    <td scope="col" style="width: 20%">Price (Rp)</td>
+                                    <td scope="col">Duration</td>
+                                    <td scope="col">Price (Rp)</td>
                                   </tr>
                                 </thead>
                                 <tbody>
                                     <td>{{ $booking->booking->services[0]->service->service_name }}</td>
                                     <td>{{ $booking->booking->services[0]->time }}</td>
-                                    <td>{{ $booking->booking->services[0]->staff->first_name }}</td>
+                                    @if ($booking->booking->services[0]->staff)
+                                        <td>{{ $booking->booking->services[0]->staff->first_name }}</td>
+                                    @else
+                                        <td>-</td>
+                                    @endif
                                     <td>{{ $booking->booking->services[0]->servicePrice->duration }} {{ $booking->booking->services[0]->servicePrice->duration_type }} ({{ $booking->booking->services[0]->servicePrice->price_title }})</td>
                                     <td>Rp {{ number_format($booking->booking->services[0]->servicePrice->price) }}</td>
                                 </tbody>
@@ -842,7 +892,9 @@
                 <div class="mb-3">
                     <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
                     <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
-                    <input type="text" name="staff_id" hidden value="{{ $booking->booking->staff->id }}">
+                    @if ($booking->booking->staff)
+                        <input type="text" name="staff_id" hidden value="{{ $booking->booking->staff->id }}">
+                    @endif
                     <input type="text" class="form-control" id="product_id_cart" name="product_id" placeholder="Search here ...">
                 </div>
             </div>
@@ -867,7 +919,9 @@
                 <div class="mb-3">
                     <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
                     <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
-                    <input type="text" name="staff_id" hidden value="{{ $booking->booking->staff->id }}">
+                    @if ($booking->booking->staff)
+                        <input type="text" name="staff_id" hidden value="{{ $booking->booking->staff->id }}">
+                    @endif
                     <input type="text" class="form-control" id="searchService" name="service_name" value="" placeholder="Search Service" required>
                 </div>
             </div>
@@ -880,7 +934,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="infoHewan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog">
     <div class="modal-content">
     <div class="modal-header">
@@ -935,10 +989,6 @@
                 <div class="mb-3">
                     <label for="booking_date" class="form-label" style="font-size: 15px; color: #7C7C7C;">Date</label>
                     <input type="date" class="form-control" id="booking_date" name="booking_date" required>
-                </div>
-                <div class="mb-3">
-                    <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration (days)</label>
-                    <input type="number" class="form-control" id="duration" name="duration" required>
                 </div>
             </div>
             <div class="modal-footer">

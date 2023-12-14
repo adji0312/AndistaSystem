@@ -21,7 +21,9 @@ use App\Models\ServiceAndStaff;
 use App\Models\ServicePrice;
 use App\Models\Statistic;
 use App\Models\SubBook;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
@@ -81,9 +83,11 @@ class BookingController extends Controller
 
     public function bookingrawatinap(){
         $subBooks = SubBook::all()->where('rawat_inap', 1);
+        $now = Carbon::now();
         return view('calendar.rawatinap', [
             "title" => "Rawat Inap",
-            "bookings" => $subBooks
+            "bookings" => $subBooks,
+            "now" => $now
         ]);
     }
 
@@ -506,22 +510,37 @@ class BookingController extends Controller
     public function changeStatus(Request $request, $id){
         // dd($request->all());
         $subbooking = SubBook::find($id);
+        // dd($subbooking->status);
         $booking = Booking::find($subbooking->booking_id);
+        $bookingService = BookingService::find($booking->services[0]->id);
+        
+        if($booking->services[0]->service_staff_id == null || $booking->staff_id == 0){
+            $booking->staff_id = Auth::user()->id;
+            $booking->save();
 
+            $bookingService->service_staff_id = Auth::user()->id;
+            $bookingService->save();
+        }
+
+        //ini untuk ubah status menjadi rawat inap
         if($request->status == "Rawat Inap"){
-
+            
             if(count($booking->subbookings) > 1){
+                // dd("lebih");
                 $subbooking->rawat_inap = 1;
                 $subbooking->booking_date = $request->booking_date;
-                $subbooking->duration = $request->duration;
+                $subbooking->duration = 1;
+                $subbooking->ranap = 1;
                 $subbooking->save();
             }else{
+                // dd("kurang");
                 $booking->rawat_inap = 0;
                 $booking->save();
 
                 $subbooking->rawat_inap = 1;
                 $subbooking->booking_date = $request->booking_date;
-                $subbooking->duration = $request->duration;
+                $subbooking->duration = 1;
+                $subbooking->ranap = 1;
                 $subbooking->save();
 
             }
@@ -530,13 +549,17 @@ class BookingController extends Controller
 
         if($subbooking->rawat_inap == 1 && $request->status == "di rawat inap"){
             if(count($booking->subbookings) > 1){
-                $subbooking->status = $request->status;
+                // $subbooking->status = $request->status;
+                $subbooking->ranap = 2;
+                $subbooking->booking_date = Date::now();
                 $subbooking->save();
             }else{
-                $booking->status = $request->status;
-                $booking->save();
+                // $booking->status = $request->status;
+                // $booking->save();
                 
-                $subbooking->status = $request->status;
+                // $subbooking->status = $request->status;
+                $subbooking->ranap = 2;
+                $subbooking->booking_date = Date::now();
                 $subbooking->save();
             }
         }
@@ -555,9 +578,16 @@ class BookingController extends Controller
                 $booking->save();
             }
         }elseif ($subbooking->status == "Dimulai" && $request->status == "Selesai"){
+
+            if($subbooking->rawat_inap == 1){
+                $subbooking->ranap = 3;
+                $subbooking->save();
+            }
+            
             $lastSales = DB::table('sales')->latest('created_at')->first();
             $lastPenjualan = Sale::all()->where('booking_id', $booking->id)->first();
 
+            // dd($lastSales);
             // kondisi sales pertama kali
             if($lastSales == null){
 

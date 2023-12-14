@@ -41,13 +41,18 @@
                         <tr>
                             <td class="align-middle">
                                 <a href="/booking/detail/{{ $booking->id }}" class="d-flex flex-column text-primary">
-                                    <?php $date = date_create($booking->booking->booking_date); ?>
+                                    <?php $date = date_create($booking->start_booking); ?>
                                     {{ date_format($date, 'd M Y') }} <br>
-                                    {{ $booking->booking->services[0]->time }}
+                                    {{ date_format($date, 'H:i') }}
                                 </a>
                             </td>
                             <td class="align-middle">
-                                {{ $booking->duration }}
+                                @if ($booking->ranap == 1)
+                                    -    
+                                @else
+                                    <?php $days = $now->diffInDays($booking->start_booking); ?>
+                                    {{ $days }}
+                                @endif
                             </td>
                             <td>
                                 <div class="d-flex flex-column align-middle">
@@ -66,14 +71,14 @@
                             <td class="align-middle">{{ $booking->booking->staff->first_name }}</td>
                             <td class="align-middle">{{ $booking->booking->location->location_name }}</td>
                             <td class="align-middle">
-                                @if ($booking->status == "dimulai")
-                                    <button type="button" class="btn btn-sm" style="background-color: #97cbfe;">Terkonfirmasi</button>
-                                @else
-                                    @if ($booking->status == "di rawat inap")
+                                @if ($booking->status == "Dimulai")
+                                    @if ($booking->ranap == 1)
+                                        <button type="button" class="btn btn-sm" style="background-color: #97cbfe;">Terkonfirmasi</button>
+                                    @elseif ($booking->ranap == 2)
                                         <button type="button" class="btn btn-sm" style="background-color: #fee497;">Di Rawat Inap</button>
-                                    @else
-                                        <button type="button" class="btn btn-sm" style="background-color: #cef9bf;">Selesai</button>
                                     @endif
+                                @elseif ($booking->status == "Selesai" && $booking->ranap == 3)
+                                    <button type="button" class="btn btn-sm" style="background-color: #cef9bf;">Selesai</button>
                                 @endif
                             </td>
                         </tr>

@@ -401,7 +401,7 @@ class IndexController extends Controller
 
     public function allReport(){
         return view('report.allreport', [
-            "title" => "All Report"
+            "title" => "Report"
         ]);
     }
 
