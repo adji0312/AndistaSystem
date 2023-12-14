@@ -23,6 +23,7 @@ use App\Models\Pet;
 use App\Models\Plan;
 use App\Models\Policy;
 use App\Models\Product;
+use App\Models\Quotation;
 use App\Models\Sale;
 use App\Models\Service;
 use App\Models\ServiceAndFacility;
@@ -64,7 +65,9 @@ class IndexController extends Controller
 
     public function locationDashboard(){
         return view('location.dashboard', [
-            "title" => "Location Dashboard"
+            "title" => "Location Dashboard",
+            "locations" => Location::all(),
+            "facilities" => Facility::all(),
         ]);
     }
     
@@ -101,7 +104,12 @@ class IndexController extends Controller
 
     public function serviceDashboard(){
         return view('service.dashboard', [
-            "title" => "Service Dashboard"
+            "title" => "Service Dashboard",
+            "services" => Service::all(),
+            "treatment" => Plan::all(),
+            "category" => CategoryService::all(),
+            "diagnosis" => Diagnosis::all(),
+            "policy" => Policy::all(),
         ]);
     }
 
@@ -242,7 +250,10 @@ class IndexController extends Controller
 
     public function financeDashboard(){
         return view('finance.dashboard', [
-            "title" => "Finance Dashboard"
+            "title" => "Finance Dashboard",
+            "totalSales" => Sale::all()->where('status', 0)->where('is_delete', 1)->sum('total_price'),
+            "totalQuotation" => Quotation::all()->where('is_delete', 1)->sum('total_price'),
+            "taxrate" => TaxRate::all()
         ]);
     }
     
