@@ -31,27 +31,54 @@
                       <tr>
                         <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
                         <th scope="col" style="color: #7C7C7C">Staff Name</th>
-                        <th scope="col" style="color: #7C7C7C">Staff Role</th>
+                        <th scope="col" style="color: #7C7C7C">Staff Position</th>
                         <th scope="col" style="color: #7C7C7C">Shift Name</th>
+                        <th scope="col" style="color: #7C7C7C" class="text-center">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>
-                                1
-                            </th>
-                            <td class="text-primary" style="cursor: pointer;">Dr. Adji Budhi</td>
-                            <td>Dokter Hewan</td>
-                            <td>Shift 1</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                2
-                            </th>
-                            <td>Dr. Adji Budhi</td>
-                            <td>Dokter Hewan</td>
-                            <td>Shift 3</td>
-                        </tr>
+                        @foreach ($staff as $key => $st)
+                            <tr>
+                                <th>{{ $staff->firstItem() + $key }}</th>
+                                <td>{{ $st->first_name }}</td>
+                                <td>{{ $st->position->position_name }}</td>
+                                <td>{{ $st->shift->shift_name }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-success btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#updateShift{{ $st->id }}"><i class="fas fa-pencil-alt"></i> Update</button>
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="updateShift{{ $st->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalLabel">Update Shift</h1>
+                                    </div>
+                                    <form action="/updateShift/{{ $st->id }}" method="post">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="shift_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Shift</label>
+                                                <select class="form-select" aria-label="Default select example" name="shift_id">
+                                                    @foreach ($shifts as $shift)
+                                                        @if ($shift->id == $st->shift->id)
+                                                            <option selected value="{{ $shift->id }}">{{ $shift->shift_name }}</option>
+                                                            @continue;
+                                                        @endif
+                                                        <option value="{{ $shift->id }}">{{ $shift->shift_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                        </div>
+                                    </form>    
+                                  </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

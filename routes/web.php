@@ -177,6 +177,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/addDayOff', [AttendanceController::class, 'storeDayOff']);
     Route::post('/editDayOff/{id}', [AttendanceController::class, 'editDayOff']);
     Route::get('/deleteDayOff', [AttendanceController::class, 'deleteDayOff']);
+    Route::post('/updateShift/{id}', [AttendanceController::class, 'updateShift']);
     
     //Shift
     Route::post('/addShift', [ShiftController::class, 'addshift']);

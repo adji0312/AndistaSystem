@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Location;
 use App\Models\OffDay;
 use App\Models\Shift;
+use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -51,11 +52,15 @@ class AttendanceController extends Controller
 
     public function staffbylocation($name){
         $location = Location::where('location_name', $name)->first();
+        $staff = Staff::latest()->where('location_id', $location->id)->paginate(20)->withQueryString();
+        $shifts = Shift::all();
         // dd($location);
         return view('attendance.staffbylocation', [
             "title" => "Manage Staff",
             "shifts" => Shift::all(),
-            "location" => $location
+            "location" => $location,
+            "staff" => $staff,
+            "shifts" => $shifts
         ]);
     }
 
@@ -97,6 +102,14 @@ class AttendanceController extends Controller
             $dayoff = OffDay::find($myArray[$i]);
             DB::table('off_days')->where('id', $dayoff->id)->delete();
         }
+
+        return redirect()->back();
+    }
+
+    public function updateShift(Request $request, $id){
+        $staffShift = Staff::find($id);
+        $staffShift->shifts_id = $request->shift_id;
+        $staffShift->save();
 
         return redirect()->back();
     }
