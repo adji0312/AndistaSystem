@@ -20,36 +20,54 @@
 
         <div id="dashboard" class="mx-3 mt-4">
           <div class="mb-3"> 
-            <input type="text" class="form-control mt-1 w-50" id="qrid" name="qrid" placeholder="scan qr here">
+            <form action="/presence/scan" method="POST">
+              @csrf
+              <input type="text" class="form-control mt-1 w-50" id="qrid" name="qrid" placeholder="scan qr here">
+              <button type="submit" hidden></button>
+            </form>
           </div>
-          {{-- get date now --}}
-          <small>jarak waktu = </small>{{ $timeDifference }} menit<br>
-          {{ $timeDateNow }}
-          <p class="mx-2" style="font-size: 18px; font-weight: 700; color: black;">{{ date_format(Date::now(),"d F Y") }}</p> 
           <table class="table w-100">
               <thead>
                 <tr >
                   <th scope="col" style="color: #7C7C7C;">Staff Name</th>
+                  <th scope="col" style="color: #7C7C7C;">Date</th>
                   <th scope="col" style="color: #7C7C7C;">Check In</th>
                   <th scope="col" style="color: #7C7C7C;">Check Out</th>
+                  <th scope="col" style="color: #7C7C7C;">Status</th>
                   <th scope="col" style="color: #7C7C7C;">Shift</th>
                   <th scope="col" style="color: #7C7C7C;">Location</th>
                 </tr>
               </thead>
               <tbody>
+                @foreach ($attendances as $attendance)
                   <tr>
-                      <td>Adji Budhi</td>
-                      <td>08:00 AM</td>
-                      <td>16:20 PM</td>
-                      <td>1</td>
-                      <td>Andista Animal Care</td>
+                      <td>{{ $attendance->staff->first_name }}</td>
+                      <td>{{ date_format($attendance->created_at, 'd M Y') }}</td>
+                      <td>{{ date_format($attendance->created_at, "H:i") }}</td>
+                      @if ($attendance->check_out == null)
+                        <td>-</td>
+                      @else
+                        <td>{{ date_format($attendance->updated_at, "H:i") }}</td>
+                      @endif
+                      @if ($attendance->status == "Normal")
+                          <td class="text-success">{{ $attendance->status }}</td>
+                      @elseif ($attendance->status == "Late")
+                          <td class="text-danger">{{ $attendance->status }} ({{ $attendance->over_hour }} minutes)</td>
+                      @else
+                          <td class="text-primary">{{ $attendance->status }}</td>
+                      @endif
+                      <td>{{ $attendance->staff->shift->shift_name }}</td>
+                      <td>{{ $attendance->staff->location->location_name }}</td>
                   </tr>
+                @endforeach
               </tbody>
           </table>
         </div>    
-        @else
-        @endif
+      @else
+      @endif
     </div>
     
   </div>
+
+  @include('sweetalert::alert')
 @endsection

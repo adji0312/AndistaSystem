@@ -27,7 +27,7 @@
         @endif
         @if(Auth::user()->role->setting_location != 4)
         <li style="cursor: pointer" class="{{ ($title === "Setting Location") ? 'active' : '' }}">
-            <a id="locationsfacilities" href="/location-setting" class="px-4"><img src="/img/icon/setting.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Setting</a>
+            <a id="locationsfacilities" href="/location-setting" class="px-4"><img src="/img/icon/setting.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Setting Usage</a>
         </li>
         @else
         @endif

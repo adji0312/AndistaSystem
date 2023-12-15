@@ -166,7 +166,7 @@
                             <div class="m-3 d-flex gap-5">
                                 <div class="mb-3">
                                     <label for="tax_rate_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tax</label>
-                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_rate_id" id="tax_rate_id" required>
+                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_rate_id" id="tax_rate_id">
                                         <option value="" class="selectstatus" style="color: black;" selected disabled>Select Tax Rate</option>
                                         
                                         @foreach ($tax as $t)

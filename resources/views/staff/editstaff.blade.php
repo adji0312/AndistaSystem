@@ -13,9 +13,9 @@
                           <li class="nav-item">
                               <a class="nav-link active" aria-current="page" href="/staff/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
-                          @if(Auth::user()->role->product_category === 1 || Auth::user()->role->product_category === 2)
+                          @if(Auth::user()->role->staff_staff_list === 1 || Auth::user()->role->staff_staff_list === 2)
                           <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" onclick="saveStaff()" style="color: #f28123; cursor: pointer;">Next <img src="/img/icon/continue.png" alt="" style="width: 22px"></a>
+                            <a class="nav-link active" aria-current="page" onclick="saveStaff()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
                         </li>
                         @else
                         @endif

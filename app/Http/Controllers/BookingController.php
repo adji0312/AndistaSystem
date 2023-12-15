@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AlasanKunjungan;
+use App\Models\AttachNote;
 use App\Models\Booking;
 use App\Models\BookingDiagnosis;
 use App\Models\BookingNote;
@@ -20,10 +21,13 @@ use App\Models\ServiceAndStaff;
 use App\Models\ServicePrice;
 use App\Models\Statistic;
 use App\Models\SubBook;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Storage;
 
 class BookingController extends Controller
 {
@@ -32,7 +36,7 @@ class BookingController extends Controller
         return view('calendar.listbooking', [
             "title" => "List Booking",
             "locations" => Location::all()->where('status', 'Active'),
-            "bookings" => Booking::all()
+            "bookings" => Booking::latest()->paginate(30)->withQueryString()
         ]);
     }
 
@@ -46,7 +50,7 @@ class BookingController extends Controller
     // Jenis jenis booking
     public function bookingdarurat(){
         // dd($bookingdarurat);
-        $subBooks = SubBook::all();
+        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
         return view('calendar.darurat', [
             "title" => "Darurat",
             "bookings" => $subBooks
@@ -55,7 +59,7 @@ class BookingController extends Controller
 
     public function bookingterjadwal(){
         $bookingterjadwal = Booking::where('langsung_datang', 1)->get();
-        $subBooks = SubBook::all();
+        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
 
         return view('calendar.terjadwal', [
             "title" => "Terjadwal",
@@ -67,7 +71,7 @@ class BookingController extends Controller
 
         $bookingkedatangan = Booking::where('langsung_datang', 0)->get();
         
-        $subBooks = SubBook::all();
+        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
         $listkedatangan = DB::table('sub_books')->select('*')->join('bookings', 'bookings.id' , '=', 'sub_books.booking_id')->join('locations', 'locations.id', '=', 'bookings.location_id')->join('staff', 'staff.id', '=', 'bookings.staff_id')->where('bookings.langsung_datang', 0)->get();
         // dd($listkedatangan);
 
@@ -78,16 +82,18 @@ class BookingController extends Controller
     }
 
     public function bookingrawatinap(){
-        $subBooks = SubBook::all()->where('rawat_inap', 1);
+        $subBooks = SubBook::latest()->where('rawat_inap', 1)->paginate(30)->withQueryString();
+        $now = Carbon::now();
         return view('calendar.rawatinap', [
             "title" => "Rawat Inap",
-            "bookings" => $subBooks
+            "bookings" => $subBooks,
+            "now" => $now
         ]);
     }
 
     public function bookingmemulai(){
 
-        $subBooks = SubBook::all();
+        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
         return view('calendar.memulai', [
             "title" => "Memulai",
             "bookings" => $subBooks
@@ -95,7 +101,7 @@ class BookingController extends Controller
     }
 
     public function bookingselesai(){
-        $subBooks = SubBook::all();
+        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
         return view('calendar.selesai', [
             "title" => "Selesai",
             "bookings" => $subBooks
@@ -484,6 +490,7 @@ class BookingController extends Controller
         $diagnosis = BookingDiagnosis::where('sub_booking_id', $booking->id)->get();
         $treatments = Plan::all();
         $servicePrice = ServicePrice::all();
+        $files = AttachNote::all();
         
         return view('calendar.bookingdetail', [
             'booking' => $booking,
@@ -495,29 +502,45 @@ class BookingController extends Controller
             'note' => $note,
             'bookingDiagnosis' => $diagnosis,
             'treatments' => $treatments,
-            'servicePrice' => $servicePrice
+            'servicePrice' => $servicePrice,
+            'files' => $files
         ]);
     }
 
     public function changeStatus(Request $request, $id){
         // dd($request->all());
         $subbooking = SubBook::find($id);
+        // dd($subbooking->status);
         $booking = Booking::find($subbooking->booking_id);
+        $bookingService = BookingService::find($booking->services[0]->id);
+        
+        if($booking->services[0]->service_staff_id == null || $booking->staff_id == 0){
+            $booking->staff_id = Auth::user()->id;
+            $booking->save();
 
+            $bookingService->service_staff_id = Auth::user()->id;
+            $bookingService->save();
+        }
+
+        //ini untuk ubah status menjadi rawat inap
         if($request->status == "Rawat Inap"){
-
+            
             if(count($booking->subbookings) > 1){
+                // dd("lebih");
                 $subbooking->rawat_inap = 1;
                 $subbooking->booking_date = $request->booking_date;
-                $subbooking->booking_date = $request->duration;
+                $subbooking->duration = 1;
+                $subbooking->ranap = 1;
                 $subbooking->save();
             }else{
+                // dd("kurang");
                 $booking->rawat_inap = 0;
                 $booking->save();
 
                 $subbooking->rawat_inap = 1;
                 $subbooking->booking_date = $request->booking_date;
-                $subbooking->duration = $request->duration;
+                $subbooking->duration = 1;
+                $subbooking->ranap = 1;
                 $subbooking->save();
 
             }
@@ -526,13 +549,17 @@ class BookingController extends Controller
 
         if($subbooking->rawat_inap == 1 && $request->status == "di rawat inap"){
             if(count($booking->subbookings) > 1){
-                $subbooking->status = $request->status;
+                // $subbooking->status = $request->status;
+                $subbooking->ranap = 2;
+                $subbooking->booking_date = Date::now();
                 $subbooking->save();
             }else{
-                $booking->status = $request->status;
-                $booking->save();
+                // $booking->status = $request->status;
+                // $booking->save();
                 
-                $subbooking->status = $request->status;
+                // $subbooking->status = $request->status;
+                $subbooking->ranap = 2;
+                $subbooking->booking_date = Date::now();
                 $subbooking->save();
             }
         }
@@ -551,9 +578,16 @@ class BookingController extends Controller
                 $booking->save();
             }
         }elseif ($subbooking->status == "Dimulai" && $request->status == "Selesai"){
+
+            if($subbooking->rawat_inap == 1){
+                $subbooking->ranap = 3;
+                $subbooking->save();
+            }
+
             $lastSales = DB::table('sales')->latest('created_at')->first();
             $lastPenjualan = Sale::all()->where('booking_id', $booking->id)->first();
 
+            // dd($lastSales);
             // kondisi sales pertama kali
             if($lastSales == null){
 
@@ -863,6 +897,49 @@ class BookingController extends Controller
         // dd($bookingDiagnosis);
         $bookingDiagnosis->treatment_id = $request->treatment_id;
         $bookingDiagnosis->save();
+        return redirect()->back();
+    }
+
+    public function makePayment(Request $request){
+        // dd($request->all());
+        $sale = Sale::find($request->sale_id);
+
+        //kasus tidak ada biaya apa apa lagi
+        $sale->metode = $request->payment_method;
+        $sale->note = $request->payment_note;
+        $sale->status = 0;
+        $sale->save();
+
+        return redirect('/sale/list/paid');
+    }
+
+    public function attachFile(Request $request){
+
+        // dd($request->image->getClientOriginalName());
+
+        $validatedData = $request->validate([
+            'booking_id' => 'required',
+            'sub_booking_id' => 'required',
+        ]);
+        
+        if($request->file('image')){
+            $validatedData['image'] = $request->file('image')->store('public');
+            $validatedData['file_name'] = $request->image->getClientOriginalName();
+        }
+
+        AttachNote::create($validatedData);
+        return redirect()->back();
+    }
+
+    public function deleteAttach($id){
+
+        $file = AttachNote::find($id);
+        Storage::delete($file->image);
+        DB::table('attach_notes')->where('id', $file->id)->delete();
+        // dd($file);
+        // dd($request->image->getClientOriginalName());
+
+        // AttachNote::create($validatedData);
         return redirect()->back();
     }
 }

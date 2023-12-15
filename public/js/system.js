@@ -1963,12 +1963,14 @@ function showPassword() {
 
 
 function changeLocation(e){
-    if(e.value){
-        document.getElementById('buttonfilter').disabled = false;
-    }else{
-        document.getElementById('buttonfilter').disabled = true;
-    }
+    console.log(e.value);
+    // if(e.value){
+    //     document.getElementById('buttonfilter').disabled = false;
+    // }else{
+    //     document.getElementById('buttonfilter').disabled = true;
+    // }
     let filterLocation = document.getElementById('formFilterLocation');
+    // console.log(filterLocation);
     if(filterLocation){
         filterLocation.action = "list/" + e.value;
     }
@@ -1977,6 +1979,46 @@ function changeLocation(e){
     if(filterLocation2){
         filterLocation2.action = "managestaff/" + e.value;
     }
+}
+function changeMonth(e){
+    console.log(e.value);
+    // if(e.value){
+    //     document.getElementById('buttonfilter').disabled = false;
+    // }else{
+    //     document.getElementById('buttonfilter').disabled = true;
+    // }
+    let filterLocation = document.getElementById('formFilterLocation');
+    // console.log(filterLocation);
+    if(filterLocation){
+        filterLocation.action = "list/" + e.value;
+    }
+
+    // let filterLocation2 = document.getElementById('formFilterLocation2');
+    // if(filterLocation2){
+    //     filterLocation2.action = "managestaff/" + e.value;
+    // }
+}
+function changeYear(e){
+    console.log(e.value);
+    // if(e.value){
+    //     document.getElementById('buttonfilter').disabled = false;
+    // }else{
+    //     document.getElementById('buttonfilter').disabled = true;
+    // }
+    let filterLocation = document.getElementById('formFilterLocation');
+    // console.log(filterLocation);
+    if(filterLocation){
+        filterLocation.action = "list/" + e.value;
+    }
+
+    // let filterLocation2 = document.getElementById('formFilterLocation2');
+    // if(filterLocation2){
+    //     filterLocation2.action = "managestaff/" + e.value;
+    // }
+}
+
+function submitAttach(){
+    
 }
 
 var arrayOfCategory = [];
@@ -2027,3 +2069,7 @@ $("#rawat_inap").change(function(){
         value.value = '';
     }
 });
+
+function clickAddPhoto(){
+    console.log('2089123');
+}

@@ -20,6 +20,14 @@ class Staff extends Authenticatable
         return $this->belongsTo(Location::class,'location_id');
     }
 
+    public function position(){
+        return $this->belongsTo(Position::class,'position_id');
+    }
+
+    public function shift(){
+        return $this->belongsTo(Shift::class, 'shifts_id');
+    }
+
     // public function service(){
     //     return $this->hasMany(Position::class);
     // }

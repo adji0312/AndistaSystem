@@ -80,6 +80,9 @@
                 </tbody>
             </table>
         </div>
+        <div class="d-flex justify-content-end mx-3">
+            {{ $bookings->links() }}
+        </div>
     </div>
   </div>
 @endsection

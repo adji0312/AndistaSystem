@@ -32,10 +32,10 @@
   
     </script>
     
-    
 </head>
 <body>
 
+    @include('sweetalert::alert')
     @include('partials.sidebar')
     
     

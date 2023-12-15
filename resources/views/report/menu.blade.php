@@ -6,8 +6,8 @@
     </div>
     <ul class="list-unstyled components">
         @if(Auth::user()->role->reports_all != 4)
-        <li style="cursor: pointer" class="{{ ($title === "Attendance Dashboard") ? 'active' : '' }}">
-            <a id="locationsdashboard" href="/attendance" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; All Report</a>
+        <li style="cursor: pointer" class="{{ ($title === "Report") ? 'active' : '' }}">
+            <a id="locationsdashboard" href="/report" class="px-4"><img src="/img/icon/dashboard.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Sale Report</a>
         </li>
         @else
         @endif

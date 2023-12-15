@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Attendance extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function staff(){
+        return $this->belongsTo(Staff::class, 'staff_id');
+    }
 }

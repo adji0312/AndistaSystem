@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('duration')->nullable();
             $table->timestamp('start_booking')->nullable();
             $table->timestamp('end_booking')->nullable();
+            $table->integer('ranap')->nullable(); //1 : terkonfirmasi, 2: dirawat inap, 3: selesai
             $table->timestamps();
         });
     }

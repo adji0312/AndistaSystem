@@ -66,7 +66,7 @@
               <th scope="row" style="color: #7C7C7C;width:300px">Overview</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="home_overview" id="home_overview">
                       <option value="{{ $roles->home_overview }}" class="selectstatus" style="color: black;" selected >
@@ -96,7 +96,7 @@
               <th scope="row" style="color: #7C7C7C">Upcoming Booking</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="home_upcoming_booking" id="home_upcoming_booking">
                       <option value="{{ $roles->home_upcoming_booking }}" class="selectstatus" style="color: black;" selected>@if($roles->home_upcoming_booking === 1)
@@ -138,7 +138,7 @@
               <th scope="row" style="color: #7C7C7C;width:300px">Calendar</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="calendar_calendar" id="calendar_calendar">
                       <option value="{{ $roles->calendar_calendar }}" class="selectstatus" style="color: black;" selected>@if($roles->calendar_calendar === 1)
@@ -167,7 +167,7 @@
               <th scope="row" style="color: #7C7C7C">Create Booking</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="calendar_create_booking" id="calendar_create_booking">
                       <option value="{{ $roles->calendar_create_booking }}" class="selectstatus" style="color: black;" selected>@if($roles->calendar_create_booking === 1)
@@ -196,7 +196,7 @@
               <th scope="row" style="color: #7C7C7C">List Booking</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="calendar_list_booking" id="calendar_list_booking">
                       <option value="{{ $roles->calendar_list_booking }}" class="selectstatus" style="color: black;" selected>@if($roles->calendar_list_booking === 1)
@@ -237,7 +237,7 @@
               <th scope="row" style="color: #7C7C7C;width:300px">Customer List</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="customer_list" id="customer_list">
                       <option value="{{ $roles->customer_list }}" class="selectstatus" style="color: black;" selected >
@@ -281,7 +281,7 @@
               <th scope="row" style="color: #7C7C7C;width:300px">Staff List</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="staff_staff_list" id="staff_staff_list">
                       <option value="{{ $roles->staff_staff_list }}" class="selectstatus" style="color: black;" selected>@if($roles->staff_staff_list === 1)
@@ -310,7 +310,7 @@
               <th scope="row" style="color: #7C7C7C">Job</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="staff_job" id="staff_job">
                       <option value="{{ $roles->staff_job }}" class="selectstatus" style="color: black;" selected>@if($roles->staff_job === 1)
@@ -339,7 +339,7 @@
               <th scope="row" style="color: #7C7C7C">Access Control</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="staff_access_control" id="staff_access_control">
                       <option value="{{ $roles->staff_access_control }}" class="selectstatus" style="color: black;" selected>@if($roles->staff_access_control === 1)
@@ -368,7 +368,7 @@
               <th scope="row" style="color: #7C7C7C">Security Group</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="staff_security_groups" id="staff_security_groups">
                       <option value="{{ $roles->staff_security_groups }}" class="selectstatus" style="color: black;" selected>@if($roles->staff_security_groups === 1)
@@ -410,7 +410,7 @@
               <th scope="row" style="color: #7C7C7C;width:300px">Dashboard Service</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_dashboard" id="service_dashboard">
                       <option value="{{ $roles->service_dashboard }}" class="selectstatus" style="color: black;" selected>@if($roles->service_dashboard === 1)
@@ -439,7 +439,7 @@
               <th scope="row" style="color: #7C7C7C">Service List</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_list" id="service_list">
                       <option value="{{ $roles->service_list }}" class="selectstatus" style="color: black;" selected>@if($roles->service_list === 1)
@@ -468,7 +468,7 @@
               <th scope="row" style="color: #7C7C7C">Treatment Plan</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_treatment_plan" id="service_treatment_plan">
                       <option value="{{ $roles->service_treatment_plan }}" class="selectstatus" style="color: black;" selected>@if($roles->service_treatment_plan === 1)
@@ -497,7 +497,7 @@
               <th scope="row" style="color: #7C7C7C">Category</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_category" id="service_category">
                       <option value="{{ $roles->service_category }}" class="selectstatus" style="color: black;" selected>@if($roles->service_category === 1)
@@ -526,7 +526,7 @@
               <th scope="row" style="color: #7C7C7C">Diagnosis</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_diagnosis" id="service_diagnosis">
                       <option value="{{ $roles->service_diagnosis }}" class="selectstatus" style="color: black;" selected>@if($roles->service_diagnosis === 1)
@@ -555,7 +555,7 @@
               <th scope="row" style="color: #7C7C7C">Policy</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_policy" id="service_policy">
                       <option value="{{ $roles->service_policy }}" class="selectstatus" style="color: black;" selected>@if($roles->service_policy === 1)
@@ -597,7 +597,7 @@
               <th scope="row" style="color: #7C7C7C;width:300px">Dashboard Product</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_dashboard" id="product_dashboard">
                       <option value="{{ $roles->product_dashboard }}" class="selectstatus" style="color: black;" selected>@if($roles->product_dashboard === 1)
@@ -626,7 +626,7 @@
               <th scope="row" style="color: #7C7C7C">Product List</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_list" id="product_list">
                       <option value="{{ $roles->product_list }}" class="selectstatus" style="color: black;" selected>@if($roles->product_list === 1)
@@ -655,7 +655,7 @@
               <th scope="row" style="color: #7C7C7C">Brand</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_brand" id="product_brand">
                       <option value="{{ $roles->product_brand }}" class="selectstatus" style="color: black;" selected>@if($roles->product_brand === 1)
@@ -684,7 +684,7 @@
               <th scope="row" style="color: #7C7C7C">Category</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_category" id="product_category">
                       <option value="{{ $roles->product_category }}" class="selectstatus" style="color: black;" selected disabled>@if($roles->product_category === 1)
@@ -713,7 +713,7 @@
               <th scope="row" style="color: #7C7C7C">Suppliers</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_suppliers" id="product_suppliers">
                       <option value="{{ $roles->product_suppliers }}" class="selectstatus" style="color: black;" selected>@if($roles->product_suppliers === 1)
@@ -754,7 +754,7 @@
               <th scope="row" style="color: #7C7C7C;width:300px">Dashboard Location</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="dashboard_location" id="dashboard_location">
                       <option value="{{ $roles->dashboard_location }}" class="selectstatus" style="color: black;" selected >@if($roles->dashboard_location === 1)
@@ -783,7 +783,7 @@
               <th scope="row" style="color: #7C7C7C">Location List</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location_list" id="location_list">
                       <option value="{{ $roles->location_list }}" class="selectstatus" style="color: black;" selected>@if($roles->location_list === 1)
@@ -812,7 +812,7 @@
               <th scope="row" style="color: #7C7C7C">Facilities</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="facilities" id="facilities">
                       <option value="{{ $roles->facilities }}" class="selectstatus" style="color: black;" selected >@if($roles->facilities === 1)
@@ -841,7 +841,7 @@
               <th scope="row" style="color: #7C7C7C">Setting Location</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="setting_location" id="setting_location">
                       <option value="{{ $roles->setting_location }}" class="selectstatus" style="color: black;" selected>@if($roles->setting_location === 1)
@@ -882,7 +882,7 @@
               <th scope="row" style="color: #7C7C7C;width:300px">Dashboard Finance</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="dashboard_finance" id="dashboard_finance">
                       <option value="{{ $roles->dashboard_finance }}" class="selectstatus" style="color: black;" selected>@if($roles->dashboard_finance === 1)
@@ -911,7 +911,7 @@
               <th scope="row" style="color: #7C7C7C">Sale List</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="sale_list" id="sale_list">
                       <option value="{{ $roles->sale_list }}" class="selectstatus" style="color: black;" selected>@if($roles->sale_list === 1)
@@ -940,7 +940,7 @@
               <th scope="row" style="color: #7C7C7C">Quotation List</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="quotation_list" id="quotation_list">
                       <option value="{{ $roles->quotation_list }}" class="selectstatus" style="color: black;" selected>@if($roles->quotation_list === 1)
@@ -969,7 +969,7 @@
               <th scope="row" style="color: #7C7C7C">Tax Rate</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_rate" id="tax_rate">
                       <option value="{{ $roles->tax_rate }}" class="selectstatus" style="color: black;" selected>@if($roles->tax_rate === 1)
@@ -1010,7 +1010,7 @@
               <th scope="row" style="color: #7C7C7C;width:300px">Dashboard Attendance</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="dashboard_attendance" id="dashboard_attendance">
                       <option value="{{ $roles->dashboard_attendance }}" class="selectstatus" style="color: black;" selected>@if($roles->dashboard_attendance === 1)
@@ -1039,7 +1039,7 @@
               <th scope="row" style="color: #7C7C7C">Attendance List</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="attendance_list" id="attendance_list">
                       <option value="{{ $roles->attendance_list }}" class="selectstatus" style="color: black;" selected >@if($roles->attendance_list === 1)
@@ -1068,7 +1068,7 @@
               <th scope="row" style="color: #7C7C7C">Working Shift</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="working_shift" id="working_shift">
                       <option value="{{ $roles->working_shift }}" class="selectstatus" style="color: black;" selected>@if($roles->working_shift === 1)
@@ -1097,7 +1097,7 @@
               <th scope="row" style="color: #7C7C7C">Manage Staff Shift</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="manage_staff_shift" id="manage_staff_shift">
                       <option value="{{ $roles->manage_staff_shift }}" class="selectstatus" style="color: black;" selected >@if($roles->manage_staff_shift === 1)
@@ -1138,7 +1138,7 @@
               <th scope="row" style="color: #7C7C7C;width:300px">Absent</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="absent" id="absent">
                       <option value="{{ $roles->absent }}" class="selectstatus" style="color: black;" selected>@if($roles->absent === 1)
@@ -1167,7 +1167,7 @@
               <th scope="row" style="color: #7C7C7C;width:300px">Absent</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="presence_today" id="presence_today">
                       <option value="{{ $roles->presence_today }}" class="selectstatus" style="color: black;" selected>@if($roles->presence_today === 1)
@@ -1208,7 +1208,7 @@
               <th scope="row" style="color: #7C7C7C;width:300px">Reports All</th>
               <td>
                 {{-- Role Dropdown --}}
-                <div class="mb-3">
+                <div class="mb-1">
                   {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="reports_all" id="reports_all">
                       <option value="{{ $roles->reports_all }}" class="selectstatus" style="color: black;" selected>@if($roles->reports_all === 1)

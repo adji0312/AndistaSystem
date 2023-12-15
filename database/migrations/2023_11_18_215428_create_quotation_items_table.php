@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('quotation_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id');
+            $table->foreignId('quotation_id');
             $table->foreignId('staff_id');
             $table->integer('quantity');
             $table->integer('price');
+            $table->integer('flag');
+            $table->string('method')->nullable();
             $table->timestamps();
         });
     }

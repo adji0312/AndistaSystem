@@ -12,13 +12,13 @@
         @else
 
         @endif
-        @if(Auth::user()->role->home_upcoming_booking != 4)
+        {{-- @if(Auth::user()->role->home_upcoming_booking != 4)
         <li style="cursor: pointer" class="{{ ($title === "Upcoming Booking") ? 'active' : '' }}">
             <a id="locationslist" href="/upcoming-booking" class="px-4"><img src="/img/icon/upcoming.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Upcoming Booking</a>
         </li>
         @else
         
-        @endif
+        @endif --}}
         
     </ul>
 </nav>

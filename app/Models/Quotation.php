@@ -13,4 +13,8 @@ class Quotation extends Model
     public function location(){
         return $this->belongsTo(Location::class, 'location_id');
     }
+
+    public function customer(){
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
 }

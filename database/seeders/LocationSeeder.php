@@ -14,13 +14,13 @@ class LocationSeeder extends Seeder
     public function run(): void
     {
         //
-        Location::insert([
-            [
-                "location_name"=>"Apotik Andista",
-                "status"=>"Active",
-                "image"=>"pathtoimage",
-                "type"=>"active"
-            ]
-        ]);
+        // Location::insert([
+        //     [
+        //         "location_name"=>"Apotik Andista",
+        //         "status"=>"Active",
+        //         "image"=>"pathtoimage",
+        //         "type"=>"active"
+        //     ]
+        // ]);
     }
 }

@@ -17,7 +17,11 @@
                                 <input type="text" hidden name="status" value="Dimulai">
                                 <button type="submit" class="btn btn-outline-primary btn-sm" style="height: 100%;">Mulai</button>
                             @elseif ($booking->status == "Dimulai")
-                                <button type="submit" class="btn btn-outline-success btn-sm" style="height: 100%;">Selesai</button>
+                                @if ($booking->booking->staff_id == Auth::user()->id)
+                                    <button type="submit" class="btn btn-outline-success btn-sm" style="height: 100%;">Selesai</button>
+                                @else
+                                    <button type="submit" class="btn btn-outline-success btn-sm" style="height: 100%;" disabled>Selesai</button>
+                                @endif
                                 <input type="text" hidden name="status" value="Selesai">
                             @elseif ($booking->status == "Selesai")
 
@@ -25,26 +29,58 @@
                         </form>
                     @endif
                     @if ($booking->status == "Dimulai")
-                        @if ($booking->rawat_inap != 1)
-                            <button type="button" class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#rawatinap"><i class="fas fa-hospital"></i> Rawat Inap</button>
-                        @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->status != "di rawat inap")
+                        @if ($booking->booking->staff_id == Auth::user()->id)
+                            @if ($booking->rawat_inap != 1)
+                                <button type="button" class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#rawatinap"><i class="fas fa-hospital"></i> Rawat Inap</button>
+                            @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->ranap == 1) 
+                                <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                                    @csrf
+                                    <input type="text" hidden name="status" value="di rawat inap">
+                                    <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Mulai Rawat Inap</button>
+                                </form>
+                            @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->ranap == 2)
+                                <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                                    @csrf
+                                    <input type="text" hidden name="status" value="Selesai">
+                                    <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
+                                </form>
+                            @endif
+                        @else
+                            @if ($booking->rawat_inap != 1)
+                                <button type="button" class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#rawatinap" disabled><i class="fas fa-hospital"></i> Rawat Inap</button>
+                            @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->ranap == 1)
+                                <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                                    @csrf
+                                    <input type="text" hidden name="status" value="di rawat inap">
+                                    <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;" disabled><i class="fas fa-hospital"></i> Mulai Rawat Inap</button>
+                                </form>
+                            @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->ranap == 2)
+                                <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                                    @csrf
+                                    <input type="text" hidden name="status" value="Selesai">
+                                    <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;" disabled><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
+                                </form>
+                            @endif
+                        @endif
+                    {{-- @elseif($booking->status == "di rawat inap")   
+                        @if ($booking->booking->staff_id == Auth::user()->id)
                             <form action="/changeStatus/{{ $booking->id }}" method="POST">
                                 @csrf
-                                <input type="text" hidden name="status" value="di rawat inap">
-                                <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Mulai Rawat Inap</button>
+                                <input type="text" hidden name="status" value="Selesai">
+                                <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
                             </form>
-                        @endif
-                    @elseif($booking->status == "di rawat inap")    
-                        <form action="/changeStatus/{{ $booking->id }}" method="POST">
-                            @csrf
-                            <input type="text" hidden name="status" value="Selesai">
-                            <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
-                        </form>
+                        @else
+                            <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                                @csrf
+                                <input type="text" hidden name="status" value="Selesai">
+                                <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;" disabled><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
+                            </form>
+                        @endif --}}
                     @endif
                 </div>
             </div>
         </nav>
-
+        
         <div id="dashboard" class="mx-3 mt-3">
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                 @if ($booking->rawat_inap == 1)
@@ -64,12 +100,22 @@
                     </div>
                     <div class="m-3">
                         <h6 style="color: black; font-weight: 400">Total : Rp {{ number_format($booking->booking->total_price) }}</h6>
-                        @if ($booking->status == "Terkonfirmasi")
-                            <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97cbfe">{{ $booking->status }}</button></h6>
-                        @elseif ($booking->status == "Dimulai")
-                            <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #fee497">{{ $booking->status }}</button></h6>
-                        @elseif ($booking->status == "Selesai")
-                            <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97fe99">{{ $booking->status }}</button></h6>
+                        @if ($booking->rawat_inap == 1)
+                            @if ($booking->ranap == 1)
+                                <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97cbfe">Terkonfirmasi</button> (belum di rawat inap)</h6>
+                            @elseif ($booking->ranap == 2)
+                                <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #fee497">Di Rawat Inap</button></h6>
+                            @elseif ($booking->ranap == 3)
+                                <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97fe99">Selesai</button></h6>
+                            @endif
+                        @else
+                            @if ($booking->status == "Terkonfirmasi")
+                                <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97cbfe">{{ $booking->status }}</button></h6>
+                            @elseif ($booking->status == "Dimulai")
+                                <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #fee497">{{ $booking->status }}</button></h6>
+                            @elseif ($booking->status == "Selesai")
+                                <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97fe99">{{ $booking->status }}</button></h6>
+                            @endif
                         @endif
                         <h6 style="color: black; font-weight: 400">Alasan Kunjungan : {{ $booking->booking->alasan_kunjungan }}</h6>
                     </div>
@@ -77,7 +123,7 @@
                         <h6 style="color: black; font-weight: 400">Pemilik : {{ $booking->booking->customer->first_name }}</h6>
                         <div class="d-flex gap-1">
                             <h6 style="color: black; font-weight: 400">Hewan : {{ $booking->pet->pet_name }} ({{ $booking->pet->pet_type }})</h6>
-                            <small class="text-primary" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#exampleModal"> (info)</small>
+                            <small class="text-primary" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#infoHewan"> (info)</small>
                         </div>
                     </div>
                 </div>
@@ -90,14 +136,18 @@
                                     <td scope="col">Service Name</td>
                                     <td scope="col">Time</td>
                                     <td scope="col">Staff</td>
-                                    <td scope="col" style="width: 20%">Duration</td>
-                                    <td scope="col" style="width: 20%">Price (Rp)</td>
+                                    <td scope="col">Duration</td>
+                                    <td scope="col">Price (Rp)</td>
                                   </tr>
                                 </thead>
                                 <tbody>
                                     <td>{{ $booking->booking->services[0]->service->service_name }}</td>
                                     <td>{{ $booking->booking->services[0]->time }}</td>
-                                    <td>{{ $booking->booking->services[0]->staff->first_name }}</td>
+                                    @if ($booking->booking->services[0]->staff)
+                                        <td>{{ $booking->booking->services[0]->staff->first_name }}</td>
+                                    @else
+                                        <td>-</td>
+                                    @endif
                                     <td>{{ $booking->booking->services[0]->servicePrice->duration }} {{ $booking->booking->services[0]->servicePrice->duration_type }} ({{ $booking->booking->services[0]->servicePrice->price_title }})</td>
                                     <td>Rp {{ number_format($booking->booking->services[0]->servicePrice->price) }}</td>
                                 </tbody>
@@ -452,7 +502,11 @@
                             <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
                             <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
                             <input type="text" style="width: 50%" class="form-control" id="booking_diagnosis_id" placeholder="Search Diagnosis..." name="diagnosis_name">
-                            <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Add Diagnosis</button>
+                            @if ($booking->status == "Dimulai")
+                                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Add Diagnosis</button>
+                            @else
+                                <button type="submit" class="btn btn-outline-secondary btn-sm" disabled><i class="fas fa-save"></i> Add Diagnosis</button>
+                            @endif
                         </div>
                     </form>
                     @if (count($bookingDiagnosis))
@@ -544,14 +598,41 @@
                         @else
                             <button type="button" class="btn btn-sm btn-outline-primary m-2" onclick="editTextBooking()"><i class="fas fa-save"></i> Update</button>
                         @endif
+                        <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-paperclip"></i> Attach File</button>  
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Attach File</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="/attachFile" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <input type="text" hidden name="booking_id" value="{{ $booking->booking->id }}">
+                                        <input type="text" hidden name="sub_booking_id" value="{{ $booking->id }}">
+                                        <input type="file" class="form-control" name="image">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                    </div>
+                                </form>
+                              </div>
+                            </div>
+                        </div>
                     @else
                         @if (count($note) == 0)
                             <button type="button" class="btn btn-sm btn-outline-secondary m-2" disabled><i class="fas fa-save"></i> Save</button>
                         @else
                             <button type="button" class="btn btn-sm btn-outline-secondary m-2" disabled><i class="fas fa-save"></i> Update</button>
                         @endif
+                        <button type="button" class="btn btn-sm btn-outline-secondary m-2" disabled><i class="fas fa-paperclip"></i> Add Photo</button>  
                     @endif
+                    
+
                 </div>
+                
                 @if (count($note) == 0)
                     <form action="/submitTextBooking" method="POST">
                         @csrf
@@ -575,6 +656,61 @@
                         <button type="submit" hidden id="editTextBooking"></button>
                     </form>
                 @endif
+
+                <div class="m-3 d-flex flex-column gap-1">
+                    <?php $index = 0; ?>
+                    @foreach ($files->where('sub_booking_id', $booking->id) as $file)
+                        <?php $index += 1; ?>
+                        <div class="p-2" style="background-color: rgb(226, 240, 255); border-radius: 7px; width: 30%">
+                            <div class="d-flex justify-content-between">
+                                <a class="text-primary" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#fileAttach{{ $file->id }}">{{ $index }}. {{ $file->file_name }}</a>
+                                <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAttach{{ $file->id }}"><i class="fas fa-save"></i> Delete</button>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="fileAttach{{ $file->id }}" tabindex="-1" aria-labelledby="fileAttachLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="fileAttachLabel">File</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <?php $image = substr($files[$index-1]->image, 7); ?>
+                                    <img src="/storage/{{ $image }}" alt="" style="width: 100%">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="deleteAttach{{ $file->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Delete File</h1>
+                                </div>
+                                
+                                <form action="/deleteAttach/{{ $file->id }}" method="GET">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="mb-1">
+                                            {{-- <input type="text" id="deleteId"> --}}
+                                            <input type="text" hidden id="deleteId" name="deleteId" value="Hapus" class="form-control mt-1">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                    </div>
+                                </form>
+                              </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
             
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-4">
@@ -712,7 +848,7 @@
                                                         <input type="text" class="form-control" id="quantity" name="quantity" value="{{ $cart->quantity }}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Price</label>
+                                                        <label for="quantity" class="form-label" style="font-size: 15px; color: #7C7C7C;">Service Price</label>
                                                         <select class="form-select" aria-label="Default select example" name="service_price_id">
                                                             <option selected disabled>Select Price</option>
                                                             @foreach ($servicePrice->where('service_id', $cart->service_id) as $sp)
@@ -756,7 +892,9 @@
                 <div class="mb-3">
                     <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
                     <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
-                    <input type="text" name="staff_id" hidden value="{{ $booking->booking->staff->id }}">
+                    @if ($booking->booking->staff)
+                        <input type="text" name="staff_id" hidden value="{{ $booking->booking->staff->id }}">
+                    @endif
                     <input type="text" class="form-control" id="product_id_cart" name="product_id" placeholder="Search here ...">
                 </div>
             </div>
@@ -781,7 +919,9 @@
                 <div class="mb-3">
                     <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
                     <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
-                    <input type="text" name="staff_id" hidden value="{{ $booking->booking->staff->id }}">
+                    @if ($booking->booking->staff)
+                        <input type="text" name="staff_id" hidden value="{{ $booking->booking->staff->id }}">
+                    @endif
                     <input type="text" class="form-control" id="searchService" name="service_name" value="" placeholder="Search Service" required>
                 </div>
             </div>
@@ -794,7 +934,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="infoHewan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog">
     <div class="modal-content">
     <div class="modal-header">
@@ -849,10 +989,6 @@
                 <div class="mb-3">
                     <label for="booking_date" class="form-label" style="font-size: 15px; color: #7C7C7C;">Date</label>
                     <input type="date" class="form-control" id="booking_date" name="booking_date" required>
-                </div>
-                <div class="mb-3">
-                    <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration (days)</label>
-                    <input type="number" class="form-control" id="duration" name="duration" required>
                 </div>
             </div>
             <div class="modal-footer">
