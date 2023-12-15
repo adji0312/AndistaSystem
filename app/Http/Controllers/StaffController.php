@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Models\Shift;
 use App\Models\Staff;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -339,5 +340,13 @@ class StaffController extends Controller
         $staff->update();
 
         return redirect('/staff/list')->with('success','Staff Password Reset Successfully');
+    }
+
+    public function qrAttendance(){
+        @dd(Auth::user()->UUID);
+        return view('qrabsen',[
+            "title" => "QR Attendance",
+            "QR"=> "test"
+        ]);
     }
 }

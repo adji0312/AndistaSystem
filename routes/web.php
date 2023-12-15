@@ -308,6 +308,9 @@ Route::middleware('auth')->group(function () {
     //Staff Reset Password
     Route::post('/resetPassword/{id}',[StaffController::class,'resetPassword']);
 
+    //Staff QR Attendance
+    Route::get('/qr-attendance',[StaffController::class,'qrAttendance']);
+
     //JOB
     Route::post('/addJob', [ProductController::class, 'addJob']);
     Route::get('/deleteJob',[ProductController::class,'deleteJob']);
@@ -351,7 +354,6 @@ Route::middleware('auth')->group(function () {
     
     //--SEMUA ROUTING PETS
     Route::post('/addPets/{id}',[PetController::class,'SubAccount']);
-    
     
     
     //-- SEMUA ROUTING PRODUCT --

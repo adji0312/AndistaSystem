@@ -36,7 +36,7 @@
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="product_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Product Name</label>
-                                <input type="text" class="form-control @error('product_name') is-invalid @enderror" name="product_name" id="product_name" value="{{ $product->product_name }}" required>
+                                <input type="text" class="form-control @error('product_name') is-invalid @enderror" name="product_name" id="product_name" value="{{ $product->product_name ?? '' }}" required>
                                 @error('product_name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -63,7 +63,7 @@
                             <div class="mb-3">
                                 <label for="brand_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Brand</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="brand_id" id="brand_id">
-                                    <option value="{{ $product->brand_id }}" class="selectstatus" style="color: black;" selected >{{ $brandChoosen->brand_name }}</option>
+                                    <option value="{{ $product->brand_id }}" class="selectstatus" style="color: black;" selected >{{ $brandChoosen->brand_name ?? '' }}</option>
                                     @foreach ($brands as $b)
                                         <option value="{{ $b->id }}" class="selectstatus" style="color: black;">{{ $b->brand_name }}</option>
                                     @endforeach

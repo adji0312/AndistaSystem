@@ -83,7 +83,7 @@
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="position_id" id="position_id" required>
                                     <option value="" class="selectstatus" style="color: black;" selected disabled>Select Position</option>
                                     @foreach ($positions as $position)
-                                        <option value="{{ $position->id }}" class="selectstatus" style="color: black;">{{ $position->position_name }}</option>
+                                        <option value="{{ $position->id }}" class="selectstatus" style="color: black;">{{ $position->position_name ?? '' }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -92,7 +92,7 @@
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="role_id" id="role_id" required>
                                     <option value="" class="selectstatus" style="color: black;" selected disabled>Select Role</option>
                                     @foreach ($roles as $role)
-                                        <option value="{{ $role->id }}" class="selectstatus" style="color: black;">{{ $role->role_name }}</option>
+                                        <option value="{{ $role->id }}" class="selectstatus" style="color: black;">{{ $role->role_name ?? '' }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -127,7 +127,7 @@
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="messenger_id" id="messenger_id" >
                                     <option value="" class="selectstatus" style="color: black;" selected disabled>Select Messenger Type</option>
                                     @foreach ($messengerType as $mt)
-                                        <option value="{{ $mt->id }}" class="selectstatus" style="color: black;">{{ $mt->type_name }}</option>
+                                        <option value="{{ $mt->id }}" class="selectstatus" style="color: black;">{{ $mt->type_name ?? '' }}</option>
                                     @endforeach
                                     {{-- <option value="Tn" class="selectstatus" style="color: black;">Tn</option>
                                     <option value="Ny" class="selectstatus" style="color: black;">Ny</option>
@@ -151,7 +151,7 @@
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="shifts_id" id="shifts_id" >
                                     <option value="" class="selectstatus" style="color: black;" selected disabled>Select Shift</option>
                                     @foreach ($shift as $s)
-                                        <option value="{{ $s->id }}" class="selectstatus" style="color: black;">{{ $s->shift_name }}</option>
+                                        <option value="{{ $s->id }}" class="selectstatus" style="color: black;">{{ $s->shift_name ?? ''}}</option>
                                     @endforeach
                                     {{-- <option value="Passport" class="selectstatus" style="color: black;">Passport</option>
                                     <option value="KTP" class="selectstatus" style="color: black;">KTP</option>

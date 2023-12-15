@@ -45,11 +45,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="middle_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Middle Name</label>
-                                <input type="text" class="form-control" name="middle_name" id="middle_name" value="{{ $staff->middle_name }}">
+                                <input type="text" class="form-control" name="middle_name" id="middle_name" value="{{ $staff->middle_name ?? '' }}">
                             </div>
                             <div class="mb-3">
                                 <label for="last_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Last Name</label>
-                                <input type="text" class="form-control" name="last_name" id="last_name" value="{{ $staff->last_name }}" required>
+                                <input type="text" class="form-control" name="last_name" id="last_name" value="{{ $staff->last_name ?? '' }}" required>
                             </div>
                             {{-- <div class="mb-3">
                                 <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Status</label>
@@ -75,7 +75,7 @@
                             </div> --}}
                             <div class="mb-3">
                                 <label for="nickname" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Nick Name</label>
-                                <input type="text" class="form-control" name="nickname" id="nickname" value="{{ $staff->nickname }}">
+                                <input type="text" class="form-control" name="nickname" id="nickname" value="{{ $staff->nickname ?? '' }}">
                             </div>
                             {{-- <div class="mb-3">
                                 <label for="phone" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Phone</label>
@@ -84,7 +84,7 @@
                             <div class="mb-3">
                                 <label for="position_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Job Position</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="position_id" id="position_id" required>
-                                    <option value="{{ $staff->position_id }}" class="selectstatus" style="color: black;" selected >{{ $upositions->position_name }}</option>
+                                    <option value="{{ $staff->position_id }}" class="selectstatus" style="color: black;" selected >{{ $upositions->position_name ?? '' }}</option>
                                     @foreach ($positions as $position)
                                         <option value="{{ $position->id }}" class="selectstatus" style="color: black;">{{ $position->position_name }}</option>
                                     @endforeach
@@ -93,7 +93,7 @@
                             <div class="mb-3">
                                 <label for="role_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Roles</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="role_id" id="role_id" required>
-                                    <option value="{{ $staff->role_id }}" class="selectstatus" style="color: black;" selected>{{ $uroles->role_name }}</option>
+                                    <option value="{{ $staff->role_id }}" class="selectstatus" style="color: black;" selected>{{ $uroles->role_name ?? '' }}</option>
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->id }}" class="selectstatus" style="color: black;">{{ $role->role_name }}</option>
                                     @endforeach
@@ -166,7 +166,7 @@
                                 {{-- id number --}}
                                 <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Status</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="status" id="status" required>
-                                    <option value="{{ $staff->status }}" class="selectstatus" style="color: black;" selected >{{ $staff->status }}</option>
+                                    <option value="{{ $staff->status }}" class="selectstatus" style="color: black;" selected >{{ $staff->status ?? '' }}</option>
                                     {{-- @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach --}}
@@ -176,7 +176,7 @@
                             <div class="mb-3">
                                 {{-- id number --}}
                                 <label for="Address" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Address</label>
-                                <input type="text" class="form-control" name="Address" id="Address" value="{{ $staff->status }}" >
+                                <input type="text" class="form-control" name="Address" id="Address" value="{{ $staff->Address ?? '' }}" >
                             </div>
                             {{-- <div class="mb-3">
                                 join date
@@ -190,17 +190,17 @@
                             <div class="mb-3">
                                 {{-- id number --}}
                                 <label for="descriptions" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Descriptions</label>
-                                <input type="text" class="form-control" name="descriptions" id="descriptions" value="{{ $staff->Address }}" >
+                                <input type="text" class="form-control" name="descriptions" id="descriptions" value="{{ $staff->descriptions ?? '' }}" >
                             </div>
                             <div class="mb-3">
                                 {{-- id number --}}
                                 <label for="phone" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Phone</label>
-                                <input type="text" class="form-control" name="phone" id="phone" value="{{ $staff->phone }}" >
+                                <input type="text" class="form-control" name="phone" id="phone" value="{{ $staff->phone ?? '' }}" >
                             </div>
                             <div class="mb-3">
                                 <label for="location" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location_id" id="location_id" required>
-                                    <option value="{{ $staff->location_id }}" class="selectstatus" style="color: black;" selected>{{ $staff->location->location_name }}</option>
+                                    <option value="{{ $staff->location_id }}" class="selectstatus" style="color: black;" selected>{{ $staff->location->location_name ?? '' }}</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach
