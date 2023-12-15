@@ -16,6 +16,13 @@
 
     {{-- CSS STYLE --}}
     <link rel="stylesheet" href="/css/style.css">
+    <!-- (A) LOAD QRCODEJS LIBRARY -->
+    <!-- https://cdnjs.com/libraries/qrcodejs -->
+    <!-- https://github.com/davidshimjs/qrcodejs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+
+
 
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
@@ -58,6 +65,8 @@
     {{-- JS --}}
     <script src="/js/system.js" defer></script>
     <script src="/js/system.js" defer></script>
+
+   
 </body>
 
 </html>

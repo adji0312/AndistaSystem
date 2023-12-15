@@ -343,8 +343,8 @@ class StaffController extends Controller
     }
 
     public function qrAttendance(){
-        @dd(Auth::user()->UUID);
-        return view('qrabsen',[
+        // @dd(Auth::user()->UUID);
+        return view('staff.qrabsen',[
             "title" => "QR Attendance",
             "QR"=> "test"
         ]);
