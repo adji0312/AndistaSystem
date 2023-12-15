@@ -14,16 +14,16 @@
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Name</label>
-                                <input type="text" class="form-control" name="first_name" id="first_name" value="{{ Auth::user()->first_name }}">
+                                <input type="text" class="form-control" name="first_name" id="first_name" value="{{ Auth::user()->first_name ?? '' }}">
                             </div>
                             <div class="mb-3">
                                 <label for="simple_service_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Email</label>
-                                <input type="text" class="form-control" name="email" id="email" value="{{ Auth::user()->email }}">
+                                <input type="text" class="form-control" name="email" id="email" value="{{ Auth::user()->email ?? '' }}">
                             </div>
                             <div class="mb-3">
                                 <label for="location" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location" id="location" required>
-                                    <option value="{{ Auth::user()->location_id }}" class="selectstatus" style="color: black;" selected>{{ Auth::user()->location->location_name }}</option>
+                                    <option value="{{ Auth::user()->location_id }}" class="selectstatus" style="color: black;" selected>{{ Auth::user()->location->location_name ?? '' }}</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach
@@ -56,6 +56,19 @@
 
                     </div>
                 </form>
+
+                <form>
+                    <input type="hidden" value="{{ Auth::user()->UUID }}" id="qrtoscan">
+                </form>
+                <div class="d-flex flex-column justify-content-center m-auto align-items-center m-4 p-4">
+                    <div class="d-flex align-items-center m-auto">
+                        <h1>QR Code Attendance</h1>
+                    </div> 
+                    <div class="container vh-80 m-auto bg-light border-dark p-4" style="border: 1px; border-style:solid;border-color:black">
+                        <div id="qrcode" class="d-flex align-items-center justify-content-center m-auto p-4"></div>
+                    </div>
+                    
+                </div>
 
                 <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4">
                     <h5 class="m-3">Presence History</h5>
@@ -140,5 +153,15 @@
           }
         }
       </script>
+
+      <!-- (C) CREATE QR CODE ON PAGE LOAD -->
+    <script>
+        let src_qr = document.getElementById("qrtoscan").value;
+        // console.log(src_qr);
+        window.addEventListener("load", () => {
+            
+          var qrc = new QRCode(document.getElementById("qrcode"), src_qr);
+        });
+        </script>
 
 @endsection
