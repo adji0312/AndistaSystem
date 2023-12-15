@@ -61,7 +61,7 @@
                                 </td>
                                 <td>{{ $customer->phone }}</td>
                                 <td>{{ $customer->email }}</td>
-                                <td>{{ $customer->created_at ? $customer->created_at : "-" }}</td>
+                                <td>{{ $customer->created_at ? date_format($customer->created_at, 'd M Y H:i') : "-" }}</td>
                             </tr>
                         @endforeach
                     </tbody>

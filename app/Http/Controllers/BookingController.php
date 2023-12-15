@@ -110,6 +110,7 @@ class BookingController extends Controller
     
     public function createbookingDetail($name){
         $booking = Booking::all()->where('booking_name', $name)->first();
+        $sub_books = SubBook::all()->where('booking_id', $booking->id);
         // dd($booking);
         return view('calendar.createbookingDetail', [
             "title" => "Booking",
@@ -120,7 +121,8 @@ class BookingController extends Controller
             "service_staff" => ServiceAndStaff::all(),
             "booking_services" => BookingService::all()->where('booking_id', $booking->id),
             "pets" => Pet::all(),
-            "staff_book" => Booking::all()
+            "staff_book" => Booking::all(),
+            "sub_books" => $sub_books
         ]);
     }
 
@@ -941,5 +943,10 @@ class BookingController extends Controller
 
         // AttachNote::create($validatedData);
         return redirect()->back();
+    }
+
+    public function updateBookingDate($id){
+        $booking = Booking::find($id);
+        dd($booking);
     }
 }

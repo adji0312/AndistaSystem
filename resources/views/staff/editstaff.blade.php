@@ -388,7 +388,7 @@
                 @if(Auth::user()->role->staff_staff_list === 1)
                 <form action="/resetPassword/{{ Auth::user()->id }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="m-3 d-flex gap-5">
+                    <div class="mt-4 d-flex gap-5">
                         <button type="submit" class="btn btn-danger">Reset This User Password</button>
                     </div>
                 </form>

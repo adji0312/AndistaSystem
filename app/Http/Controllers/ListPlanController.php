@@ -7,6 +7,7 @@ use App\Models\Frequency;
 use App\Models\ListPlan;
 use App\Models\Location;
 use App\Models\Plan;
+use App\Models\Product;
 use App\Models\Service;
 use App\Models\ServicePrice;
 use App\Models\Task;
@@ -32,7 +33,8 @@ class ListPlanController extends Controller
             'diagnosis' => Diagnosis::all(),
             'services' => Service::all()->where('status', 'Active'),
             'servicePrice' => ServicePrice::all(),
-            'service_id' => 0
+            'service_id' => 0,
+            'products' => Product::all()->where('status', 'Active')
         ]);
     }
 
@@ -67,6 +69,29 @@ class ListPlanController extends Controller
     public function addServicePlan(Request $request){
         
         // dd($request->all());
+        $validatedData = $request->validate([
+            'service_id' => 'required',
+            'plan_id' => 'required',
+        ]);
+        
+        $validatedData['temp'] = 1;
+        $validatedData['quantity'] =  0;
+        $validatedData['service_price_id'] =  0;
+        $validatedData['task_id'] =  0;
+        $validatedData['product_id'] =  0;
+        $validatedData['duration'] =  0;
+        $validatedData['start_day'] =  0;
+        $validatedData['frequency_id'] =  0;
+
+
+        ListPlan::create($validatedData);
+
+        return redirect('/service/treatmentplan/add'.'/'.$request->plan_name);
+    }
+    
+    public function addProductPlan(Request $request){
+        
+        dd($request->all());
         $validatedData = $request->validate([
             'service_id' => 'required',
             'plan_id' => 'required',

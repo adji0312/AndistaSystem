@@ -471,7 +471,7 @@
                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="service_id" name="service_id">
                     <option value="" class="selectstatus" style="color: black;" selected disabled>Select Services</option>
                     @foreach ($services as $service)
-                        <option value="{{ $service->id }}" class="selectstatus" style="color: black;" onclick="tesklik()" data-bs-toggle="modal" name="service_id" id="service_id" data-bs-target="#serviceList{{ $service->id }}">{{ $service->service_name }}</option>
+                        <option value="{{ $service->id }}" class="selectstatus" style="color: black;" data-bs-toggle="modal" name="service_id" id="service_id" data-bs-target="#serviceList{{ $service->id }}">{{ $service->service_name }}</option>
                     @endforeach
                 </select>
                 <input type="submit" hidden name="" id="submitService">
@@ -480,28 +480,6 @@
         <div class="mb-3 float-end">
             <button type="button" class="btn btn-outline-primary btn-sm" onclick="continueService()">Next</button>
         </div>
-
-        <div class="modal fade" id="serviceList" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Add Category</h1>
-                </div>
-                <form action="/addCategory" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="mb-1">
-                            <input type="text" class="form-control mt-1" id="category_name" name="category_service_name" oninput="inputCategoryService()">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                        <button type="submit" class="btn btn-sm btn-outline-primary" id="saveCategory" disabled><i class="fas fa-save"></i> Save changes</button>
-                    </div>
-                </form>    
-              </div>
-            </div>
-        </div>
     </div>
 
     {{-- PRODUCT --}}
@@ -509,12 +487,21 @@
         <label for="exampleInputEmail1" class="form-label mb-4" style="font-size: 15px; color: #000000; cursor: pointer;" onclick="backButtonInProduct()"><i class="fas fa-chevron-left"></i> Back</label>
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Product</label>
-            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="productList">
-                <option value="" class="selectstatus" style="color: black;" selected disabled>Select Product</option>
-            </select>
+            <form action="/addProductPlan" method="POST">
+                @csrf
+                <input type="hidden" name="plan_id" id="plan_id" value="{{ $plan->id }}">
+                <input type="hidden" name="plan_name" value="{{ $plan->name }}">
+                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="product_id" name="product_id">
+                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Product</option>
+                    @foreach ($products as $product)
+                        <option value="{{ $product->id }}" class="selectstatus" style="color: black;" data-bs-toggle="modal" name="product_id" id="product_id" >{{ $product->product_name }}</option>
+                    @endforeach
+                </select>
+                <button type="submit" hidden id="submitProduct"></button>
+            </form>
         </div>
         <div class="mb-3 float-end">
-            <button type="button" class="btn btn-outline-primary btn-sm">Next</button>
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="continueProduct()">Next</button>
         </div>
     </div>
 
@@ -602,6 +589,9 @@
 <script>
     function continueService(){
         document.getElementById('submitService').click();
+    }
+    function continueProduct(){
+        document.getElementById('submitProduct').click();
     }
 </script>
 @endsection

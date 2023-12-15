@@ -21,10 +21,6 @@
                             <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#discardBooking" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/discard.png" alt="" style="width: 22px"> Discard</a>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
                 </div>
             </div>
         </nav>
@@ -52,8 +48,18 @@
                           </select>
                         </div>
                         <div class="mb-3">
-                          <label for="booking_date" class="form-label" style="font-size: 15px; color: #7C7C7C;">Date</label>
-                          <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ $booking->booking_date }}" required>
+                            {{-- <form action="/updateBookingDate/{{ $booking->id }}" method="POST">
+                                @csrf --}}
+                                <label for="booking_date" class="form-label" style="font-size: 15px; color: #7C7C7C;">Date</label>
+                                <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ $booking->booking_date }}" required>
+                                <button type="submit" hidden id="updateBookingDate{{ $booking->id }}"></button>
+                                {{-- <script>
+                                    function updateDate(id){
+                                        // console.log(id);
+                                        let button = document.getElementById('updateBookingDate' + id).click();
+                                    }
+                                </script>
+                            </form> --}}
                         </div>
                     </div>
                     <div class="m-3">
@@ -141,16 +147,29 @@
                                 @foreach ($pets->where('customer_id',$booking->customer_id) as $pet)
                                     <tr>
                                         <th>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkBox[{{ $pet->id }}]" name="checkBoxPet"  value="{{ $pet->id }}">
-                                            </div>
+                                            @foreach ($sub_books as $sub_book)
+                                                @if ($sub_book->subAccount_id == $pet->id)
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkBox[{{ $pet->id }}]" name="checkBoxPet" value="{{ $pet->id }}" checked disabled>
+                                                    </div>
+                                                    @continue;
+                                                @else  
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkBox[{{ $pet->id }}]" name="checkBoxPet" value="{{ $pet->id }}" disabled>
+                                                    </div>
+                                                @endif
+                                            @endforeach
                                         </th>
                                         <td>{{ $pet->pet_name }}</td>
                                         <td>{{ $pet->pet_type }}</td>
                                         <td>{{ $pet->pet_ras }}</td>
                                         <td>{{ $pet->pet_color }}</td>
-                                        <?php $date = date_create($pet->date_of_birth) ?>
-                                        <td>{{ date_format($date, 'd F Y') }}</td>
+                                        @if ($pet->date_of_birth != null)
+                                            <?php $date = date_create($pet->date_of_birth) ?>
+                                            <td>{{ date_format($date, 'd F Y') }}</td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                         <td>{{ $pet->pet_gender }}</td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-2">

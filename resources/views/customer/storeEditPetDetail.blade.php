@@ -10,21 +10,21 @@
                     <a class="navbar-brand" href="#">Edit Customer</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                          <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="/customer/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
-                          </li>
-                          @if(Auth::user()->role->customer_list === 1)
-                          <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/discardCustomer/{{ $customers->id }}" style="color: #f28123; cursor: pointer;">Delete <img src="/img/icon/discard.png" alt="" style="width: 22px"></a>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/customer/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
+                        </li>
+                        @if(Auth::user()->role->customer_list === 1|Auth::user()->role->customer_list === 2)
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" onclick="savePets()" style="color: #f28123; cursor: pointer;">Save <img src="/img/icon/save.png" alt="" style="width: 22px"></a>
                             </li>
                         @else
-                            @endif
-                            @if(Auth::user()->role->customer_list === 1|Auth::user()->role->customer_list === 2)
-                          <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" onclick="savePets()" style="color: #f28123; cursor: pointer;">Save <img src="/img/icon/save.png" alt="" style="width: 22px"></a>
-                          </li>
-                          @else
-                          @endif
+                        @endif
+                        @if(Auth::user()->role->customer_list === 1)
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#discardCustomer" style="color: #ff3f5b; cursor: pointer;">Discard <img src="/img/icon/discard.png" alt="" style="width: 22px"></a>
+                            </li>
+                        @else
+                        @endif
                       </ul>
                       <form class="d-flex" role="search">
                           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -158,10 +158,13 @@
                                 <input type="text" class="form-control" name="id_no" id="id_no" value="{{ old('id_no') }}" >
                             </div>
                             <div class="mb-3">
-                                {{-- join date --}}
-                                <label for="join_date" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Join Date</label>
-                                <input type="date" class="form-control" id="join_date" name="join_date" >
-                            
+                                <label for="location" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location" id="gender" required>
+                                    <option value="{{ $customers->location_id }}" class="selectstatus" style="color: black;" selected disabled>{{ $locCurr->location_name ?? '' }}</option>
+                                    @foreach ($locations as $location)
+                                        <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -189,7 +192,7 @@
                             </div>
                         </div>
 
-                        <div class="m-3 d-flex gap-5">
+                        {{-- <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="location" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location" id="gender" required>
@@ -197,11 +200,9 @@
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach
-                                    {{-- <option value="Tn" class="selectstatus" style="color: black;">Male</option>
-                                    <option value="Ny" class="selectstatus" style="color: black;">Female</option> --}}
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                         <button type="submit" id="submitPets" hidden></button>
                     </form>
                     {{-- Sub Customer List (PET) --}}
@@ -244,7 +245,7 @@
                             <table class="table">
                                 <thead>
                                   <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col">No</th>
                                     <th scope="col">Sub Account Name</th>
                                     <th scope="col">Type</th>
                                     <th scope="col">Ras</th>
@@ -255,19 +256,23 @@
                                   </tr>
                                 </thead>
                                 <tbody>
+                                    <?php $index = 0; ?>
                                     @foreach ($pets as $pet)
+                                        <?php $index += 1; ?>
                                         <tr>
                                             <th>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="checkBox[{{ $pet->id }}]" name="checkBoxPet"  value="{{ $pet->id }}">
-                                                </div>
+                                                {{ $index }}
                                             </th>
                                             <td>{{ $pet->pet_name }}</td>
                                             <td>{{ $pet->pet_type }}</td>
                                             <td>{{ $pet->pet_ras }}</td>
                                             <td>{{ $pet->pet_color }}</td>
-                                            <?php $date = date_create($pet->date_of_birth) ?>
-                                            <td>{{ date_format($date, 'd F Y') }}</td>
+                                            @if ($pet->date_of_birth != null)
+                                                <?php $date = date_create($pet->date_of_birth) ?>
+                                                <td>{{ date_format($date, 'd F Y') }}</td>
+                                            @else
+                                                <td>-</td>
+                                            @endif
                                             <td>{{ $pet->pet_gender }}</td>
                                             <td>
                                                 <div class="d-flex justify-content-center gap-2">
@@ -551,6 +556,29 @@
                     <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
                 </div>
             </form>    
+          </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="discardCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Discard Customer</h1>
+            </div>
+            
+            <form action="/discardCustomer/{{ $customers->id }}" method="GET">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-1">
+                        <small class="fs-6" style="font-weight: 300">Are you sure discard this customer?</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Discard</button>
+                </div>
+            </form>
           </div>
         </div>
     </div>

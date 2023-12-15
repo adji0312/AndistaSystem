@@ -149,7 +149,8 @@ Route::middleware('auth')->group(function () {
     //List Plan in Treatment
     Route::post('/addTaskPlan', [ListPlanController::class, 'addTaskPlan']); //task
     Route::post('/editTaskPlan/{id}', [ListPlanController::class, 'editTaskPlan']);
-    Route::post('/addServicePlan', [ListPlanController::class, 'addServicePlan']); //task
+    Route::post('/addServicePlan', [ListPlanController::class, 'addServicePlan']); //service
+    Route::post('/addProductPlan', [ListPlanController::class, 'addProductPlan']); //product
     Route::post('/editServicePlan/{id}', [ListPlanController::class, 'editServicePlan']);
     
     
@@ -266,6 +267,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/editTextBooking/{id}', [CartBookingController::class, 'editTextBooking']);
     Route::get('/deleteBookingDiagnosis/{id}', [BookingController::class, 'deleteBookingDiagnosis']);
     Route::post('/editBookingDiagnosis/{id}', [BookingController::class, 'editBookingDiagnosis']);
+    Route::post('/updateBookingDate/{id}', [BookingController::class, 'updateBookingDate']);
 
 
     // -- SEMUA ROUTING STAFF
