@@ -52,7 +52,26 @@
                       @if ($attendance->status == "Normal")
                           <td class="text-success">{{ $attendance->status }}</td>
                       @elseif ($attendance->status == "Late")
-                          <td class="text-danger">{{ $attendance->status }} ({{ $attendance->over_hour }} minutes)</td>
+                          <?php $hour = $attendance->over_hour/60;
+                                $minute = $attendance->over_hour%60;
+                                $panjangHour = strlen(floor($hour));
+                                $panjangMinute = strlen($minute);
+
+                                $printHour = '';
+                                $printMinute = '';
+                                if($panjangHour == 1){
+                                  $printHour = '0'.floor($hour);
+                                }else{
+                                  $printHour = floor($hour);
+                                }
+
+                                if($panjangMinute == 1){
+                                  $printMinute = '0'.floor($minute);
+                                }else{
+                                  $printMinute = floor($minute);
+                                }
+                          ?>
+                          <td class="text-danger">{{ $attendance->status }} {{ $printHour }}:{{ $printMinute }} ({{ $attendance->over_hour }} minutes)</td>
                       @else
                           <td class="text-primary">{{ $attendance->status }}</td>
                       @endif

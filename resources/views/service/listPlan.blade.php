@@ -97,20 +97,14 @@
                                     <tr>
                                         <th scope="row">
                                             <div>
-                                                <div class="d-flex justify-content-between">
+                                                <div class="d-flex gap-3">
                                                     @if ($list->service_id != 0)
                                                         <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#updateServiceCanvas{{ $list->id }}" aria-controls="updateServiceCanvas">
                                                             {{ $list->service->service_name }}
                                                         </small>
                                                     @elseif ($list->product_id != 0)
-                                                        <small style="font-size: 17px; cursor: pointer" class="text-primary">
-                                                            @if ($list->service_id != 0)
-                                                                {{ $list->service->service_name }}
-                                                            @elseif ($list->product_id != 0)
-                                                                {{ $list->products->product_name }}
-                                                            @elseif ($list->task_id != 0)
-                                                                {{ $list->task->task_name }}
-                                                            @endif
+                                                        <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#updateProductCanvas{{ $list->id }}" aria-controls="updateProductCanvas">
+                                                            {{ $list->products->product_name }}
                                                         </small>
                                                     @elseif ($list->task_id != 0)
                                                         <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#updateTaskCanvas{{ $list->id }}" aria-controls="updateTaskCanvas">
@@ -123,24 +117,39 @@
                                                     @endif
                                                 </div>
                                                 @if ($list->duration == 0 && $list->frequency_id == 0)
-                                                    <small style="font-weight: 300; font-size: 15px;">Frequency and duration not yet assigned</small> <br>
+                                                    <small style="font-weight: 500; font-size: 15px;">Frequency : 0</small> <br>
                                                 @else
-                                                    <small style="font-weight: 300; font-size: 15px;">{{ $list->frequency->frequency_name }} for {{ $list->duration }} days</small> <br> 
+                                                    <small style="font-weight: 500; font-size: 15px;">{{ $list->frequency->frequency_name }} for {{ $list->duration }} days</small> <br> 
                                                 @endif
-                                                <small style="font-weight: 300; font-size: 15px;">
+                                                <small style="font-weight: 500; font-size: 15px;">
                                                     @if ($list->start_day == 0)
-                                                        Start Day : not yet assigned
+                                                        Start Day : 0
                                                     @else
                                                         Start Day : {{ $list->start_day }}
                                                     @endif
                                                 </small> <br>
+                                                <small style="font-weight: 500; font-size: 15px;">
+                                                    @if ($list->duration == 0)
+                                                        Duration : 0
+                                                    @else
+                                                        Duration : {{ $list->duration }}
+                                                    @endif
+                                                </small> <br>
+                                                @if ($list->product_id != 0)
+                                                    <small style="font-weight: 500; font-size: 15px;">
+                                                        Quantity : {{ $list->quantity }}
+                                                    </small> <br>
+                                                @endif
                                                 @if ($list->service_id != 0)
-                                                    <small style="font-weight: 300; font-size: 15px;">* Price not yet assigned</small> <br>
+                                                    <small style="font-weight: 500; font-size: 15px;">Price : 0</small> <br>
+                                                @endif
+                                                @if ($list->product_id != 0)
+                                                    <small style="font-weight: 500; font-size: 15px;">Price : Rp {{ number_format($list->products->price * $list->quantity) }}</small> <br>
                                                 @endif
                                                 @if ($list->notes != null || $list->notes != '')
-                                                    <small style="font-weight: 300">notes : {{ $list->notes }}</small>
+                                                    <small style="font-weight: 500">notes : {{ $list->notes }}</small>
                                                 @else
-                                                    <small style="font-weight: 300">notes : - </small>
+                                                    <small style="font-weight: 500">notes : - </small>
                                                 @endif
                                             </div>
                                         </th>
@@ -149,20 +158,14 @@
                                     <tr>
                                         <th scope="row">
                                             <div>
-                                                <div class="d-flex justify-content-between">
+                                                <div class="d-flex gap-3">
                                                     @if ($list->service_id != 0)
                                                         <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#updateServiceCanvas{{ $list->id }}" aria-controls="updateServiceCanvas">
                                                             {{ $list->service->service_name }}
                                                         </small>
                                                     @elseif ($list->product_id != 0)
-                                                        <small style="font-size: 17px; cursor: pointer" class="text-primary">
-                                                            @if ($list->service_id != 0)
-                                                                {{ $list->service->service_name }}
-                                                            @elseif ($list->product_id != 0)
-                                                                {{ $list->products->product_name }}
-                                                            @elseif ($list->task_id != 0)
-                                                                {{ $list->task->task_name }}
-                                                            @endif
+                                                        <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#updateProductCanvas{{ $list->id }}" aria-controls="updateProductCanvas">
+                                                            {{ $list->products->product_name }}
                                                         </small>
                                                     @elseif ($list->task_id != 0)
                                                         <small style="font-size: 17px; cursor: pointer" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#updateTaskCanvas{{ $list->id }}" aria-controls="updateTaskCanvas">
@@ -174,17 +177,23 @@
                                                     @else
                                                     @endif
                                                 </div>
+                                                <small style="font-weight: 500; font-size: 15px;">Frequency : {{ $list->frequency->frequency_name }}</small> <br>
+                                                <small style="font-weight: 500; font-size: 15px;">Start Day : {{ $list->start_day }}</small> <br>
+                                                <small style="font-weight: 500; font-size: 15px;">Duration : {{ $list->duration }} days</small> <br>
+                                                <small style="font-weight: 500; font-size: 15px;">Quantity : {{ $list->quantity }}</small> <br>
+                                                
                                                 @if ($list->service_id != 0)
-                                                    <small style="font-weight: 300; font-size: 15px;">Price: {{  $list->servicePrice->price_title }} {{ $list->servicePrice->duration }} {{ $list->servicePrice->duration_type }} (Rp {{ number_format($list->servicePrice->price) }})</small> <br>
+                                                    <small style="font-weight: 500; font-size: 15px;">Price: {{  $list->servicePrice->price_title }} {{ $list->servicePrice->duration }} {{ $list->servicePrice->duration_type }} (Rp {{ number_format($list->servicePrice->price) }})</small> <br>
                                                 @endif
-                                                <small style="font-weight: 300; font-size: 15px;">Frequency: {{ $list->frequency->frequency_name }}</small> <br>
-                                                <small style="font-weight: 300; font-size: 15px;">Start Day : {{ $list->start_day }}</small> <br>
-                                                <small style="font-weight: 300; font-size: 15px;">Duration : {{ $list->duration }} days</small> <br>
+                                                @if ($list->product_id != 0)
+                                                    <small style="font-weight: 500; font-size: 15px;">Price : Rp {{ number_format($list->products->price * $list->quantity) }}</small> <br>
+                                                @endif
                                                 @if ($list->notes != null || $list->notes != '')
-                                                    <small style="font-weight: 300; font-size: 15px;">Notes : {{ $list->notes }}</small>
+                                                    <small style="font-weight: 500; font-size: 15px;">Notes : {{ $list->notes }}</small>
                                                 @else
-                                                    <small style="font-weight: 300; font-size: 15px;">Notes : - </small>
+                                                    <small style="font-weight: 500; font-size: 15px;">Notes : - </small>
                                                 @endif
+                                                
                                             </div>
                                         </th>
                                     </tr>
@@ -204,7 +213,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                                                @if(Auth::user()->role->service_treatment === 1)
+                                                @if(Auth::user()->role->service_treatment_plan === 1)
                                                 <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i> Delete</button>
                                                 @else
                                                 @endif
@@ -313,6 +322,109 @@
                                     </div>
                                 </div>
 
+                                {{-- modal edit product list --}}
+                                <div class="offcanvas offcanvas-end" tabindex="-1" id="updateProductCanvas{{ $list->id }}" aria-labelledby="rightCanvasId">
+                                    <div class="offcanvas-header">
+                                        <h5 class="offcanvas-title" id="rightCanvasId">Edit Item</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                    </div>
+                                    <div class="offcanvas-body" style="display: block;">
+                                        <form action="/editProductPlan/{{ $list->id }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+                                            <input type="hidden" name="plan_name" value="{{ $plan->name }}">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Task</label>
+                                                @if ($list->product_id != 0)
+                                                    <input type="text" class="form-control" id="name" name="name" value="{{ $list->products->product_name }}" readonly>
+                                                @endif
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Start Day</label>
+                                                @if ($list->start_day == 0)
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="start_day">
+                                                        @for ($index1 = 1; $index1 <= $plan->duration; $index1++)
+                                                            <option value="{{ $index1 }}" class="selectstatus" style="color: black;">Day {{ $index1 }}</option>
+                                                        @endfor
+                                                    </select>
+                                                @else
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="start_day">
+                                                        @for ($index1 = 1; $index1 <= $plan->duration; $index1++)
+                                                            @if ($index1 == $list->start_day)
+                                                                <option selected value="{{ $index1 }}" class="selectstatus" style="color: black;">Day {{ $index1 }}</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $index1 }}" class="selectstatus" style="color: black;">Day {{ $index1 }}</option>
+                                                        @endfor
+                                                    </select>
+                                                @endif
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Frequency</label>
+                                                @if ($list->frequency_id == 0)
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="frequency_id">
+                                                        @foreach ($frequencies as $frequency)
+                                                            <option value="{{ $frequency->id }}" class="selectstatus" style="color: black;">{{ $frequency->frequency_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @else
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="frequency_id">
+                                                        @foreach ($frequencies as $frequency)
+                                                            @if ($frequency->id == $list->frequency_id)
+                                                                <option selected value="{{ $frequency->id }}" class="selectstatus" style="color: black;">{{ $frequency->frequency_name }}</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $frequency->id }}" class="selectstatus" style="color: black;">{{ $frequency->frequency_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endif
+                                            </div>
+                                
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
+                                                @if ($list->duration == 0)
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="duration">
+                                                        @for ($index1 = 1; $index1 <= $plan->duration; $index1++)
+                                                            <option value="{{ $index1 }}" class="selectstatus" style="color: black;">{{ $index1 }} Day</option>
+                                                        @endfor
+                                                    </select>
+                                                @else
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%" aria-label="Default select example" name="duration">
+                                                        @for ($index1 = 1; $index1 <= $plan->duration; $index1++)
+                                                            @if ($index1 == $list->duration)
+                                                                <option selected value="{{ $index1 }}" class="selectstatus" style="color: black;">{{ $index1 }} Day</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $index1 }}" class="selectstatus" style="color: black;">{{ $index1 }} Day</option>
+                                                        @endfor
+                                                    </select>
+                                                @endif
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Quantity</label>
+                                                <input type="number" class="form-control" name="quantity" value="{{ $list->quantity }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="form-floating">
+                                                    @if ($list->temp == 1)
+                                                        <textarea class="form-control" id="notes" style="height: 100px" name="notes"></textarea>
+                                                        <label for="notes">Notes</label>
+                                                    @else
+                                                        <textarea class="form-control" id="notes" style="height: 100px" name="notes">{{ $list->notes }}</textarea>
+                                                        <label for="notes">Notes</label>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            @if(Auth::user()->role->service_treatment_plan === 1|Auth::user()->role->service_treatment_plan === 2)
+                                            <div class="mb-3 float-end">
+                                                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Save</button>
+                                            </div>
+                                            @else
+                                            @endif
+                                        </form>
+                                    </div>
+                                </div>
+
                                 {{-- modal edit service list --}}
                                 <div class="offcanvas offcanvas-end" tabindex="-1" id="updateServiceCanvas{{ $list->id }}" aria-labelledby="rightCanvasId">
                                     <div class="offcanvas-header">
@@ -334,7 +446,7 @@
                                             <div class="mb-3">
                                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Price</label>
                                                 @if ($list->service_price_id == 0)
-                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="service_price_id" name="service_price_id">
+                                                    <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="service_price_id" name="service_price_id" required>
                                                         <option value="" class="selectstatus" style="color: black;" selected disabled>Select Price</option>
                                                         @foreach ($servicePrice->where('service_id', $list->service_id) as $sp)
                                                             <option value="{{ $sp->id }}" class="selectstatus" style="color: black;">{{ $sp->price_title }} {{ $sp->duration }} {{ $sp->duration_type }} (Rp {{ number_format($sp->price) }})</option>
