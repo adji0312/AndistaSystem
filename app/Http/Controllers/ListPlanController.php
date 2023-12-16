@@ -91,17 +91,17 @@ class ListPlanController extends Controller
     
     public function addProductPlan(Request $request){
         
-        dd($request->all());
+        // dd($request->all());
         $validatedData = $request->validate([
-            'service_id' => 'required',
+            'product_id' => 'required',
             'plan_id' => 'required',
         ]);
         
         $validatedData['temp'] = 1;
-        $validatedData['quantity'] =  0;
+        $validatedData['quantity'] =  1;
         $validatedData['service_price_id'] =  0;
         $validatedData['task_id'] =  0;
-        $validatedData['product_id'] =  0;
+        $validatedData['service_id'] =  0;
         $validatedData['duration'] =  0;
         $validatedData['start_day'] =  0;
         $validatedData['frequency_id'] =  0;
@@ -134,6 +134,20 @@ class ListPlanController extends Controller
                          'frequency_id'=>$request->frequency_id,
                          'duration'=>$request->duration, 
                          'temp'=>0,
+                         'notes'=>$request->notes ]
+                        );
+        return redirect()->back();
+    }
+
+    public function editProductPlan(Request $request, $id){
+        // dd($request->all());
+        $list = ListPlan::find($id);
+        ListPlan::where('id', $list->id)
+                ->update(['start_day' => $request->start_day,
+                         'frequency_id'=>$request->frequency_id,
+                         'duration'=>$request->duration, 
+                         'temp'=>0,
+                         'quantity'=>$request->quantity,
                          'notes'=>$request->notes ]
                         );
         return redirect()->back();

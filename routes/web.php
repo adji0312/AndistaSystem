@@ -148,10 +148,11 @@ Route::middleware('auth')->group(function () {
     
     //List Plan in Treatment
     Route::post('/addTaskPlan', [ListPlanController::class, 'addTaskPlan']); //task
-    Route::post('/editTaskPlan/{id}', [ListPlanController::class, 'editTaskPlan']);
     Route::post('/addServicePlan', [ListPlanController::class, 'addServicePlan']); //service
     Route::post('/addProductPlan', [ListPlanController::class, 'addProductPlan']); //product
+    Route::post('/editTaskPlan/{id}', [ListPlanController::class, 'editTaskPlan']);
     Route::post('/editServicePlan/{id}', [ListPlanController::class, 'editServicePlan']);
+    Route::post('/editProductPlan/{id}', [ListPlanController::class, 'editProductPlan']);
     
     
     // Usage Contact

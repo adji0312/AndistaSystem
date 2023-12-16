@@ -21,7 +21,7 @@ class ListPlan extends Model
         return $this->belongsTo(ServicePrice::class, 'service_price_id');
     }
     public function products(){
-        // return $this->belongsTo(::class);
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
     public function plan(){
