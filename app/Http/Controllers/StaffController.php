@@ -120,6 +120,7 @@ class StaffController extends Controller
         $roles->manage_staff_shift = $request->manage_staff_shift;
         //Presence
         $roles->absent = $request->absent;
+        $roles->presence_today = $request->presence_today;
         //Reports
         $roles->reports_all = $request->reports_all;
 

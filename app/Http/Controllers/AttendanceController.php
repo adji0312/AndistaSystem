@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Location;
 use App\Models\OffDay;
 use App\Models\Shift;
@@ -112,5 +113,16 @@ class AttendanceController extends Controller
         $staffShift->save();
 
         return redirect()->back();
+    }
+
+    public function updateFilterAttendanceList(Request $request){
+        $location_id = $request->location_id;
+        $month = $request->month;
+        $year = $request->year;
+
+        $filterAttendanceList = Attendance::query()
+        ->whereRelation('staff','id','staff_id');
+
+        @dd($filterAttendanceList);
     }
 }
