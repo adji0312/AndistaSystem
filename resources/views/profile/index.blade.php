@@ -34,7 +34,7 @@
                         </div>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
-                                <label for="password" class="form-label"><strong>Change Password</strong></label>
+                                <label for="password" class="form-label"><strong>New Password</strong></label>
                                 
                                 <input id="myInput" type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
                                 @error('password')
@@ -42,11 +42,29 @@
                                     {{ $message }}
                                   </div>
                                 @enderror
-                              </div>
+                            </div>
                             <div class="my-auto">
                                 <span class="eye " onclick="myFunction()">
                                     <i id="hide1" class="fas fa-eye"></i>
                                     <i id="hide2" class="fas fa-eye-slash"></i>
+                                  </span>
+                              </div>
+                        </div>
+                        <div class="m-3 d-flex gap-5">
+                            <div class="mb-3">
+                                <label for="password" class="form-label"><strong>Confirm Password</strong></label>
+                                
+                                <input id="myInput2" type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="confirm_password">
+                                @error('password')
+                                  <div class="invalid-feedback">
+                                    {{ $message }}
+                                  </div>
+                                @enderror
+                            </div>
+                            <div class="my-auto">
+                                <span class="eye " onclick="myFunction()">
+                                    <i id="hide12" class="fas fa-eye"></i>
+                                    <i id="hide22" class="fas fa-eye-slash"></i>
                                   </span>
                               </div>
                         </div>
@@ -181,6 +199,23 @@
           var x = document.getElementById("myInput");
           var y = document.getElementById("hide1");
           var z = document.getElementById("hide2");
+    
+          if(x.type === 'password'){
+            x.type = "text";
+            y.style.display = "block";
+            z.style.display = "none";
+          }else{
+            x.type = "password";
+            y.style.display = "none";
+            z.style.display = "block";
+          }
+        }
+      </script>
+    <script>
+        function myFunction(){
+          var x = document.getElementById("myInput2");
+          var y = document.getElementById("hide12");
+          var z = document.getElementById("hide22");
     
           if(x.type === 'password'){
             x.type = "text";

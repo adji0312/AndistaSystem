@@ -1164,7 +1164,7 @@
               </td>
             </tr>
             <tr>
-              <th scope="row" style="color: #7C7C7C;width:300px">Absent</th>
+              <th scope="row" style="color: #7C7C7C;width:300px">Presence Today</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
