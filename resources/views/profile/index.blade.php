@@ -81,6 +81,7 @@
                                 <th scope="col">Check In</th>
                                 <th scope="col">Check Out</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Over Working Day</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -119,10 +120,49 @@
                                         @if ($attendance->status == "Normal")
                                             <td class="text-success">{{ $attendance->status }}</td>
                                         @elseif ($attendance->status == "Late")
-                                            <td class="text-danger">{{ $attendance->status }} ({{ $attendance->over_hour }} minutes)</td>
+                                            <?php $hour = $attendance->over_hour/60;
+                                                $minute = $attendance->over_hour%60;
+                                                $panjangHour = strlen(floor($hour));
+                                                $panjangMinute = strlen($minute);
+                
+                                                $printHour = '';
+                                                $printMinute = '';
+                                                if($panjangHour == 1){
+                                                $printHour = '0'.floor($hour);
+                                                }else{
+                                                $printHour = floor($hour);
+                                                }
+                
+                                                if($panjangMinute == 1){
+                                                $printMinute = '0'.floor($minute);
+                                                }else{
+                                                $printMinute = floor($minute);
+                                                }
+                                            ?>
+                                            <td class="text-danger">{{ $attendance->status }} {{ $printHour }}:{{ $printMinute }} ({{ $attendance->over_hour }} minutes)</td>
                                         @else
                                             <td class="text-primary">{{ $attendance->status }}</td>
                                         @endif
+                                        <?php $hour1 = $attendance->duration_work/60;
+                                            $minute1 = $attendance->duration_work%60;
+                                            $panjangHour1 = strlen(floor($hour1));
+                                            $panjangMinute = strlen($minute1);
+            
+                                            $printHour1 = '';
+                                            $printMinute1 = '';
+                                            if($panjangHour1 == 1){
+                                            $printHour1 = '0'.floor($hour1);
+                                            }else{
+                                            $printHour1 = floor($hour1);
+                                            }
+            
+                                            if($panjangMinute == 1){
+                                            $printMinute1 = '0'.floor($minute1);
+                                            }else{
+                                            $printMinute1 = floor($minute1);
+                                            }
+                                        ?>
+                                        <td>{{ $printHour1 }}:{{ $printMinute1 }} ({{ $attendance->duration_work }} minutes)</td>
                                     </tr>
                                 @endforeach
                             </tbody>
