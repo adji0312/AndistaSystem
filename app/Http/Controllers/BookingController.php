@@ -915,6 +915,47 @@ class BookingController extends Controller
         return redirect('/sale/list/paid');
     }
 
+    public function makeDeposit(Request $request){
+        // dd($request->all());
+        $sale = Sale::find($request->sale_id);
+
+        //kasus tidak ada biaya apa apa lagi
+        $sale->metode = $request->payment_method;
+        $sale->deposit = $request->deposit;
+        $sale->note = $request->payment_note;
+        $sale->status = 2;
+        $sale->save();
+
+        return redirect('/sale/list/paid');
+    }
+
+    public function updateAddCost(Request $request, $id){
+        // dd($request->all());
+
+        if($request->tambahan_biaya){
+            $sale = Sale::find($id);
+            // dd($sale);
+            //kasus tidak ada biaya apa apa lagi
+            // $sale->metode = $request->payment_method;
+            // $sale->deposit = $request->deposit;
+            // $sale->note = $request->payment_note
+            $sale->tambahan_biaya = $request->tambahan_biaya;
+            $sale->save();
+
+        }else{
+            $sale = Sale::find($id);
+            // dd($sale);
+            //kasus tidak ada biaya apa apa lagi
+            // $sale->metode = $request->payment_method;
+            // $sale->deposit = $request->deposit;
+            // $sale->note = $request->payment_note;
+            $sale->save();
+
+        }
+
+        return redirect('/sale/list/paid');
+    }
+
     public function attachFile(Request $request){
 
         // dd($request->image->getClientOriginalName());

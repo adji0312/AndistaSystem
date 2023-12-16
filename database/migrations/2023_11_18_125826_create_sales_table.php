@@ -23,6 +23,9 @@ return new class extends Migration
             $table->integer('status')->nullable(); //unpaid: 1, paid: 0
             $table->integer('is_delete')->nullable(); //delete: 0, undeleted: 1
             $table->integer('total_price')->nullable();
+            $table->integer('deposit')->nullable();
+            $table->integer('flagDeposit')->nullable();
+            $table->integer('recharge')->nullable();
             $table->timestamps();
         });
     }

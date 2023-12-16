@@ -275,6 +275,16 @@ class IndexController extends Controller
         ]);
     }
 
+    public function salelistdeposit(){
+
+        $sales = Sale::all()->where('status', 2);
+
+        return view('finance.salelistdeposit', [
+            "title" => "Sale List Deposit",
+            "sales" => $sales
+        ]);
+    }
+
     public function detailinvoice($name){
 
         $sale = Sale::all()->where('status', 1)->where('no_invoice', $name)->first();
@@ -283,9 +293,28 @@ class IndexController extends Controller
         $item = $sale->booking;
         $staff = Staff::all()->where('status', 'Active');
         $subAccount = Pet::all()->where('customer_id', $sale->booking->customer->id);
-
         return view('finance.detailsalelistunpaid', [
             "title" => "Sale List Unpaid",
+            "sale" => $sale,
+            "bookingService" => $bookingService,
+            "item" => $item,
+            "staffs" => $staff,
+            "subAccount" => $subAccount,
+            "servicePrice" => ServicePrice::all(),
+        ]);
+    }
+
+    public function detaildeposit($name){
+
+        $sale = Sale::all()->where('status', 2)->where('no_invoice', $name)->first();
+        // dd($sale);
+        // dd($sale->booking->customer->pets);
+        $bookingService = BookingService::all()->where('booking_id', $sale->booking_id)->first();
+        $item = $sale->booking;
+        $staff = Staff::all()->where('status', 'Active');
+        $subAccount = Pet::all()->where('customer_id', $sale->booking->customer->id);
+        return view('finance.detailsalelistdeposit', [
+            "title" => "Sale List Despoit",
             "sale" => $sale,
             "bookingService" => $bookingService,
             "item" => $item,

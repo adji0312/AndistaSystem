@@ -70,7 +70,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/finance', [IndexController::class, 'financeDashboard']);
     Route::get('/sale/list/paid', [IndexController::class, 'salelistpaid']);
     Route::get('/sale/list/unpaid', [IndexController::class, 'salelistunpaid']);
+    Route::get('/sale/list/deposit', [IndexController::class, 'salelistdeposit']);
     Route::get('/sale/list/unpaid/{name}', [IndexController::class, 'detailinvoice']);
+    Route::get('/sale/list/deposit/{name}', [IndexController::class, 'detaildeposit']);
     Route::get('/quotation/list', [QuotationController::class, 'quotationList']);
     Route::get('/quotation/add', [QuotationController::class, 'addquotation']);
     Route::get('/quotation/add/{name}', [QuotationController::class, 'addquotationdetail']);
@@ -80,6 +82,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/updateTaxRate/{id}', [TaxRateController::class, 'update']);
     Route::get('/deleteTax', [TaxRateController::class, 'deleteTax']);
     Route::post('/makePayment', [BookingController::class, 'makePayment']);
+    Route::post('/makeDeposit', [BookingController::class, 'makeDeposit']);
+    Route::post('/updateAddCost/{id}', [BookingController::class, 'updateAddCost']);
     
     //Service
     Route::get('/service', [IndexController::class, 'serviceDashboard']);

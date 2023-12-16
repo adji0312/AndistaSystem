@@ -20,6 +20,7 @@
             <ul class="dropdown-menu mx-3">
                 <li><a class="dropdown-item {{ ($title === "Sale List Paid") ? 'active' : '' }}" href="/sale/list/paid">Sale Paid</a></li>
                 <li><a class="dropdown-item {{ ($title === "Sale List Unpaid") ? 'active' : '' }}" href="/sale/list/unpaid">Sale Unpaid</a></li>
+                <li><a class="dropdown-item {{ ($title === "Sale List Deposit") ? 'active' : '' }}" href="/sale/list/deposit">Sale Deposit</a></li>
             </ul>
         </li>
         @else

@@ -13,10 +13,7 @@
                               <a class="nav-link active" aria-current="page" href="/sale/list/unpaid" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#makePayment" style="color: #f28123; cursor: pointer;"><img src="/img/icon/paid.png" alt="" style="width: 22px"> Paid</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#makeDeposit" style="color: #f28123; cursor: pointer;"><img src="/img/icon/deposit.png" alt="" style="width: 22px"> Deposit</a>
+                            <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#makePayment" style="color: #f28123; cursor: pointer;"><img src="/img/icon/paid.png" alt="" style="width: 22px"> Repayment</a>
                         </li>
                       </ul>
                       {{-- <form class="d-flex" role="search">
@@ -309,29 +306,18 @@
                             </tr>
                         </thead>
                         <tbody>
+                            
                             <tr>
-                                <th scope="row" class="text-end">Additional Cost (Description)</th>
-                                <td colspan="2"><input type="text" placeholder="Description" style="width: 100%"></td>
+                            <th scope="row" class="text-end">Additional Cost (Description)</th>
+                            <td colspan="2"><input type="text" placeholder="Description" style="width: 100%"></td>
                             </tr>
                             <tr>
-                                <form action="/updateAddCost/{{ $sale->id }}" method="POST">
-                                    @csrf
-                                    <th scope="row" class="text-end">Additional Cost (Price)</th>
-                                    <td colspan="2"><input type="number" placeholder="0.00" style="width: 100%" oninput="inputAdditionalCost()" name="tambahan_biaya" id="tambahan_biaya"></td>
-                                    <button type="submit" id="buttonAddCost" hidden></button>
-                                </form>
+                            <th scope="row" class="text-end">Additional Cost (Price)</th>
+                            <td colspan="2"><input type="number" placeholder="0.00" style="width: 100%"></td>
                             </tr>
-                            <script>
-                                function inputAdditionalCost(){
-                                    let i = document.getElementById('buttonAddCost');
-                                    i.click();
-                                }
-                            </script>
                             <tr>
-                                <th scope="row" class="text-end">Total Price</th>
-                                <input type="number" id="total_price" name="total_price" value="">
-                                <input type="number" id="before_total_price" name="before_total_price" value="{{ $sale->total_price }}" hidden>
-                                <td colspan="2" id="total_price_sale">Rp {{ number_format($sale->total_price) }}</td>
+                            <th scope="row" class="text-end">Total Price</th>
+                            <td colspan="2">Rp {{ number_format($sale->total_price) }}</td>
                             </tr>
                         </tbody>
                     </table>
