@@ -20,7 +20,8 @@
             </nav>
 
             <div id="dashboard" class="mx-3 mt-4">
-                <form action="" method="get" id="formFilterLocation">
+                {{-- <form action="" method="get" id="formFilterLocation"> --}}
+                <form action="/submitFilterAttendance" method="get" id="formFilterLocation">
                     @csrf
                     <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Choose Location</h5>

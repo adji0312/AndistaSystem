@@ -38,6 +38,40 @@ class AttendanceController extends Controller
         ]);
     }
 
+    public function attendancelistbyfilter(Request $request){
+        // dd($request->all());
+        $location = $request->location_name;
+        $month = $request->month;
+        $year = $request->year;
+
+            $result = DB::table('attendances')
+                ->leftJoin('staff', 'attendances.staff_id', '=', 'staff.id')
+                ->leftJoin('locations', 'staff.location_id', '=', 'locations.id')
+                ->when($request->location_name, function ($query, $location_name) {
+                    return $query->where('locations.location_name', $location_name);
+                })
+                ->when($request->month, function ($query, $month) {
+                    return $query->whereMonth('attendances.created_at', $month);
+                })
+                ->when($request->year, function ($query, $year) {
+                    return $query->whereYear('attendances.created_at', $year);
+                })
+                ->get();
+
+        @dd($result);
+
+
+        // $location = Location::where('location_name', $name)->first();
+        
+        // $attendance = Attendance::all()->where('')
+        return view('attendance.attendancelistbylocation', [
+            "title" => "Attendance List",
+            "location" => $location,
+            "month" => $request->month,
+            "year" => $request->year,
+        ]);
+    }
+
     public function workingshift(){
         return view('attendance.workingshift', [
             "title" => "Working Shift",

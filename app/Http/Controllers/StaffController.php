@@ -237,7 +237,6 @@ class StaffController extends Controller
         $staff->Address = $request->Address;
         $staff->descriptions = $request->descriptions;
         $staff->shifts_id = $request->shifts_id;
-        // $staff->password = bcrypt("12345678");
         $staff->save();
     
         return redirect('/staff/list')->with('success','Staff Updated Successfully');
@@ -319,7 +318,17 @@ class StaffController extends Controller
         $staff = Staff::find($id);
         $staff->first_name = $request->first_name;
         $staff->email = $request->email;
-        $staff->password = bcrypt($request->password);
+
+        if(($request->password == '') != ($request->confirm_password == '')){
+            $staff->password = $staff->password;
+        }
+        else if($request->password != $request->confirm_password){
+            return redirect('/profile')->with('failed','Password doesnt match or null');
+        }else{
+            $staff->password = bcrypt($request->password);
+        }
+
+        
         $staff->update();
 
         return redirect('/')->with('success','Staff Updated Successfully');
