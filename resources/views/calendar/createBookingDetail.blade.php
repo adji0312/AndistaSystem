@@ -147,18 +147,24 @@
                                 @foreach ($pets->where('customer_id',$booking->customer_id) as $pet)
                                     <tr>
                                         <th>
-                                            @foreach ($sub_books as $sub_book)
-                                                @if ($sub_book->subAccount_id == $pet->id)
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="checkBox[{{ $pet->id }}]" name="checkBoxPet" value="{{ $pet->id }}" checked disabled>
-                                                    </div>
-                                                    @continue;
-                                                @else  
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="checkBox[{{ $pet->id }}]" name="checkBoxPet" value="{{ $pet->id }}" disabled>
-                                                    </div>
-                                                @endif
-                                            @endforeach
+                                            @if (count($sub_books) == 0)
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="checkBox[{{ $pet->id }}]" name="checkBoxPet" value="{{ $pet->id }}">
+                                                </div>
+                                            @else
+                                                @foreach ($sub_books as $sub_book)
+                                                    @if ($sub_book->subAccount_id == $pet->id)
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkBox[{{ $pet->id }}]" name="checkBoxPet" value="{{ $pet->id }}" checked disabled>
+                                                        </div>
+                                                        @continue;
+                                                    @else  
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkBox[{{ $pet->id }}]" name="checkBoxPet" value="{{ $pet->id }}" disabled>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
                                         </th>
                                         <td>{{ $pet->pet_name }}</td>
                                         <td>{{ $pet->pet_type }}</td>
