@@ -448,7 +448,10 @@ class IndexController extends Controller
         }
 
         $dayoff = OffDay::all()->where('tanggal_merah', date_format(Date::now(), 'Y-m-d'));
-        if($dayoff){
+        // dd(count($dayoff));
+        if(count($dayoff) != 0){
+
+            // dd('here');
             $attendance = new Attendance();
             $attendance->staff_id = $staff->id;
             $attendance->check_in = Carbon::now();
@@ -457,6 +460,7 @@ class IndexController extends Controller
             $attendance->save();
         }else{
             $attendance = Attendance::latest()->where('staff_id', $staff->id)->first();
+            // dd($attendance);
             // dd($staff->shift);
             if($attendance){
                 if($attendance->check_out == null){
@@ -473,21 +477,18 @@ class IndexController extends Controller
                         // dd($checkTime);
             
                         if($checkTime > $staff->shift->end_hour){
-                            // dd("normal");
                             $attendance->status = 'Normal';
                             $attendance->over_hour = 0;
                             $attendance->save();
-                        }else{
-                            if($checkTime == $staff->shift->start_hour){
-                                $attendance->status = 'Normal';
-                                $attendance->over_hour = 0;
-                                $attendance->save();
-                            }else{
-                                $attendance->status = 'Late';
-                                $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-                                $attendance->over_hour = $timeDifference;
-                                $attendance->save();
-                            }
+                        }elseif ($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
+                            $attendance->status = 'Late';
+                            $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
+                            $attendance->over_hour = $timeDifference;
+                            $attendance->save();
+                        }elseif ($checkTime == $staff->shift->start_hour){
+                            $attendance->status = 'Normal';
+                            $attendance->over_hour = 0;
+                            $attendance->save();
                         }
                     }else{
 
@@ -499,7 +500,7 @@ class IndexController extends Controller
                         // $checkTime = '08:01';
                         // dd($checkTime);
 
-                        if($checkTime > $staff->shift->start_hour){
+                        if($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
                             // dd("late");
                             $attendance->status = 'Late';
                             $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
@@ -516,6 +517,7 @@ class IndexController extends Controller
             }else{
                 //cuma khusus shift yang start hour nya jam 00:00
                 if($staff->shift->start_hour == "00:00"){
+                    // dd("here");
                     $attendance = new Attendance();
                     $attendance->staff_id = $staff->id;
                     $attendance->check_in = Carbon::now();
@@ -527,17 +529,15 @@ class IndexController extends Controller
                         $attendance->status = 'Normal';
                         $attendance->over_hour = 0;
                         $attendance->save();
-                    }else{
-                        if($checkTime == $staff->shift->start_hour){
-                            $attendance->status = 'Normal';
-                            $attendance->over_hour = 0;
-                            $attendance->save();
-                        }else{
-                            $attendance->status = 'Late';
-                            $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-                            $attendance->over_hour = $timeDifference;
-                            $attendance->save();
-                        }
+                    }elseif ($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
+                        $attendance->status = 'Late';
+                        $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
+                        $attendance->over_hour = $timeDifference;
+                        $attendance->save();
+                    }elseif ($checkTime == $staff->shift->start_hour){
+                        $attendance->status = 'Normal';
+                        $attendance->over_hour = 0;
+                        $attendance->save();
                     }
                 }else{
 
@@ -549,7 +549,7 @@ class IndexController extends Controller
                     // $checkTime = '08:01';
                     // dd($checkTime);
 
-                    if($checkTime > $staff->shift->start_hour){
+                    if($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
                         // dd("late");
                         $attendance->status = 'Late';
                         $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));

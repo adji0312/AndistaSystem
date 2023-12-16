@@ -221,6 +221,7 @@ class StaffController extends Controller
         // $staff->save();
 
         // return redirect('/staff/stafflist')->with('success','Staff Updated Successfully');
+        // dd($request->all());
         $staff = Staff::find($id);
         $staff->first_name = $request->first_name;
         $staff->middle_name = $request->middle_name;
@@ -235,7 +236,7 @@ class StaffController extends Controller
         $staff->Address = $request->Address;
         $staff->descriptions = $request->descriptions;
         $staff->shifts_id = $request->shifts_id;
-        $staff->password = bcrypt($request->password_hash);
+        // $staff->password = bcrypt("12345678");
         $staff->save();
     
         return redirect('/staff/list')->with('success','Staff Updated Successfully');
@@ -312,22 +313,11 @@ class StaffController extends Controller
     }
 
     public function saveStaffUpdateInformation(Request $request,$id){
-        // @dd($request->all());
+        // dd($request->all());
 
         $staff = Staff::find($id);
         $staff->first_name = $request->first_name;
-        // $staff->middle_name = $request->middle_name;
-        // $staff->last_name = $request->last_name;
-        // $staff->nickname = $request->nickname;
-        // $staff->position_id = $request->position_id;
-        // $staff->role_id = $request->role_id;
         $staff->email = $request->email;
-        // $staff->phone = $request->phone;
-        // $staff->messenger = $request->messenger;
-        // $staff->status = $request->status;
-        // $staff->Address = $request->Address;
-        // $staff->descriptions = $request->descriptions;
-        // $staff->shifts_id = $request->shifts_id;
         $staff->password = bcrypt($request->password);
         $staff->update();
 

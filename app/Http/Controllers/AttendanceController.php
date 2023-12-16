@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Location;
 use App\Models\OffDay;
 use App\Models\Shift;
@@ -27,6 +28,8 @@ class AttendanceController extends Controller
     public function attendancelistbylocation(Request $request, $name){
         // dd($request->all());
         $location = Location::where('location_name', $name)->first();
+        
+        // $attendance = Attendance::all()->where('')
         return view('attendance.attendancelistbylocation', [
             "title" => "Attendance List",
             "location" => $location,
