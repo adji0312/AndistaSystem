@@ -405,6 +405,8 @@
                                                 <input type="text" placeholder="0 °C" style="width: 70px;" name="suhu" disabled>
                                             </td>
                                             <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>Berat</td>
@@ -412,12 +414,15 @@
                                                 <input type="text" placeholder="0 kg" style="width: 70px;" name="berat" disabled>
                                             </td>
                                             <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>Perilaku</td>
                                             <td class="text-primary">
                                                 <input type="text" placeholder="..." style="width: 70px;" name="perilaku" disabled>
                                             </td>
+                                            <td>-</td>
                                             <td>-</td>
                                             <td>-</td>
                                         </tr>
@@ -428,12 +433,14 @@
                                             </td>
                                             <td>-</td>
                                             <td>-</td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>Gula Darah</td>
                                             <td class="text-primary">
                                                 <input type="text" placeholder="0 mmol/L" style="width: 70px;" name="gula_darah" disabled>
                                             </td>
+                                            <td>-</td>
                                             <td>-</td>
                                             <td>-</td>
                                         </tr>
@@ -444,12 +451,14 @@
                                             </td>
                                             <td>-</td>
                                             <td>-</td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>CRT</td>
                                             <td class="text-primary">
                                                 <input type="text" placeholder="..." style="width: 70px;" name="crt" disabled>
                                             </td>
+                                            <td>-</td>
                                             <td>-</td>
                                             <td>-</td>
                                         </tr>
@@ -460,12 +469,14 @@
                                             </td>
                                             <td>-</td>
                                             <td>-</td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>MM</td>
                                             <td class="text-primary">
                                                 <input type="text" placeholder="..." style="width: 70px;" name="mm" disabled>
                                             </td>
+                                            <td>-</td>
                                             <td>-</td>
                                             <td>-</td>
                                         </tr>
@@ -476,12 +487,14 @@
                                             </td>
                                             <td>-</td>
                                             <td>-</td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>Tingkat Pernapasan</td>
                                             <td class="text-primary">
                                                 <input type="text" placeholder="0 bpm" style="width: 70px;" name="tingkat_pernapasan" disabled>
                                             </td>
+                                            <td>-</td>
                                             <td>-</td>
                                             <td>-</td>
                                         </tr>
