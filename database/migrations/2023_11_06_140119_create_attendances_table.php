@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('check_out')->nullable();
             $table->string('status'); //checkin
             $table->integer('over_hour');//telat disimpan disini
-            $table->integer('duration_work');//lebih jam kerja
+            $table->integer('duration_work')->nullable();//lebih jam kerja
             $table->timestamps();
         });
     }
