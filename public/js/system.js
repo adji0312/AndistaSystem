@@ -2074,13 +2074,6 @@ function clickAddPhoto(){
     console.log('2089123');
 }
 
-// function inputAdditionalCost(){
-//     console.log('askdjhaskdhjasdasdasdasd');
-    
-//     let i = document.getElementById('total_price_sale');
-//     let y = document.getElementById('tambahan_biaya');
-//     let x = document.getElementById('total_price');
-//     let z = document.getElementById('before_total_price');
-//     x.value = y.value + z.value;
-//     // console.log(y.value);
-// }
+function addAdditionalCost(){
+    document.getElementById('buttonAddCost').click();
+}

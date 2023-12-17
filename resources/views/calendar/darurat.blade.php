@@ -52,7 +52,11 @@
                                 <td class="align-middle">
                                     {{ $booking->booking->services[0]->service->service_name }}
                                 </td>
-                                <td class="align-middle">{{ $booking->booking->staff->first_name }}</td>
+                                @if ($booking->booking->staff)
+                                    <td class="align-middle">{{ $booking->booking->staff->first_name }}</td>
+                                @else
+                                    <td class="align-middle">-</td>
+                                @endif
                                 <td class="align-middle">{{ $booking->booking->location->location_name }}</td>
                                 <td class="align-middle">
                                     <button type="button" class="btn btn-sm" style="background-color: #97cbfe;">{{ $booking->status }}</button>

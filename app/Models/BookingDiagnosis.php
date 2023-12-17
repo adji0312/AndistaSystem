@@ -14,4 +14,8 @@ class BookingDiagnosis extends Model
     public function diagnosis(){
         return $this->belongsTo(Diagnosis::class, 'diagnosis_id');
     }
+
+    public function treatment(){
+        return $this->belongsTo(Plan::class, 'treatment_id');
+    }
 }

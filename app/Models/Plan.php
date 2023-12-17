@@ -22,4 +22,8 @@ class Plan extends Model
     public function location(){
         return $this->belongsTo(Location::class);
     }
+
+    public function listPlan(){
+        return $this->hasMany(ListPlan::class);
+    }
 }

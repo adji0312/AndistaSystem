@@ -931,29 +931,20 @@ class BookingController extends Controller
 
     public function updateAddCost(Request $request, $id){
         // dd($request->all());
-
-        if($request->tambahan_biaya){
-            $sale = Sale::find($id);
+        $sale = Sale::find($id);
+        $priceNow = $sale->total_price - $sale->tambahan_biaya;
+        // dd($priceNow);
             // dd($sale);
             //kasus tidak ada biaya apa apa lagi
             // $sale->metode = $request->payment_method;
             // $sale->deposit = $request->deposit;
             // $sale->note = $request->payment_note
-            $sale->tambahan_biaya = $request->tambahan_biaya;
-            $sale->save();
+        $sale->tambahan_biaya = $request->tambahan_biaya;
+        $sale->deskripsi_tambahan_biaya = $request->deskripsi_tambahan_biaya;
+        $sale->total_price = $priceNow + $request->tambahan_biaya;
+        $sale->save();
 
-        }else{
-            $sale = Sale::find($id);
-            // dd($sale);
-            //kasus tidak ada biaya apa apa lagi
-            // $sale->metode = $request->payment_method;
-            // $sale->deposit = $request->deposit;
-            // $sale->note = $request->payment_note;
-            $sale->save();
-
-        }
-
-        return redirect('/sale/list/paid');
+        return redirect()->back();
     }
 
     public function attachFile(Request $request){

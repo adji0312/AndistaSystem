@@ -12,17 +12,19 @@
                           <li class="nav-item">
                               <a class="nav-link active" aria-current="page" href="/sale/list/unpaid" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#makePayment" style="color: #f28123; cursor: pointer;"><img src="/img/icon/paid.png" alt="" style="width: 22px"> Paid</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#makeDeposit" style="color: #f28123; cursor: pointer;"><img src="/img/icon/deposit.png" alt="" style="width: 22px"> Deposit</a>
-                        </li>
+                        @if ($sale->status == 0)
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#makePayment" style="color: #f28123; cursor: pointer;"><img src="/img/icon/paid.png" alt="" style="width: 22px"> Print</a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#makePayment" style="color: #f28123; cursor: pointer;"><img src="/img/icon/paid.png" alt="" style="width: 22px"> Paid</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#makeDeposit" style="color: #f28123; cursor: pointer;"><img src="/img/icon/deposit.png" alt="" style="width: 22px"> Deposit</a>
+                            </li>
+                        @endif
                       </ul>
-                      {{-- <form class="d-flex" role="search">
-                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                          <button class="btn btn-outline-success" type="submit">Search</button>
-                      </form> --}}
                     </div>
                 </div>
             </nav>
@@ -53,8 +55,13 @@
                 <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                     <div class="d-flex m-2">
                         <h5 class="m-3">Item</h5>
-                        <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartProduct"><i class="fas fa-plus"></i> Add Product</button>
-                        <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartService"><i class="fas fa-plus"></i> Add Service</button>
+                        @if ($sale->status == 0)
+                            <button disabled type="button" class="btn btn-sm btn-outline-secondary m-2" data-bs-toggle="modal" data-bs-target="#addCartProduct"><i class="fas fa-plus"></i> Add Product</button>
+                            <button disabled type="button" class="btn btn-sm btn-outline-secondary m-2" data-bs-toggle="modal" data-bs-target="#addCartService"><i class="fas fa-plus"></i> Add Service</button>
+                        @else
+                            <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartProduct"><i class="fas fa-plus"></i> Add Product</button>
+                            <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartService"><i class="fas fa-plus"></i> Add Service</button>
+                        @endif
                     </div>
 
                     <div class="mx-4 table-responsive">
@@ -124,9 +131,15 @@
                                                             </form>
                                                         </div>
                                                     @else
-                                                        <div class="d-flex justify-content-center gap-2">
-                                                            <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{$item->id}}"><i class="fas fa-trash"></i> Delete</button>
-                                                        </div>
+                                                        @if ($sale->status == 0)
+                                                            <div class="d-flex justify-content-center gap-2">
+                                                                <button disabled type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{$item->id}}"><i class="fas fa-trash"></i> Delete</button>
+                                                            </div>
+                                                        @else
+                                                            <div class="d-flex justify-content-center gap-2">
+                                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{$item->id}}"><i class="fas fa-trash"></i> Delete</button>
+                                                            </div>
+                                                        @endif
                                                     @endif
                                                     
                                                 </td>
@@ -303,30 +316,35 @@
                 <div style="width: 50%; margin-left: 10px;" class="float-end mb-3">
                     <table class="table table-bordered">
                         <thead>
-                            <tr>
+                            {{-- <tr>
                             <th scope="col" class="text-end">Sub-total</th>
                             <td colspan="2">Rp {{ number_format($sale->total_price) }}</td>
-                            </tr>
+                            </tr> --}}
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row" class="text-end">Additional Cost (Description)</th>
-                                <td colspan="2"><input type="text" placeholder="Description" style="width: 100%"></td>
-                            </tr>
-                            <tr>
+                            @if ($sale->status == 0)
+                                <tr>
+                                    <th scope="row" class="text-end">Additional Cost (Description)</th>
+                                    <td colspan="2"><input readonly type="text" placeholder="Description" style="width: 100%" name="deskripsi_tambahan_biaya" value="{{ $sale->deskripsi_tambahan_biaya }}"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-end">Additional Cost (Price)</th>
+                                    <td colspan="2"><input readonly type="number" placeholder="0.00" style="width: 100%" oninput="inputAdditionalCost()" name="tambahan_biaya" id="tambahan_biaya" value="{{ $sale->tambahan_biaya }}"></td>
+                                </tr>
+                            @else
                                 <form action="/updateAddCost/{{ $sale->id }}" method="POST">
                                     @csrf
-                                    <th scope="row" class="text-end">Additional Cost (Price)</th>
-                                    <td colspan="2"><input type="number" placeholder="0.00" style="width: 100%" oninput="inputAdditionalCost()" name="tambahan_biaya" id="tambahan_biaya"></td>
+                                    <tr>
+                                        <th scope="row" class="text-end">Additional Cost (Description)</th>
+                                        <td colspan="2"><input type="text" placeholder="Description" style="width: 100%" name="deskripsi_tambahan_biaya" value="{{ $sale->deskripsi_tambahan_biaya }}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-end">Additional Cost (Price)</th>
+                                        <td colspan="2"><input type="number" placeholder="0.00" style="width: 100%" oninput="inputAdditionalCost()" name="tambahan_biaya" id="tambahan_biaya" value="{{ $sale->tambahan_biaya }}"></td>
+                                    </tr>
                                     <button type="submit" id="buttonAddCost" hidden></button>
                                 </form>
-                            </tr>
-                            <script>
-                                function inputAdditionalCost(){
-                                    let i = document.getElementById('buttonAddCost');
-                                    i.click();
-                                }
-                            </script>
+                            @endif
                             <tr>
                                 <th scope="row" class="text-end">Total Price</th>
                                 <input type="number" id="total_price" name="total_price" value="">
@@ -335,6 +353,11 @@
                             </tr>
                         </tbody>
                     </table>
+                    @if ($sale->status == 0)
+                        <button type="button" disabled class="btn btn-outline-secondary btn-sm float-end" onclick="addAdditionalCost()"><i class="fas fa-save"></i> Save Price</button>
+                    @else
+                        <button type="button" class="btn btn-outline-primary btn-sm float-end" onclick="addAdditionalCost()"><i class="fas fa-save"></i> Save Price</button>
+                    @endif
                 </div>
 
                 <div class="mt-4 mb-4">

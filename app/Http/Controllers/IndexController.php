@@ -287,7 +287,7 @@ class IndexController extends Controller
 
     public function detailinvoice($name){
 
-        $sale = Sale::all()->where('status', 1)->where('no_invoice', $name)->first();
+        $sale = Sale::all()->where('no_invoice', $name)->first();
         // dd($sale->booking->customer->pets);
         $bookingService = BookingService::all()->where('booking_id', $sale->booking_id)->first();
         $item = $sale->booking;

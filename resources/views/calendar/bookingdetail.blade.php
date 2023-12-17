@@ -38,6 +38,11 @@
                                     <input type="text" hidden name="status" value="di rawat inap">
                                     <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Mulai Rawat Inap</button>
                                 </form>
+                                <form action="/changeStatus/{{ $booking->id }}" method="POST">
+                                    @csrf
+                                    <input type="text" hidden name="status" value="di rawat inap">
+                                    <button type="button" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Deposit</button>
+                                </form>
                             @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->ranap == 2)
                                 <form action="/changeStatus/{{ $booking->id }}" method="POST">
                                     @csrf
@@ -62,20 +67,6 @@
                                 </form>
                             @endif
                         @endif
-                    {{-- @elseif($booking->status == "di rawat inap")   
-                        @if ($booking->booking->staff_id == Auth::user()->id)
-                            <form action="/changeStatus/{{ $booking->id }}" method="POST">
-                                @csrf
-                                <input type="text" hidden name="status" value="Selesai">
-                                <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
-                            </form>
-                        @else
-                            <form action="/changeStatus/{{ $booking->id }}" method="POST">
-                                @csrf
-                                <input type="text" hidden name="status" value="Selesai">
-                                <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;" disabled><i class="fas fa-hospital"></i> Pulangkan Pasien</button>
-                            </form>
-                        @endif --}}
                     @endif
                 </div>
             </div>
@@ -83,13 +74,30 @@
         
         <div id="dashboard" class="mx-3 mt-3">
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                @if ($booking->rawat_inap == 1)
-                    <div class="d-flex justify-content-between">
-                        <h5 class="m-3">Information</h5>
-                        <h5 class="m-3"><i class="fas fa-hospital"></i> Rawat Inap</h5>
-                    </div>
+                @if ($booking->booking->darurat == 0)
+                    @if ($booking->rawat_inap == 1)
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex gap-3">
+                                <h5 class="m-3">Information</h5>
+                                <h5 class="m-3 text-danger"><i class="fas fa-exclamation-triangle"></i> Darurat</h5>
+                            </div>
+                            <h5 class="m-3"><i class="fas fa-hospital"></i> Rawat Inap</h5>
+                        </div>
+                    @else
+                        <div class="d-flex gap-3">
+                            <h5 class="m-3">Information</h5>
+                            <h6 class="m-3 text-danger"><i class="fas fa-exclamation-triangle"></i> Darurat</h6>
+                        </div>
+                    @endif
                 @else
-                    <h5 class="m-3">Information</h5>
+                    @if ($booking->rawat_inap == 1)
+                        <div class="d-flex justify-content-between">
+                            <h5 class="m-3">Information</h5>
+                            <h5 class="m-3"><i class="fas fa-hospital"></i> Rawat Inap</h5>
+                        </div>
+                    @else
+                        <h5 class="m-3">Information</h5>
+                    @endif
                 @endif
                 <div class="d-flex gap-3">
                     <div class="m-3 d-flex flex-column gap-1">
@@ -516,7 +524,11 @@
                             <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
                             <input type="text" style="width: 50%" class="form-control" id="booking_diagnosis_id" placeholder="Search Diagnosis..." name="diagnosis_name">
                             @if ($booking->status == "Dimulai")
-                                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Add Diagnosis</button>
+                                @if (count($bookingDiagnosis))
+                                    <button type="submit" class="btn btn-outline-secondary btn-sm" disabled><i class="fas fa-save"></i> Add Diagnosis</button>
+                                @else
+                                    <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Add Diagnosis</button>
+                                @endif
                             @else
                                 <button type="submit" class="btn btn-outline-secondary btn-sm" disabled><i class="fas fa-save"></i> Add Diagnosis</button>
                             @endif
@@ -563,7 +575,7 @@
                                                     </form>
                                                 </td>
                                             @else
-                                                <td>-</td>    
+                                                <td>{{ $bd->treatment->name }}</td>    
                                             @endif
                                             <td>
                                                 <div class="d-flex justify-content-center gap-2">
@@ -601,6 +613,39 @@
                     @endif
                 </div>
             </div>
+
+            @if (count($bookingDiagnosis) != 0)
+                <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-4">
+                    <div class="m-2 d-flex flex-column">
+                        <h5 class="m-3">Treatment Plan</h5>
+                        <div class="table-responsive m-3">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col" style="width: 70px;">Day</th>
+                                    <th scope="col">Item</th>
+                                    <th scope="col">Frequency</th>
+                                    {{-- <th scope="col" class="text-center">Action</th> --}}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $bdIndex1 = 0; ?>
+                                    @foreach ($bookingDiagnosis as $bd)
+                                        <?php $bdIndex1 += 1; ?>
+                                        <tr>
+                                            <th scope="row">{{ $bdIndex1 }}</th>
+                                            {{-- @if ($bd)
+                                                
+                                            @endif --}}
+                                            {{-- {{ $bd->treatment->list_plans }} --}}
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-4">
                 <div class="m-2 d-flex">

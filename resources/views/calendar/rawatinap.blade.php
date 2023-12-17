@@ -50,7 +50,7 @@
                                 @if ($booking->ranap == 1)
                                     -    
                                 @else
-                                    <?php $days = $now->diffInDays($booking->start_booking); ?>
+                                    <?php $days = $now->diffInDays($booking->start_booking) + 1; ?>
                                     {{ $days }}
                                 @endif
                             </td>
