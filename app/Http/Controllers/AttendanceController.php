@@ -35,6 +35,7 @@ class AttendanceController extends Controller
             "location" => $location,
             "month" => $request->month,
             "year" => $request->year,
+            
         ]);
     }
 
@@ -44,31 +45,55 @@ class AttendanceController extends Controller
         $month = $request->month;
         $year = $request->year;
 
-            $result = DB::table('attendances')
-                ->leftJoin('staff', 'attendances.staff_id', '=', 'staff.id')
-                ->leftJoin('locations', 'staff.location_id', '=', 'locations.id')
-                ->when($request->location_name, function ($query, $location_name) {
-                    return $query->where('locations.location_name', $location_name);
-                })
-                ->when($request->month, function ($query, $month) {
-                    return $query->whereMonth('attendances.created_at', $month);
-                })
-                ->when($request->year, function ($query, $year) {
-                    return $query->whereYear('attendances.created_at', $year);
-                })
-                ->get();
 
-        @dd($result);
+    $result = DB::table('attendances')
+        ->select('attendances.id','locations.location_name') 
+        ->leftJoin('staff', 'attendances.staff_id', '=', 'staff.id')
+        ->leftJoin('locations', 'staff.location_id', '=', 'locations.id')
+        ->when($request->location_name, function ($query, $location_name) {
+            return $query->where('locations.location_name', $location_name);
+        })
+        ->get();
 
-
-        // $location = Location::where('location_name', $name)->first();
+    // @dd($result);
         
-        // $attendance = Attendance::all()->where('')
+
+    $finalResult = [];
+
+    foreach ($result as $row) {
+        $attendance = Attendance::find($row->id);
+        // @dd($attendance->staff->location->location_name);
+
+        $location_name = $attendance->staff->location->location_name;
+        // @dd($attendance->created_at->month);
+        //month and year find
+        if($attendance->created_at->month == $request->month && $attendance->created_at->year == $request->year){
+            $finalResult[] = $attendance;
+        }
+
+        //month only , year null
+        else if($attendance->created_at->month == $request->month && $request->year == ''){
+            $finalResult[] = $attendance;
+        }
+
+        //year only , month null
+        else if($request->month=='' && $attendance->created_at->year == $request->year){
+            $finalResult[] = $attendance;
+        }
+
+        else{
+
+        }
+    }
+
+    // @dd($finalResult);
+
         return view('attendance.attendancelistbylocation', [
             "title" => "Attendance List",
-            "location" => $location,
+            "location" => $location_name,
             "month" => $request->month,
             "year" => $request->year,
+            "attendances" => $finalResult
         ]);
     }
 
