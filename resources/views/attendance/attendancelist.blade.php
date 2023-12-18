@@ -69,6 +69,15 @@
                                     <option value="2032" style="color: black;">2032</option>
                                 </select>
                             </div>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Staff</label>
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="staff_id">
+                                    <option value="" class="selectstatus" disabled selected>Select Staff Name</option>
+                                    @foreach ($staffs as $staff)
+                                        <option value="{{ $staff->id }}" style="color: black;">{{ $staff->first_name }}</option>
+                                    @endforeach
+                                    </select>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-outline-primary m-3 mt-0 btn-sm" id="buttonfilter" onclick="submitAttach()">Submit</button>
                     </div>

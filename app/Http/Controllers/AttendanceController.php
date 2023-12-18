@@ -21,7 +21,8 @@ class AttendanceController extends Controller
     public function attendancelist(){
         return view('attendance.attendancelist', [
             "title" => "Attendance List",
-            "locations" => Location::all()
+            "locations" => Location::all(),
+            "staffs" => Staff::all(),
         ]);
     }
 
@@ -53,6 +54,10 @@ class AttendanceController extends Controller
         ->when($request->location_name, function ($query, $location_name) {
             return $query->where('locations.location_name', $location_name);
         })
+        ->when($request->staff_id, function ($query, $staff_id) {
+            return $query->where('staff.id', $staff_id);
+        })
+
         ->get();
 
     // @dd($result);
@@ -78,6 +83,10 @@ class AttendanceController extends Controller
 
         //year only , month null
         else if($request->month=='' && $attendance->created_at->year == $request->year){
+            $finalResult[] = $attendance;
+        }
+
+        else if($request->month=='' && $request->year==''){
             $finalResult[] = $attendance;
         }
 
