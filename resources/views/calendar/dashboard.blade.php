@@ -46,8 +46,10 @@
                             meridiem: false
                         },
                         eventClick: function(info) { // Handle event click
-                            alert('Event: ' + info.event.title+', Start: '+info.event.start+', Start time : '+dayjs(info.event.start_time).toISOString().toLocaleString("en-US",options.day)+',End Booking : '+dayjs(info.event.end_booking).toISOString().toLocaleString("en-US",options.day));
-                            // You can add more logic here
+                            // alert('Event: ' + info.event.title+', Start: '+info.event.start+', Start time : '+dayjs(info.event.start_time).toISOString().toLocaleString("en-US",options.day)+',End Booking : '+dayjs(info.event.end_booking).toISOString().toLocaleString("en-US",options.day)+' test '+info.event.extendedProps.subbook_id
+                            // )
+                            // Redirect
+                            window.location.href = "/booking/detail/"+info.event.extendedProps.subbook_id;
                         }
                     });
 
