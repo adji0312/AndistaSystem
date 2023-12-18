@@ -29,6 +29,8 @@ class AttendanceController extends Controller
     public function attendancelistbylocation(Request $request, $name){
         // dd($request->all());
         $location = Location::where('location_name', $name)->first();
+        $staffs = Staff::all()->where('location_id', $location->id);
+        // dd($staffs);
         
         // $attendance = Attendance::all()->where('')
         return view('attendance.attendancelistbylocation', [
@@ -36,29 +38,36 @@ class AttendanceController extends Controller
             "location" => $location,
             "month" => $request->month,
             "year" => $request->year,
+            "staffs" => $staffs
             
         ]);
     }
 
     public function attendancelistbyfilter(Request $request){
         // dd($request->all());
-        $location = $request->location_name;
+        $location = $request->location_id;
         $month = $request->month;
         $year = $request->year;
 
+        // dd(request('filterstaff'));
 
-    $result = DB::table('attendances')
-        ->select('attendances.id','locations.location_name') 
-        ->leftJoin('staff', 'attendances.staff_id', '=', 'staff.id')
-        ->leftJoin('locations', 'staff.location_id', '=', 'locations.id')
-        ->when($request->location_name, function ($query, $location_name) {
-            return $query->where('locations.location_name', $location_name);
-        })
-        ->when($request->staff_id, function ($query, $staff_id) {
-            return $query->where('staff.id', $staff_id);
-        })
+        $l = Location::where('location_name', $location)->first();
+        // dd($l);
 
-        ->get();
+        $staffs = Staff::all();
+
+        $result = DB::table('attendances')
+            ->select('attendances.id','locations.location_name') 
+            ->leftJoin('staff', 'attendances.staff_id', '=', 'staff.id')
+            ->leftJoin('locations', 'staff.location_id', '=', 'locations.id')
+            ->when($request->location_name, function ($query, $location_name) {
+                return $query->where('locations.location_name', $location_name);
+            })
+            ->when($request->staff_id, function ($query, $staff_id) {
+                return $query->where('staff.id', $staff_id);
+            })
+
+            ->get();
 
     // @dd($result);
         
@@ -94,6 +103,7 @@ class AttendanceController extends Controller
 
         }
     }
+    
 
     // @dd($finalResult);
 
@@ -102,7 +112,8 @@ class AttendanceController extends Controller
             "location" => $location_name,
             "month" => $request->month,
             "year" => $request->year,
-            "attendances" => $finalResult
+            "attendances" => $finalResult,
+            "staffs" => $staffs
         ]);
     }
 

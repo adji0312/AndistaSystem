@@ -28,6 +28,7 @@
         <div id="dashboard" class="mx-3 mt-3">
             <form action="/editBooking/{{ $booking->id }}" method="POST">
                 @csrf
+                <input type="text" hidden name="booking_id" value="{{ $booking->id }}">
                 <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                     <h5 class="m-3">Scheduling</h5>
                     <div class="m-3 d-flex gap-5">

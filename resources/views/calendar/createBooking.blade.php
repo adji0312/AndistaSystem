@@ -29,6 +29,7 @@
         <div id="dashboard" class="mx-3 mt-3">
             <form action="/addBooking" method="POST">
                 @csrf
+                <input type="text" hidden name="admin_id" value="{{ Auth::user()->id }}">
                 <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                     <div class="d-flex m-2">
                         <h5 class="m-3">Scheduling</h5>

@@ -489,6 +489,7 @@ class IndexController extends Controller
     public function presencescan(Request $request){
 
         $staff = Staff::all()->where('UUID', $request->qrid)->first();
+        // dd($staff->shifts_id);
         if($staff == null){
             Alert::warning('Not Found', "Your QR ID doesn't exist!");
             return redirect()->back();
@@ -498,13 +499,31 @@ class IndexController extends Controller
         // dd(count($dayoff));
         if(count($dayoff) != 0){
 
-            // dd('here');
-            $attendance = new Attendance();
-            $attendance->staff_id = $staff->id;
-            $attendance->check_in = Carbon::now();
-            $attendance->status = 'Hari Libur';
-            $attendance->over_hour = 0;
-            $attendance->save();
+            $attendance = Attendance::latest()->where('staff_id', $staff->id)->first();
+            if($attendance){
+                if($attendance->check_out == null){
+                    Alert::warning('Sorry', 'You already check in, please check out first!');
+                    return redirect('/presence');
+                }else{
+                    // dd('here');
+                    $attendance = new Attendance();
+                    $attendance->staff_id = $staff->id;
+                    $attendance->check_in = Carbon::now();
+                    $attendance->status = 'Hari Libur';
+                    $attendance->over_hour = 0;
+                    $attendance->shift_id = $staff->shifts_id;
+                    $attendance->save();
+                }
+            }else{
+                $attendance = new Attendance();
+                $attendance->staff_id = $staff->id;
+                $attendance->check_in = Carbon::now();
+                $attendance->status = 'Hari Libur';
+                $attendance->over_hour = 0;
+                $attendance->shift_id = $staff->shifts_id;
+                $attendance->save();
+            }
+
         }else{
             $attendance = Attendance::latest()->where('staff_id', $staff->id)->first();
             // dd($attendance);
@@ -526,15 +545,18 @@ class IndexController extends Controller
                         if($checkTime > $staff->shift->end_hour){
                             $attendance->status = 'Normal';
                             $attendance->over_hour = 0;
+                            $attendance->shift_id = $staff->shifts_id;
                             $attendance->save();
                         }elseif ($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
                             $attendance->status = 'Late';
                             $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
                             $attendance->over_hour = $timeDifference;
+                            $attendance->shift_id = $staff->shifts_id;
                             $attendance->save();
                         }elseif ($checkTime == $staff->shift->start_hour){
                             $attendance->status = 'Normal';
                             $attendance->over_hour = 0;
+                            $attendance->shift_id = $staff->shifts_id;
                             $attendance->save();
                         }
                     }else{
@@ -552,11 +574,13 @@ class IndexController extends Controller
                             $attendance->status = 'Late';
                             $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
                             $attendance->over_hour = $timeDifference;
+                            $attendance->shift_id = $staff->shifts_id;
                             $attendance->save();
                         }else{
                             // dd("normal");
                             $attendance->status = 'Normal';
                             $attendance->over_hour = 0;
+                            $attendance->shift_id = $staff->shifts_id;
                             $attendance->save();
                         }
                     }
@@ -575,15 +599,18 @@ class IndexController extends Controller
                     if($checkTime > $staff->shift->end_hour){
                         $attendance->status = 'Normal';
                         $attendance->over_hour = 0;
+                        $attendance->shift_id = $staff->shifts_id;
                         $attendance->save();
                     }elseif ($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
                         $attendance->status = 'Late';
                         $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
                         $attendance->over_hour = $timeDifference;
+                        $attendance->shift_id = $staff->shifts_id;
                         $attendance->save();
                     }elseif ($checkTime == $staff->shift->start_hour){
                         $attendance->status = 'Normal';
                         $attendance->over_hour = 0;
+                        $attendance->shift_id = $staff->shifts_id;
                         $attendance->save();
                     }
                 }else{
@@ -601,11 +628,13 @@ class IndexController extends Controller
                         $attendance->status = 'Late';
                         $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
                         $attendance->over_hour = $timeDifference;
+                        $attendance->shift_id = $staff->shifts_id;
                         $attendance->save();
                     }else{
                         // dd("normal");
                         $attendance->status = 'Normal';
                         $attendance->over_hour = 0;
+                        $attendance->shift_id = $staff->shifts_id;
                         $attendance->save();
                     }
                 }
@@ -635,11 +664,18 @@ class IndexController extends Controller
         // dd(Auth::user()->id);
         $attendances = Attendance::latest()->where('staff_id', Auth::user()->id)->paginate(20)->withQueryString();
         $dayoff = OffDay::all()->where('tanggal_merah', date_format(Date::now(), 'Y-m-d'));
+        // $attendance->check_in = Carbon::now();
+        $checkTime = Carbon::now()->format('H:i');
+        // dd($checkTime);
+        // dd(Auth::user()->shift->start_hour);
+        $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse(Auth::user()->shift->start_hour));
+        // dd($timeDifference);
         return view('profile.index', [
             "title" => "My Profile",
             "locations"=>Location::all(),
             "attendances" => $attendances,
-            "dayoff" => $dayoff
+            "dayoff" => $dayoff,
+            "timeDifference" => $timeDifference
         ]);
     }
 

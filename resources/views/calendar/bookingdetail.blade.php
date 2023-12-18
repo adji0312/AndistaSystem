@@ -108,7 +108,7 @@
                     <div class="m-3">
                         <?php $booking->booking ?>
                         {{-- {{ $booking->booking->carts->where('booking_id', $klua) }} --}}
-                        <h6 style="color: black; font-weight: 400">Total : Rp {{ number_format($booking->booking->total_price) }}</h6>
+                        <h6 style="color: black; font-weight: 400">Total : Rp {{ number_format($booking->sub_total_price) }}</h6>
                         @if ($booking->rawat_inap == 1)
                             @if ($booking->ranap == 1)
                                 <h6 style="color: black; font-weight: 400">Status : <button type="button" class="btn btn-sm" style="background-color: #97cbfe">Terkonfirmasi</button> (belum di rawat inap)</h6>
@@ -157,8 +157,15 @@
                                     @else
                                         <td>-</td>
                                     @endif
-                                    <td>{{ $booking->booking->services[0]->servicePrice->duration }} {{ $booking->booking->services[0]->servicePrice->duration_type }} ({{ $booking->booking->services[0]->servicePrice->price_title }})</td>
-                                    <td>Rp {{ number_format($booking->booking->services[0]->servicePrice->price) }}</td>
+                                    @if ($booking->booking->services[0]->servicePrice)
+                                        <td>{{ $booking->booking->services[0]->servicePrice->duration }} {{ $booking->booking->services[0]->servicePrice->duration_type }} ({{ $booking->booking->services[0]->servicePrice->price_title }})</td>
+                                        <td>Rp {{ number_format($booking->booking->services[0]->servicePrice->price) }}</td>
+                                    @else
+                                        <td>
+                                            -
+                                        </td>
+                                        <td>-</td>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -698,7 +705,7 @@
                         <div class="m-3">
                             <input type="text" hidden name="booking_id" value="{{ $booking->booking->id }}">
                             <input type="text" hidden name="sub_booking_id" value="{{ $booking->id }}">
-                            <input id="text" type="hidden" name="text" value="<div><strong>Anamnesa<br></strong><br></div><ul><li><br></li></ul><div><strong>Diagnosis / DD<br></strong><br></div><ul><li><br></li></ul><div><strong>Drh PJ<br></strong><br></div><ul><li><br></li></ul><div><strong>Terapi&nbsp;<br></strong><br></div><ul><li><br><br></li></ul>">
+                            <input id="text" type="hidden" name="text" value="<div><strong>Anamnesa<br></strong><br></div><ul><li><br></li></ul><div><strong>Diagnosis / DD<br></strong><br></div><ul><li><br></li></ul><div><strong>Drh PJ<br></strong><br></div><ul><li>{{ Auth::user()->first_name }}<br></li></ul><div><strong>Terapi&nbsp;<br></strong><br></div><ul><li><br><br></li></ul>">
                             <trix-editor input="text"></trix-editor>
                         </div>
                         <button type="submit" hidden id="submitTextBooking"></button>

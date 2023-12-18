@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('booking_name')->unique();
             $table->foreignId('customer_id');
+            $table->foreignId('admin_id')->nullable();
             $table->foreignId('subAccount_id')->nullable();
             $table->foreignId('location_id');
             $table->date('booking_date');

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('booking_services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('booking_id');
+            $table->foreignId('sub_booking_id')->nullable();
             $table->foreignId('service_id');
             $table->foreignId('service_price_id');
             $table->foreignId('service_staff_id');

@@ -117,14 +117,14 @@
                                                         @if (date_format($attendance->created_at, "Y-m-d") == $dayoff->first()->tanggal_merah)
                                                             <button type="submit" class="btn btn-danger btn-sm">Check Out</button>
                                                         @else
-                                                            @if ($attendance->staff->shift->end_hour > $checkTime)
+                                                            @if ($timeDifference < 480)
                                                                 <button type="submit" class="btn btn-danger btn-sm" disabled>Check Out</button>
                                                             @else
                                                                 <button type="submit" class="btn btn-danger btn-sm">Check Out</button>
                                                             @endif    
                                                         @endif
                                                     @else
-                                                        @if ($attendance->staff->shift->end_hour > $checkTime)
+                                                        @if ($timeDifference < 480)
                                                             <button type="submit" class="btn btn-danger btn-sm" disabled>Check Out</button>
                                                         @else
                                                             <button type="submit" class="btn btn-danger btn-sm">Check Out</button>

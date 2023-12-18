@@ -16,4 +16,8 @@ class Attendance extends Model
     public function staff(){
         return $this->belongsTo(Staff::class, 'staff_id');
     }
+
+    public function shift(){
+        return $this->belongsTo(Shift::class, 'shift_id');
+    }
 }

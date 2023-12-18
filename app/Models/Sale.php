@@ -14,4 +14,8 @@ class Sale extends Model
     public function booking(){
         return $this->belongsTo(Booking::class, 'booking_id');
     }
+
+    public function sub_booking(){
+        return $this->belongsTo(SubBook::class, 'sub_booking_id');
+    }
 }

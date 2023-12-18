@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('staff_id');
+            $table->foreignId('shift_id')->nullable();//lebih jam kerja
             $table->date('check_in');
             $table->date('check_out')->nullable();
             $table->string('status'); //checkin

@@ -14,10 +14,20 @@
                                 <a href="/attendance/list" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Back</a>
                             </li>
                         </ul>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        <form action="" class="d-flex gap-3">
+                            <select class="form-select form-select" aria-label="Small select example" style="background-color: transparent; border-bottom: none; width: 200px" id="filterstaff" name="filterstaff">
+                                <option selected>Filter Staff</option>
+                                @foreach ($staffs as $staff)
+                                    <option value="{{ $staff->id }}">{{ $staff->first_name }}</option>
+                                @endforeach
+                            </select>
+                            <button type="submit" class="btn btn-outline-primary btn-sm" style="width: 100%"><i class="fas fa-filter"></i> Filter</button>
                         </form>
+                        @if (request('filterstaff'))
+                            <form action="/booking/rawatinap">
+                                <button type="submit" class="btn btn-outline-secondary btn-sm mx-2" style="width: 100%; height: 100%">Reset</button>
+                            </form>
+                        @endif  
                     </div>
                 </div>
             </nav>
@@ -60,12 +70,16 @@
                     <th scope="col" style="color: #7C7C7C;">Check Out</th>
                     <th scope="col" style="color: #7C7C7C;">Status</th>
                     <th scope="col" style="color: #7C7C7C;">Shift</th>
-                    <th scope="col" style="color: #7C7C7C;">Location</th>
+                    <th scope="col" style="color: #7C7C7C;">Over Working Day</th>
                   </tr>
                 </thead>
                 
                 <tbody>
-                  @foreach ($attendances as $attendance)
+                @foreach ($attendances as $attendance)
+
+                    {{-- {{ request('filterstaff') }} --}}
+
+                    {{-- {{ $attendance->shift_id }} --}}
                     <tr>
                         <td>{{ $attendance->staff->first_name }}</td>
                         <td>{{ date_format($attendance->created_at, 'd M Y') }}</td>
@@ -78,33 +92,52 @@
                         @if ($attendance->status == "Normal")
                             <td class="text-success">{{ $attendance->status }}</td>
                         @elseif ($attendance->status == "Late")
-                        <?php $hour = $attendance->over_hour/60;
-                        $minute = $attendance->over_hour%60;
-                        $panjangHour = strlen(floor($hour));
-                        $panjangMinute = strlen($minute);
+                            <?php $hour = $attendance->over_hour/60;
+                                $minute = $attendance->over_hour%60;
+                                $panjangHour = strlen(floor($hour));
+                                $panjangMinute = strlen($minute);
 
-                        $printHour = '';
-                        $printMinute = '';
-                        if($panjangHour == 1){
-                          $printHour = '0'.floor($hour);
-                        }else{
-                          $printHour = floor($hour);
-                        }
+                                $printHour = '';
+                                $printMinute = '';
+                                if($panjangHour == 1){
+                                $printHour = '0'.floor($hour);
+                                }else{
+                                $printHour = floor($hour);
+                                }
 
-                        if($panjangMinute == 1){
-                          $printMinute = '0'.floor($minute);
-                        }else{
-                          $printMinute = floor($minute);
-                        }
-                  ?>
-                  <td class="text-danger">{{ $attendance->status }} {{ $printHour }}:{{ $printMinute }} ({{ $attendance->over_hour }} minutes)</td>
-              @else
-                  <td class="text-primary">{{ $attendance->status }}</td>
-              @endif
-              <td>{{ $attendance->staff->shift->shift_name }} ({{ $attendance->staff->shift->start_hour }} - {{ $attendance->staff->shift->end_hour }})</td>
-              <td>{{ $attendance->staff->location->location_name }}</td>
-          </tr>
-        @endforeach
+                                if($panjangMinute == 1){
+                                $printMinute = '0'.floor($minute);
+                                }else{
+                                $printMinute = floor($minute);
+                                }
+                            ?>
+                            <td class="text-danger">{{ $attendance->status }} {{ $printHour }}:{{ $printMinute }} ({{ $attendance->over_hour }} minutes)</td>
+                        @else
+                            <td class="text-primary">{{ $attendance->status }}</td>
+                        @endif
+                        <td>{{ $attendance->shift->shift_name }} ({{ $attendance->shift->start_hour }} - {{ $attendance->shift->end_hour }})</td>
+                        <?php $hour1 = $attendance->duration_work/60;
+                            $minute1 = $attendance->duration_work%60;
+                            $panjangHour1 = strlen(floor($hour1));
+                            $panjangMinute = strlen($minute1);
+
+                            $printHour1 = '';
+                            $printMinute1 = '';
+                            if($panjangHour1 == 1){
+                            $printHour1 = '0'.floor($hour1);
+                            }else{
+                            $printHour1 = floor($hour1);
+                            }
+
+                            if($panjangMinute == 1){
+                            $printMinute1 = '0'.floor($minute1);
+                            }else{
+                            $printMinute1 = floor($minute1);
+                            }
+                        ?>
+                        <td>{{ $printHour1 }}:{{ $printMinute1 }} ({{ $attendance->duration_work }} minutes)</td>
+                    </tr>
+                @endforeach
       </tbody>
   </table>
             </div>

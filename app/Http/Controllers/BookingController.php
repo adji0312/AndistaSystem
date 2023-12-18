@@ -244,6 +244,7 @@ class BookingController extends Controller
         }
 
         $validatedData['total_price'] = 0;
+        $validatedData['admin_id'] = $request->admin_id;
         $validatedData['temp'] = 1;
 
         Booking::create($validatedData);
@@ -286,6 +287,7 @@ class BookingController extends Controller
         }
         //cek apakah booking ini punya service, klo ada temp = 0 else temp = 1
         $allservices = $booking->services;
+        // dd($allservices[0]);
 
         if(count($allservices) != 0 || count($allservices) != null){
             // dd($allservices->first());
@@ -303,8 +305,9 @@ class BookingController extends Controller
         }
 
         $validatedData['status'] = "Terkonfirmasi";
-        Booking::where('id', $booking->id)->update($validatedData);
-
+        $lastBook = SubBook::all()->sortByDesc('id')->first();
+        // dd($lastBook);
+        
         if($request->subAccount == null){
             dd("null");
         }else{
@@ -318,9 +321,25 @@ class BookingController extends Controller
                     'booking_date' => $booking->booking_date,
                     'subAccount_id' => $myArray[$i],
                     'status' => $booking->status,
+                    'sub_total_price' => $allservices[0]->price,
+                ]);
+
+                $lastBook = SubBook::all()->sortByDesc('id')->first();
+
+                BookingService::create([
+                    "booking_id" => $booking->id,
+                    "service_id" => $allservices[0]->service_id,
+                    "service_price_id" => $allservices[0]->service_price_id,
+                    "service_staff_id" => 0,
+                    "price" => $allservices[0]->price,
+                    "time" => date("H:i"),
+                    "sub_booking_id" => $lastBook->id
+
                 ]);
             }
         }
+        Booking::where('id', $booking->id)->update($validatedData);
+
 
         return redirect('/calendar');
     }
