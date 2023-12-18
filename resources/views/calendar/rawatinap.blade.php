@@ -11,12 +11,36 @@
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/booking/darurat">Booking {{ $title }}</a>
                 </div>
-                <select class="form-select form-select" aria-label="Small select example" style="background-color: transparent; border-bottom: none;" id="filterstatus">
-                    <option selected>Filter Status</option>
-                    <option value="Terkonfirmasi">Terkonfirmasi</option>
-                    <option value="Dirawat Inap">Dirawat Inap</option>
-                    <option value="Selesai">Selesai</option>
-                </select>
+                <form action="" class="d-flex gap-3">
+                    <select class="form-select form-select" aria-label="Small select example" style="background-color: transparent; border-bottom: none; width: 200px" id="filterstatus" name="filterstatus">
+                        @if (request('filterstatus'))
+                            @if (request('filterstatus') == "Terkonfirmasi")
+                                <option value="Terkonfirmasi" selected>Terkonfirmasi</option>
+                                <option value="Di Rawat Inap">Dirawat Inap</option>
+                                <option value="Selesai">Selesai</option>
+                            @elseif (request('filterstatus') == "Di Rawat Inap")
+                                <option value="Terkonfirmasi">Terkonfirmasi</option>
+                                <option value="Di Rawat Inap" selected>Dirawat Inap</option>
+                                <option value="Selesai">Selesai</option>
+                            @elseif (request('filterstatus') == "Selesai")
+                                <option value="Terkonfirmasi">Terkonfirmasi</option>
+                                <option value="Di Rawat Inap">Dirawat Inap</option>
+                                <option value="Selesai" selected>Selesai</option>
+                            @endif
+                        @else
+                            <option selected>Filter Status</option>
+                            <option value="Terkonfirmasi">Terkonfirmasi</option>
+                            <option value="Di Rawat Inap">Dirawat Inap</option>
+                            <option value="Selesai">Selesai</option>
+                        @endif
+                    </select>
+                    <button type="submit" class="btn btn-outline-primary btn-sm" style="width: 100%"><i class="fas fa-filter"></i> Filter</button>
+                </form>
+                @if (request('filterstatus'))
+                    <form action="/booking/rawatinap">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm mx-2" style="width: 100%; height: 100%">Reset</button>
+                    </form>
+                @endif    
             </div>
         </nav>
 

@@ -18,7 +18,7 @@
                             <input type="date" class="form-control" id="booking_date" name="booking_date" value="">
                         </li>
                         <li class="nav-item mx-2" id="deleteButton">
-                            <button type="button" class="btn btn-primary">Filter</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" style="height: 100%"><i class="fas fa-filter"></i> Filter</button>
                         </li>
                     </ul>
                     <form class="d-flex" role="search">

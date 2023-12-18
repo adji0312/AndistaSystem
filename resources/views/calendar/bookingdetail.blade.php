@@ -38,10 +38,9 @@
                                     <input type="text" hidden name="status" value="di rawat inap">
                                     <button type="submit" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Mulai Rawat Inap</button>
                                 </form>
-                                <form action="/changeStatus/{{ $booking->id }}" method="POST">
-                                    @csrf
+                                <form action="">
                                     <input type="text" hidden name="status" value="di rawat inap">
-                                    <button type="button" class="btn btn-warning btn-sm mx-2" style="height: 100%;"><i class="fas fa-hospital"></i> Deposit</button>
+                                    <button type="button" class="btn btn-success btn-sm mx-2" style="height: 100%;" data-bs-toggle="modal" data-bs-target="#newDeposit"><i class="fas fa-hospital"></i> Deposit</button>
                                 </form>
                             @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->ranap == 2)
                                 <form action="/changeStatus/{{ $booking->id }}" method="POST">
@@ -107,6 +106,8 @@
                         
                     </div>
                     <div class="m-3">
+                        <?php $booking->booking ?>
+                        {{-- {{ $booking->booking->carts->where('booking_id', $klua) }} --}}
                         <h6 style="color: black; font-weight: 400">Total : Rp {{ number_format($booking->booking->total_price) }}</h6>
                         @if ($booking->rawat_inap == 1)
                             @if ($booking->ranap == 1)
@@ -1055,6 +1056,34 @@
             </div>
         </form>    
     </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newDeposit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Make Deposit</h1>
+        </div>
+        <form action="/newDeposit" method="post">
+            @csrf
+            {{-- <input type="text" name="sale_id" value="{{ $sale->id }}" hidden> --}}
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="deposit" class="form-label" style="font-size: 15px; color: #7C7C7C;">Deposit</label>
+                    <input type="number" class="form-control mt-1" id="deposit" name="deposit">
+                </div>
+                <div class="mb-3">
+                    <label for="payment_note" class="form-label" style="font-size: 15px; color: #7C7C7C;">Note</label>
+                    <input type="text" class="form-control mt-1" id="payment_note" name="payment_note">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Make Deposit</button>
+            </div>
+        </form>    
+      </div>
     </div>
 </div>
 @endsection

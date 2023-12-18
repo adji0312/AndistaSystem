@@ -82,7 +82,19 @@ class BookingController extends Controller
     }
 
     public function bookingrawatinap(){
-        $subBooks = SubBook::latest()->where('rawat_inap', 1)->paginate(30)->withQueryString();
+
+        if(request('filterstatus')){
+            if(request('filterstatus') == "Terkonfirmasi"){
+                $subBooks = SubBook::latest()->where('rawat_inap', 1)->where('ranap', 1)->paginate(30)->withQueryString();
+            }elseif(request('filterstatus') == "Di Rawat Inap"){
+                $subBooks = SubBook::latest()->where('rawat_inap', 1)->where('ranap', 2)->paginate(30)->withQueryString();
+            }elseif(request('filterstatus') == "Selesai"){
+                $subBooks = SubBook::latest()->where('rawat_inap', 1)->where('ranap', 3)->paginate(30)->withQueryString();
+            }
+        }else{
+            $subBooks = SubBook::latest()->where('rawat_inap', 1)->paginate(30)->withQueryString();
+        }
+
         $now = Carbon::now();
         return view('calendar.rawatinap', [
             "title" => "Rawat Inap",
@@ -310,7 +322,7 @@ class BookingController extends Controller
             }
         }
 
-        return redirect('/list-booking');
+        return redirect('/calendar');
     }
 
     public function addBookingService(Request $request){

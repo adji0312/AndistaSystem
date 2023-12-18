@@ -64,8 +64,21 @@
             </div>
             
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4">
-                <div class="d-flex gap-3">
-                    <h5 class="m-3">Cash</h5>
+                <div class="d-flex gap-2 m-3">
+                    {{-- <h5 class="m-3">Cash</h5> --}}
+                    <form action="" class="d-flex gap-2">
+                        <select class="form-select" style="width: 400px" aria-label="Default select example">
+                            <option selected>Select Method Payment</option>
+                            <option value="1"><h5>Cash</h5></option>
+                            <option value="2"><h5>Credit Card</h5></option>
+                            <option value="3"><h5>Bank Transfer</h5></option>
+                            <option value="3"><h5>Debit Card</h5></option>
+                        </select>
+                        <button type="button" class="btn btn-outline-primary btn-sm" style="width: 100px;"><i class="fas fa-filter"></i> Filter</button>
+                    </form>
+                    <form action="/report/daily">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm mx-2" style="width: 100%; height: 100%">Reset</button>
+                    </form>
                 </div>
                 <div class="m-3 table-responsive">
                     <table class="table">

@@ -71,12 +71,12 @@
                                 Langsung datang
                             </label>
                         </div>
-                        <div class="form-check">
+                        {{-- <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="rawat_inap" id="rawat_inap" value="0">
                             <label class="form-check-label" for="rawat_inap">
                                 Rawat Inap
                             </label>
-                        </div>
+                        </div> --}}
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="darurat" id="darurat" value="0">
                             <label class="form-check-label" for="darurat">
