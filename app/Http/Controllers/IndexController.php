@@ -30,6 +30,7 @@ use App\Models\ServiceAndFacility;
 use App\Models\ServiceAndStaff;
 use App\Models\ServicePrice;
 use App\Models\Staff;
+use App\Models\SubBook;
 use App\Models\Task;
 use App\Models\TaxRate;
 use App\Models\UnitFacility;
@@ -423,9 +424,27 @@ class IndexController extends Controller
         ]);
     }
 
+    public function bookingCalender(){
+        $booking = SubBook::all();
+
+        $events = [];
+
+        foreach ($booking as $b) {
+            $events[] = [
+                'title' => str(date('H:i',strtotime($b->start_booking)))." ".$b->booking->booking_name,
+                'start' => str($b->booking_date),
+                'start_time' => $b->start_booking,
+                'end_booking' => $b->end_booking
+            ];
+        }
+
+        return response()->json($events);
+    }
+
     public function dashboardCalendar(){
         return view('calendar.Dashboard', [
-            "title" => "Calendar"
+            "title" => "Calendar",
+            "tasks" => Booking::all()
         ]);
     }
 
