@@ -56,6 +56,24 @@ class IndexController extends Controller
         ]);
     }
 
+    public function __invoke()
+    {
+        $events = [];
+ 
+        $appointments = BookingService::all();
+        dd($appointments);
+ 
+        foreach ($appointments as $appointment) {
+            $events[] = [
+                'title' => $appointment->client->name . ' ('.$appointment->employee->name.')',
+                'start' => $appointment->start_time,
+                'end' => $appointment->finish_time,
+            ];
+        }
+ 
+        return view('home', compact('events'));
+    }
+
     public function upcomingbooking(){
         return view('upcomingbooking', [
             "title" => "Upcoming Booking"

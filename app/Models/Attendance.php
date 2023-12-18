@@ -11,6 +11,8 @@ class Attendance extends Model
 
     protected $guarded = ['id'];
 
+    public $timestamps = true;
+
     public function staff(){
         return $this->belongsTo(Staff::class, 'staff_id');
     }
