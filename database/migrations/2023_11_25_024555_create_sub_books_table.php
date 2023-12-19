@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('booking_id');
             $table->date('booking_date');
             $table->foreignId('subAccount_id')->nullable();
+            $table->foreignId('staff_id')->nullable();
             $table->string('status')->default('confirmed'); //confirmed, started, completed (kalau sudah completed, langsung masuk ke table sale dengan status unpaid)
             $table->integer('tidak_dikenakan_biaya')->nullable();
             $table->integer('langsung_datang')->nullable();

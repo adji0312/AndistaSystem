@@ -455,13 +455,15 @@ class IndexController extends Controller
 
     public function bookingCalender(){
         $subbook = SubBook::all();
+        // dd($subbook);
 
         $events = [];
 
         foreach ($subbook as $b) {
+            $date = date_format($b->created_at, 'H:i');
             $events[] = [
                 'subbook_id' => $b->id,
-                'title' => str(date('H:i',strtotime($b->start_booking)))." ".$b->booking->booking_name,
+                'title' => str(date('H:i',strtotime($date)))." ".$b->booking->services[0]->service->service_name,
                 'start' => str($b->booking_date),
                 'start_time' => $b->start_booking,
                 'end_booking' => $b->end_booking

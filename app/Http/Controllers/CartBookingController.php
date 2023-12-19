@@ -330,6 +330,8 @@ class CartBookingController extends Controller
         // dd($request->all());
         $cart = CartBooking::find($id);
         $booking = Booking::find($request->booking_id);
+        $subBook = SubBook::find($request->sub_booking_id);
+        // dd($subBook);
         // dd($cart->quantity);
         $cart->flag = 0;
         $cart->save();
@@ -342,6 +344,8 @@ class CartBookingController extends Controller
 
         $booking->total_price = $booking->total_price + $cart->total_price;
         $booking->save();
+        $subBook->sub_total_price = $subBook->sub_total_price + $cart->total_price;
+        $subBook->save();
 
         return redirect()->back();
     }

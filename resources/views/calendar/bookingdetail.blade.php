@@ -6,6 +6,7 @@
     @include('calendar.menu')
 
     <div id="contents">
+        {{-- {{ $booking->id }} --}}
         <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
             <div class="container-fluid">
                 <div class="d-flex">
@@ -18,6 +19,7 @@
                                 <button type="submit" class="btn btn-outline-primary btn-sm" style="height: 100%;">Mulai</button>
                             @elseif ($booking->status == "Dimulai")
                                 @if ($booking->booking->staff_id == Auth::user()->id)
+                                    <input type="text" hidden value="{{ $booking->id }}" name="bookingID">
                                     <button type="submit" class="btn btn-outline-success btn-sm" style="height: 100%;">Selesai</button>
                                 @else
                                     <button type="submit" class="btn btn-outline-success btn-sm" style="height: 100%;" disabled>Selesai</button>
@@ -150,16 +152,16 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                    <td>{{ $booking->booking->services[0]->service->service_name }}</td>
-                                    <td>{{ $booking->booking->services[0]->time }}</td>
-                                    @if ($booking->booking->services[0]->staff)
-                                        <td>{{ $booking->booking->services[0]->staff->first_name }}</td>
+                                    <td>{{ $bookingservices->service->service_name }}</td>
+                                    <td>{{ $bookingservices->time }}</td>
+                                    @if ($bookingservices->staff)
+                                        <td>{{ $bookingservices->staff->first_name }}</td>
                                     @else
                                         <td>-</td>
                                     @endif
-                                    @if ($booking->booking->services[0]->servicePrice)
-                                        <td>{{ $booking->booking->services[0]->servicePrice->duration }} {{ $booking->booking->services[0]->servicePrice->duration_type }} ({{ $booking->booking->services[0]->servicePrice->price_title }})</td>
-                                        <td>Rp {{ number_format($booking->booking->services[0]->servicePrice->price) }}</td>
+                                    @if ($bookingservices->servicePrice)
+                                        <td>{{ $bookingservices->servicePrice->duration }} {{ $bookingservices->servicePrice->duration_type }} ({{ $bookingservices->servicePrice->price_title }})</td>
+                                        <td>Rp {{ number_format($bookingservices->servicePrice->price) }}</td>
                                     @else
                                         <td>
                                             -
@@ -832,6 +834,7 @@
                                                 <button type="button" class="btn btn-outline-danger btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{ $cart->id }}"><i class="fas fa-trash"></i> Delete</button>
                                                 <form action="/saveCartBooking/{{ $cart->id }}" method="post" style="width: 100%">
                                                     @csrf
+                                                    <input type="text" hidden name="sub_booking_id" value="{{ $booking->id }}">
                                                     <input type="text" hidden name="booking_id" value="{{ $booking->booking_id }}">
                                                     <button type="submit" class="btn btn-outline-primary btn-sm" style="width: 100%; height: 100%;"><i class="fas fa-save"></i> Save Cart</button>
                                                 </form>

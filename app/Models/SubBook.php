@@ -22,4 +22,8 @@ class SubBook extends Model
     public function carts(){
         return $this->hasMany(CartBooking::class, 'sub_booking_id');
     }
+
+    public function service(){
+        return $this->hasMany(BookingService::class);
+    }
 }

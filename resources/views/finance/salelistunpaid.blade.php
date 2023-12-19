@@ -34,6 +34,7 @@
                         <th scope="col" style="color: #7C7C7C">Location</th>
                         <th scope="col" style="color: #7C7C7C">Date</th>
                         <th scope="col" style="color: #7C7C7C">Customer</th>
+                        <th scope="col" style="color: #7C7C7C">Sub Customer</th>
                         <th scope="col" style="color: #7C7C7C">Total</th>
                       </tr>
                     </thead>
@@ -52,6 +53,7 @@
                                 <?php $date = date_create($sale->booking->booking_date) ?>
                                 <td>{{ date_format($date, 'd M Y') }}</td>
                                 <td>{{ $sale->booking->customer->first_name }}</td>
+                                <td>{{ $sale->sub_booking->pet->pet_name }}</td>
                                 <td>Rp {{ number_format($sale->total_price) }}</td>
                             </tr>
                         @endforeach
