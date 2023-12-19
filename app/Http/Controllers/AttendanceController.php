@@ -78,7 +78,7 @@ class AttendanceController extends Controller
         $attendance = Attendance::find($row->id);
         // @dd($attendance->staff->location->location_name);
 
-        $location_name = $attendance->staff->location->location_name;
+        // $location_name = $attendance->staff->location->location_name;
         // @dd($attendance->created_at->month);
         //month and year find
         if($attendance->created_at->month == $request->month && $attendance->created_at->year == $request->year){
@@ -109,7 +109,7 @@ class AttendanceController extends Controller
 
         return view('attendance.attendancelistbylocation', [
             "title" => "Attendance List",
-            "location" => $location_name,
+            // "location" => $location_name,
             "month" => $request->month,
             "year" => $request->year,
             "attendances" => $finalResult,

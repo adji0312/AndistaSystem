@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/makeDeposit', [BookingController::class, 'makeDeposit']);
     Route::post('/updateAddCost/{id}', [BookingController::class, 'updateAddCost']);
     Route::get('/deleteBookingService2/{id}', [CartBookingController::class, 'deleteBookingService2']);
+    Route::post('/newDeposit', [BookingController::class, 'newDeposit']);
     
     //Service
     Route::get('/service', [IndexController::class, 'serviceDashboard']);

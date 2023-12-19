@@ -18,6 +18,10 @@ class Service extends Model
     public function listplans(){
         return $this->hasMany(ListPlan::class, 'id');
     }
+    
+    public function carts(){
+        return $this->hasMany(CartBooking::class);
+    }
 
     // protected $casts = [
     //     'staff_id' => 'array',

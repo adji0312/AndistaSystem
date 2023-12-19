@@ -75,7 +75,7 @@
                       @else
                           <td class="text-primary">{{ $attendance->status }}</td>
                       @endif
-                      <td>{{ $attendance->staff->shift->shift_name }} ({{ $attendance->staff->shift->start_hour }} - {{ $attendance->staff->shift->end_hour }})</td>
+                      <td>{{ $attendance->shift->shift_name }} ({{ $attendance->shift->start_hour }} - {{ $attendance->shift->end_hour }})</td>
                       <td>{{ $attendance->staff->location->location_name }}</td>
                   </tr>
                 @endforeach

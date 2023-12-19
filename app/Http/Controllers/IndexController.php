@@ -600,23 +600,42 @@ class IndexController extends Controller
                         // $checkTime = '08:01';
                         // dd($checkTime);
 
-                        if($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
-                            // dd("late");
-                            $attendance->status = 'Late';
-                            $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-                            $attendance->over_hour = $timeDifference;
-                            $attendance->shift_id = $staff->shifts_id;
-                            $attendance->save();
+                        if($staff->shift->end_hour == '00:00'){
+                            $endHour = '24:00';
+                            if($checkTime > $staff->shift->start_hour && $checkTime < $endHour){
+                                // dd("late");
+                                $attendance->status = 'Late';
+                                $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
+                                $attendance->over_hour = $timeDifference;
+                                $attendance->shift_id = $staff->shifts_id;
+                                $attendance->save();
+                            }else{
+                                // dd("normal");
+                                $attendance->status = 'Normal';
+                                $attendance->over_hour = 0;
+                                $attendance->shift_id = $staff->shifts_id;
+                                $attendance->save();
+                            }
                         }else{
-                            // dd("normal");
-                            $attendance->status = 'Normal';
-                            $attendance->over_hour = 0;
-                            $attendance->shift_id = $staff->shifts_id;
-                            $attendance->save();
+                            if($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
+                                // dd("late");
+                                $attendance->status = 'Late';
+                                $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
+                                $attendance->over_hour = $timeDifference;
+                                $attendance->shift_id = $staff->shifts_id;
+                                $attendance->save();
+                            }else{
+                                // dd("normal");
+                                $attendance->status = 'Normal';
+                                $attendance->over_hour = 0;
+                                $attendance->shift_id = $staff->shifts_id;
+                                $attendance->save();
+                            }
                         }
                     }
                 }
             }else{
+                // dd("here");
                 //cuma khusus shift yang start hour nya jam 00:00
                 if($staff->shift->start_hour == "00:00"){
                     // dd("here");
@@ -646,28 +665,46 @@ class IndexController extends Controller
                     }
                 }else{
 
-                    // dd('here');
+                    // dd('here12');
                     $attendance = new Attendance();
                     $attendance->staff_id = $staff->id;
                     $attendance->check_in = Carbon::now();
                     $checkTime = $attendance->check_in->format('H:i');
                     // $checkTime = '08:01';
-                    // dd($checkTime);
-
-                    if($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
-                        // dd("late");
-                        $attendance->status = 'Late';
-                        $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-                        $attendance->over_hour = $timeDifference;
-                        $attendance->shift_id = $staff->shifts_id;
-                        $attendance->save();
+                    
+                    if($staff->shift->end_hour == '00:00'){
+                        $endHour = '24:00';
+                        if($checkTime > $staff->shift->start_hour && $checkTime < $endHour){
+                            // dd("late");
+                            $attendance->status = 'Late';
+                            $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
+                            $attendance->over_hour = $timeDifference;
+                            $attendance->shift_id = $staff->shifts_id;
+                            $attendance->save();
+                        }else{
+                            // dd("normal");
+                            $attendance->status = 'Normal';
+                            $attendance->over_hour = 0;
+                            $attendance->shift_id = $staff->shifts_id;
+                            $attendance->save();
+                        }
                     }else{
-                        // dd("normal");
-                        $attendance->status = 'Normal';
-                        $attendance->over_hour = 0;
-                        $attendance->shift_id = $staff->shifts_id;
-                        $attendance->save();
+                        if($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
+                            // dd("late");
+                            $attendance->status = 'Late';
+                            $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
+                            $attendance->over_hour = $timeDifference;
+                            $attendance->shift_id = $staff->shifts_id;
+                            $attendance->save();
+                        }else{
+                            // dd("normal");
+                            $attendance->status = 'Normal';
+                            $attendance->over_hour = 0;
+                            $attendance->shift_id = $staff->shifts_id;
+                            $attendance->save();
+                        }
                     }
+
                 }
             }
         }

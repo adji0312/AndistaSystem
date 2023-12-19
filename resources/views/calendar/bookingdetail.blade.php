@@ -53,7 +53,7 @@
                             @endif
                         @else
                             @if ($booking->rawat_inap != 1)
-                                <button type="button" class="btn btn-warning btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#rawatinap" disabled><i class="fas fa-hospital"></i> Rawat Inap</button>
+                                <button type="button" class="btn btn-warning btn-sm mx-2" disabled><i class="fas fa-hospital"></i> Rawat Inap</button>
                             @elseif(($booking->duration != null || $booking->duration != 0) && $booking->rawat_inap == 1 && $booking->ranap == 1)
                                 <form action="/changeStatus/{{ $booking->id }}" method="POST">
                                     @csrf
@@ -1077,7 +1077,8 @@
         </div>
         <form action="/newDeposit" method="post">
             @csrf
-            {{-- <input type="text" name="sale_id" value="{{ $sale->id }}" hidden> --}}
+            <input type="text" name="booking_id" value="{{ $booking->booking->id }}" hidden>
+            <input type="text" name="sub_booking_id" value="{{ $booking->id }}" hidden>
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="deposit" class="form-label" style="font-size: 15px; color: #7C7C7C;">Deposit</label>

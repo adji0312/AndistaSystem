@@ -16,7 +16,7 @@ class Product extends Model
     }
 
     public function suppliers(){
-        return $this->hasOne(Supplier::class,'id');
+        return $this->hasOne(Suppliers::class,'id');
     }
 
     public function categories(){
@@ -25,5 +25,9 @@ class Product extends Model
 
     public function taxrates(){
         return $this->hasOne(TaxRate::class,'id');
+    }
+
+    public function carts(){
+        return $this->hasMany(CartBooking::class);
     }
 }

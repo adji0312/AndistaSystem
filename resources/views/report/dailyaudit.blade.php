@@ -45,7 +45,6 @@
                                 <th scope="col" style="background-color: #f2f2f2">Credit Card</th>
                                 <th scope="col" style="background-color: #f2f2f2">Bank Transfer</th>
                                 <th scope="col" style="background-color: #f2f2f2">Debit Card</th>
-                                {{-- <th scope="col">Total</th> --}}
                             </tr>
                         </thead>
                         <tbody>

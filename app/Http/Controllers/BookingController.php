@@ -582,8 +582,7 @@ class BookingController extends Controller
         }
 
         //ini untuk ubah status menjadi rawat inap
-        if($request->status == "Rawat Inap"){
-            
+        if($request->status == "Rawat Inap" && $subbooking->status = "Dimulai"){
             if(count($booking->subbookings) > 1){
                 // dd("lebih");
                 $subbooking->rawat_inap = 1;
@@ -1102,5 +1101,53 @@ class BookingController extends Controller
     public function updateBookingDate($id){
         $booking = Booking::find($id);
         dd($booking);
+    }
+
+    public function newDeposit(Request $request){
+        // dd($request->all());
+        $lastSales = DB::table('sales')->latest('created_at')->first();
+        $subbooking = SubBook::find($request->sub_booking_id);
+        // dd($subbooking);
+        
+        if($lastSales == null){
+            $sales = new Sale();
+            $nextNumber = sprintf("%05d", 1);
+            $sales->no_invoice = "INV-" . $nextNumber;
+            $sales->booking_id = $request->booking_id;
+            $sales->sub_booking_id = $subbooking->id;
+            $sales->diskon = 0;
+            $sales->deskripsi_tambahan_biaya = '-';
+            $sales->tambahan_biaya = 0;
+            $sales->metode = '-';
+            $sales->status = 2;
+            $sales->is_delete = 1;
+            $sales->total_price = $subbooking->sub_total_price;
+            $sales->deposit = $request->deposit;
+            $sales->flagDeposit = 1;
+            $sales->save();
+        }else{
+            $sales = new Sale();
+            if($lastSales == null || $lastSales == ''){
+                $nextNumber = sprintf("%05d", 1);
+                $sales->no_invoice = "INV-" . $nextNumber;
+            }else{
+                $nextNumber = sprintf("%05d", $lastSales->id + 1);
+                $sales->no_invoice = "INV-" . $nextNumber;
+            }
+            $sales->booking_id = $request->booking_id;
+            $sales->sub_booking_id = $subbooking->id;
+            $sales->diskon = 0;
+            $sales->deskripsi_tambahan_biaya = '-';
+            $sales->tambahan_biaya = 0;
+            $sales->metode = '-';
+            $sales->status = 2;
+            $sales->is_delete = 1;
+            $sales->total_price = $subbooking->sub_total_price;
+            $sales->deposit = $request->deposit;
+            $sales->flagDeposit = 1;
+            $sales->save();
+        }
+
+        return redirect()->back();
     }
 }

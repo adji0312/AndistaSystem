@@ -26,4 +26,8 @@ class SubBook extends Model
     public function service(){
         return $this->hasMany(BookingService::class);
     }
+
+    public function staff(){
+        return $this->belongsTo(Staff::class, 'staff_id');
+    }
 }
