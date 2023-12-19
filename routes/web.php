@@ -199,6 +199,7 @@ Route::middleware('auth')->group(function () {
     
     //Calendar
     Route::get('/calendar', [IndexController::class, 'dashboardCalendar']);
+    Route::get('/bookingCalendar',[IndexController::class,'bookingCalender']);
     Route::get('/list-booking', [BookingController::class, 'listBooking']);
     Route::get('/newBooking', [BookingController::class, 'createbooking']);
     Route::get('/newBooking/{name}', [BookingController::class, 'createbookingDetail']);
