@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\BookingNote;
+use App\Models\BookingService;
 use App\Models\CartBooking;
 use App\Models\Product;
 use App\Models\Quotation;
@@ -44,6 +45,8 @@ class CartBookingController extends Controller
         $product = Product::where('product_name', $request->product_id)->first();
         $sale = Sale::find($request->sale_id);
         $booking = Booking::find($sale->booking_id);
+        $subBook = SubBook::find($sale->sub_booking_id);
+        // dd($subBook);
         // dd($sale);
         // dd($product);
         $validatedData = $request->validate([
@@ -53,7 +56,7 @@ class CartBookingController extends Controller
         ]);
 
         $validatedData['product_id'] = $product->id;
-        $validatedData['sub_booking_id'] = 0;
+        $validatedData['sub_booking_id'] = $sale->sub_booking_id;
         $validatedData['staff_id'] = 0;
         $validatedData['quantity'] = 1;
         $validatedData['flag'] = 1;
@@ -68,6 +71,10 @@ class CartBookingController extends Controller
 
         $booking->total_price = $sale->total_price;
         $booking->save();
+
+        $subBook->sub_total_price = $sale->total_price;
+        // dd($subBook);
+        $subBook->save();
 
         
         return redirect()->back();
@@ -132,7 +139,7 @@ class CartBookingController extends Controller
         ]);
 
         $validatedData['service_id'] = $service->id;
-        $validatedData['sub_booking_id'] = 0;
+        $validatedData['sub_booking_id'] = $request->sub_booking_id;
         $validatedData['staff_id'] = 0;
         $validatedData['quantity'] = 1;
         $validatedData['flag'] = 1;
@@ -151,39 +158,52 @@ class CartBookingController extends Controller
         return redirect()->back();
     }
 
-    public function deleteCartBooking2($id){
+    public function deleteCartBooking2(Request $request, $id){
+        // dd($request->all());
         $cart = CartBooking::find($id);
+        // dd($cart);
         $booking = Booking::find($cart->booking_id);
-        // dd($booking);
+        $subBooking = SubBook::find($cart->sub_booking_id);
+        $sale = Sale::find($request->sale_id);
+        // dd($sale);
+        // dd($subBooking);
         
         if($cart->product_id != null){
-            
-            $cartBooking = $cart->booking->sale->first();
-            $cartBooking->total_price = $cartBooking->total_price - $cart->total_price;
-            $cartBooking->save();
+            // dd($cart->total_price);
 
-            $booking->total_price = $cartBooking->total_price;
+            $booking->total_price = $booking->total_price - $cart->total_price;
             $booking->save();
 
-            $product = Product::find($cart->product_id);
-            $product->stock = $product->stock + $cart->quantity;
-            $product->save();
+            $subBooking->sub_total_price = $subBooking->sub_total_price - $cart->total_price;
+            $subBooking->save();
 
-            
-            
+            $sale->total_price = $sale->total_price - $cart->total_price;
+            $sale->save();
+
+            if($cart->flag == 0){
+                $product = Product::find($cart->product_id);
+                $product->stock = $product->stock + $cart->quantity;
+                $product->save();
+            }
 
             DB::table('cart_bookings')->where('id', $cart->id)->delete();
             
         }else{
-            $cartBooking = $cart->booking->sale->first();
-            $cartBooking->total_price = $cartBooking->total_price - $cart->total_price;
-            $cartBooking->save();
+            // dd("here");
+            // $cartBooking = $cart->booking->sale->first();
+            // $cartBooking->total_price = $cartBooking->total_price - $cart->total_price;
+            // $cartBooking->save();
 
-            $booking->total_price = $cartBooking->total_price;
+            $booking->total_price = $booking->total_price - $cart->total_price;
             $booking->save();
 
+            $subBooking->sub_total_price = $subBooking->sub_total_price - $cart->total_price;
+            $subBooking->save();
+
+            $sale->total_price = $sale->total_price - $cart->total_price;
+            $sale->save();
+
             DB::table('cart_bookings')->where('id', $cart->id)->delete();
-            // dd($cart->service);
         }
 
         return redirect()->back();
@@ -249,6 +269,8 @@ class CartBookingController extends Controller
         // dd($request->all());
         $cart = CartBooking::find($id);
         $booking = Booking::find($cart->booking_id);
+        $subBooking = SubBook::find($cart->sub_booking_id);
+        // dd($subBooking);
         $sale = Sale::find($request->sale_id);
         // dd($booking);
         
@@ -261,6 +283,8 @@ class CartBookingController extends Controller
             $sale->save();
             $booking->total_price = $booking->total_price - $lastPrice;
             $booking->save();
+            $subBooking->sub_total_price = $subBooking->sub_total_price - $lastPrice;
+            $subBooking->save();
             
             $totalPrice = $request->quantity * $servicePrice->price;
             
@@ -268,6 +292,8 @@ class CartBookingController extends Controller
             $sale->save();
             $booking->total_price = $booking->total_price + $totalPrice;
             $booking->save();
+            $subBooking->sub_total_price = $subBooking->sub_total_price + $totalPrice;
+            $subBooking->save();
     
             $cart->quantity = $request->quantity;
             $cart->total_price = $totalPrice;
@@ -281,14 +307,20 @@ class CartBookingController extends Controller
             $sale->save();
             $booking->total_price = $booking->total_price - $lastPrice;
             $booking->save();
-            // dd($booking->total_price);
+            $subBooking->sub_total_price = $subBooking->sub_total_price - $lastPrice;
+            // dd($subBooking->sub_total_price);
+            $subBooking->save();
             
             $totalPrice = $request->quantity * $cart->product->price;
+            // dd($totalPrice);
             
             $sale->total_price = $sale->total_price + $totalPrice;
             $sale->save();
             $booking->total_price = $booking->total_price + $totalPrice;
             $booking->save();
+            $subBooking->sub_total_price = $subBooking->sub_total_price + $totalPrice;
+            // dd($subBooking);
+            $subBooking->save();
     
             $cart->quantity = $request->quantity;
             $cart->total_price = $totalPrice;
@@ -401,6 +433,25 @@ class CartBookingController extends Controller
         $note = BookingNote::find($id);
         $note->text = $request->text;
         $note->save();
+        return redirect()->back();
+    }
+
+    public function deleteBookingService2(Request $request, $id){
+        // dd($request->all());
+        $bs = BookingService::find($id);
+        $sale = Sale::all()->where('sub_booking_id', $bs->subBooking->id)->first();
+        $subBook = SubBook::find($bs->sub_booking_id);
+        
+        $sale->total_price = $sale->total_price - $bs->price;
+        $subBook->sub_total_price = $subBook->sub_total_price - $bs->price;
+        // dd($subBook->sub_total_price);
+        $sale->save();
+        $subBook->save();
+
+        DB::table('booking_services')->where('id', $bs->id)->delete();
+
+
+
         return redirect()->back();
     }
 }

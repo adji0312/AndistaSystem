@@ -305,7 +305,7 @@ class BookingController extends Controller
         }
 
         $validatedData['status'] = "Terkonfirmasi";
-        $lastBook = SubBook::all()->sortByDesc('id')->first();
+        // $lastBook = SubBook::all()->sortByDesc('id')->first();
         // dd($lastBook);
         
         if($request->subAccount == null){
@@ -314,29 +314,44 @@ class BookingController extends Controller
             $myString = $request->subAccount;
             $myArray = explode(',', $myString);
             $length = count($myArray);
-            
+            // dd($length);
             for($i = 0 ; $i < $length ; $i++){
-                SubBook::create([
-                    'booking_id' => $booking->id,
-                    'booking_date' => $booking->booking_date,
-                    'subAccount_id' => $myArray[$i],
-                    'status' => $booking->status,
-                    'sub_total_price' => $allservices[0]->price,
-                ]);
+                $subBookingBaru = new SubBook();
+                $subBookingBaru->booking_id = $booking->id;
+                $subBookingBaru->booking_date = $booking->booking_date;
+                $subBookingBaru->subAccount_id = $myArray[$i];
+                $subBookingBaru->status = $booking->status;
+                $subBookingBaru->sub_total_price = $allservices[0]->price;
+                $subBookingBaru->save();
+                // SubBook::create([
+                //     'booking_id' => $booking->id,
+                //     'booking_date' => $booking->booking_date,
+                //     'subAccount_id' => $myArray[$i],
+                //     'status' => $booking->status,
+                //     'sub_total_price' => $allservices[0]->price,
+                // ]);
 
                 $lastBook = SubBook::all()->sortByDesc('id')->first();
-
-                BookingService::create([
-                    "booking_id" => $booking->id,
-                    "service_id" => $allservices[0]->service_id,
-                    "service_price_id" => $allservices[0]->service_price_id,
-                    "service_staff_id" => 0,
-                    "price" => $allservices[0]->price,
-                    "time" => date("H:i"),
-                    "sub_booking_id" => $lastBook->id,
-                    "staff_id" => 0,
-
-                ]);
+                // dd($lastBook);
+                $bookingservicebaru = new BookingService();
+                $bookingservicebaru->booking_id = $booking->id;
+                $bookingservicebaru->service_id = $allservices[0]->service_id;
+                $bookingservicebaru->service_price_id = $allservices[0]->service_price_id;
+                $bookingservicebaru->service_staff_id = 0;
+                $bookingservicebaru->price = $allservices[0]->price;
+                $bookingservicebaru->time = date("H:i");
+                $bookingservicebaru->sub_booking_id = $lastBook->id;
+                $bookingservicebaru->save();
+                // BookingService::create([
+                //     "booking_id" => $booking->id,
+                //     "service_id" => $allservices[0]->service_id,
+                //     "service_price_id" => $allservices[0]->service_price_id,
+                //     "service_staff_id" => 0,
+                //     "price" => $allservices[0]->price,
+                //     "time" => date("H:i"),
+                //     "sub_booking_id" => $lastBook->id,
+                //     "staff_id" => 0,    
+                // ]);
             }
         }
         Booking::where('id', $booking->id)->update($validatedData);

@@ -6,6 +6,7 @@ use App\Models\AlasanKunjungan;
 use App\Models\Attendance;
 use App\Models\Booking;
 use App\Models\BookingService;
+use App\Models\CartBooking;
 use App\Models\CategoryService;
 use App\Models\Country;
 use App\Models\Customer;
@@ -307,10 +308,15 @@ class IndexController extends Controller
     public function detailinvoice($name){
 
         $sale = Sale::all()->where('no_invoice', $name)->first();
+        $subbook = SubBook::find($sale->sub_booking_id);
+        // dd($subbook);
+        // dd($sale);
         // dd($sale->booking->customer->pets);
-        $bookingService = BookingService::all()->where('booking_id', $sale->booking_id)->first();
+        $bookingService = BookingService::all()->where('sub_booking_id', '!=', NULL)->where('sub_booking_id', $sale->sub_booking_id)->first();
+        // dd($bookingService);
         $item = $sale->booking;
         $staff = Staff::all()->where('status', 'Active');
+        // dd($staff);
         $subAccount = Pet::all()->where('customer_id', $sale->booking->customer->id);
         return view('finance.detailsalelistunpaid', [
             "title" => "Sale List Unpaid",
@@ -320,6 +326,8 @@ class IndexController extends Controller
             "staffs" => $staff,
             "subAccount" => $subAccount,
             "servicePrice" => ServicePrice::all(),
+            "carts" => CartBooking::all()->where('sub_booking_id', $sale->sub_booking_id),
+            "subbook" => $subbook
         ]);
     }
 

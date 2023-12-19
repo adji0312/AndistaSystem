@@ -49,6 +49,10 @@
                             <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Customer</label>
                             <input type="text" class="form-control" id="capacity" name="capacity" value="{{ $sale->booking->customer->first_name }}" readonly>
                         </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Sub Customer</label>
+                            <input type="text" class="form-control" id="capacity" name="capacity" value="{{ $sale->sub_booking->pet->pet_name }}" readonly>
+                        </div>
                     </div>
                 </div>
 
@@ -56,8 +60,8 @@
                     <div class="d-flex m-2">
                         <h5 class="m-3">Item</h5>
                         @if ($sale->status == 0)
-                            <button disabled type="button" class="btn btn-sm btn-outline-secondary m-2" data-bs-toggle="modal" data-bs-target="#addCartProduct"><i class="fas fa-plus"></i> Add Product</button>
-                            <button disabled type="button" class="btn btn-sm btn-outline-secondary m-2" data-bs-toggle="modal" data-bs-target="#addCartService"><i class="fas fa-plus"></i> Add Service</button>
+                            <button disabled type="button" class="btn btn-sm btn-outline-secondary m-2"><i class="fas fa-plus"></i> Add Product</button>
+                            <button disabled type="button" class="btn btn-sm btn-outline-secondary m-2"><i class="fas fa-plus"></i> Add Service</button>
                         @else
                             <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartProduct"><i class="fas fa-plus"></i> Add Product</button>
                             <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addCartService"><i class="fas fa-plus"></i> Add Service</button>
@@ -78,22 +82,54 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $bookingService->service->service_name }}</td>
-                                    <td>1</td>
-                                    <td>{{ $bookingService->staff->first_name }}</td>
-                                    <td>-</td>
-                                    <td>Rp {{ number_format($bookingService->servicePrice->price) }}</td>
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteFacilityService" disabled><i class="fas fa-trash"></i> Delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <?php $itemIndex = 1; ?>
-                                @foreach ($item->carts as $item)
-                                    @if ($item->sub_booking_id == 0 || $item->staff_id == 0)
+                                @if ($bookingService)
+                                    <tr>
+                                        <th>1 - {{ $bookingService->id }}</th>
+                                        <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $bookingService->service->service_name }}</td>
+                                        <td>1</td>
+                                        <td>{{ $bookingService->staff->first_name }}</td>
+                                        <td>{{ $bookingService->subBooking->pet->pet_name }}</td>
+                                        <td>Rp {{ number_format($bookingService->servicePrice->price) }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteBookingService{{ $bookingService->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                            </div>
+
+                                            <div class="modal fade" id="deleteBookingService{{ $bookingService->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Item</h1>
+                                                        </div>
+                                                        
+                                                        <form action="/deleteBookingService2/{{ $bookingService->id }}" method="GET">
+                                                            @csrf
+                                                            <input type="text" hidden name="sale_id" value="{{ $sale->id }}">
+                                                            <div class="modal-body">
+                                                                <div class="mb-1">
+                                                                    <small class="fs-6" style="font-weight: 300">Are you sure delete this item?</small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
+                                <?php 
+                                    if($bookingService){
+                                        $itemIndex = 1; 
+                                    }else{
+                                        $itemIndex = 0; 
+                                    }
+                                ?>
+                                @foreach ($carts as $item)
+                                    @if ($item->sub_booking_id == 0 || $item->staff_id == 0 || $item->flag == 1)
                                         {{-- @if ($item->subBooking->status == "Selesai") --}}
                                             <?php $itemIndex += 1; ?>
                                             <tr>
@@ -115,7 +151,7 @@
                                                     @if ($item->sub_booking_id == 0)
                                                         -
                                                     @else
-                                                        
+                                                        {{ $item->subBooking->pet->pet_name }}
                                                     @endif
                                                 </td>
                                                 <td>Rp {{ number_format($item->total_price) }}</td>
@@ -131,17 +167,10 @@
                                                             </form>
                                                         </div>
                                                     @else
-                                                        @if ($sale->status == 0)
-                                                            <div class="d-flex justify-content-center gap-2">
-                                                                <button disabled type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{$item->id}}"><i class="fas fa-trash"></i> Delete</button>
-                                                            </div>
-                                                        @else
-                                                            <div class="d-flex justify-content-center gap-2">
-                                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{$item->id}}"><i class="fas fa-trash"></i> Delete</button>
-                                                            </div>
-                                                        @endif
+                                                        <div class="d-flex justify-content-center gap-2">
+                                                            <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{ $item->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                        </div>
                                                     @endif
-                                                    
                                                 </td>
                                             </tr>
 
@@ -154,6 +183,7 @@
                                                     
                                                     <form action="/deleteCartBooking2/{{ $item->id }}" method="GET">
                                                         @csrf
+                                                        <input type="text" hidden name="sale_id" value="{{ $sale->id }}">
                                                         <div class="modal-body">
                                                             <div class="mb-1">
                                                                 <small class="fs-6" style="font-weight: 300">Are you sure delete this item?</small>
@@ -172,7 +202,7 @@
                                         @if ($item->subBooking->status == "Selesai")
                                             <?php $itemIndex += 1; ?>
                                             <tr>
-                                                <th>{{ $itemIndex }}</th>
+                                                <th>{{ $itemIndex }} - {{ $item->id }}</th>
                                                 @if ($item->product_id != null)
                                                     <td><img src="/img/icon/product.png" alt="" style="width: 22px"> {{ $item->product->product_name }}</td>
                                                 @else
@@ -184,7 +214,7 @@
                                                 <td>Rp {{ number_format($item->total_price) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center gap-2">
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{$item->id}}"><i class="fas fa-trash"></i> Delete</button>
+                                                        <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{ $item->id }}"><i class="fas fa-trash"></i> Delete</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -198,6 +228,7 @@
                                                     
                                                     <form action="/deleteCartBooking2/{{ $item->id }}" method="GET">
                                                         @csrf
+                                                        <input type="text" hidden name="sale_id" value="{{ $sale->id }}">
                                                         <div class="modal-body">
                                                             <div class="mb-1">
                                                                 <small class="fs-6" style="font-weight: 300">Are you sure delete this item?</small>
@@ -316,10 +347,10 @@
                 <div style="width: 50%; margin-left: 10px;" class="float-end mb-3">
                     <table class="table table-bordered">
                         <thead>
-                            {{-- <tr>
-                            <th scope="col" class="text-end">Sub-total</th>
-                            <td colspan="2">Rp {{ number_format($sale->total_price) }}</td>
-                            </tr> --}}
+                            <tr>
+                                <th scope="col" class="text-end">Sub-total</th>
+                                <td colspan="2">Rp {{ number_format($subbook->sub_total_price) }}</td>
+                            </tr>
                         </thead>
                         <tbody>
                             @if ($sale->status == 0)
@@ -340,6 +371,10 @@
                                     </tr>
                                     <tr>
                                         <th scope="row" class="text-end">Additional Cost (Price)</th>
+                                        <td colspan="2"><input type="number" placeholder="0.00" style="width: 100%" oninput="inputAdditionalCost()" name="tambahan_biaya" id="tambahan_biaya" value="{{ $sale->tambahan_biaya }}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-end">Discount (Percentage)</th>
                                         <td colspan="2"><input type="number" placeholder="0.00" style="width: 100%" oninput="inputAdditionalCost()" name="tambahan_biaya" id="tambahan_biaya" value="{{ $sale->tambahan_biaya }}"></td>
                                     </tr>
                                     <button type="submit" id="buttonAddCost" hidden></button>
@@ -520,6 +555,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <input type="text" name="booking_id" hidden value="{{ $sale->booking->id }}">
+                        <input type="text" name="sub_booking_id" hidden value="{{ $sale->sub_booking->id }}">
                         <input type="text" name="sale_id" hidden value="{{ $sale->id }}">
                         <input type="text" class="form-control" id="searchService" name="service_name" value="" placeholder="Search Service" required>
                     </div>

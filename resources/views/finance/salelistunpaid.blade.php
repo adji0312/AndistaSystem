@@ -47,7 +47,7 @@
                                     </div>
                                 </th>
                                 <td class="text-primary" style="cursor: pointer">
-                                    <a href="/sale/list/unpaid/{{ $sale->no_invoice }}">{{ $sale->no_invoice }}</a>
+                                    <a href="/sale/list/detail/{{ $sale->no_invoice }}">{{ $sale->no_invoice }}</a>
                                 </td>
                                 <td>{{ $sale->booking->location->location_name }}</td>
                                 <?php $date = date_create($sale->booking->booking_date) ?>
