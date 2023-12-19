@@ -10,7 +10,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="/sale/list/unpaid" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
+                              <a class="nav-link active" aria-current="page" href="/finance" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                           </li>
                         @if ($sale->status == 0)
                             <li class="nav-item">
@@ -53,6 +53,10 @@
                             <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Sub Customer</label>
                             <input type="text" class="form-control" id="capacity" name="capacity" value="{{ $sale->sub_booking->pet->pet_name }}" readonly>
                         </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Payment Method</label>
+                            <input type="text" class="form-control" id="capacity" name="capacity" value="{{ $sale->metode }}" readonly>
+                        </div>
                     </div>
                 </div>
 
@@ -84,7 +88,7 @@
                             <tbody>
                                 @if ($bookingService)
                                     <tr>
-                                        <th>1 - {{ $bookingService->id }}</th>
+                                        <th>1</th>
                                         <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $bookingService->service->service_name }}</td>
                                         <td>1</td>
                                         <td>{{ $bookingService->staff->first_name }}</td>
@@ -92,7 +96,11 @@
                                         <td>Rp {{ number_format($bookingService->servicePrice->price) }}</td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-2">
-                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteBookingService{{ $bookingService->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                @if ($sale->status == 0)
+                                                    <button disabled type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteBookingService{{ $bookingService->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                @else
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteBookingService{{ $bookingService->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                @endif
                                             </div>
 
                                             <div class="modal fade" id="deleteBookingService{{ $bookingService->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -168,7 +176,11 @@
                                                         </div>
                                                     @else
                                                         <div class="d-flex justify-content-center gap-2">
-                                                            <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{ $item->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                            @if ($sale->status == 0)
+                                                                <button disabled type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{ $item->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                            @else
+                                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{ $item->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                            @endif
                                                         </div>
                                                     @endif
                                                 </td>
@@ -202,7 +214,7 @@
                                         @if ($item->subBooking->status == "Selesai")
                                             <?php $itemIndex += 1; ?>
                                             <tr>
-                                                <th>{{ $itemIndex }} - {{ $item->id }}</th>
+                                                <th>{{ $itemIndex }}</th>
                                                 @if ($item->product_id != null)
                                                     <td><img src="/img/icon/product.png" alt="" style="width: 22px"> {{ $item->product->product_name }}</td>
                                                 @else
@@ -214,7 +226,11 @@
                                                 <td>Rp {{ number_format($item->total_price) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center gap-2">
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{ $item->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                        @if ($sale->status == 0)
+                                                            <button disabled type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{ $item->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                        @else
+                                                            <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteCartBooking{{ $item->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>

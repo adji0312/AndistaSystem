@@ -31,7 +31,9 @@
                         <th scope="col" style="color: #7C7C7C">Location</th>
                         <th scope="col" style="color: #7C7C7C">Date</th>
                         <th scope="col" style="color: #7C7C7C">Customer</th>
+                        <th scope="col" style="color: #7C7C7C">Sub Customer</th>
                         <th scope="col" style="color: #7C7C7C">Total</th>
+                        <th scope="col" style="color: #7C7C7C">Payment Method</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -43,13 +45,15 @@
                                     </div>
                                 </th>
                                 <td class="text-primary" style="cursor: pointer">
-                                    <a href="/sale/list/unpaid/{{ $sale->no_invoice }}">{{ $sale->no_invoice }}</a>
+                                    <a href="/sale/list/detail/{{ $sale->no_invoice }}">{{ $sale->no_invoice }}</a>
                                 </td>
                                 <td>{{ $sale->booking->location->location_name }}</td>
                                 <?php $date = date_create($sale->booking->booking_date) ?>
                                 <td>{{ date_format($date, 'd M Y') }}</td>
                                 <td>{{ $sale->booking->customer->first_name }}</td>
+                                <td>{{ $sale->sub_booking->pet->pet_name }}</td>
                                 <td>Rp {{ number_format($sale->total_price) }}</td>
+                                <td>{{ $sale->metode }}</td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -1034,7 +1034,7 @@ class BookingController extends Controller
         $sale->status = 0;
         $sale->save();
 
-        return redirect('/sale/list/paid');
+        return redirect('/finance');
     }
 
     public function makeDeposit(Request $request){
@@ -1048,7 +1048,7 @@ class BookingController extends Controller
         $sale->status = 2;
         $sale->save();
 
-        return redirect('/sale/list/paid');
+        return redirect('/finance');
     }
 
     public function updateAddCost(Request $request, $id){
