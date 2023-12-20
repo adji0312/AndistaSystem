@@ -2077,3 +2077,18 @@ function clickAddPhoto(){
 function addAdditionalCost(){
     document.getElementById('buttonAddCost').click();
 }
+
+function inputDiscount(){
+    let diskon = document.getElementById('discount');
+    let before_total_price = document.getElementById('before_total_price');
+    let total_price_sale = document.getElementById('total_price_sale');
+
+    let priceDiskon = (diskon.value/100) * before_total_price.value;
+    let finalPrice = before_total_price.value - priceDiskon;
+    // console.log(finalPrice);
+
+    total_price_sale.textContent = 'Rp ' + finalPrice;
+    // console.log(before_total_price.value);
+    // console.log(total_price_sale.textContent);
+    
+}

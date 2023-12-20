@@ -34,8 +34,8 @@
                     {{-- <h5 class="m-3">Basic Info</h5> --}}
                     <div class="m-3 d-flex gap-5">
                         <div class="mb-3">
-                            <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Booking No</label>
-                            <input type="text" class="form-control" id="capacity" name="capacity" value="{{ $sale->booking->booking_name }}" readonly>
+                            <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Invoice No</label>
+                            <input type="text" class="form-control" id="capacity" name="capacity" value="{{ $sale->no_invoice }}" readonly>
                         </div>
                         <div class="mb-3">
                             <label for="status" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
@@ -391,14 +391,13 @@
                                     </tr>
                                     <tr>
                                         <th scope="row" class="text-end">Discount (Percentage)</th>
-                                        <td colspan="2"><input type="number" placeholder="0.00" style="width: 100%" oninput="inputAdditionalCost()" name="tambahan_biaya" id="tambahan_biaya" value="{{ $sale->tambahan_biaya }}"></td>
+                                        <td colspan="2"><input type="number" placeholder="0.00" style="width: 100%" oninput="inputDiscount()" name="discount" id="discount" value="{{ $sale->diskon }}"></td>
                                     </tr>
                                     <button type="submit" id="buttonAddCost" hidden></button>
                                 </form>
                             @endif
                             <tr>
                                 <th scope="row" class="text-end">Total Price</th>
-                                <input type="number" id="total_price" name="total_price" value="">
                                 <input type="number" id="before_total_price" name="before_total_price" value="{{ $sale->total_price }}" hidden>
                                 <td colspan="2" id="total_price_sale">Rp {{ number_format($sale->total_price) }}</td>
                             </tr>
