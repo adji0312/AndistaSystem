@@ -7,6 +7,7 @@ use App\Models\Location;
 use App\Models\OffDay;
 use App\Models\Shift;
 use App\Models\Staff;
+use App\Models\Workdays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -205,5 +206,40 @@ class AttendanceController extends Controller
         ->whereRelation('staff','id','staff_id');
 
         @dd($filterAttendanceList);
+    }
+
+    public function addWorkDays(Request $request){
+        // dd($request->all());
+        $workDays = new Workdays();
+        $workDays->staff_id = $request->staff_id;
+        $workDays->Monday = $request->Monday;
+        $workDays->Tuesday = $request->Tuesday;
+        $workDays->Wednesday = $request->Wednesday;
+        $workDays->Thursday = $request->Thursday;
+        $workDays->Friday = $request->Friday;
+        $workDays->Saturday = $request->Saturday;
+        $workDays->Sunday = $request->Sunday;
+        $workDays->save();
+
+        return redirect()->back();
+
+    }
+
+    public function updateWorkDays(Request $request, $id){
+        // dd($request->all());
+        $workDays = Workdays::find($id);
+        // dd($workDays);
+        // $workDays->staff_id = $request->staff_id;
+        $workDays->Monday = $request->Monday;
+        $workDays->Tuesday = $request->Tuesday;
+        $workDays->Wednesday = $request->Wednesday;
+        $workDays->Thursday = $request->Thursday;
+        $workDays->Friday = $request->Friday;
+        $workDays->Saturday = $request->Saturday;
+        $workDays->Sunday = $request->Sunday;
+        $workDays->save();
+
+        return redirect()->back();
+
     }
 }

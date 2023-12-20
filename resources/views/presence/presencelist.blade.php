@@ -42,7 +42,7 @@
                 @foreach ($attendances as $attendance)
                   <tr>
                       <td>{{ $attendance->staff->first_name }}</td>
-                      <td>{{ date_format($attendance->created_at, 'd M Y') }}</td>
+                      <td>{{ date_format($attendance->created_at, 'd F Y') }}</td>
                       <td>{{ date_format($attendance->created_at, "H:i") }}</td>
                       @if ($attendance->check_out == null)
                         <td>-</td>

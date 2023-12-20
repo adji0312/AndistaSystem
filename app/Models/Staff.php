@@ -32,7 +32,7 @@ class Staff extends Authenticatable
         return $this->hasMany(SubBook::class);
     }
 
-    // public function service(){
-    //     return $this->hasMany(Position::class);
-    // }
+    public function workdays(){
+        return $this->hasMany(Workdays::class);
+    }
 }

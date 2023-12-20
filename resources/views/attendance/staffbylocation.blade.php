@@ -32,52 +32,213 @@
                         <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
                         <th scope="col" style="color: #7C7C7C">Staff Name</th>
                         <th scope="col" style="color: #7C7C7C">Staff Position</th>
-                        <th scope="col" style="color: #7C7C7C">Shift Name</th>
-                        <th scope="col" style="color: #7C7C7C" class="text-center">Action</th>
+                        {{-- <th scope="col" style="color: #7C7C7C">Shift Name</th> --}}
+                        <th scope="col" style="color: #7C7C7C; width: 15%" class="text-center">Action</th>
                       </tr>
                     </thead>
                     <tbody>
                         @foreach ($staff as $key => $st)
-                            <tr>
-                                <th>{{ $staff->firstItem() + $key }}</th>
-                                <td>{{ $st->first_name }}</td>
-                                <td>{{ $st->position->position_name }}</td>
-                                <td>{{ $st->shift->shift_name }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-success btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#updateShift{{ $st->id }}"><i class="fas fa-pencil-alt"></i> Update</button>
-                                </td>
-                            </tr>
 
-                            <div class="modal fade" id="updateShift{{ $st->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h1 class="modal-title fs-5" id="exampleModalLabel">Update Shift</h1>
-                                    </div>
-                                    <form action="/updateShift/{{ $st->id }}" method="post">
-                                        @csrf
-                                        <div class="modal-body">
-                                            <div class="mb-3">
-                                                <label for="shift_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Shift</label>
-                                                <select class="form-select" aria-label="Default select example" name="shift_id">
-                                                    @foreach ($shifts as $shift)
-                                                        @if ($shift->id == $st->shift->id)
-                                                            <option selected value="{{ $shift->id }}">{{ $shift->shift_name }}</option>
-                                                            @continue;
-                                                        @endif
-                                                        <option value="{{ $shift->id }}">{{ $shift->shift_name }}</option>
-                                                    @endforeach
-                                                </select>
+                            @if (count($st->workdays) != 0)
+                                <tr>
+                                    <th>{{ $staff->firstItem() + $key }}</th>
+                                    <td>{{ $st->first_name }}</td>
+                                    <td>{{ $st->position->position_name }}</td>
+                                    {{-- <td>{{ $st->shift->shift_name }}</td> --}}
+                                    <td>
+                                        <button type="button" class="btn btn-outline-success btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#updateWorkDays{{ $st->id }}"><i class="fas fa-pencil-alt"></i> Manage Shift</button>
+                                    </td>
+                                </tr>
+
+                                <div class="modal fade" id="updateWorkDays{{ $st->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Shift {{ $st->first_name }}</h1>
+                                        </div>
+                                        <form action="/updateWorkDays/{{ $st->workdays[0]->id }}" method="post">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="Monday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Senin</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Monday">
+                                                        @foreach ($shifts as $shift)
+                                                            @if ($shift->id == $st->workdays[0]->Monday)
+                                                                <option value="{{ $shift->id }}" selected>{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Tuesday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Selasa</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Tuesday">
+                                                        @foreach ($shifts as $shift)
+                                                            @if ($shift->id == $st->workdays[0]->Tuesday)
+                                                                <option value="{{ $shift->id }}" selected>{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Wednesday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Rabu</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Wednesday">
+                                                        @foreach ($shifts as $shift)
+                                                            @if ($shift->id == $st->workdays[0]->Wednesday)
+                                                                <option value="{{ $shift->id }}" selected>{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Thursday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Kamis</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Thursday">
+                                                        @foreach ($shifts as $shift)
+                                                            @if ($shift->id == $st->workdays[0]->Thursday)
+                                                                <option value="{{ $shift->id }}" selected>{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Friday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Jumat</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Friday">
+                                                        @foreach ($shifts as $shift)
+                                                            @if ($shift->id == $st->workdays[0]->Friday)
+                                                                <option value="{{ $shift->id }}" selected>{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Saturday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Sabtu</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Saturday">
+                                                        @foreach ($shifts as $shift)
+                                                            @if ($shift->id == $st->workdays[0]->Saturday)
+                                                                <option value="{{ $shift->id }}" selected>{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Sunday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Minggu</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Sunday">
+                                                        @foreach ($shifts as $shift)
+                                                            @if ($shift->id == $st->workdays[0]->Sunday)
+                                                                <option value="{{ $shift->id }}" selected>{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                                @continue;
+                                                            @endif
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                                            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
-                                        </div>
-                                    </form>    
-                                  </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                            </div>
+                                        </form>    
+                                    </div>
+                                    </div>
                                 </div>
-                            </div>
+                            @else
+                                <tr>
+                                    <th>{{ $staff->firstItem() + $key }}</th>
+                                    <td>{{ $st->first_name }}</td>
+                                    <td>{{ $st->position->position_name }}</td>
+                                    {{-- <td>{{ $st->shift->shift_name }}</td> --}}
+                                    <td>
+                                        <button type="button" class="btn btn-outline-success btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#addWorkDays{{ $st->id }}"><i class="fas fa-pencil-alt"></i> Manage Shift</button>
+                                    </td>
+                                </tr>
+
+                                <div class="modal fade" id="addWorkDays{{ $st->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Shift</h1>
+                                        </div>
+                                        <form action="/addWorkDays" method="post">
+                                            @csrf
+                                            <input type="text" name="staff_id" value="{{ $st->id }}" hidden>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="Monday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Senin</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Monday">
+                                                        @foreach ($shifts as $shift)
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Tuesday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Selasa</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Tuesday">
+                                                        @foreach ($shifts as $shift)
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Wednesday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Rabu</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Wednesday">
+                                                        @foreach ($shifts as $shift)
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Thursday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Kamis</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Thursday">
+                                                        @foreach ($shifts as $shift)
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Friday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Jumat</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Friday">
+                                                        @foreach ($shifts as $shift)
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Saturday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Sabtu</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Saturday">
+                                                        @foreach ($shifts as $shift)
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Sunday" class="form-label" style="font-size: 15px; color: #7C7C7C;">Minggu</label>
+                                                    <select class="form-select" aria-label="Default select example" name="Sunday">
+                                                        @foreach ($shifts as $shift)
+                                                            <option value="{{ $shift->id }}">{{ $shift->shift_name }} ({{ $shift->start_hour }} : {{ $shift->end_hour }})</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                            </div>
+                                        </form>    
+                                    </div>
+                                    </div>
+                                </div>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>

@@ -190,6 +190,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/updateShift/{id}', [AttendanceController::class, 'updateShift']);
     Route::get('/submitFilterAttendance',[AttendanceController::class,'attendancelistbyfilter']); 
     Route::get('/submitFilterAttendanceEmployee',[AttendanceController::class,'attendancelistbyfilteremployee']); 
+    Route::post('/addWorkDays', [AttendanceController::class, 'addWorkDays']);
+    Route::post('/updateWorkDays/{id}', [AttendanceController::class, 'updateWorkDays']);
 
 
     //Shift
