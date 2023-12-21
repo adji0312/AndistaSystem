@@ -28,7 +28,7 @@
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="location_id">
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="location_id" required>
                                     <option value="" class="selectstatus" style="color: black;" disabled selected>Select Location</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->location_name }}" class="selectstatus" style="color: black;" id="locationFilter{{ $location->id }}">{{ $location->location_name }}</option>
@@ -37,7 +37,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Month</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="month">
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="month" required>
                                     <option value="" class="selectstatus" disabled selected>Select Month</option>
                                     <option value="01" style="color: black;">January</option>
                                     <option value="02" style="color: black;">February</option>
@@ -55,7 +55,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Year</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="year">
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="year" required>
                                     <option value="" class="selectstatus" disabled selected>Select Year</option>
                                     <option value="2023" style="color: black;">2023</option>
                                     <option value="2024" style="color: black;">2024</option>
@@ -69,15 +69,15 @@
                                     <option value="2032" style="color: black;">2032</option>
                                 </select>
                             </div>
-                            {{-- <div class="mb-3">
+                            <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Staff</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="staff_id">
+                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="staff_id" required>
                                     <option value="" class="selectstatus" disabled selected>Select Staff Name</option>
                                     @foreach ($staffs as $staff)
                                         <option value="{{ $staff->id }}" style="color: black;">{{ $staff->first_name }}</option>
                                     @endforeach
-                                    </select>
-                            </div> --}}
+                                </select>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-outline-primary m-3 mt-0 btn-sm" id="buttonfilter" onclick="submitAttach()">Submit</button>
                     </div>

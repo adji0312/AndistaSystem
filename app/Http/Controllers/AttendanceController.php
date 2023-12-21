@@ -8,6 +8,7 @@ use App\Models\OffDay;
 use App\Models\Shift;
 use App\Models\Staff;
 use App\Models\Workdays;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -47,8 +48,20 @@ class AttendanceController extends Controller
     public function attendancelistbyfilter(Request $request){
         // dd($request->all());
         $location = $request->location_id;
-        $month = $request->month;
-        $year = $request->year;
+        // $month = $request->month;
+        // $year = $request->year;
+        // // $now = Carbon::now();
+        $month = $request->year .'-'. $request->month;
+        // dd($month);
+        $start = Carbon::parse($month)->startOfMonth();
+        $end = Carbon::parse($month)->endOfMonth();
+
+        $dates = [];
+        while ($start->lte($end)) {
+            $dates[] = $start->copy();
+            $start->addDay();
+        }
+        // dd($dates);
 
         // dd(request('filterstaff'));
 
@@ -77,34 +90,32 @@ class AttendanceController extends Controller
 
     foreach ($result as $row) {
         $attendance = Attendance::find($row->id);
-        // @dd($attendance->staff->location->location_name);
-
-        // $location_name = $attendance->staff->location->location_name;
-        // @dd($attendance->created_at->month);
+        // dd($attendance);
         //month and year find
-        if($attendance->created_at->month == $request->month && $attendance->created_at->year == $request->year){
+        if($attendance->created_at->month == $request->month && $attendance->created_at->year == $request->year && $attendance->staff_id == $request->staff_id){
             $finalResult[] = $attendance;
         }
 
-        //month only , year null
-        else if($attendance->created_at->month == $request->month && $request->year == ''){
-            $finalResult[] = $attendance;
-        }
+        // //month only , year null
+        // else if($attendance->created_at->month == $request->month && $request->year == ''){
+        //     $finalResult[] = $attendance;
+        // }
 
-        //year only , month null
-        else if($request->month=='' && $attendance->created_at->year == $request->year){
-            $finalResult[] = $attendance;
-        }
+        // //year only , month null
+        // else if($request->month=='' && $attendance->created_at->year == $request->year){
+        //     $finalResult[] = $attendance;
+        // }
 
-        else if($request->month=='' && $request->year==''){
-            $finalResult[] = $attendance;
-        }
+        // else if($request->month=='' && $request->year==''){
+        //     $finalResult[] = $attendance;
+        // }
 
         else{
 
         }
     }
-    
+
+        $staffDetail = Staff::find($request->staff_id);
 
     // @dd($finalResult);
 
@@ -114,7 +125,9 @@ class AttendanceController extends Controller
             "month" => $request->month,
             "year" => $request->year,
             "attendances" => $finalResult,
-            "staffs" => $staffs
+            "staffs" => $staffs,
+            "now" => $dates,
+            "staff" => $staffDetail
         ]);
     }
 
