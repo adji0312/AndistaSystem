@@ -473,7 +473,7 @@ class IndexController extends Controller
             $events[] = [
                 'subbook_id' => $b->id,
                 // 'title' => $b->booking->,
-                'title' => str(date('H:i',strtotime($b->created_at)))." ".$b->booking->customer->first_name." - ".$b->booking->customer->pets[0]->pet_name,
+                'title' => str(date('H:i',strtotime($b->created_at)))." ".$b->booking->customer->first_name." - ".$b->booking->customer->pets[0]->pet_name??'',
                 'start' => str($b->booking_date),
                 'start_time' => $b->start_booking,
                 'end_booking' => $b->end_booking
