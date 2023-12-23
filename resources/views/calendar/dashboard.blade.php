@@ -50,6 +50,12 @@
                             // )
                             // Redirect
                             window.location.href = "/booking/detail/"+info.event.extendedProps.subbook_id;
+                        },
+                        slotDuration: '00:30:00',
+                        slotLabelFormat:{
+                            hour:'2-digit',
+                            minute:'2-digit',
+                            hour12:false
                         }
                     });
 
