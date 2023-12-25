@@ -9,70 +9,83 @@
             <div id="dashboard" class="mx-3 mt-4">
                 <form action="/saveUpdatedStaffInfo/{{ Auth::user()->id }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+                    <div class="container border" style="border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Basic Info</h5>
-                        <div class="m-3 d-flex gap-5">
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Name</label>
-                                <input type="text" class="form-control" name="first_name" id="first_name" value="{{ Auth::user()->first_name ?? '' }}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="first_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 100%;">Name</label>
+                                    <input type="text" class="form-control" name="first_name" id="first_name" value="{{ Auth::user()->first_name ?? '' }}">
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="simple_service_name" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Email</label>
-                                <input type="text" class="form-control" name="email" id="email" value="{{ Auth::user()->email ?? '' }}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="location" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
-                                <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location" id="location" required>
-                                    <option value="{{ Auth::user()->location_id }}" class="selectstatus" style="color: black;" selected>{{ Auth::user()->location->location_name ?? '' }}</option>
-                                    @foreach ($locations as $location)
-                                        <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                                    @endforeach
-                                    {{-- <option value="Tn" class="selectstatus" style="color: black;">Male</option>
-                                    <option value="Ny" class="selectstatus" style="color: black;">Female</option> --}}
-                                </select>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 100%;">Email</label>
+                                    <input type="text" class="form-control" name="email" id="email" value="{{ Auth::user()->email ?? '' }}">
+                                </div>
                             </div>
                         </div>
-                        <div class="m-3 d-flex gap-5">
-                            <div class="mb-3">
-                                <label for="password" class="form-label"><strong>New Password</strong></label>
-                                
-                                <input id="myInput" type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
-                                @error('password')
-                                  <div class="invalid-feedback">
-                                    {{ $message }}
-                                  </div>
-                                @enderror
+                        <div class="mb-3">
+                            <label for="location" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
+                            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" name="location" id="location" required>
+                                <option value="{{ Auth::user()->location_id }}" class="selectstatus" style="color: black;" selected>{{ Auth::user()->location->location_name ?? '' }}</option>
+                                @foreach ($locations as $location)
+                                <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="password" class="form-label"><strong>New Password</strong></label>
+                                        <div class="input-group">
+                                            <input id="myInput" type="password"
+                                                class="form-control @error('password') is-invalid @enderror" id="password" name="password">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text eye" onclick="myFunction()">
+                                                    <i id="hide1" class="fas fa-eye" style="display: none"></i>
+                                                    <i id="hide2" class="fas fa-eye-slash"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        @error('password')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                </div>
                             </div>
-                            <div class="my-auto">
-                                <span class="eye " onclick="myFunction()">
-                                    <i id="hide1" class="fas fa-eye"></i>
-                                    <i id="hide2" class="fas fa-eye-slash"></i>
-                                  </span>
-                              </div>
-                        </div>
-                        <div class="m-3 d-flex gap-5">
-                            <div class="mb-3">
-                                <label for="password" class="form-label"><strong>Confirm Password</strong></label>
-                                
-                                <input id="myInput2" type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="confirm_password">
-                                @error('password')
-                                  <div class="invalid-feedback">
-                                    {{ $message }}
-                                  </div>
-                                @enderror
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="confirm_password" class="form-label"><strong>Confirm Password</strong></label>
+                                        <div class="input-group">
+                                            <input id="myInput2" type="password"
+                                                class="form-control @error('password') is-invalid @enderror" id="confirm_password"
+                                                name="confirm_password">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text eye" onclick="myFunction2()">
+                                                <i id="hide12" class="fas fa-eye" style="display: none"></i>
+                                                <i id="hide22" class="fas fa-eye-slash"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="my-auto">
-                                <span class="eye " onclick="myFunction()">
-                                    <i id="hide12" class="fas fa-eye"></i>
-                                    <i id="hide22" class="fas fa-eye-slash"></i>
-                                  </span>
-                              </div>
                         </div>
-                        <div class="m-3 d-flex gap-5">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
+
                 </form>
 
                 <form>
@@ -212,7 +225,7 @@
         }
       </script>
     <script>
-        function myFunction(){
+        function myFunction2(){
           var x = document.getElementById("myInput2");
           var y = document.getElementById("hide12");
           var z = document.getElementById("hide22");
