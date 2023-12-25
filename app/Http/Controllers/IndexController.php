@@ -526,576 +526,215 @@ class IndexController extends Controller
     public function presencescan(Request $request){
 
         $staff = Staff::all()->where('UUID', $request->qrid)->first();
-        // dd($staff->shifts_id);
-        // dd($staff->workdays[0]->$dayNow);
-        // dd($dayNow);
-        // dd($staff->workdays[0]);
+        // dd($staff);
+
+        //kalau gk ada langsung return error
         if($staff == null){
             Alert::warning('Not Found', "Your QR ID doesn't exist!");
             return redirect()->back();
         }
         
-        // $timeNow = Carbon::now()->format('H:i');
-        $dayNow = date_format(Date::now(), 'l');
-        $shift = Shift::find($staff->workdays[0]->$dayNow);
-
-        $attendanceCheck = Attendance::all()->where('staff_id', $staff->id)->where('check_in', date_format(Date::now(), 'Y-m-d'))->first();
         
-        //kalau ada pasti selalu next day brarti
-        if($attendanceCheck){
-
-           $nextDay = date_format(Date::now()->addDays(1), 'l');
-           $nextShift = Shift::find($staff->workdays[0]->$nextDay);
-
-           $checkTime = Carbon::now()->format('H:i');
-
-           //khusus untuk shift 1
-           if($nextShift->start_hour == '00:00'){
-                if($checkTime < '24:00'){
-                    $timeDifference  = Carbon::parse('24:00')->diffInMinutes(Carbon::parse($checkTime));
-                    if($timeDifference > 15){
-                        Alert::warning('Mohon Maaf', 'Belum waktunya untuk dapat check in');
+        $attendanceAtDayNow = Attendance::all()->where('staff_id', $staff->id)->where('check_in', date_format(Date::now(), 'Y-m-d'))->first();
+        $checkingAttendance = Attendance::latest()->where('staff_id', $staff->id)->get();
+        // dd($checkingAttendance[0]);
+        // $attendanceAtBefore = Attendance::all()->where('staff_id', $staff->id)->where('check_in', date_format(Date::now()->subDay(1), 'Y-m-d'))->first();
+        $dayNow = date_format(Date::now(), 'l');
+        $dayBefore = date_format(Date::now()->subDay(1), 'l');
+        // dd($attendanceAtDayNow);
+        // dd($shift);
+        
+        if(count($checkingAttendance) != 0){
+            if($checkingAttendance[0]->check_out == null){
+                Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
+                return redirect('/presence');
+            }else{
+                // dd('ajsasjas');
+                $now = Carbon::now();
+                $start = Carbon::createFromTimeString('23:00');
+                $end = Carbon::createFromTimeString('23:59');
+                $start1 = Carbon::createFromTimeString('00:00');
+                $end1 = Carbon::createFromTimeString('03:00');
+                
+                //ini biasanya dilakukan oleh user yang cek in saat shift 1
+                if ($now->between($start, $end) || $now->between($start1, $end1)){
+                    // dd('ini');
+                    // dd($dayBefore);
+                    //pake daybefore
+                    $timeNow = Carbon::now()->format('H:i');
+                    
+                    if($now->between($start, $end)){
+                        $shiftBefore = Shift::find($staff->workdays[0]->$dayNow);
+                        if($timeNow < $shiftBefore->jam_mulai){
+                            Alert::warning('Maaf', 'Anda Belum Bisa Check In, Check In Kembali Pada Pukul ' . $shiftBefore->jam_mulai);
+                            return redirect('/presence'); 
+                        }else{
+                            $attendance = new Attendance();
+                            $attendance->staff_id = $staff->id;
+                            $attendance->check_in = Carbon::now();
+                            $attendance->status = 'Normal';
+                            $attendance->over_hour = 0;
+                            $attendance->shift_id = $shiftBefore->id;
+                            $attendance->save();
+                        }
+                    }else{
+                        $shiftBefore = Shift::find($staff->workdays[0]->$dayBefore);
+                        if($timeNow > $shiftBefore->jam_berakhir){
+                            $attendance = new Attendance();
+                            $attendance->staff_id = $staff->id;
+                            $attendance->check_in = Carbon::now();
+                            $attendance->status = 'Late';
+                            $timeDiff = Carbon::parse($timeNow)->diffInMinutes(Carbon::parse($shiftBefore->jam_berakhir));
+                            // dd($timeDiff);
+                            $attendance->over_hour = $timeDiff;
+                            $attendance->shift_id = $shiftBefore->id;
+                            $attendance->save();
+                        }else{
+                            $attendance = new Attendance();
+                            $attendance->staff_id = $staff->id;
+                            $attendance->check_in = Carbon::now();
+                            $attendance->status = 'Normal';
+                            $attendance->over_hour = 0;
+                            $attendance->shift_id = $shiftBefore->id;
+                            $attendance->save();
+                        }
+                    }
+                    
+                }
+                //ya ini harusnya shift shift yg lain
+                else{
+                    $attendanceCheck = Attendance::latest()->where('staff_id', $staff->id)->get();
+                    // dd($attendanceCheck);
+                    if($attendanceCheck[0]->check_out == null){
+                        Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
                         return redirect('/presence');
                     }else{
-                        // dd('bisa absen masuk ke range 15 menit sebelumnya');
-                        $attendance = new Attendance();
-                        $attendance->staff_id = $staff->id;
-                        $attendance->check_in = Carbon::now();
-                        $attendance->over_hour = 0;
-                        $attendance->shift_id = $nextShift->id;
-                        $attendance->status = "Normal";
-                        $attendance->save();
-                    }
-                }else{
-                    $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($nextShift->start_hour));
-                    if($timeDifference > 5){
-                        dd('telat masuk');
-                    }else{
-                        $attendance = new Attendance();
-                        $attendance->staff_id = $staff->id;
-                        $attendance->check_in = Carbon::now();
-                        $attendance->over_hour = 0;
-                        $attendance->shift_id = $nextShift->id;
-                        $attendance->status = "Normal";
-                        $attendance->save();
-                    }
-                }
-           }
-        }
 
-        else{
-            dd("Kosong langsung bisa di input new Attendance");
-        }
-
-        // if($shift->start_hour == '-'){
-        //     //tidak ada absen trus tambah day + 1 trus cek lagi shift berdasarkan day yg baru
-        //     $dayNowAdd = date_format(Date::now()->addDays(1), 'l');
-        //     $nextShift = Shift::find($staff->workdays[0]->$dayNowAdd);
-
-        //     $checkTime = Carbon::now()->format('H:i');
-
-        //     if($nextShift->start_hour == '00:00'){
-        //         if($checkTime < '24:00'){
-        //             // dd($nextShift->start_hour);
-        //             $timeDifference  = Carbon::parse('24:00')->diffInMinutes(Carbon::parse($checkTime));
-        //             // dd($timeDifference);
-        //             if($timeDifference > 15){
-        //                 Alert::warning('Mohon Maaf', 'Belum waktunya untuk dapat check in');
-        //                 return redirect('/presence');
-        //             }else{
-        //                 // dd('bisa absen masuk ke range 15 menit sebelumnya');
-        //                 $attendance = new Attendance();
-        //                 $attendance->staff_id = $staff->id;
-        //                 $attendance->check_in = Carbon::now();
-        //                 $attendance->over_hour = 0;
-        //                 $attendance->shift_id = $nextShift->id;
-        //                 $attendance->status = "Normal";
-        //                 $attendance->save();
-        //             }
-        //         }else{
-        //             // dd('lebih besar');
-        //             $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($nextShift->start_hour));
-        //             if($timeDifference > 5){
-        //                 dd('telat masuk');
-        //             }else{
-        //                 $attendance = new Attendance();
-        //                 $attendance->staff_id = $staff->id;
-        //                 $attendance->check_in = Carbon::now();
-        //                 $attendance->over_hour = 0;
-        //                 $attendance->shift_id = $nextShift->id;
-        //                 $attendance->status = "Normal";
-        //                 $attendance->save();
-        //             }
-        //         }
-
-        //     }else{
-        //         // dd('e');
-        //         if($checkTime < $nextShift->start_hour){
-        //             // dd('lebih kecil');
-        //             $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($nextShift->start_hour));
-        //             if($timeDifference > 15){
-        //                 Alert::warning('Mohon Maaf', 'Belum waktunya untuk dapat check in');
-        //                 return redirect('/presence');
-        //             }else{
-        //                 dd('bisa absen masuk ke range 15 menit sebelumnya');
-        //             }
-        //         }else{
-        //             $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($nextShift->start_hour));
-        //             if($timeDifference > 5){
-        //                 dd('telat masuk');
-        //             }else{
-        //                 dd('normal');
-        //             }
-        //         }
-        //     }
-        // }
-        
-        // else{
-            
-        //     $attendanceCheck = Attendance::all()->where('staff_id', $staff->id)->where('check_in', date_format(Date::now(), 'Y-m-d'));
-            
-        //     if(count($attendanceCheck) == null){
-        //         dd('berarti emg hari ini');
-        //     }
-
-        //     $cekCekout = Attendance::latest()->where('staff_id', $staff->id)->first();
-            
-        //     if($cekCekout){
-        //         if($cekCekout->check_out == null){
-        //             Alert::warning('Sorry', 'You already check in, please check out first!');
-        //             return redirect('/presence');
-        //         }
-        //     }else{
-        //         if($staff->shift->start_hour == "00:00"){
-        //             $attendance = new Attendance();
-        //             $attendance->staff_id = $staff->id;
-        //             $attendance->check_in = Carbon::now();
-        //             $checkTime = $attendance->check_in->format('H:i');
-        //             // $checkTime = '00:00';
-        //             // dd($checkTime);
-        
-        //             if($checkTime > $staff->shift->end_hour){
-        //                 $attendance->status = 'Normal';
-        //                 $attendance->over_hour = 0;
-        //                 $attendance->shift_id = $staff->shifts_id;
-        //                 $attendance->save();
-        //             }elseif ($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
-        //                 $attendance->status = 'Late';
-        //                 $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-        //                 $attendance->over_hour = $timeDifference;
-        //                 $attendance->shift_id = $staff->shifts_id;
-        //                 $attendance->save();
-        //             }elseif ($checkTime == $staff->shift->start_hour){
-        //                 $attendance->status = 'Normal';
-        //                 $attendance->over_hour = 0;
-        //                 $attendance->shift_id = $staff->shifts_id;
-        //                 $attendance->save();
-        //             }
-        //         }
-
-        //         else{
-
-        //         }
-        //     }
-        //     // cek dulu apakah ada absen di hari inis
-        //     $attendance = Attendance::all()->where('check_in', date_format(Date::now(), 'Y-m-d'))->where('staff_id', $staff->id);
-        // }
-
-        // dd($attendance);
-
-        // if(count($attendance) != 0){
-        //     //ada absen trus tambah day + 1 trus cek lagi shift berdasarkan day yg baru
-        //     $dayNowAdd = date_format(Date::now()->addDays(1), 'l');
-        //     $nextShift = Shift::find($staff->workdays[0]->$dayNowAdd);
-        //     // dd($nextShift);
-        // }else{
-
-        //     $cekLibur = Shift::find($staff->workdays[0]->$dayNow);
-        //     dd($cekLibur);
-
-        //     //tidak ada absen trus tambah day + 1 trus cek lagi shift berdasarkan day yg baru
-        //     $dayNowAdd = date_format(Date::now()->addDays(1), 'l');
-        //     $nextShift = Shift::find($staff->workdays[0]->$dayNowAdd);
-            
-        //     $checkTime = Carbon::now()->format('H:i');
-
-        //     if($nextShift->start_hour == '00:00'){
-        //         if($checkTime < '24:00'){
-        //             // dd($nextShift->start_hour);
-        //             $timeDifference  = Carbon::parse('24:00')->diffInMinutes(Carbon::parse($checkTime));
-        //             // dd($timeDifference);
-        //             if($timeDifference > 15){
-        //                 Alert::warning('Mohon Maaf', 'Belum waktunya untuk dapat check in');
-        //                 return redirect('/presence');
-        //             }else{
-        //                 dd('bisa absen masuk ke range 15 menit sebelumnya');
-        //             }
-        //         }else{
-        //             // dd('lebih besar');
-        //             $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($nextShift->start_hour));
-        //             if($timeDifference > 5){
-        //                 dd('telat masuk');
-        //             }else{
-        //                 dd('normal');
-        //             }
-        //         }
-
-        //     }else{
-        //         dd('e');
-        //         if($checkTime < $nextShift->start_hour){
-        //             dd('lebih kecil');
-        //             $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($nextShift->start_hour));
-        //             if($timeDifference > 15){
-        //                 dd('tidak bisa absen belum waktunya');
-        //             }else{
-        //                 dd('bisa absen masuk ke range 15 menit sebelumnya');
-        //             }
-        //         }else{
-        //             dd('lebih besar');
-        //             $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($nextShift->start_hour));
-        //             if($timeDifference > 5){
-        //                 dd('telat masuk');
-        //             }else{
-        //                 dd('normal');
-        //             }
-        //         }
-        //     }
-
-        // }
-        
-        // if($shift->start_hour == "-"){
-        //     $dayNowAdd = date_format(Date::now()->addDays(1), 'l');
-        //     $nextShift = Shift::find($staff->workdays[0]->$dayNowAdd);
-        //     // dd($nextShift);
-            
-        //     $checkTime = Carbon::now()->format('H:i');
-        //     if($checkTime < $nextShift->start_hour){
-        //         $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($nextShift->start_hour));
-        //         if($timeDifference > 15){
-        //             dd('tidak bisa absen belum waktunya');
-        //         }else{
-        //             dd('bisa absen masuk ke range 15 menit sebelumnya');
-        //         }
-        //     }else{
-        //         $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($nextShift->start_hour));
-        //         if($timeDifference > 5){
-        //             dd('telat masuk');
-        //         }else{
-        //             dd('normal');
-        //         }
-        //     }
-        // }else{
-        //     dd("tidak libur harus cek absen pada hari ini");
-        // }
-
-        // if($dayNow == "Monday"){
-
-        // }elseif($dayNow == "Tuesday"){
-            
-        // }elseif($dayNow == "Wednesday"){
-            
-        // }elseif($dayNow == "Thursday"){
-        //     $shift = Shift::find($staff->workdays[0]->Thursday);
-        //     // dd($shift);
-            
-        //     $dayoff = OffDay::all()->where('tanggal_merah', date_format(Date::now(), 'Y-m-d'));
-
-        //     if(count($dayoff) != 0){
-
-        //     }else{
-        //         $attendance = Attendance::latest()->where('staff_id', $staff->id)->first();
-        //         $checkTime = Carbon::now()->format('H:i');
-        //         if($checkTime < $shift->start_hour){
-        //             $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($shift->start_hour));
-        //             if($timeDifference > 15){
-        //                 dd('tidak bisa absen belum waktunya');
-        //             }else{
-        //                 dd('bisa absen masuk ke range 15 menit sebelumnya');
-        //             }
-        //         }else{
-        //             $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($shift->start_hour));
-        //             if($timeDifference > 5){
-        //                 dd('telat masuk');
-        //             }else{
-        //                 dd('normal');
-        //             }
-        //         }
-        //         if($attendance){
-
-        //         }else{
-        //             if($shift->start_hour == "00:00"){
-        //                 // dd("here121212");
-        //                 $attendance = new Attendance();
-        //                 $attendance->staff_id = $staff->id;
-        //                 $attendance->check_in = Carbon::now();
-        //                 $checkTime = $attendance->check_in->format('H:i');
-        //                 // $checkTime = '00:00';
-        //                 // dd($checkTime);
-            
-        //                 if($checkTime > $shift->end_hour){
-        //                     $attendance->status = 'Normal';
-        //                     $attendance->over_hour = 0;
-        //                     $attendance->shift_id = $shift->id;
-        //                     $attendance->save();
-        //                 }elseif ($checkTime > $shift->start_hour && $checkTime < $shift->end_hour){
-        //                     $attendance->status = 'Late';
-        //                     $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($shift->start_hour));
-        //                     $attendance->over_hour = $timeDifference;
-        //                     $attendance->shift_id = $shift->id;
-        //                     $attendance->save();
-        //                 }elseif ($checkTime == $shift->start_hour){
-        //                     $attendance->status = 'Normal';
-        //                     $attendance->over_hour = 0;
-        //                     $attendance->shift_id = $shift->id;
-        //                     $attendance->save();
-        //                 }
-        //             }else{
-    
-        //                 // dd('here12');
-        //                 $attendance = new Attendance();
-        //                 $attendance->staff_id = $staff->id;
-        //                 $attendance->check_in = Carbon::now();
-        //                 $checkTime = $attendance->check_in->format('H:i');
-        //                 // $checkTime = '08:01';
+                        $shift = Shift::find($staff->workdays[0]->$dayNow);
+                        $timeNow = Carbon::now()->format('H:i');
                         
-        //                 if($staff->shift->end_hour == '00:00'){
-        //                     $endHour = '24:00';
-        //                     if($checkTime > $staff->shift->start_hour && $checkTime < $endHour){
-        //                         // dd("late");
-        //                         $attendance->status = 'Late';
-        //                         $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-        //                         $attendance->over_hour = $timeDifference;
-        //                         $attendance->shift_id = $staff->shifts_id;
-        //                         $attendance->save();
-        //                     }else{
-        //                         // dd("normal");
-        //                         $attendance->status = 'Normal';
-        //                         $attendance->over_hour = 0;
-        //                         $attendance->shift_id = $staff->shifts_id;
-        //                         $attendance->save();
-        //                     }
-        //                 }else{
-        //                     if($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
-        //                         // dd("late");
-        //                         $attendance->status = 'Late';
-        //                         $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-        //                         $attendance->over_hour = $timeDifference;
-        //                         $attendance->shift_id = $staff->shifts_id;
-        //                         $attendance->save();
-        //                     }else{
-        //                         // dd("normal");
-        //                         $attendance->status = 'Normal';
-        //                         $attendance->over_hour = 0;
-        //                         $attendance->shift_id = $staff->shifts_id;
-        //                         $attendance->save();
-        //                     }
-        //                 }
-    
-        //             }
-        //         }
-        //     }
-        // }elseif($dayNow == "Friday"){
-            
-        // }elseif($dayNow == "Saturday"){
-            
-        // }elseif($dayNow == "Sunday"){
-
-        // }
-
-        $dayoff = OffDay::all()->where('tanggal_merah', date_format(Date::now(), 'Y-m-d'));
-        // dd(count($dayoff));
-        if(count($dayoff) != 0){
-
-            $attendance = Attendance::latest()->where('staff_id', $staff->id)->first();
-            if($attendance){
-                if($attendance->check_out == null){
-                    Alert::warning('Sorry', 'You already check in, please check out first!');
-                    return redirect('/presence');
-                }else{
-                    // dd('here');
-                    $attendance = new Attendance();
-                    $attendance->staff_id = $staff->id;
-                    $attendance->check_in = Carbon::now();
-                    $attendance->status = 'Hari Libur';
-                    $attendance->over_hour = 0;
-                    $attendance->shift_id = $staff->shifts_id;
-                    $attendance->save();
+                        if($timeNow < $shift->jam_mulai){
+                            Alert::warning('Maaf', 'Anda Belum Bisa Check In, Check In Kembali Pada Pukul ' . $shift->jam_mulai);
+                            return redirect('/presence'); 
+                        }elseif($timeNow > $shift->jam_berakhir){
+                            $attendance = new Attendance();
+                            $attendance->staff_id = $staff->id;
+                            $attendance->check_in = Carbon::now();
+                            $attendance->status = 'Late';
+                            $timeDiff = Carbon::parse($timeNow)->diffInMinutes(Carbon::parse($shift->jam_berakhir));
+                            $attendance->over_hour = $timeDiff;
+                            $attendance->shift_id = $shift->id;
+                            $attendance->save();
+                        }else{
+                            $attendance = new Attendance();
+                            $attendance->staff_id = $staff->id;
+                            $attendance->check_in = Carbon::now();
+                            $attendance->status = 'Normal';
+                            $attendance->over_hour = 0;
+                            $attendance->shift_id = $shift->id;
+                            $attendance->save();
+                        }
+                    }
                 }
-            }else{
-                $attendance = new Attendance();
-                $attendance->staff_id = $staff->id;
-                $attendance->check_in = Carbon::now();
-                $attendance->status = 'Hari Libur';
-                $attendance->over_hour = 0;
-                $attendance->shift_id = $staff->shifts_id;
-                $attendance->save();
             }
-
         }else{
-            $attendance = Attendance::latest()->where('staff_id', $staff->id)->first();
-            // dd($attendance);
-            // dd($staff->shift);
-            if($attendance){
-                if($attendance->check_out == null){
-                    Alert::warning('Sorry', 'You already check in, please check out first!');
-                    return redirect('/presence');
-                }else{
-                    //cuma khusus shift yang start hour nya jam 00:00
-                    if($staff->shift->start_hour == "00:00"){
-                        $attendance = new Attendance();
-                        $attendance->staff_id = $staff->id;
-                        $attendance->check_in = Carbon::now();
-                        $checkTime = $attendance->check_in->format('H:i');
-                        // $checkTime = '00:00';
-                        // dd($checkTime);
+            $now = Carbon::now();
+            $start = Carbon::createFromTimeString('23:00');
+            $end = Carbon::createFromTimeString('23:59');
+            $start1 = Carbon::createFromTimeString('00:00');
+            $end1 = Carbon::createFromTimeString('03:00');
             
-                        if($checkTime > $staff->shift->end_hour){
-                            $attendance->status = 'Normal';
-                            $attendance->over_hour = 0;
-                            $attendance->shift_id = $staff->shifts_id;
-                            $attendance->save();
-                        }elseif ($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
-                            $attendance->status = 'Late';
-                            $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-                            $attendance->over_hour = $timeDifference;
-                            $attendance->shift_id = $staff->shifts_id;
-                            $attendance->save();
-                        }elseif ($checkTime == $staff->shift->start_hour){
-                            $attendance->status = 'Normal';
-                            $attendance->over_hour = 0;
-                            $attendance->shift_id = $staff->shifts_id;
-                            $attendance->save();
-                        }
+            //ini biasanya dilakukan oleh user yang cek in saat shift 1
+            if ($now->between($start, $end) || $now->between($start1, $end1)){
+                //pake daybefore
+                $timeNow = Carbon::now()->format('H:i');
+                
+                if($now->between($start, $end)){
+                    $shiftBefore = Shift::find($staff->workdays[0]->$dayNow);
+                    if($timeNow < $shiftBefore->jam_mulai){
+                        Alert::warning('Maaf', 'Anda Belum Bisa Check In, Check In Kembali Pada Pukul ' . $shiftBefore->jam_mulai);
+                        return redirect('/presence'); 
                     }else{
-
-                        // dd('here');
                         $attendance = new Attendance();
                         $attendance->staff_id = $staff->id;
                         $attendance->check_in = Carbon::now();
-                        $checkTime = $attendance->check_in->format('H:i');
-                        // $checkTime = '08:01';
-                        // dd($checkTime);
-
-                        if($staff->shift->end_hour == '00:00'){
-                            $endHour = '24:00';
-                            if($checkTime > $staff->shift->start_hour && $checkTime < $endHour){
-                                // dd("late");
-                                $attendance->status = 'Late';
-                                $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-                                $attendance->over_hour = $timeDifference;
-                                $attendance->shift_id = $staff->shifts_id;
-                                $attendance->save();
-                            }else{
-                                // dd("normal");
-                                $attendance->status = 'Normal';
-                                $attendance->over_hour = 0;
-                                $attendance->shift_id = $staff->shifts_id;
-                                $attendance->save();
-                            }
-                        }else{
-                            if($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
-                                // dd("late");
-                                $attendance->status = 'Late';
-                                $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-                                $attendance->over_hour = $timeDifference;
-                                $attendance->shift_id = $staff->shifts_id;
-                                $attendance->save();
-                            }else{
-                                // dd("normal");
-                                $attendance->status = 'Normal';
-                                $attendance->over_hour = 0;
-                                $attendance->shift_id = $staff->shifts_id;
-                                $attendance->save();
-                            }
-                        }
+                        $attendance->status = 'Normal';
+                        $attendance->over_hour = 0;
+                        $attendance->shift_id = $shiftBefore->id;
+                        $attendance->save();
+                    }
+                }else{
+                    $shiftBefore = Shift::find($staff->workdays[0]->$dayBefore);
+                    if($timeNow > $shiftBefore->jam_berakhir){
+                        $attendance = new Attendance();
+                        $attendance->staff_id = $staff->id;
+                        $attendance->check_in = Carbon::now();
+                        $attendance->status = 'Late';
+                        $timeDiff = Carbon::parse($timeNow)->diffInMinutes(Carbon::parse($shiftBefore->jam_berakhir));
+                        // dd($timeDiff);
+                        $attendance->over_hour = $timeDiff;
+                        $attendance->shift_id = $shiftBefore->id;
+                        $attendance->save();
+                    }else{
+                        $attendance = new Attendance();
+                        $attendance->staff_id = $staff->id;
+                        $attendance->check_in = Carbon::now();
+                        $attendance->status = 'Normal';
+                        $attendance->over_hour = 0;
+                        $attendance->shift_id = $shiftBefore->id;
+                        $attendance->save();
                     }
                 }
-            }else{
-                // dd("here");
-                //cuma khusus shift yang start hour nya jam 00:00
-                if($staff->shift->start_hour == "00:00"){
-                    // dd("here");
-                    $attendance = new Attendance();
-                    $attendance->staff_id = $staff->id;
-                    $attendance->check_in = Carbon::now();
-                    $checkTime = $attendance->check_in->format('H:i');
-                    // $checkTime = '00:00';
-                    // dd($checkTime);
-        
-                    if($checkTime > $staff->shift->end_hour){
-                        $attendance->status = 'Normal';
-                        $attendance->over_hour = 0;
-                        $attendance->shift_id = $staff->shifts_id;
-                        $attendance->save();
-                    }elseif ($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
-                        $attendance->status = 'Late';
-                        $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-                        $attendance->over_hour = $timeDifference;
-                        $attendance->shift_id = $staff->shifts_id;
-                        $attendance->save();
-                    }elseif ($checkTime == $staff->shift->start_hour){
-                        $attendance->status = 'Normal';
-                        $attendance->over_hour = 0;
-                        $attendance->shift_id = $staff->shifts_id;
-                        $attendance->save();
-                    }
+                
+            }
+            //ya ini harusnya shift shift yg lain
+            else{
+                $attendanceCheck = Attendance::latest()->where('staff_id', $staff->id)->get();
+                dd($attendanceCheck);
+                if($attendanceCheck[0]->check_out == null){
+                    Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
+                    return redirect('/presence');
                 }else{
 
-                    // dd('here12');
-                    $attendance = new Attendance();
-                    $attendance->staff_id = $staff->id;
-                    $attendance->check_in = Carbon::now();
-                    $checkTime = $attendance->check_in->format('H:i');
-                    // $checkTime = '08:01';
+                    $shift = Shift::find($staff->workdays[0]->$dayNow);
+                    $timeNow = Carbon::now()->format('H:i');
                     
-                    if($staff->shift->end_hour == '00:00'){
-                        $endHour = '24:00';
-                        if($checkTime > $staff->shift->start_hour && $checkTime < $endHour){
-                            // dd("late");
-                            $attendance->status = 'Late';
-                            $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-                            $attendance->over_hour = $timeDifference;
-                            $attendance->shift_id = $staff->shifts_id;
-                            $attendance->save();
-                        }else{
-                            // dd("normal");
-                            $attendance->status = 'Normal';
-                            $attendance->over_hour = 0;
-                            $attendance->shift_id = $staff->shifts_id;
-                            $attendance->save();
-                        }
+                    if($timeNow < $shift->jam_mulai){
+                        Alert::warning('Maaf', 'Anda Belum Bisa Check In, Check In Kembali Pada Pukul ' . $shift->jam_mulai);
+                        return redirect('/presence'); 
+                    }elseif($timeNow > $shift->jam_berakhir){
+                        $attendance = new Attendance();
+                        $attendance->staff_id = $staff->id;
+                        $attendance->check_in = Carbon::now();
+                        $attendance->status = 'Late';
+                        $timeDiff = Carbon::parse($timeNow)->diffInMinutes(Carbon::parse($shift->jam_berakhir));
+                        $attendance->over_hour = $timeDiff;
+                        $attendance->shift_id = $shift->id;
+                        $attendance->save();
                     }else{
-                        if($checkTime > $staff->shift->start_hour && $checkTime < $staff->shift->end_hour){
-                            // dd("late");
-                            $attendance->status = 'Late';
-                            $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->start_hour));
-                            $attendance->over_hour = $timeDifference;
-                            $attendance->shift_id = $staff->shifts_id;
-                            $attendance->save();
-                        }else{
-                            // dd("normal");
-                            $attendance->status = 'Normal';
-                            $attendance->over_hour = 0;
-                            $attendance->shift_id = $staff->shifts_id;
-                            $attendance->save();
-                        }
+                        $attendance = new Attendance();
+                        $attendance->staff_id = $staff->id;
+                        $attendance->check_in = Carbon::now();
+                        $attendance->status = 'Normal';
+                        $attendance->over_hour = 0;
+                        $attendance->shift_id = $shift->id;
+                        $attendance->save();
                     }
-
                 }
             }
         }
         
-        // dd(Date::now());
+
         Alert::success('Success', 'You have successfully checked in!');
         return redirect()->back();
     }
 
     public function checkoutButton(Request $request, $id){
         $attendance = Attendance::find($id);
-        $staff = Auth::user();
         $attendance->check_out = Carbon::now();
         $checkTime = $attendance->check_out->format('H:i');
-        $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($staff->shift->end_hour));
+        $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($attendance->shift->end_hour));
+        // dd($timeDifference);
         $attendance->duration_work = $timeDifference;
         $attendance->save();
         Alert::success('Success', 'You have successfully check out!');
@@ -1107,19 +746,13 @@ class IndexController extends Controller
     public function profile(){
         // dd(Auth::user()->id);
         $attendances = Attendance::latest()->where('staff_id', Auth::user()->id)->paginate(20)->withQueryString();
-        $dayoff = OffDay::all()->where('tanggal_merah', date_format(Date::now(), 'Y-m-d'));
-        // $attendance->check_in = Carbon::now();
-        $checkTime = Carbon::now()->format('H:i');
-        // dd($checkTime);
-        // dd(Auth::user()->shift->start_hour);
-        $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse(Auth::user()->shift->start_hour));
-        // dd($timeDifference);
-        return view('profile.index', [
+        $timeNow = Carbon::now()->format('H:i');
+        // dd($timeNow);
+        return view('profile.myAccount', [
             "title" => "My Profile",
             "locations"=>Location::all(),
             "attendances" => $attendances,
-            "dayoff" => $dayoff,
-            "timeDifference" => $timeDifference
+            "timeNow" => $timeNow
         ]);
     }
 

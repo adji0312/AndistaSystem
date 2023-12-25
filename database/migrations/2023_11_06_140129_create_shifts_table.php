@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('shift_name');
             $table->string('start_hour');
             $table->string('end_hour');
+            $table->string('jam_mulai')->nullable();
+            $table->string('jam_berakhir')->nullable();
             $table->timestamps();
         });
     }

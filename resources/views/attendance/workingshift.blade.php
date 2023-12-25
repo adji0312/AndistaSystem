@@ -26,13 +26,15 @@
             </nav>
 
             <div id="dashboard" class="mx-3 mt-4">
-                <table class="table w-50">
+                <table class="table w-100">
                     <thead>
                       <tr>
                         <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
-                        <th scope="col" style="color: #7C7C7C">Shift Name</th>
-                        <th scope="col" style="color: #7C7C7C">Start Work</th>
-                        <th scope="col" style="color: #7C7C7C">End Work</th>
+                        <th scope="col" style="color: #7C7C7C">Shift</th>
+                        <th scope="col" style="color: #7C7C7C">Start Bekejra</th>
+                        <th scope="col" style="color: #7C7C7C">Selesai Bekerja</th>
+                        <th scope="col" style="color: #7C7C7C">Jam Mulai</th>
+                        <th scope="col" style="color: #7C7C7C">Jam Berakhir</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -47,6 +49,8 @@
                                 <td class="text-primary" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editShift{{ $shift->id }}">{{ $shift->shift_name }}</td>
                                 <td>{{ $shift->start_hour }}</td>
                                 <td>{{ $shift->end_hour }}</td>
+                                <td>{{ $shift->jam_mulai }}</td>
+                                <td>{{ $shift->jam_berakhir }}</td>
                             </tr>
 
                             <div class="modal fade" id="editShift{{ $shift->id }}" value="{{ $shift->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -69,6 +73,14 @@
                                             <div class="mb-3">
                                                 <label for="end_hour" class="form-label" style="font-size: 15px; color: #7C7C7C;">End Work</label>
                                                 <input type="text" class="form-control" id="end_hour" name="end_hour" value="{{ $shift->end_hour }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="jam_mulai" class="form-label" style="font-size: 15px; color: #7C7C7C;">Jam Mulai</label>
+                                                <input type="text" class="form-control" id="jam_mulai" name="jam_mulai" value="{{ $shift->jam_mulai }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="jam_berakhir" class="form-label" style="font-size: 15px; color: #7C7C7C;">Jam Berakhir</label>
+                                                <input type="text" class="form-control" id="jam_berakhir" name="jam_berakhir" value="{{ $shift->jam_berakhir }}">
                                             </div>
                                             
                                         </div>
@@ -109,6 +121,14 @@
                     <div class="mb-3">
                         <label for="end_hour" class="form-label" style="font-size: 15px; color: #7C7C7C;">End Work</label>
                         <input type="text" class="form-control" id="end_hour" name="end_hour">
+                    </div>
+                    <div class="mb-3">
+                        <label for="jam_mulai" class="form-label" style="font-size: 15px; color: #7C7C7C;">Jam Mulai</label>
+                        <input type="text" class="form-control" id="jam_mulai" name="jam_mulai">
+                    </div>
+                    <div class="mb-3">
+                        <label for="jam_berakhir" class="form-label" style="font-size: 15px; color: #7C7C7C;">Jam Berakhir</label>
+                        <input type="text" class="form-control" id="jam_berakhir" name="jam_berakhir">
                     </div>
                     
                 </div>

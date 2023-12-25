@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('Friday')->nullable();
             $table->integer('Saturday')->nullable();
             $table->integer('Sunday')->nullable();
+            // $table->string('flag')->nullable();
             $table->timestamps();
         });
     }

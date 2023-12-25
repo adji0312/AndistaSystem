@@ -13,6 +13,8 @@ class ShiftController extends Controller
             'shift_name' => 'required|unique:shifts',
             'start_hour' => 'required',
             'end_hour' => 'required',
+            'jam_mulai' => 'required',
+            'jam_berakhir' => 'required',
         ]);
 
         Shift::create($validatedData);
@@ -40,7 +42,9 @@ class ShiftController extends Controller
             ->where('id', $shift->id)
             ->update(['shift_name' => $request->shift_name,
                       'start_hour' => $request->start_hour,
-                      'end_hour' => $request->end_hour]);
+                      'end_hour' => $request->end_hour,
+                      'jam_mulai' => $request->jam_mulai,
+                      'jam_berakhir' => $request->jam_berakhir]);
         return redirect('/attendance/workingshift');
     }
 

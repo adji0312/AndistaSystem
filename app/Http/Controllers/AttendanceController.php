@@ -121,7 +121,6 @@ class AttendanceController extends Controller
 
         return view('attendance.attendancelistbylocation', [
             "title" => "Attendance List",
-            // "location" => $location_name,
             "month" => $request->month,
             "year" => $request->year,
             "attendances" => $finalResult,
