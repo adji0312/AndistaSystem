@@ -38,7 +38,7 @@
                         </div>
                         <div class="mb-3">
                           <label for="location_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Lokasi</label>
-                          <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="location_id" name="location_id" required disabled>
+                          <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="location_id" name="location_id" required>
                             @foreach ($locations as $location)
                                 @if ($location->id == $booking->location_id)
                                     <option selected value="{{ $location->id }}" class="selectstatus" name="location_id" style="color: black;">{{ $location->location_name }}</option>
@@ -52,7 +52,7 @@
                             {{-- <form action="/updateBookingDate/{{ $booking->id }}" method="POST">
                                 @csrf --}}
                                 <label for="booking_date" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tanggal</label>
-                                <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ $booking->booking_date }}" required disabled>
+                                <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ $booking->booking_date }}" required>
                                 <button type="submit" hidden id="updateBookingDate{{ $booking->id }}"></button>
                                 {{-- <script>
                                     function updateDate(id){

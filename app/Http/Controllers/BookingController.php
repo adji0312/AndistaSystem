@@ -265,12 +265,13 @@ class BookingController extends Controller
         }
 
         $booking = Booking::find($id);
-
+        // dd($booking);
         
         $rules = [
             "location_id" => 'required',
             "booking_date" => 'required',
         ];
+        // dd($rules);
 
         $validatedData = $request->validate($rules);
 
@@ -311,6 +312,7 @@ class BookingController extends Controller
         if($request->subAccount == null){
             dd("null");
         }else{
+            // dd('here');
             $myString = $request->subAccount;
             $myArray = explode(',', $myString);
             $length = count($myArray);
