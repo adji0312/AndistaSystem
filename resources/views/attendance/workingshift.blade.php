@@ -7,20 +7,20 @@
         <div id="contents">
             <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">{{ $title }}</a>
+                    <a class="navbar-brand" href="#">Jam Kerja</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item" style="cursor: pointer;">
-                                <a class="nav-link active" aria-current="page" style="color: #f28123" data-bs-toggle="modal" data-bs-target="#newWorkingShift"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
+                                <a class="nav-link active" aria-current="page" style="color: #f28123" data-bs-toggle="modal" data-bs-target="#newWorkingShift"><img src="/img/icon/plus.png" alt="" style="width: 22px"> Baru</a>
                             </li>
                             <li class="nav-item" id="deleteButton" style="display: none;">
-                                <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#deleteShift" onclick="clickDeleteButton()" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/trash.png" alt="" style="width: 22px"> Delete</a>
+                                <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#deleteShift" onclick="clickDeleteButton()" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/trash.png" alt="" style="width: 22px"> Hapus</a>
                             </li>
                         </ul>
-                        <form class="d-flex" role="search">
+                        {{-- <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
+                        </form> --}}
                     </div>
                 </div>
             </nav>

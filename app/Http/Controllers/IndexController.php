@@ -690,12 +690,39 @@ class IndexController extends Controller
             //ya ini harusnya shift shift yg lain
             else{
                 $attendanceCheck = Attendance::latest()->where('staff_id', $staff->id)->get();
-                dd($attendanceCheck);
-                if($attendanceCheck[0]->check_out == null){
-                    Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
-                    return redirect('/presence');
+                // dd($attendanceCheck);
+                if(count($attendanceCheck) != 0){
+                    if($attendanceCheck[0]->check_out == null){
+                        Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
+                        return redirect('/presence');
+                    }else{
+    
+                        $shift = Shift::find($staff->workdays[0]->$dayNow);
+                        $timeNow = Carbon::now()->format('H:i');
+                        
+                        if($timeNow < $shift->jam_mulai){
+                            Alert::warning('Maaf', 'Anda Belum Bisa Check In, Check In Kembali Pada Pukul ' . $shift->jam_mulai);
+                            return redirect('/presence'); 
+                        }elseif($timeNow > $shift->jam_berakhir){
+                            $attendance = new Attendance();
+                            $attendance->staff_id = $staff->id;
+                            $attendance->check_in = Carbon::now();
+                            $attendance->status = 'Late';
+                            $timeDiff = Carbon::parse($timeNow)->diffInMinutes(Carbon::parse($shift->jam_berakhir));
+                            $attendance->over_hour = $timeDiff;
+                            $attendance->shift_id = $shift->id;
+                            $attendance->save();
+                        }else{
+                            $attendance = new Attendance();
+                            $attendance->staff_id = $staff->id;
+                            $attendance->check_in = Carbon::now();
+                            $attendance->status = 'Normal';
+                            $attendance->over_hour = 0;
+                            $attendance->shift_id = $shift->id;
+                            $attendance->save();
+                        }
+                    }
                 }else{
-
                     $shift = Shift::find($staff->workdays[0]->$dayNow);
                     $timeNow = Carbon::now()->format('H:i');
                     

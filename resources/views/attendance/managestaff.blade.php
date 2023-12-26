@@ -11,10 +11,10 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         </ul>
-                        <form class="d-flex" role="search">
+                        {{-- <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
+                        </form> --}}
                     </div>
                 </div>
             </nav>
@@ -23,12 +23,12 @@
                 <form action="" method="get" id="formFilterLocation2">
                     @csrf
                     <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                        <h5 class="m-3">Choose Location</h5>
+                        <h5 class="m-3">Pilih Lokasi</h5>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-0">
-                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
+                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Lokasi</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="location_id" onchange="changeLocation(this)">
-                                    <option value="" class="selectstatus" style="color: black;" disabled selected>Select Location</option>
+                                    <option value="" class="selectstatus" style="color: black;" disabled selected>Pilih Lokasi</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->location_name }}" class="selectstatus" style="color: black;" id="locationFilter{{ $location->id }}">{{ $location->location_name }}</option>
                                     @endforeach

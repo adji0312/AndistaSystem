@@ -4,7 +4,7 @@
         <nav class="navbar navbar-expand-lg text-white" style="background-color: #f0f0f0;">
             <div class="mx-3">
                 <i class="fas fa-bars fs-3" id="dismiss" style="cursor: pointer; color: #7C7C7C;"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                <a class="navbar-brand fs-3" style="color: #7C7C7C;" href="#">ANDISTA SYSTEM</a>
+                <a class="navbar-brand fs-6" style="color: #7C7C7C;" href="#">Sistem Informasi Andista</a>
             </div>
         </nav>
 
@@ -16,17 +16,17 @@
             </li>
             <li>
                 <a href="/calendar" class="px-4">
-                    <img src="/img/icon/calendar.png" alt="" style="width: 22px"> <span class="mx-2">Calendar</span>
+                    <img src="/img/icon/calendar.png" alt="" style="width: 22px"> <span class="mx-2">Kalender</span>
                 </a>
             </li>
             <li>
                 <a href="/customer" class="px-4">
-                    <img src="/img/icon/customer.png" alt="" style="width: 22px"> <span class="mx-2">Customer</span>
+                    <img src="/img/icon/customer.png" alt="" style="width: 22px"> <span class="mx-2">Pelanggan</span>
                 </a>
             </li>
             <li>
                 <a href="/staff" class="px-4">
-                    <img src="/img/icon/staff.png" alt="" style="width: 22px"> <span class="mx-2">Staff</span>
+                    <img src="/img/icon/staff.png" alt="" style="width: 22px"> <span class="mx-2">Karyawan</span>
                 </a>
             </li>
             <li class="{{ ($title === "Service Dashboard") ? 'active' : '' }}">
@@ -41,28 +41,28 @@
             </li>
             <li class="{{ ($title === "Location Dashboard" || $title === "Location List" || $title === "Facility" || $title === "Service Category" || $title === "Policy") ? 'active' : '' }}">
                 <a href="/location" class="px-4">
-                    <img src="/img/icon/location.png" alt="" style="width: 22px"> <span class="mx-2">Location</span>
+                    <img src="/img/icon/location.png" alt="" style="width: 22px"> <span class="mx-2">Lokasi</span>
                 </a>
             </li>
             <li>
                 <a href="/finance" class="px-4">
-                    <img src="/img/icon/finance.png" alt="" style="width: 22px"> <span class="mx-2">Finance</span>
+                    <img src="/img/icon/finance.png" alt="" style="width: 22px"> <span class="mx-2">Keuangan</span>
                 </a>
             </li>
             <li>
                 <a href="/attendance" class="px-4">
-                    <img src="/img/icon/attendance.png" alt="" style="width: 22px"> <span class="mx-2">Attendance</span>
+                    <img src="/img/icon/attendance.png" alt="" style="width: 22px"> <span class="mx-2">Kehadiran</span>
                 </a>
             </li>
             {{-- ini nanti khusus admin sm super user aja --}}
             <li>
                 <a href="/presence" class="px-4">
-                    <img src="/img/icon/presence.png" alt="" style="width: 22px"> <span class="mx-2">Presence</span>
+                    <img src="/img/icon/presence.png" alt="" style="width: 22px"> <span class="mx-2">Absen</span>
                 </a>
             </li>
             <li>
                 <a href="/report" class="px-4">
-                    <img src="/img/icon/reports.png" alt="" style="width: 22px"> <span class="mx-2">Reports</span>
+                    <img src="/img/icon/reports.png" alt="" style="width: 22px"> <span class="mx-2">Laporan</span>
                 </a>
             </li>
             {{-- <li>
@@ -78,7 +78,7 @@
         <div class="mx-3">
             <div>
                 <i class="fas fa-bars fs-3" id="sidebarCollapse" style="cursor: pointer;"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                <a class="navbar-brand fs-3 text-white" href="#">ANDISTA SYSTEM</a>
+                <a class="navbar-brand fs-3 text-white" href="#">Sistem Informasi Andista</a>
             </div>
         </div>
         <div class="mx-3">

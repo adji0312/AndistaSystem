@@ -7,20 +7,20 @@
         <div id="contents">
             <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">{{ $title }} for {{ $location->location_name }}</a>
+                    <a class="navbar-brand" href="#">Atur Shift Karyawan untuk {{ $location->location_name }}</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item" style="cursor: pointer;">
-                                <a href="/attendance/managestaff" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Back</a>
+                                <a href="/attendance/managestaff" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Kembali</a>
                             </li>
                             {{-- <li class="nav-item" style="cursor: pointer;">
                                 <a class="nav-link active" style="color: #f28123" data-bs-toggle="modal" data-bs-target="#filterModal"><img src="/img/icon/filter.png" alt="" style="width: 22px"> Filter</a>
                             </li> --}}
                         </ul>
-                        <form class="d-flex" role="search">
+                        {{-- <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
+                        </form> --}}
                     </div>
                 </div>
             </nav>
@@ -30,10 +30,10 @@
                     <thead>
                       <tr>
                         <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
-                        <th scope="col" style="color: #7C7C7C">Staff Name</th>
-                        <th scope="col" style="color: #7C7C7C">Staff Position</th>
+                        <th scope="col" style="color: #7C7C7C">Nama Karyawan</th>
+                        <th scope="col" style="color: #7C7C7C">Posisi Karyawan</th>
                         {{-- <th scope="col" style="color: #7C7C7C">Shift Name</th> --}}
-                        <th scope="col" style="color: #7C7C7C; width: 15%" class="text-center">Action</th>
+                        <th scope="col" style="color: #7C7C7C; width: 15%" class="text-center">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -46,7 +46,7 @@
                                     <td>{{ $st->position->position_name }}</td>
                                     {{-- <td>{{ $st->shift->shift_name }}</td> --}}
                                     <td>
-                                        <button type="button" class="btn btn-outline-success btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#updateWorkDays{{ $st->id }}"><i class="fas fa-pencil-alt"></i> Manage Shift</button>
+                                        <button type="button" class="btn btn-outline-success btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#updateWorkDays{{ $st->id }}"><i class="fas fa-pencil-alt"></i> Atur Shift</button>
                                     </td>
                                 </tr>
 
@@ -54,7 +54,7 @@
                                     <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Shift {{ $st->first_name }}</h1>
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Shift {{ $st->first_name }}</h1>
                                         </div>
                                         <form action="/updateWorkDays/{{ $st->workdays[0]->id }}" method="post">
                                             @csrf
@@ -145,8 +145,8 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                                                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Simpan perubahan</button>
                                             </div>
                                         </form>    
                                     </div>

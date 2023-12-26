@@ -7,7 +7,7 @@
         <div id="contents">
             <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">{{ $title }}</a>
+                    <a class="navbar-brand" href="#">Data Kehadiran</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         </ul>
@@ -24,22 +24,22 @@
                 <form action="/submitFilterAttendance" method="get" id="formFilterLocation">
                     @csrf
                     <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                        <h5 class="m-3">Choose Location</h5>
+                        <h5 class="m-3">Pilih Lokasi</h5>
                         <div class="m-3 d-flex flex-column gap-3">
                             <div class="d-flex gap-5">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
+                                    <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Lokasi</label>
                                     <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="location_id" required>
-                                        <option value="" class="selectstatus" style="color: black;" disabled selected>Select Location</option>
+                                        <option value="" class="selectstatus" style="color: black;" disabled selected>Pilih Lokasi</option>
                                         @foreach ($locations as $location)
                                             <option value="{{ $location->location_name }}" class="selectstatus" style="color: black;" id="locationFilter{{ $location->id }}">{{ $location->location_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Staff</label>
+                                    <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Karyawan</label>
                                     <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="staff_id" required>
-                                        <option value="" class="selectstatus" disabled selected>Select Staff Name</option>
+                                        <option value="" class="selectstatus" disabled selected>Pilih Karyawan</option>
                                         @foreach ($staffs as $staff)
                                             <option value="{{ $staff->id }}" style="color: black;">{{ $staff->first_name }}</option>
                                         @endforeach
@@ -48,9 +48,9 @@
                             </div>
                             <div class="d-flex gap-5">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Year</label>
+                                    <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tahun</label>
                                     <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="year" required>
-                                        <option value="" class="selectstatus" disabled selected>Select Year</option>
+                                        <option value="" class="selectstatus" disabled selected>Pilih Tahun</option>
                                         <option value="2023" style="color: black;">2023</option>
                                         <option value="2024" style="color: black;">2024</option>
                                         <option value="2025" style="color: black;">2025</option>
@@ -64,28 +64,28 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Month</label>
+                                    <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Bulan</label>
                                     <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="month" required>
-                                        <option value="" class="selectstatus" disabled selected>Select Month</option>
-                                        <option value="01" style="color: black;">January</option>
-                                        <option value="02" style="color: black;">February</option>
-                                        <option value="03" style="color: black;">March</option>
+                                        <option value="" class="selectstatus" disabled selected>Pilih Bulan</option>
+                                        <option value="01" style="color: black;">Januari</option>
+                                        <option value="02" style="color: black;">Februari</option>
+                                        <option value="03" style="color: black;">Maret</option>
                                         <option value="04" style="color: black;">April</option>
-                                        <option value="05" style="color: black;">May</option>
-                                        <option value="06" style="color: black;">June</option>
-                                        <option value="07" style="color: black;">July</option>
-                                        <option value="08" style="color: black;">August</option>
+                                        <option value="05" style="color: black;">Mei</option>
+                                        <option value="06" style="color: black;">Juni</option>
+                                        <option value="07" style="color: black;">Juli</option>
+                                        <option value="08" style="color: black;">Agustus</option>
                                         <option value="09" style="color: black;">September</option>
-                                        <option value="10" style="color: black;">October</option>
+                                        <option value="10" style="color: black;">Oktober</option>
                                         <option value="11" style="color: black;">November</option>
-                                        <option value="12" style="color: black;">December</option>
+                                        <option value="12" style="color: black;">Desember</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-outline-primary m-3 mt-0 btn-sm" id="buttonfilter" onclick="submitAttach()">Submit</button>
                     </div>
-
+                    
                     <button type="submit" hidden id="gotolocation"></button>
                 </form>
             </div>

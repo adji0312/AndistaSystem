@@ -12,13 +12,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item" style="cursor: pointer;">
-                            <a href="/calendar" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Back</a>
+                            <a href="/calendar" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Kembali</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" onclick="saveBooking()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
+                            <a class="nav-link active" aria-current="page" onclick="saveBooking()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Simpan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#discardBooking" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/discard.png" alt="" style="width: 22px"> Discard</a>
+                            <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#discardBooking" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/discard.png" alt="" style="width: 22px"> Batalkan</a>
                         </li>
                     </ul>
                 </div>
@@ -30,15 +30,15 @@
                 @csrf
                 <input type="text" hidden name="booking_id" value="{{ $booking->id }}">
                 <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                    <h5 class="m-3">Scheduling</h5>
+                    <h5 class="m-3">Penjadwalan</h5>
                     <div class="m-3 d-flex gap-5">
                         <div class="mb-3">
-                            <label for="customer_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Customer</label>
+                            <label for="customer_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Pelanggan</label>
                             <input type="text" class="form-control" id="customer_id" name="customer_id" value="{{ $booking->customer->first_name }}" required disabled>
                         </div>
                         <div class="mb-3">
-                          <label for="location_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
-                          <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="location_id" name="location_id" required>
+                          <label for="location_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Lokasi</label>
+                          <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 230px" id="location_id" name="location_id" required disabled>
                             @foreach ($locations as $location)
                                 @if ($location->id == $booking->location_id)
                                     <option selected value="{{ $location->id }}" class="selectstatus" name="location_id" style="color: black;">{{ $location->location_name }}</option>
@@ -51,8 +51,8 @@
                         <div class="mb-3">
                             {{-- <form action="/updateBookingDate/{{ $booking->id }}" method="POST">
                                 @csrf --}}
-                                <label for="booking_date" class="form-label" style="font-size: 15px; color: #7C7C7C;">Date</label>
-                                <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ $booking->booking_date }}" required>
+                                <label for="booking_date" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tanggal</label>
+                                <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ $booking->booking_date }}" required disabled>
                                 <button type="submit" hidden id="updateBookingDate{{ $booking->id }}"></button>
                                 {{-- <script>
                                     function updateDate(id){
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <div class="mx-3 d-flex gap-3 mb-3 mt-3">
-                        <div class="form-check">
+                        {{-- <div class="form-check">
                             @if ($booking->tidak_dikenakan_biaya == 0)
                                 <input class="form-check-input" type="checkbox" name="tidak_dikenakan_biaya" id="tidak_dikenakan_biaya" value="" checked>
                             @else
@@ -79,7 +79,7 @@
                             <label class="form-check-label" for="tidak_dikenakan_biaya">
                                 Tidak dikenakan biaya
                             </label>
-                        </div>
+                        </div> --}}
                         <div class="form-check">
                             @if ($booking->langsung_datang == 0)
                                 <input class="form-check-input" type="checkbox" name="langsung_datang" id="langsung_datang" value="" checked>
@@ -90,7 +90,7 @@
                                 Langsung datang
                             </label>
                         </div>
-                        <div class="form-check">
+                        {{-- <div class="form-check">
                             @if ($booking->rawat_inap == 0)
                                 <input class="form-check-input" type="checkbox" name="rawat_inap" id="rawat_inap" value="" checked>
                             @else
@@ -99,7 +99,7 @@
                             <label class="form-check-label" for="rawat_inap">
                                 Rawat Inap
                             </label>
-                        </div>
+                        </div> --}}
                         <div class="form-check">
                             @if ($booking->darurat == 0)
                                 <input class="form-check-input" type="checkbox" name="darurat" id="darurat" value="" checked>
@@ -113,12 +113,12 @@
 
                         <input type="text" hidden name="category" id="category">
                     </div>
-                    <div class="mx-3 mt-4 mb-3" id="duration_field" style="display: none;">
+                    {{-- <div class="mx-3 mt-4 mb-3" id="duration_field" style="display: none;">
                         <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
                         <div class="d-flex">
                             <input type="number" class="form-control" id="duration" name="duration" style="width: 7%;"> Days
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <input type="text" name="subAccount" id="subAccount" value="" hidden>
@@ -127,21 +127,21 @@
                 
                 <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                     <div class="d-flex gap-1 m-2">
-                        <h5 class="m-3">Sub Account</h5>
-                        <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addSubAccount"><i class="fas fa-plus"></i> Add New Sub Account</button>
+                        <h5 class="m-3">Sub Akun</h5>
+                        <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addSubAccount"><i class="fas fa-plus"></i> Tambah Sub Akun Baru</button>
                     </div>
                     <div class="mx-4 table-responsive">
                         <table class="table">
                             <thead>
                               <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Sub Account Name</th>
-                                <th scope="col">Type</th>
+                                <th scope="col">Nama Sub Akun</th>
+                                <th scope="col">Tipe</th>
                                 <th scope="col">Ras</th>
-                                <th scope="col">Color</th>
-                                <th scope="col">Date of Birth</th>
-                                <th scope="col">Gender</th>
-                                <th scope="col" class="text-center">Action</th>
+                                <th scope="col">Warna</th>
+                                <th scope="col">Tanggal Lahir</th>
+                                <th scope="col">Jenis Kelamin</th>
+                                <th scope="col" class="text-center">Aksi</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -180,8 +180,8 @@
                                         <td>{{ $pet->pet_gender }}</td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-2">
-                                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#updateSubAccount{{ $pet->id }}"><i class="fas fa-pencil-alt"></i> Update</button>
-                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteSubAccount{{ $pet->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                <button type="button" class="btn btn-outline-success btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#updateSubAccount{{ $pet->id }}"><i class="fas fa-pencil-alt"></i> Ubah</button>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteSubAccount{{ $pet->id }}"><i class="fas fa-trash"></i> Hapus</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -190,19 +190,19 @@
                                         <div class="modal-dialog">
                                           <div class="modal-content">
                                             <div class="modal-header">
-                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Sub Account</h1>
+                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Sub Akun</h1>
                                             </div>
                                             
                                             <form action="/deleteSubAccount/{{ $pet->id }}" method="GET">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <div class="mb-1">
-                                                        <small class="fs-6" style="font-weight: 300">Are you sure delete this sub account?</small>
+                                                        <small class="fs-6" style="font-weight: 300">Kamu yakin ingin menghapus sub akun ini?</small>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Discard</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Hapus</button>
                                                 </div>
                                             </form>
                                           </div>
@@ -213,18 +213,18 @@
                                         <div class="modal-dialog">
                                           <div class="modal-content">
                                             <div class="modal-header">
-                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Update Sub Account</h1>
+                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Sub Akun</h1>
                                             </div>
                                             <form action="/updateSubAccount/{{ $pet->id }}" method="post">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <div class="mb-3">
                                                         <input type="hidden" value="{{ $booking->customer->id }}" name="customer_id">
-                                                        <label for="pet_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Name</label>
+                                                        <label for="pet_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Nama</label>
                                                         <input type="text" class="form-control" id="pet_name" name="pet_name" value="{{ $pet->pet_name }}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="pet_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Type</label>
+                                                        <label for="pet_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tipe</label>
                                                         <input type="text" class="form-control" id="pet_type" name="pet_type" value="{{ $pet->pet_type }}">
                                                     </div>
                                                     <div class="mb-3">
@@ -232,22 +232,22 @@
                                                         <input type="text" class="form-control" id="pet_ras" name="pet_ras" value="{{ $pet->pet_ras }}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="pet_color" class="form-label" style="font-size: 15px; color: #7C7C7C;">Color</label>
+                                                        <label for="pet_color" class="form-label" style="font-size: 15px; color: #7C7C7C;">Warna</label>
                                                         <input type="text" class="form-control" id="pet_color" name="pet_color" value="{{ $pet->pet_color }}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="date_of_birth" class="form-label" style="font-size: 15px; color: #7C7C7C;">Date of Birth</label>
+                                                        <label for="date_of_birth" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tanggal Lahir</label>
                                                         <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ $pet->date_of_birth }}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="pet_gender" class="form-label" style="font-size: 15px; color: #7C7C7C;">Gender</label>
+                                                        <label for="pet_gender" class="form-label" style="font-size: 15px; color: #7C7C7C;">Jenis Kelamin</label>
                                                         <select class="form-select" style="font-size: 15px; color: #7C7C7C;" id="pet_gender" name="pet_gender" required>
                                                             @if ($pet->pet_gender == "Male")
-                                                                <option value="Male" class="selectstatus" name="pet_gender" style="color: black;" selected>Male</option>
-                                                                <option value="Female" class="selectstatus" name="pet_gender" style="color: black;">Female</option>
+                                                                <option value="Male" class="selectstatus" name="pet_gender" style="color: black;" selected>Jantan</option>
+                                                                <option value="Female" class="selectstatus" name="pet_gender" style="color: black;">Betina</option>
                                                             @else
-                                                                <option value="Male" class="selectstatus" name="pet_gender" style="color: black;">Male</option>
-                                                                <option value="Female" class="selectstatus" name="pet_gender" style="color: black;" selected>Female</option>
+                                                                <option value="Male" class="selectstatus" name="pet_gender" style="color: black;">Jantan</option>
+                                                                <option value="Female" class="selectstatus" name="pet_gender" style="color: black;" selected>Betina</option>
                                                             @endif
                                                         </select>
                                                     </div>
@@ -271,21 +271,21 @@
                     <div class="d-flex gap-1 m-2">
                         <h5 class="m-3">Services</h5>
                         @if (count($booking_services) <= 0)
-                            <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addBookingService"><i class="fas fa-plus"></i> Add</button>
+                            <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addBookingService"><i class="fas fa-plus"></i> Tambah</button>
                         @endif
-                        <button type="button" class="btn btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#checkModal"><i class="fas fa-check"></i> Check Staff</button>
+                        <button type="button" class="btn btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#checkModal"><i class="fas fa-check"></i> Cek Karyawan</button>
                     </div>
                     <div class="mx-4 table-responsive">
                         <table class="table">
                             <thead>
                               <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Service Name</th>
-                                <th scope="col" style="width: 10%">Time</th>
-                                <th scope="col">Staff</th>
-                                <th scope="col">Duration</th>
-                                <th scope="col">Price (Rp)</th>
-                                <th scope="col" class="text-center">Action</th>
+                                <th scope="col">Nama Service</th>
+                                <th scope="col" style="width: 10%">Waktu</th>
+                                <th scope="col">Karyawan</th>
+                                <th scope="col">Durasi</th>
+                                <th scope="col">Harga (Rp)</th>
+                                <th scope="col" class="text-center">Aksi</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -323,7 +323,7 @@
                                                 <form action="/editBookingService/{{ $bs->id }}" method="POST">
                                                     @csrf
                                                     <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="service_staff_id" id="service_staff_id{{ $bs->id }}" onchange="selectStaff({{ $bs->id }})">
-                                                        <option value="" disabled selected>Select Staff</option>
+                                                        <option value="" disabled selected>Pilih Karyawan</option>
                                                         @foreach ($service_staff->where('service_id', $bs->service_id) as $ss)
                                                             @if ($ss->staff_id == $bs->service_staff_id)
                                                                 <option selected value="{{ $ss->staff_id }}" class="selectstatus" style="color: black;">{{ $ss->staff->first_name }}</option>
@@ -346,7 +346,7 @@
                                                     @csrf
                                                     <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="service_price_id" id="service_price_id{{ $bs->id }}" onchange="selectPrice({{ $bs->id }})">
                                                         
-                                                        <option value="" disabled selected>Select Duration</option>
+                                                        <option value="" disabled selected>Pilih Durasi</option>
                                                         
                                                         @foreach ($service_prices->where('service_id', $bs->service_id) as $sp)
                                                             @if ($sp->id == $bs->service_price_id)
@@ -391,7 +391,7 @@
                                                         <input type="text" name="checkDuration" value="{{ $bs->service_price_id }}" hidden>
                                                         <input type="date" name="checkDate" value="{{ $booking->booking_date }}" hidden>
                                                     </form>    
-                                                    <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteBookingService{{ $bs->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deleteBookingService{{ $bs->id }}"><i class="fas fa-trash"></i> Hapus</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -403,19 +403,19 @@
                                         <div class="modal-dialog">
                                           <div class="modal-content">
                                             <div class="modal-header">
-                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Service</h1>
+                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Service</h1>
                                             </div>
                                             
                                             <form action="/deleteBookingService/{{ $bs->id }}" method="GET">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <div class="mb-1">
-                                                        <small class="fs-6" style="font-weight: 300">Are you sure delete this service?</small>
+                                                        <small class="fs-6" style="font-weight: 300">Apakah kamu yakin ingin menghapus service ini?</small>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Hapus</button>
                                                 </div>
                                             </form>
                                           </div>
@@ -437,7 +437,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Service</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Service</h1>
                 </div>
                 <form action="/addBookingService" method="post">
                     @csrf
@@ -445,10 +445,10 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="duration_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Services</label>
-                            <input type="text" class="form-control" id="searchService" name="service_name" value="" placeholder="Search Service" required>
+                            <input type="text" class="form-control" id="searchService" name="service_name" value="" placeholder="Cari Service" required>
                         </div>
                         <div class="mb-3">
-                            <label for="time" class="form-label" style="font-size: 15px; color: #7C7C7C;">Time</label>
+                            <label for="time" class="form-label" style="font-size: 15px; color: #7C7C7C;">Waktu</label>
                             <?php 
                                 $timeNow = date('H:i');
                             ?>
@@ -468,8 +468,8 @@
                         </div> --}}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
+                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Simpan</button>
                     </div>
                 </form>    
             </div>
@@ -479,31 +479,31 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Sub Account</h1>
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Sub Akun Baru</h1>
             </div>
             <form action="/addSubAccount" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
                         <input type="text" name="customer_id" value="{{ $booking->customer_id }}" hidden>
-                        <label for="pet_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Name</label>
+                        <label for="pet_name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Nama</label>
                         <input type="text" class="form-control" id="pet_name" name="pet_name" required>
                     </div>
                     <div class="mb-3">
-                        <label for="pet_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Type</label>
+                        <label for="pet_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tipe</label>
                         <input type="text" class="form-control" id="pet_type" name="pet_type" required>
                     </div>
                     <div class="mb-3">
-                        <label for="pet_gender" class="form-label" style="font-size: 15px; color: #7C7C7C;">Gender</label>
+                        <label for="pet_gender" class="form-label" style="font-size: 15px; color: #7C7C7C;">Jenis Kelamin</label>
                         <select class="form-select" style="font-size: 15px; color: #7C7C7C;" id="pet_gender" name="pet_gender" required>
-                            <option value="Male" class="selectstatus" name="pet_gender" style="color: black;">Male</option>
-                            <option value="Female" class="selectstatus" name="pet_gender" style="color: black;">Female</option>
+                            <option value="Male" class="selectstatus" name="pet_gender" style="color: black;">Jantan</option>
+                            <option value="Female" class="selectstatus" name="pet_gender" style="color: black;">Betina</option>
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
+                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Simpan</button>
                 </div>
             </form>    
           </div>
@@ -514,19 +514,19 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Discard Booking</h1>
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Batalkan Booking</h1>
             </div>
             
             <form action="/discardBooking/{{ $booking->id }}" method="GET">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-1">
-                        <small class="fs-6" style="font-weight: 300">Are you sure discard this booking?</small>
+                        <small class="fs-6" style="font-weight: 300">Kamu yakin akan membatalkan booking ini?</small>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Discard</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
+                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Batalkan</button>
                 </div>
             </form>
           </div>
@@ -537,7 +537,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Staff Schedule</h1>
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Jadwal Karyawan</h1>
             </div>
             
             <form action="/checkModal/{{ $booking->id }}" method="GET">
