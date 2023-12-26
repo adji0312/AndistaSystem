@@ -34,7 +34,7 @@
 <body>
 
     @include('sweetalert::alert')
-    @include('partials.sidebar')
+    @include('partials.newSidebar')
     
     
     {{-- @include('partials.footer') --}}

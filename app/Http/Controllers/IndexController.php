@@ -509,9 +509,9 @@ class IndexController extends Controller
         $timeDateNow = Date::now();
         $hourminute = date_format($timeDateNow ,"H:i");
         $timeDifference  = Carbon::parse($hourminute)->diffInMinutes(Carbon::parse($shiftTime));
-        $attendances = Attendance::latest()->get();
+        $attendances = Attendance::latest()->paginate(30)->withQueryString();
         // dd($timeDifference);
-        return view('presence.presencelist', [
+        return view('presence.newpresencelist', [
             "title" => "Presence List",
             "timeDifference" => $timeDifference,
             "timeDateNow" => $hourminute,

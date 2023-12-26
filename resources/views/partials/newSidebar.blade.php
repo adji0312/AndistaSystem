@@ -4,7 +4,7 @@
         <nav class="navbar navbar-expand-lg text-white" style="background-color: #f0f0f0;">
             <div class="mx-3">
                 <i class="fas fa-bars fs-3" id="dismiss" style="cursor: pointer; color: #7C7C7C;"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                <a class="navbar-brand fs-6" style="color: #7C7C7C;" href="#">AmiTech</a>
+                <a class="navbar-brand fs-3" style="color: #7C7C7C;" href="#">AmiTech</a>
             </div>
         </nav>
 
