@@ -43,7 +43,15 @@ class RoleSeeder extends Seeder
                 [
                     'role_name' => 'Multimedia Staff',
                     'staff_access_control' => '4'
-                ]
+                ],
+                [
+                    'role_name' => 'PC Absensi',
+                    'staff_access_control' => '4'
+                ],
+                [
+                    'role_name' => 'Staff Manager',
+                    'staff_access_control' => '4'
+                ],
                 ]
                 );
     }
