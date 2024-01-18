@@ -121,7 +121,11 @@
                                     <tr>
                                         <th scope="row">{{ $attendances->firstItem() + $key }}</th>
                                         <td>{{ date_format($attendance->created_at, "d M Y") }}</td>
-                                        <td>{{ $attendance->shift->shift_name }}</td>
+                                        @if ($attendance->shift)
+                                          <td>{{ $attendance->shift->shift_name }} ({{ $attendance->shift->start_hour }} - {{ $attendance->shift->end_hour }})</td>
+                                        @else
+                                          <td>-</td>
+                                        @endif
                                         <td>{{ date_format($attendance->created_at, "H:i") }}</td>
                                         @if ($attendance->check_out == null)
                                             <td>

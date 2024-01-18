@@ -530,9 +530,10 @@ class IndexController extends Controller
 
         //kalau gk ada langsung return error
         if($staff == null){
-            Alert::warning('Not Found', "Your QR ID doesn't exist!");
+            // Alert::warning('Not Found', "Your QR ID doesn't exist!");
             return redirect()->back();
         }
+
         
         
         $attendanceAtDayNow = Attendance::all()->where('staff_id', $staff->id)->where('check_in', date_format(Date::now(), 'Y-m-d'))->first();
@@ -541,14 +542,21 @@ class IndexController extends Controller
         // $attendanceAtBefore = Attendance::all()->where('staff_id', $staff->id)->where('check_in', date_format(Date::now()->subDay(1), 'Y-m-d'))->first();
         $dayNow = date_format(Date::now(), 'l');
         $dayBefore = date_format(Date::now()->subDay(1), 'l');
+        // dd();
+
+        $shiftLibur = Shift::find($staff->workdays[0]->$dayNow);
+        if($shiftLibur->shift_name == 'Libur'){
+            Alert::warning('Warning', "Shift anda hari ini libur!");
+            return redirect()->back();
+        }
         // dd($attendanceAtDayNow);
         // dd($shift);
         
         if(count($checkingAttendance) != 0){
-            if($checkingAttendance[0]->check_out == null){
-                Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
-                return redirect('/presence');
-            }else{
+            // if($checkingAttendance[0]->check_out == null){
+            //     Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
+            //     return redirect('/presence');
+            // }else{
                 // dd('ajsasjas');
                 $now = Carbon::now();
                 $start = Carbon::createFromTimeString('23:00');
@@ -605,10 +613,10 @@ class IndexController extends Controller
                 else{
                     $attendanceCheck = Attendance::latest()->where('staff_id', $staff->id)->get();
                     // dd($attendanceCheck);
-                    if($attendanceCheck[0]->check_out == null){
-                        Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
-                        return redirect('/presence');
-                    }else{
+                    // if($attendanceCheck[0]->check_out == null){
+                    //     // Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
+                    //     return redirect('/presence');
+                    // }else{
 
                         $shift = Shift::find($staff->workdays[0]->$dayNow);
                         $timeNow = Carbon::now()->format('H:i');
@@ -634,9 +642,9 @@ class IndexController extends Controller
                             $attendance->shift_id = $shift->id;
                             $attendance->save();
                         }
-                    }
+                    // }
                 }
-            }
+            // }
         }else{
             $now = Carbon::now();
             $start = Carbon::createFromTimeString('23:00');
@@ -692,10 +700,10 @@ class IndexController extends Controller
                 $attendanceCheck = Attendance::latest()->where('staff_id', $staff->id)->get();
                 // dd($attendanceCheck);
                 if(count($attendanceCheck) != 0){
-                    if($attendanceCheck[0]->check_out == null){
-                        Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
-                        return redirect('/presence');
-                    }else{
+                    // if($attendanceCheck[0]->check_out == null){
+                    //     // Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
+                    //     return redirect('/presence');
+                    // }else{
     
                         $shift = Shift::find($staff->workdays[0]->$dayNow);
                         $timeNow = Carbon::now()->format('H:i');
@@ -721,7 +729,7 @@ class IndexController extends Controller
                             $attendance->shift_id = $shift->id;
                             $attendance->save();
                         }
-                    }
+                    // }
                 }else{
                     $shift = Shift::find($staff->workdays[0]->$dayNow);
                     $timeNow = Carbon::now()->format('H:i');
@@ -752,7 +760,7 @@ class IndexController extends Controller
         }
         
 
-        Alert::success('Success', 'You have successfully checked in!');
+        // Alert::success('Success', 'You have successfully checked in!');
         return redirect()->back();
     }
 
@@ -760,14 +768,26 @@ class IndexController extends Controller
         $attendance = Attendance::find($id);
         $attendance->check_out = Carbon::now();
         $checkTime = $attendance->check_out->format('H:i');
-        $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($attendance->shift->end_hour));
-        // dd($timeDifference);
-        $attendance->duration_work = $timeDifference;
-        $attendance->save();
-        Alert::success('Success', 'You have successfully check out!');
-        return redirect()->back();
-        // dd($request->all());
-        // dd($attendance);
+        
+        if($attendance->shift == null){
+            $timeDifference = 0;
+            $attendance->duration_work = $timeDifference;
+            $attendance->save();
+            Alert::success('Success', 'You have successfully check out!');
+            return redirect()->back();
+        }else{
+            if($attendance->shift->end_hour > $checkTime){
+                $timeDifference = 0;
+            }else{
+                $timeDifference  = Carbon::parse($checkTime)->diffInMinutes(Carbon::parse($attendance->shift->end_hour));
+            }
+            
+            $attendance->duration_work = $timeDifference;
+            $attendance->save();
+            Alert::success('Success', 'You have successfully check out!');
+            return redirect()->back();
+        }
+        
     }
 
     public function profile(){

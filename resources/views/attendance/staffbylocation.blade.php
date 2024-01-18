@@ -159,7 +159,7 @@
                                     <td>{{ $st->position->position_name }}</td>
                                     {{-- <td>{{ $st->shift->shift_name }}</td> --}}
                                     <td>
-                                        <button type="button" class="btn btn-outline-success btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#addWorkDays{{ $st->id }}"><i class="fas fa-pencil-alt"></i> Manage Shift</button>
+                                        <button type="button" class="btn btn-outline-success btn-sm" style="width: 100%" data-bs-toggle="modal" data-bs-target="#addWorkDays{{ $st->id }}"><i class="fas fa-pencil-alt"></i> Atur Shift</button>
                                     </td>
                                 </tr>
 

@@ -22,7 +22,7 @@
           <div class="mb-3"> 
             <form action="/presence/scan" method="POST">
               @csrf
-              <input type="text" class="form-control mt-1 w-50" id="qrid" name="qrid" placeholder="SCAN QR DISINI">
+              <input type="text" class="form-control mt-1 w-50" id="qrid" name="qrid" placeholder="SCAN QR DISINI" autofocus>
               <button type="submit" hidden></button>
             </form>
           </div>
@@ -43,7 +43,11 @@
                   <tr>
                     <td>{{ date_format($attendance->created_at, 'd M Y') }}</td>
                     <td>{{ $attendance->staff->first_name }}</td>
-                    <td>{{ $attendance->shift->shift_name }} ({{ $attendance->shift->start_hour }} - {{ $attendance->shift->end_hour }})</td>
+                    @if ($attendance->shift)
+                      <td>{{ $attendance->shift->shift_name }} ({{ $attendance->shift->start_hour }} - {{ $attendance->shift->end_hour }})</td>
+                    @else
+                      <td>-</td>
+                    @endif
                     <td>{{ date_format($attendance->created_at, "H:i") }}</td>
                     @if ($attendance->check_out == null)
                       <td>-</td>
