@@ -5,18 +5,17 @@
         @include('attendance.menu')
 
         <div id="contents">
-            <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Data Kehadiran Karyawan</a>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item" style="cursor: pointer;">
-                                <a href="/attendance/list" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Kembali</a>
-                            </li>
-                        </ul>
+            <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
+                <div class="d-flex gap-3 w-100">
+                    <a class="navbar-brand" id="navbar-brand-title" href="#">Data Kehadiran Karyawan</a>
+                    <div class="d-flex justify-content-between w-100 align-items-center">
+                        <div class="d-flex gap-4">
+                            <a href="/attendance/list" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Kembali</a>
+                        </div>
                     </div>
                 </div>
-            </nav>
+            </div>
+            @include('attendance.sidenavattendance')
             
             <div class="m-4">
                 @if ($month == 1)

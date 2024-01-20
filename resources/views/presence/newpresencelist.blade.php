@@ -22,7 +22,7 @@
           <div class="mb-3"> 
             <form action="/presence/scan" method="POST">
               @csrf
-              <input type="text" class="form-control mt-1 w-50" id="qrid" name="qrid" placeholder="SCAN QR DISINI" autofocus>
+              <input type="text" class="form-control mt-1 w-50" id="qrid" name="qrid" placeholder="SCAN QR DISINI">
               <button type="submit" hidden></button>
             </form>
           </div>
@@ -94,6 +94,13 @@
     </div>
     
   </div>
+
+  <script>
+    window.onload = function() {
+    document.getElementById("qrid").focus();
+    console.log('ansdabsd');
+    };
+  </script>
 
   @include('sweetalert::alert')
 @endsection

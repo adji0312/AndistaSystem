@@ -2092,3 +2092,8 @@ function inputDiscount(){
     // console.log(total_price_sale.textContent);
     
 }
+
+// window.onload = function() {
+//     document.getElementById("qrid").focus();
+//     console.log('ansdabsd');
+// };

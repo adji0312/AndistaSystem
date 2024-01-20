@@ -5,25 +5,17 @@
         @include('attendance.menu')
 
         <div id="contents">
-            <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Atur Shift Karyawan untuk {{ $location->location_name }}</a>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item" style="cursor: pointer;">
-                                <a href="/attendance/managestaff" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Kembali</a>
-                            </li>
-                            {{-- <li class="nav-item" style="cursor: pointer;">
-                                <a class="nav-link active" style="color: #f28123" data-bs-toggle="modal" data-bs-target="#filterModal"><img src="/img/icon/filter.png" alt="" style="width: 22px"> Filter</a>
-                            </li> --}}
-                        </ul>
-                        {{-- <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form> --}}
+            <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
+                <div class="d-flex gap-3 w-100">
+                    <a class="navbar-brand" id="navbar-brand-title" href="#">Atur Shift Karyawan untuk {{ $location->location_name }}</a>
+                    <div class="d-flex justify-content-between w-100 align-items-center">
+                        <div class="d-flex gap-4">
+                            <a href="/attendance/managestaff" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Kembali</a>
+                        </div>
                     </div>
                 </div>
-            </nav>
+            </div>
+            @include('attendance.sidenavattendance')
 
             <div id="dashboard" class="mx-3 mt-4">
                 <table class="table">

@@ -5,25 +5,20 @@
         @include('attendance.menu')
 
         <div id="contents">
-            <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Jam Kerja</a>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item" style="cursor: pointer;">
-                                <a class="nav-link active" aria-current="page" style="color: #f28123" data-bs-toggle="modal" data-bs-target="#newWorkingShift"><img src="/img/icon/plus.png" alt="" style="width: 22px"> Baru</a>
-                            </li>
-                            <li class="nav-item" id="deleteButton" style="display: none;">
+            <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
+                <div class="d-flex gap-3 w-100">
+                    <a class="navbar-brand" id="navbar-brand-title" href="#">Jam Kerja</a>
+                    <div class="d-flex justify-content-between w-100 align-items-center">
+                        <div class="d-flex gap-4">
+                            <a class="nav-link active" aria-current="page" style="color: #f28123; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#newWorkingShift"><img src="/img/icon/plus.png" alt="" style="width: 22px;"> Baru</a>
+                            <div id="deleteButton" style="display: none;">
                                 <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#deleteShift" onclick="clickDeleteButton()" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/trash.png" alt="" style="width: 22px"> Hapus</a>
-                            </li>
-                        </ul>
-                        {{-- <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form> --}}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </nav>
+            </div>
+            @include('attendance.sidenavattendance')
 
             <div id="dashboard" class="mx-3 mt-4">
                 <table class="table w-100">
@@ -31,7 +26,7 @@
                       <tr>
                         <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
                         <th scope="col" style="color: #7C7C7C">Shift</th>
-                        <th scope="col" style="color: #7C7C7C">Start Bekejra</th>
+                        <th scope="col" style="color: #7C7C7C">Start Bekerja</th>
                         <th scope="col" style="color: #7C7C7C">Selesai Bekerja</th>
                         <th scope="col" style="color: #7C7C7C">Jam Mulai</th>
                         <th scope="col" style="color: #7C7C7C">Jam Berakhir</th>
