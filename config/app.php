@@ -169,6 +169,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         ConsoleTVs\Charts\ChartsServiceProvider::class,
+        App\Providers\AgentServiceProvider::class,
     ])->toArray(),
 
     /*

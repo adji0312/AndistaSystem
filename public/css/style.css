@@ -302,3 +302,26 @@ trix-toolbar[data-trix-button-group="file-tools"]{
 .bg-custom{
     background: #ff9624;
 }
+
+#navside{
+    display: none;
+}
+
+@media (max-width: 1000px) {
+    #sidebars {
+        display: none;
+        transition: all 0.3s;
+    }
+
+    #collapseNav{
+        display: none;
+    }
+
+    #navbar-brand-title{
+        margin-left: 20px;
+    }
+
+    #navside{
+        display: block;
+    }
+}

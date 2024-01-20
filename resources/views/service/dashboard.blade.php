@@ -6,11 +6,12 @@
     @include('service.menu')
 
     <div id="contents">
-    <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">{{ $title }}</a>
-        </div>
-    </nav>
+        <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">{{ $title }}</a>
+            </div>
+        </nav>
+        @include('service.sidenavservice')
 
         <div id="dashboard" class="mx-3 mt-3">
           <div class="d-flex justify-content-between gap-4">

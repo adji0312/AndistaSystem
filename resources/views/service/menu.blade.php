@@ -17,7 +17,6 @@
             <a id="locationslist" href="/service/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Services List</a>
         </li>
         @else
-
         @endif
 
         @if(Auth::user()->role->service_treatment_plan != 4)
@@ -25,7 +24,6 @@
             <a id="locationslist" href="/service/treatmentplan" class="px-4"><img src="/img/icon/treatment.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Treatment Plan</a>
         </li>
         @else
-
         @endif
 
         @if(Auth::user()->role->service_category != 4)
@@ -33,7 +31,6 @@
             <a id="locationsfacilities" href="/service/category" class="px-4"><img src="/img/icon/category.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Category</a>
         </li>
         @else
-
         @endif
 
         @if(Auth::user()->role->service_diagnosis != 4)
@@ -41,7 +38,6 @@
             <a id="locationsfacilities" href="/service/diagnosis" class="px-4"><img src="/img/icon/diagnosis.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Diagnosis</a>
         </li>
         @else
-
         @endif
 
         @if(Auth::user()->role->service_policy != 4)
@@ -49,7 +45,6 @@
             <a id="locationsfacilities" href="/service/policy" class="px-4"><img src="/img/icon/policy.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Policy</a>
         </li>
         @else
-
         @endif
     </ul>
 </nav>

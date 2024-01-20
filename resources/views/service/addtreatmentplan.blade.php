@@ -5,25 +5,18 @@
         @include('service.menu')
 
         <div id="contents">
-            <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">New Treatment Plan</a>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                          <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="/service/treatmentplan" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
-                          </li>
-                          <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="#" style="color: #f28123" onclick="saveTreatment()">Next <img src="/img/icon/continue.png" alt="" style="width: 22px"></a>
-                          </li>
-                      </ul>
-                      <form class="d-flex" role="search">
-                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                          <button class="btn btn-outline-success" type="submit">Search</button>
-                      </form>
+            <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
+                <div class="d-flex gap-3 w-100">
+                    <a class="navbar-brand" id="navbar-brand-title" href="#">New Treatment Plan</a>
+                    <div class="d-flex justify-content-between w-100 align-items-center">
+                      <div class="d-flex gap-4">
+                        <a class="nav-link active" aria-current="page" href="/service/treatmentplan" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
+                        <a class="nav-link active" aria-current="page" href="#" style="color: #f28123" onclick="saveTreatment()">Next <img src="/img/icon/continue.png" alt="" style="width: 22px"></a>
+                      </div>
                     </div>
                 </div>
-            </nav>
+            </div>
+            @include('service.sidenavservice')
 
             <div id="dashboard" class="mx-3 mt-4">
                 <form action="/addTreatment" method="post">
