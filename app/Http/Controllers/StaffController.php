@@ -19,8 +19,9 @@ class StaffController extends Controller
 {
     //staffList
     public function staffList(){
+
         return view('staff.stafflist',[
-            "staffs" => Staff::all(),
+            "staffs" => Staff::latest()->filter(request(['search']))->get(),
             "title" => "Staff List",
         ]);
     }

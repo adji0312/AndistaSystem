@@ -35,4 +35,14 @@ class Staff extends Authenticatable
     public function workdays(){
         return $this->hasMany(Workdays::class);
     }
+
+    public function scopeFilter($query, array $filters){
+        $query->when($filters['search'] ?? false, function($query, $search){
+            return $query->where('first_name', 'like', '%' . $search . '%')
+                         ->orWhere('middle_name', 'like', '%' . $search . '%')
+                         ->orWhere('last_name', 'like', '%' . $search . '%')
+                         ->orWhere('email', 'like', '%' . $search . '%')
+                         ->orWhere('phone', 'like', '%' . $search . '%');
+        });
+    }
 }

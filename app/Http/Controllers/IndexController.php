@@ -530,10 +530,9 @@ class IndexController extends Controller
 
         //kalau gk ada langsung return error
         if($staff == null){
-            // Alert::warning('Not Found', "Your QR ID doesn't exist!");
+            Alert::warning('Not Found', "Your QR ID doesn't exist!");
             return redirect()->back();
         }
-
         
         
         $attendanceAtDayNow = Attendance::all()->where('staff_id', $staff->id)->where('check_in', date_format(Date::now(), 'Y-m-d'))->first();
@@ -542,8 +541,7 @@ class IndexController extends Controller
         // $attendanceAtBefore = Attendance::all()->where('staff_id', $staff->id)->where('check_in', date_format(Date::now()->subDay(1), 'Y-m-d'))->first();
         $dayNow = date_format(Date::now(), 'l');
         $dayBefore = date_format(Date::now()->subDay(1), 'l');
-        // dd();
-
+        
         $shiftLibur = Shift::find($staff->workdays[0]->$dayNow);
         if($shiftLibur->shift_name == 'Libur'){
             Alert::warning('Warning', "Shift anda hari ini libur!");
@@ -551,7 +549,7 @@ class IndexController extends Controller
         }
         // dd($attendanceAtDayNow);
         // dd($shift);
-        
+        // dd(count($checkingAttendance));
         if(count($checkingAttendance) != 0){
             // if($checkingAttendance[0]->check_out == null){
             //     Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
@@ -611,10 +609,11 @@ class IndexController extends Controller
                 }
                 //ya ini harusnya shift shift yg lain
                 else{
+                    
                     $attendanceCheck = Attendance::latest()->where('staff_id', $staff->id)->get();
                     // dd($attendanceCheck);
                     // if($attendanceCheck[0]->check_out == null){
-                    //     // Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
+                    //     Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
                     //     return redirect('/presence');
                     // }else{
 
@@ -625,6 +624,7 @@ class IndexController extends Controller
                             Alert::warning('Maaf', 'Anda Belum Bisa Check In, Check In Kembali Pada Pukul ' . $shift->jam_mulai);
                             return redirect('/presence'); 
                         }elseif($timeNow > $shift->jam_berakhir){
+                            
                             $attendance = new Attendance();
                             $attendance->staff_id = $staff->id;
                             $attendance->check_in = Carbon::now();
@@ -701,7 +701,7 @@ class IndexController extends Controller
                 // dd($attendanceCheck);
                 if(count($attendanceCheck) != 0){
                     // if($attendanceCheck[0]->check_out == null){
-                    //     // Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
+                    //     Alert::warning('Maaf', 'Anda sudah check in, silahkan laukakan check out terlebih dahulu!');
                     //     return redirect('/presence');
                     // }else{
     
@@ -760,7 +760,7 @@ class IndexController extends Controller
         }
         
 
-        // Alert::success('Success', 'You have successfully checked in!');
+        Alert::success('Success', 'You have successfully checked in!');
         return redirect()->back();
     }
 

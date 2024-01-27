@@ -23,8 +23,5 @@
         @else
 
         @endif
-        {{-- <li style="cursor: pointer" class="{{ ($title === "Sub Customer List") ? 'active' : '' }}">
-            <a id="locationslist" href="/customer/sub-customer-list" class="px-4"><img src="/img/icon/customer.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Sub Customer List</a>
-        </li> --}}
     </ul>
 </nav>

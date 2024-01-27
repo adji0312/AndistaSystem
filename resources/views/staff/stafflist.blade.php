@@ -4,15 +4,13 @@
     <div class="wrapper">
         @include('staff.menu')
         <div id="contents">
-            <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">{{ $title }}</a>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
+                <div class="d-flex gap-3 w-100">
+                    <a class="navbar-brand" id="navbar-brand-title" href="#">{{ $title }}</a>
+                    <div class="d-flex justify-content-between w-100 align-items-center">
+                        <div class="d-flex gap-4">
                             @if(Auth::user()->role->staff_staff_list === 1 || Auth::user()->role->staff_staff_list === 2)
-                            <li class="nav-item">
                                 <a href="/staff/add-new-staff" class="nav-link active" style="color: #f28123; cursor: pointer;"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
-                            </li>
                             @else
                             @endif
                             @if(Auth::user()->role->staff_staff_list === 1)
@@ -21,14 +19,15 @@
                             </li>
                             @else
                             @endif
-                        </ul>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        </div>
+                        <form class="d-flex" role="search" action="/staff/list">
+                            <input class="form-control me-2" type="text" name="search" placeholder="Search" value="{{ request('search') }}">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </div>
                 </div>
-            </nav>
+            </div>
+            @include('staff.sidenavstaff')
 
             <div id="dashboard" class="mx-3 mt-4">
                 <table class="table w-100">
