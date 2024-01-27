@@ -30,4 +30,10 @@ class Product extends Model
     public function carts(){
         return $this->hasMany(CartBooking::class);
     }
+
+    public function scopeFilter($query, array $filters){
+        $query->when($filters['search'] ?? false, function($query, $search){
+            return $query->where('product_name', 'like', '%' . $search . '%');
+        });
+    }
 }

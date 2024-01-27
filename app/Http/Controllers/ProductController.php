@@ -19,28 +19,28 @@ class ProductController extends Controller
     public function productList(){
         return view('product.products.productlist',[
             "title"=>"Product List",
-            "products"=>Product::all()
+            "products"=>Product::latest()->filter(request(['search']))->get()
         ]);
     }
 
     public function suppliers(){
         return view('product.suppliers.supplier',[
             "title"=>"Product Supplier",
-            "suppliers"=>Suppliers::all()
+            "suppliers"=>Suppliers::latest()->filter(request(['search']))->get()
         ]);
     }
 
     public function brands(){
         return view('product.brands.brand',[
             "title"=>"Product Brand",
-            "brands"=>Brand::all()
+            "brands"=>Brand::latest()->filter(request(['search']))->get()
         ]);
     }
 
     public function categories(){
         return view('product.categories.category',[
             "title"=>"Product Category",
-            "categories"=>CategoryProduct::all()
+            "categories"=>CategoryProduct::latest()->filter(request(['search']))->get()
         ]);
     }
 
