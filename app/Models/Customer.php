@@ -30,4 +30,14 @@ class Customer extends Model
     public function pets(){
         return $this->hasMany(Pet::class);
     }
+
+    public function scopeFilter($query, array $filters){
+        $query->when($filters['search'] ?? false, function($query, $search){
+            return $query->where('first_name', 'like', '%' . $search . '%')
+                         ->orWhere('middle_name', 'like', '%' . $search . '%')
+                         ->orWhere('last_name', 'like', '%' . $search . '%')
+                         ->orWhere('email', 'like', '%' . $search . '%')
+                         ->orWhere('phone', 'like', '%' . $search . '%');
+        });
+    }
 }

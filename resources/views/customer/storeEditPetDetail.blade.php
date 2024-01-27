@@ -5,34 +5,25 @@
         @include('customer.menu')
 
         <div id="contents">
-            <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Edit Customer</a>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
+            <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
+                <div class="d-flex gap-3 w-100">
+                    <a class="navbar-brand" id="navbar-brand-title" href="#">Edit Customer</a>
+                    <div class="d-flex justify-content-between w-100 align-items-center">
+                      <div class="d-flex gap-4">
                             <a class="nav-link active" aria-current="page" href="/customer/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
-                        </li>
                         @if(Auth::user()->role->customer_list === 1|Auth::user()->role->customer_list === 2)
-                            <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" onclick="savePets()" style="color: #f28123; cursor: pointer;">Save <img src="/img/icon/save.png" alt="" style="width: 22px"></a>
-                            </li>
                         @else
                         @endif
                         @if(Auth::user()->role->customer_list === 1)
-                            <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#discardCustomer" style="color: #ff3f5b; cursor: pointer;">Discard <img src="/img/icon/discard.png" alt="" style="width: 22px"></a>
-                            </li>
                         @else
                         @endif
-                      </ul>
-                      <form class="d-flex" role="search">
-                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                          <button class="btn btn-outline-success" type="submit">Search</button>
-                      </form>
+                      </div>
                     </div>
                 </div>
-            </nav>
+            </div>
+            @include('customer.sidenavcustomer')
 
             <div id="dashboard" class="mx-3 mt-4">
                 <form action="/saveEditCustomer/{{ $customers->id }}" method="POST" enctype="multipart/form-data">

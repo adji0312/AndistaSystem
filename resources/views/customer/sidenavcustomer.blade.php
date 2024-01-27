@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navside">
     <div class="container-fluid">
-        <h3 class="pt-3" style="color: #7C7C7C;"> <img src="/img/icon/service.png" alt="" style="width: 32px">&nbsp;&nbsp;&nbsp; Customer</h3>
+        <h3 class="pt-3" style="color: #7C7C7C;"> <img src="/img/icon/customer.png" alt="" style="width: 32px">&nbsp;&nbsp;&nbsp; Customer</h3>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>

@@ -18,7 +18,7 @@ class CustomerController extends Controller
     public function customerList(){
         return view('customer.customerlist',[
             "title" => "Customer List",
-            "customers" => Customer::all()
+            "customers" => Customer::latest()->filter(request(['search']))->get()
         ]);
     }
 
