@@ -42,7 +42,11 @@
                 @foreach ($attendances as $attendance)
                   <tr>
                     <td>{{ date_format($attendance->created_at, 'd M Y') }}</td>
-                    <td>{{ $attendance->staff->first_name }}</td>
+                    @if ($attendance->staff)
+                      <td>{{ $attendance->staff->first_name }}</td>
+                    @else
+                      <td>-</td>
+                    @endif
                     @if ($attendance->shift)
                       <td>{{ $attendance->shift->shift_name }} ({{ $attendance->shift->start_hour }} - {{ $attendance->shift->end_hour }})</td>
                     @else
@@ -80,7 +84,11 @@
                     @else
                         <td class="text-primary">{{ $attendance->status }}</td>
                     @endif --}}
-                    <td>{{ $attendance->staff->location->location_name }}</td>
+                    @if ($attendance->staff)
+                      <td>{{ $attendance->staff->location->location_name }}</td>
+                    @else
+                      <td>-</td>
+                    @endif
                   </tr>
                 @endforeach
               </tbody>

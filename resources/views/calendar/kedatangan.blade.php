@@ -1,4 +1,5 @@
 @extends('main')
+<meta http-equiv="refresh" content="10">
 @section('container')
 
   <div class="wrapper">
@@ -16,11 +17,12 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" style="color: #7C7C7C">Time</th>
-                        <th scope="col" style="color: #7C7C7C; width: 25%">Client</th>
+                        <th scope="col" style="color: #7C7C7C">Waktu</th>
+                        <th scope="col" style="color: #7C7C7C">Durasi</th>
+                        <th scope="col" style="color: #7C7C7C; width: 25%">Pelanggan</th>
                         <th scope="col" style="color: #7C7C7C; width: 20%">Servis</th>
                         <th scope="col" style="color: #7C7C7C">Staff</th>
-                        <th scope="col" style="color: #7C7C7C">Location</th>
+                        <th scope="col" style="color: #7C7C7C">Lokasi</th>
                         <th scope="col" style="color: #7C7C7C">Status</th>
                     </tr>
                 </thead>
@@ -37,6 +39,14 @@
                                         {{ date_format($date, 'd M Y') }} <br>
                                         {{ $booking->booking->services[0]->time }}
                                     </a>
+                                </td>
+                                <?php 
+                                    $dateNow = \Carbon\Carbon::now()->format('H:i');
+                                    // $bookingDate = $booking->created_at->format('H:i');
+                                    $durasi = \Carbon\Carbon::parse($booking->created_at)->diffInMinutes(\Carbon\Carbon::parse($dateNow));
+                                ?>
+                                <td class="align-middle">
+                                    {{ $durasi }} Minutes
                                 </td>
                                 <td>
                                     <div class="d-flex flex-column align-middle">

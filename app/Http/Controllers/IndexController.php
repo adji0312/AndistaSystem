@@ -95,7 +95,7 @@ class IndexController extends Controller
     public function locationList(){
         return view('location.locationslist', [
             "title" => "Location List",
-            "locations" => Location::all()
+            "locations" => Location::latest()->filter(request(['search']))->get()
         ]);
     }
     public function addLocation(){
