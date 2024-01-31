@@ -239,4 +239,5 @@
         });
         </script>
 
+@include('sweetalert::alert')
 @endsection

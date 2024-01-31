@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class StaffController extends Controller
 {
@@ -320,19 +321,22 @@ class StaffController extends Controller
         $staff->first_name = $request->first_name;
         $staff->email = $request->email;
 
-        if(($request->password == '') != ($request->confirm_password == '')){
+        if(($request->password == '' || $request->password == null) || ($request->confirm_password == '' || $request->confirm_password == null)){
+            // dd("im here");
             $staff->password = $staff->password;
         }
         else if($request->password != $request->confirm_password){
-            return redirect('/profile')->with('failed','Password doesnt match or null');
+            // dd("salah");
+            Alert::warning('Failed', "Password doesnt match or null!");
+            return redirect('/profile');
         }else{
             $staff->password = bcrypt($request->password);
         }
 
         
         $staff->update();
-
-        return redirect('/')->with('success','Staff Updated Successfully');
+        Alert::success('Success', 'Staff Updated Successfully!');
+        return redirect('/profile');
     }
 
     public function resetPassword(Request $request, $id){
