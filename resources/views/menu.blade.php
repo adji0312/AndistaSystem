@@ -12,6 +12,13 @@
         @else
 
         @endif
+        @if(Auth::user()->role->home_overview != 4)
+        <li style="cursor: pointer" class="{{ ($title === "Histori Aktivitas") ? 'active' : '' }}">
+            <a id="locationsdashboard" href="/history-activity" class="px-4"><img src="/img/icon/history.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Histori Aktivitas</a>
+        </li>
+        @else
+
+        @endif
         {{-- @if(Auth::user()->role->home_upcoming_booking != 4)
         <li style="cursor: pointer" class="{{ ($title === "Upcoming Booking") ? 'active' : '' }}">
             <a id="locationslist" href="/upcoming-booking" class="px-4"><img src="/img/icon/upcoming.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Upcoming Booking</a>

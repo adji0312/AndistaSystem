@@ -27,60 +27,127 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($bookings->where('status', 'Terkonfirmasi') as $booking)
-                        @if ($booking->booking->temp == 1)
+                    @foreach ($subBooks->where('category', 1) as $subbook)
+                        <tr>
+                            <td class="align-middle">
+                                <a href="/booking/detail/{{ $subbook->id }}" class="d-flex flex-column text-primary">
+                                    <?php $date = $subbook->created_at->isoFormat('D MMMM Y'); ?>
+                                    {{ $date }} <br>
+                                    {{ date_format($subbook->created_at, 'H:i') }}
+                                </a>
+                            </td>
+                            <?php 
+                                $dateNow = \Carbon\Carbon::now()->format('H:i');
+                                $durasi = \Carbon\Carbon::parse($subbook->created_at)->diffInMinutes(\Carbon\Carbon::parse($dateNow));
+                            ?>
+                            <td class="align-middle">
+                                {{ $durasi }} Minutes
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column align-middle">
+                                    {{ $subbook->booking->customer->first_name }} <br>
+                                    <div>
+                                        <img src="/img/icon/paws.png" alt="" style="width: 18px"> {{ $subbook->pet->pet_name }} ({{ $subbook->pet->pet_type }}) <br>
+                                    </div>
+                                    <div>
+                                        <img src="/img/icon/information.png" alt="" style="width: 17px"> {{ $subbook->booking->alasan_kunjungan }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle">
+                                @foreach ($subbook->carts as $sc)
+                                    {{ $sc->service->service_name }}
+                                    @break;
+                                @endforeach
+                            </td>
+                            @if ($subbook->staff_id == null || $subbook->staff_id == 0 || $subbook->staff_id == '')
+                                <td class="align-middle">-</td>
+                            @else
+                                @if ($subbook->staff)
+                                    <td class="align-middle">{{ $subbook->staff->first_name }}</td>
+                                @else
+                                    <td class="align-middle">-</td>
+                                @endif
+                            @endif
+                            <td class="align-middle">{{ $subbook->booking->location->location_name }}</td>
+                            @if ($subbook->status == 1)
+                                <td class="align-middle">
+                                    <button type="button" class="btn btn-sm" style="background-color: #97cbfe;">Terkonfirmasi</button>
+                                </td>
+                            @elseif ($subbook->status == 2)
+                                <td class="align-middle">
+                                    <button type="button" class="btn btn-sm" style="background-color: #fee497;">Dimulai</button>
+                                </td>
+                            @elseif ($subbook->status == 3)
+                                <td class="align-middle">
+                                    <button type="button" class="btn btn-sm" style="background-color: #ec825c;">Apotek</button>
+                                </td>
+                            @elseif ($subbook->status == 4)
+                                <td class="align-middle">
+                                    <button type="button" class="btn btn-sm" style="background-color: #cef9bf;">Selesai</button>
+                                </td>
+                            @elseif ($subbook->status == 5)
+                                <td class="align-middle">
+                                    <button type="button" class="btn btn-sm" style="background-color: #b2c10a;">Rawat Inap</button>
+                                </td>
+                            @endif
+                        </tr>
+
+
+                        {{-- @if ($subbook->booking->temp == 1)
                             @continue
                         @endif
-                        @if ($booking->booking->langsung_datang == 0 && $booking->booking->darurat == 1 && $booking->booking->rawat_inap == 1)
+                        @if ($subbook->booking->langsung_datang == 0 && $subbook->booking->darurat == 1 && $subbook->booking->rawat_inap == 1)
                             <tr>
                                 <td class="align-middle">
-                                    <a href="/booking/detail/{{ $booking->id }}" class="d-flex flex-column text-primary">
-                                        <?php $date = date_create($booking->booking->booking_date); ?>
+                                    <a href="/booking/detail/{{ $subbook->id }}" class="d-flex flex-column text-primary">
+                                        <?php $date = date_create($subbook->booking->booking_date); ?>
                                         {{ date_format($date, 'd M Y') }} <br>
-                                        {{ $booking->booking->services[0]->time }}
+                                        {{ $subbook->booking->services[0]->time }}
                                     </a>
                                 </td>
                                 <?php 
                                     $dateNow = \Carbon\Carbon::now()->format('H:i');
-                                    // $bookingDate = $booking->created_at->format('H:i');
-                                    $durasi = \Carbon\Carbon::parse($booking->created_at)->diffInMinutes(\Carbon\Carbon::parse($dateNow));
+                                    $durasi = \Carbon\Carbon::parse($subbook->created_at)->diffInMinutes(\Carbon\Carbon::parse($dateNow));
                                 ?>
                                 <td class="align-middle">
                                     {{ $durasi }} Minutes
                                 </td>
                                 <td>
                                     <div class="d-flex flex-column align-middle">
-                                        {{ $booking->booking->customer->first_name }} <br>
+                                        {{ $subbook->booking->customer->first_name }} <br>
                                         <div>
-                                            <img src="/img/icon/paws.png" alt="" style="width: 18px"> {{ $booking->pet->pet_name }} ({{ $booking->pet->pet_type }}) <br>
+                                            <img src="/img/icon/paws.png" alt="" style="width: 18px"> {{ $subbook->pet->pet_name }} ({{ $subbook->pet->pet_type }}) <br>
                                         </div>
                                         <div>
-                                            <img src="/img/icon/information.png" alt="" style="width: 17px"> {{ $booking->booking->alasan_kunjungan }}
+                                            <img src="/img/icon/information.png" alt="" style="width: 17px"> {{ $subbook->booking->alasan_kunjungan }}
                                         </div>
                                     </div>
                                 </td>
                                 <td class="align-middle">
-                                    {{ $booking->booking->services[0]->service->service_name }}
+                                    {{ $subbook->booking->services[0]->service->service_name }}
                                 </td>
-                                @if ($booking->booking->staff)
-                                    <td class="align-middle">{{ $booking->booking->staff->first_name }}</td>
+                                @if ($subbook->booking->staff)
+                                    <td class="align-middle">{{ $subbook->booking->staff->first_name }}</td>
                                 @else
                                     <td class="align-middle">-</td>
                                 @endif
-                                <td class="align-middle">{{ $booking->booking->location->location_name }}</td>
+                                <td class="align-middle">{{ $subbook->booking->location->location_name }}</td>
                                 <td class="align-middle">
-                                    <button type="button" class="btn btn-sm" style="background-color: #97cbfe;">{{ $booking->status }}</button>
+                                    <button type="button" class="btn btn-sm" style="background-color: #97cbfe;">{{ $subbook->status }}</button>
                                 </td>
                             </tr>
-                        @endif
+                        @endif --}}
                     @endforeach
                 </tbody>
             </table>
         </div>
         <div class="d-flex justify-content-end mx-3">
-            {{ $bookings->links() }}
+            {{ $subBooks->links() }}
         </div>
     </div>
   </div>
+
+  @include('sweetalert::alert')
 @endsection
 

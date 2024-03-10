@@ -30,11 +30,11 @@
                 @csrf
                 <input type="text" hidden name="booking_id" value="{{ $booking->id }}">
                 <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                    <h5 class="m-3">Penjadwalan</h5>
+                    <h5 class="m-3">Informasi</h5>
                     <div class="m-3 d-flex gap-5">
                         <div class="mb-3">
                             <label for="customer_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Pelanggan</label>
-                            <input type="text" class="form-control" id="customer_id" name="customer_id" value="{{ $booking->customer->first_name }}" required disabled>
+                            <input type="text" class="form-control" id="customer_id" name="customer_id" value="{{ $booking->customer->first_name }}" required readonly>
                         </div>
                         <div class="mb-3">
                           <label for="location_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Lokasi</label>
@@ -44,81 +44,63 @@
                                     <option selected value="{{ $location->id }}" class="selectstatus" name="location_id" style="color: black;">{{ $location->location_name }}</option>
                                     @continue;
                                 @endif
-                                <option value="{{ $location->id }}" class="selectstatus" name="location_id" style="color: black;">{{ $location->location_name }}</option>
                             @endforeach
                           </select>
                         </div>
                         <div class="mb-3">
-                            {{-- <form action="/updateBookingDate/{{ $booking->id }}" method="POST">
-                                @csrf --}}
-                                <label for="booking_date" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tanggal</label>
-                                <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ $booking->booking_date }}" required>
-                                <button type="submit" hidden id="updateBookingDate{{ $booking->id }}"></button>
-                                {{-- <script>
-                                    function updateDate(id){
-                                        // console.log(id);
-                                        let button = document.getElementById('updateBookingDate' + id).click();
-                                    }
-                                </script>
-                            </form> --}}
+                            <label for="booking_date" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tanggal</label>
+                            <input type="date" class="form-control" id="booking_date" name="booking_date" value="{{ $booking->booking_date }}" required readonly>
+                            <button type="submit" hidden id="updateBookingDate{{ $booking->id }}"></button>
                         </div>
                     </div>
                     <div class="m-3">
                         <div class="mb-3">
                             <label for="alasan_kunjungan" class="form-label" style="font-size: 15px; color: #7C7C7C;">Alasan Kunjungan</label>
-                            <input type="text" class="form-control" id="alasan_kunjungan" name="alasan_kunjungan" value="{{ $booking->alasan_kunjungan }}" required>
+                            <input type="text" class="form-control" id="alasan_kunjungan" name="alasan_kunjungan" value="{{ $booking->alasan_kunjungan }}" required readonly>
                         </div>
                     </div>
                     <div class="mx-3 d-flex gap-3 mb-3 mt-3">
-                        {{-- <div class="form-check">
-                            @if ($booking->tidak_dikenakan_biaya == 0)
-                                <input class="form-check-input" type="checkbox" name="tidak_dikenakan_biaya" id="tidak_dikenakan_biaya" value="" checked>
-                            @else
-                                <input class="form-check-input" type="checkbox" name="tidak_dikenakan_biaya" id="tidak_dikenakan_biaya" value="">
-                            @endif
-                            <label class="form-check-label" for="tidak_dikenakan_biaya">
-                                Tidak dikenakan biaya
-                            </label>
-                        </div> --}}
                         <div class="form-check">
-                            @if ($booking->langsung_datang == 0)
-                                <input class="form-check-input" type="checkbox" name="langsung_datang" id="langsung_datang" value="" checked>
+                            @if ($booking->category == 1)
+                                <input class="form-check-input" type="radio" name="category" id="langsung_datang" value="1" checked>
+                                <label class="form-check-label" for="langsung_datang">
+                                    Langsung datang
+                                </label>
                             @else
-                                <input class="form-check-input" type="checkbox" name="langsung_datang" id="langsung_datang" value="">
+                                <input class="form-check-input" type="radio" name="category" id="langsung_datang" value="1" disabled>
+                                <label class="form-check-label" for="langsung_datang">
+                                    Langsung datang
+                                </label>
                             @endif
-                            <label class="form-check-label" for="langsung_datang">
-                                Langsung datang
-                            </label>
                         </div>
-                        {{-- <div class="form-check">
-                            @if ($booking->rawat_inap == 0)
-                                <input class="form-check-input" type="checkbox" name="rawat_inap" id="rawat_inap" value="" checked>
-                            @else
-                                <input class="form-check-input" type="checkbox" name="rawat_inap" id="rawat_inap" value="">
-                            @endif
-                            <label class="form-check-label" for="rawat_inap">
-                                Rawat Inap
-                            </label>
-                        </div> --}}
                         <div class="form-check">
-                            @if ($booking->darurat == 0)
-                                <input class="form-check-input" type="checkbox" name="darurat" id="darurat" value="" checked>
+                            @if ($booking->category == 2)
+                                <input class="form-check-input" type="radio" name="category" id="darurat" value="2" checked>
+                                <label class="form-check-label" for="darurat">
+                                    Darurat
+                                </label>
                             @else
-                                <input class="form-check-input" type="checkbox" name="darurat" id="darurat" value="">
+                                <input class="form-check-input" type="radio" name="" id="darurat" value="2" disabled>
+                                <label class="form-check-label" for="darurat">
+                                    Darurat
+                                </label>
                             @endif
-                            <label class="form-check-label" for="darurat">
-                                Darurat
-                            </label>
                         </div>
-
-                        <input type="text" hidden name="category" id="category">
+                        <div class="form-check">
+                            @if ($booking->category == 3)
+                                <input class="form-check-input" type="radio" name="category" id="jadwalkan" value="3" checked>
+                                <label class="form-check-label" for="jadwalkan">
+                                    Jadwalkan
+                                </label>
+                            @else
+                                <input class="form-check-input" type="radio" name="" id="jadwalkan" value="3" disabled>
+                                <label class="form-check-label" for="jadwalkan">
+                                    Jadwalkan
+                                </label>
+                            @endif
+                        </div>
+                        
                     </div>
-                    {{-- <div class="mx-3 mt-4 mb-3" id="duration_field" style="display: none;">
-                        <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
-                        <div class="d-flex">
-                            <input type="number" class="form-control" id="duration" name="duration" style="width: 7%;"> Days
-                        </div>
-                    </div> --}}
                 </div>
 
                 <input type="text" name="subAccount" id="subAccount" value="" hidden>
@@ -177,7 +159,13 @@
                                         @else
                                             <td>-</td>
                                         @endif
-                                        <td>{{ $pet->pet_gender }}</td>
+                                        <td>
+                                            @if ($pet->pet_gender == "Male")
+                                                Jantan
+                                            @else
+                                                Betina
+                                            @endif
+                                        </td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-2">
                                                 <button type="button" class="btn btn-outline-success btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#updateSubAccount{{ $pet->id }}"><i class="fas fa-pencil-alt"></i> Ubah</button>
@@ -273,7 +261,7 @@
                         @if (count($booking_services) <= 0)
                             <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addBookingService"><i class="fas fa-plus"></i> Tambah</button>
                         @endif
-                        <button type="button" class="btn btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#checkModal"><i class="fas fa-check"></i> Cek Karyawan</button>
+                        {{-- <button type="button" class="btn btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#checkModal"><i class="fas fa-check"></i> Cek Karyawan</button> --}}
                     </div>
                     <div class="mx-4 table-responsive">
                         <table class="table">
@@ -282,7 +270,7 @@
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Service</th>
                                 <th scope="col" style="width: 10%">Waktu</th>
-                                <th scope="col">Karyawan</th>
+                                {{-- <th scope="col">Karyawan</th> --}}
                                 <th scope="col">Durasi</th>
                                 <th scope="col">Harga (Rp)</th>
                                 <th scope="col" class="text-center">Aksi</th>
@@ -319,7 +307,7 @@
                                                 </form>
                                             </td>
 
-                                            <td>
+                                            {{-- <td>
                                                 <form action="/editBookingService/{{ $bs->id }}" method="POST">
                                                     @csrf
                                                     <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="service_staff_id" id="service_staff_id{{ $bs->id }}" onchange="selectStaff({{ $bs->id }})">
@@ -340,7 +328,7 @@
                                                         }
                                                     </script>
                                                 </form>
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 <form action="/editBookingService/{{ $bs->id }}" method="POST">
                                                     @csrf
@@ -454,18 +442,6 @@
                             ?>
                             <input type="text" class="form-control" name="time" value="{{ $timeNow }}">
                         </div>
-                        {{-- <div class="mb-3">
-                            <label for="service_price_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
-                            <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="service_price_id" id="service_price_id">
-                                @foreach ($service_prices as $sp)
-                                    <option value="{{ $sp->id }}" class="selectstatus" style="color: black;">{{ $sp->duration }} {{$sp->duration_type}}({{ $sp->price_title }}) (Rp {{ number_format($sp->price) }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="price_title" class="form-label" style="font-size: 15px; color: #7C7C7C;">Price</label>
-                            <input type="text" class="form-control" id="price_title" name="price_title">
-                        </div> --}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
@@ -475,6 +451,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="addSubAccount" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -533,7 +510,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="checkModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="checkModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -572,5 +549,7 @@
             </form>
           </div>
         </div>
-    </div>
+    </div> --}}
+
+    @include('sweetalert::alert')
 @endsection

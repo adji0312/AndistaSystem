@@ -33,11 +33,11 @@
                     </div>
                     <hr class="mt-0">
                     <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;"><a href="/report/byStaff">Sales by Staff</a></label>
+                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;"><a href="/report/byStaff">Sales by Staff (Doctor)</a></label>
                     </div>
                     <hr class="mt-0">
                     <div class="mb-0">
-                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;"><a href="/report/quotation">Quotation</a></label>
+                        <label for="exampleInputEmail1" class="form-label text-primary" style="font-size: 17px; cursor: pointer;"><a href="/report/byReceptionist">Sales by Staff (Resepsionis)</a></label>
                     </div>
                     <hr class="mt-0">
                 </div>

@@ -807,12 +807,10 @@
               </div>
               </td>
             </tr>
-            <tr>
+            {{-- <tr>
               <th scope="row" style="color: #7C7C7C">Facilities</th>
               <td>
-                {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="facilities" id="facilities">
                       <option value="{{ $roles->facilities }}" class="selectstatus" style="color: black;" selected >@if($roles->facilities === 1)
                         Full
@@ -825,9 +823,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -835,7 +830,7 @@
                       </select>
               </div>
               </td>
-            </tr>
+            </tr> --}}
             <tr>
               <th scope="row" style="color: #7C7C7C">Setting Location</th>
               <td>

@@ -14,19 +14,21 @@ return new class extends Migration
         Schema::create('sub_books', function (Blueprint $table) {
             $table->id();
             $table->foreignId('booking_id');
-            $table->date('booking_date');
+            // $table->date('booking_date');
+            $table->timestamp('booking_date');
             $table->foreignId('subAccount_id')->nullable();
             $table->foreignId('staff_id')->nullable();
-            $table->string('status')->default('confirmed'); //confirmed, started, completed (kalau sudah completed, langsung masuk ke table sale dengan status unpaid)
-            $table->integer('tidak_dikenakan_biaya')->nullable();
-            $table->integer('langsung_datang')->nullable();
-            $table->integer('rawat_inap')->nullable();
-            $table->integer('darurat')->nullable();
+            $table->integer('status');  //1 : terkonfirmasi, 2 : dimulai, 3 : apotek , 4 : selesai, 5 : rawat inap
+            $table->timestamp('rawat_inap')->nullable();
+            $table->integer('category')->nullable(); //1 : langsung datang, 2 : darurat, 3 : jadwalkan
             $table->integer('duration')->nullable();
             $table->timestamp('start_booking')->nullable();
             $table->timestamp('end_booking')->nullable();
-            $table->integer('ranap')->nullable(); //1 : terkonfirmasi, 2: dirawat inap, 3: selesai
-            $table->integer('sub_total_price')->nullable(); //1 : terkonfirmasi, 2: dirawat inap, 3: selesai
+            $table->integer('ranap')->nullable(); //1 : dirawat inap, 2: selesai
+            $table->integer('sub_total_price')->nullable();
+            $table->string('pesanresepsionis')->nullable();
+
+            $table->foreignId('admin_id')->nullable();
             $table->timestamps();
         });
     }

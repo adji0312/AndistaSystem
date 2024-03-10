@@ -2,7 +2,11 @@
     DEMO STYLE
 */
 
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+/* @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"; */
+
+*{
+    /* font-family: 'Poppins', sans-serif; */
+}
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
@@ -306,6 +310,19 @@ trix-toolbar[data-trix-button-group="file-tools"]{
 #navside{
     display: none;
 }
+
+.btn-apotek{
+    color: #7e57c1;
+}
+
+.btn-apotek:hover{
+    background-color: #7e57c1;
+    color: white;
+}
+/* .btn-apotek>a:hover{
+    background-color: #7e57c1;
+    color: white;
+} */
 
 @media (max-width: 1000px) {
     #sidebars {

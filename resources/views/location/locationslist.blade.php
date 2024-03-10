@@ -8,16 +8,16 @@
                 <div class="d-flex gap-3 w-100">
                     <a class="navbar-brand" id="navbar-brand-title" href="#">{{ $title }}</a>
                     <div class="d-flex justify-content-between w-100 align-items-center">
-                        <div class="d-flex gap-4">
+                        {{-- <div class="d-flex gap-4">
                             @if(Auth::user()->role->location_list === 1|Auth::user()->role->location_list === 2)
                                 <a class="nav-link active" aria-current="page" href="/location/list/add" style="color: #f28123"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
                             @else
                             @endif
-                        </div>
-                        <form class="d-flex" role="search" action="/location/list">
+                        </div> --}}
+                        {{-- <form class="d-flex" role="search" action="/location/list">
                             <input class="form-control me-2" type="text" name="search" placeholder="Search" value="{{ request('search') }}">
                             <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
+                        </form> --}}
                     </div>
                 </div>
             </div>

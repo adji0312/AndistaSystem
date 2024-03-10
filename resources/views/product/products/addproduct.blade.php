@@ -116,7 +116,7 @@
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="description" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Description</label>
-                                <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description" value="{{ old('description') }}" required>
+                                <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description" value="{{ old('description') }}">
                                 {{-- @error('description')
                                     <div class="invalid-feedback">
                                         {{ $message }}

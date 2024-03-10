@@ -12,6 +12,7 @@ use App\Models\CartBooking;
 use App\Models\CheckStaff;
 use App\Models\Customer;
 use App\Models\Diagnosis;
+use App\Models\InvoicePayment;
 use App\Models\Location;
 use App\Models\Pet;
 use App\Models\Plan;
@@ -19,6 +20,7 @@ use App\Models\Sale;
 use App\Models\Service;
 use App\Models\ServiceAndStaff;
 use App\Models\ServicePrice;
+use App\Models\Staff;
 use App\Models\Statistic;
 use App\Models\SubBook;
 use Carbon\Carbon;
@@ -28,6 +30,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BookingController extends Controller
 {
@@ -50,7 +53,7 @@ class BookingController extends Controller
     // Jenis jenis booking
     public function bookingdarurat(){
         // dd($bookingdarurat);
-        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
+        $subBooks = SubBook::latest()->where('status', 1)->paginate(30)->withQueryString();
         return view('calendar.darurat', [
             "title" => "Darurat",
             "bookings" => $subBooks
@@ -58,8 +61,7 @@ class BookingController extends Controller
     }
 
     public function bookingterjadwal(){
-        $bookingterjadwal = Booking::where('langsung_datang', 1)->get();
-        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
+        $subBooks = SubBook::latest()->where('status', 1)->paginate(30)->withQueryString();
 
         return view('calendar.terjadwal', [
             "title" => "Terjadwal",
@@ -69,30 +71,29 @@ class BookingController extends Controller
 
     public function bookingkedatangan(){
 
-        $bookingkedatangan = Booking::where('langsung_datang', 0)->get();
+        // $bookingkedatangan = Booking::where('langsung_datang', 0)->get();
         
-        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
-        $listkedatangan = DB::table('sub_books')->select('*')->join('bookings', 'bookings.id' , '=', 'sub_books.booking_id')->join('locations', 'locations.id', '=', 'bookings.location_id')->join('staff', 'staff.id', '=', 'bookings.staff_id')->where('bookings.langsung_datang', 0)->get();
+        $subBooks = SubBook::latest()->where('status', 1)->paginate(30)->withQueryString();
+        // $listkedatangan = DB::table('sub_books')->select('*')->join('bookings', 'bookings.id' , '=', 'sub_books.booking_id')->join('locations', 'locations.id', '=', 'bookings.location_id')->join('staff', 'staff.id', '=', 'bookings.staff_id')->where('bookings.langsung_datang', 0)->get();
         // dd($listkedatangan);
+        // $cartSubBook = CartBooking::all()->where('sub_booking_id',)
 
         return view('calendar.kedatangan', [
             "title" => "Kedatangan",
-            "bookings" => $subBooks
+            "subBooks" => $subBooks
         ]);
     }
 
     public function bookingrawatinap(){
 
         if(request('filterstatus')){
-            if(request('filterstatus') == "Terkonfirmasi"){
-                $subBooks = SubBook::latest()->where('rawat_inap', 1)->where('ranap', 1)->paginate(30)->withQueryString();
-            }elseif(request('filterstatus') == "Di Rawat Inap"){
-                $subBooks = SubBook::latest()->where('rawat_inap', 1)->where('ranap', 2)->paginate(30)->withQueryString();
-            }elseif(request('filterstatus') == "Selesai"){
-                $subBooks = SubBook::latest()->where('rawat_inap', 1)->where('ranap', 3)->paginate(30)->withQueryString();
+            if(request('filterstatus') == "1"){
+                $subBooks = SubBook::latest()->where('status', 5)->where('ranap', 1)->paginate(30)->withQueryString();
+            }elseif(request('filterstatus') == "2"){
+                $subBooks = SubBook::latest()->where('status', 5)->where('ranap', 2)->paginate(30)->withQueryString();
             }
         }else{
-            $subBooks = SubBook::latest()->where('rawat_inap', 1)->paginate(30)->withQueryString();
+            $subBooks = SubBook::latest()->where('status', 5)->paginate(30)->withQueryString();
         }
 
         $now = Carbon::now();
@@ -105,9 +106,18 @@ class BookingController extends Controller
 
     public function bookingmemulai(){
 
-        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
+        $subBooks = SubBook::latest()->where('status', 2)->paginate(30)->withQueryString();
         return view('calendar.memulai', [
             "title" => "Memulai",
+            "bookings" => $subBooks
+        ]);
+    }
+
+    public function bookingapotek(){
+
+        $subBooks = SubBook::latest()->where('status', 3)->paginate(30)->withQueryString();
+        return view('calendar.apotek', [
+            "title" => "Apotek",
             "bookings" => $subBooks
         ]);
     }
@@ -139,8 +149,6 @@ class BookingController extends Controller
     }
 
     public function storeBooking(Request $request){
-        // dd($request->tidak_dikenakan_biaya);
-
         // dd($request->all());
 
         $string = $request->customer_id;
@@ -152,7 +160,7 @@ class BookingController extends Controller
         $customer_name = substr($request->customer_id, 0, strpos($request->customer_id, ' ('));
         $customer_phone = substr($phone, 0, strpos($phone, ')'));
         $customer = Customer::where("first_name","LIKE","%{$customer_name}%")->where("phone", $customer_phone)->get();
-        // dd($customer->first());
+        // dd($customer->first()->id);
 
         $alasan = AlasanKunjungan::all()->where('name', $request->alasan_kunjungan)->first();
         if($alasan == null){
@@ -164,44 +172,18 @@ class BookingController extends Controller
 
         $validatedData = $request->validate([
             'location_id' => 'required',
-            // 'booking_date' => 'required',
+            'category' => 'required',
+            'booking_date' => 'required'
         ]);
-        $validatedData['booking_date'] = $request->booking_date;
 
-        if($request->tidak_dikenakan_biaya != null){
-            $validatedData['tidak_dikenakan_biaya'] = 0;
-        }else{
-            $validatedData['tidak_dikenakan_biaya'] = 1;
-        }
-
-        if($request->langsung_datang != null){
-            $validatedData['langsung_datang'] = 0;
-            // dd(Date::now());
+        if($request->category == 1){
             $validatedData['booking_date'] = Date::now();
-        }else{
-            $validatedData['langsung_datang'] = 1;
         }
 
-        if($request->rawat_inap != null){
-            $validatedData['rawat_inap'] = 0;
-        }else{
-            $validatedData['rawat_inap'] = 1;
-        }
-
-        if($request->darurat != null){
-            $validatedData['darurat'] = 0;
-        }else{
-            $validatedData['darurat'] = 1;
-        }
-
-        $validatedData['staff_id'] = 0;
-        $validatedData['booking_service_id'] = 0;
-
-        
         $validatedData['customer_id'] = $customer->first()->id;
-
+        $validatedData['admin_id'] = $request->admin_id;
+        
         $lastBooking = DB::table('bookings')->latest('created_at')->first();
-        // dd($lastBooking);
         if($lastBooking == null || $lastBooking == ''){
             $nextNumber = sprintf("%05d", 1);
             $validatedData['booking_name'] = "BOOK-" . $nextNumber;
@@ -209,43 +191,12 @@ class BookingController extends Controller
             $nextNumber = sprintf("%05d", $lastBooking->id + 1);
             $validatedData['booking_name'] = "BOOK-" . $nextNumber;
         }
-
-        if($request->category != null || $request->category != ''){
-            $validatedData['category'] = $request->category;
-        }else{
-            $validatedData['category'] = '-';
-        }
-        
-        if(strpos($validatedData['category'], "langsung_datang") !== false){
-            $validatedData['status'] = "Datang";
-            $date = Date::now();
-            // $dateBooking = date_format($date, 'Y-d-m');
-            $validatedData['booking_date'] = $date;
-        }else{
-            $validatedData['status'] = "Terkonfirmasi";
-        }
-
-        if($request->duration != null || $request->duration != ''){
-            $validatedData['duration'] = $request->duration;
-        }else{
-            $validatedData['duration'] = 0;
-        }
-
-        if($request->resepsionisNotes != null || $request->resepsionisNotes != ''){
-            $validatedData['resepsionisNotes'] = $request->resepsionisNotes;
-        }else{
-            $validatedData['resepsionisNotes'] = '-';
-        }
         
         if($request->alasan_kunjungan != null || $request->alasan_kunjungan != ''){
             $validatedData['alasan_kunjungan'] = $request->alasan_kunjungan;
         }else{
             $validatedData['alasan_kunjungan'] = '-';
-        }
-
-        $validatedData['total_price'] = 0;
-        $validatedData['admin_id'] = $request->admin_id;
-        $validatedData['temp'] = 1;
+        } 
 
         Booking::create($validatedData);
 
@@ -254,8 +205,9 @@ class BookingController extends Controller
     }
 
     public function editBooking(Request $request, $id){
-        // dd($request->all());
 
+        // dd($request->all());
+        
         $alasan = AlasanKunjungan::all()->where('name', $request->alasan_kunjungan)->first();
         if($alasan == null){
             $validatedAlasan['name'] = $request->alasan_kunjungan;
@@ -265,100 +217,69 @@ class BookingController extends Controller
         }
 
         $booking = Booking::find($id);
-        // dd($booking);
+        if($request->subAccount == null || $request->subAccount == ''){
+            Alert::warning('Gagal', "Sub Akun Tidak Boleh Kosong!");
+            return redirect('/newBooking' . '/' . $booking->booking_name);
+        }
         
-        $rules = [
-            "location_id" => 'required',
-            "booking_date" => 'required',
-        ];
-        // dd($rules);
+        $bs = BookingService::all()->where('booking_id', $booking->id);
+        // dd($bs);
 
-        $validatedData = $request->validate($rules);
-
-        if($request->duration != null || $request->duration != ''){
-            $validatedData['duration'] = $request->duration;
+        if(count($bs) == 0){
+            Alert::warning('Gagal', "Service Tidak Boleh Kosong!");
+            return redirect('/newBooking' . '/' . $booking->booking_name);
         }else{
-            $validatedData['duration'] = 0;
-        }
-
-        if($request->alasan_kunjungan != null || $request->alasan_kunjungan != ''){
-            $validatedData['alasan_kunjungan'] = $request->alasan_kunjungan;
-        }else{
-            $validatedData['alasan_kunjungan'] = '-';
-        }
-        //cek apakah booking ini punya service, klo ada temp = 0 else temp = 1
-        $allservices = $booking->services;
-        // dd($allservices[0]);
-
-        if(count($allservices) != 0 || count($allservices) != null){
-            // dd($allservices->first());
-            $validatedData['staff_id'] = $allservices->first()->service_staff_id;
-            $validatedData['booking_service_id'] = $allservices->first()->service_price_id;
-            $total_price = [];
-            for($i = 0 ; $i < count($allservices) ; $i++){
-                $total_price[$i] = $allservices[$i]->price;
-            }
-            $validatedData['total_price'] = array_sum($total_price);
-            $validatedData['temp'] = 0;
-        }else{
-            $validatedData['total_price'] = 0;
-            $validatedData['temp'] = 1;
-        }
-
-        $validatedData['status'] = "Terkonfirmasi";
-        // $lastBook = SubBook::all()->sortByDesc('id')->first();
-        // dd($lastBook);
-        
-        if($request->subAccount == null){
-            dd("null");
-        }else{
-            // dd('here');
-            $myString = $request->subAccount;
-            $myArray = explode(',', $myString);
-            $length = count($myArray);
-            // dd($length);
-            for($i = 0 ; $i < $length ; $i++){
-                $subBookingBaru = new SubBook();
-                $subBookingBaru->booking_id = $booking->id;
-                $subBookingBaru->booking_date = $booking->booking_date;
-                $subBookingBaru->subAccount_id = $myArray[$i];
-                $subBookingBaru->status = $booking->status;
-                $subBookingBaru->sub_total_price = $allservices[0]->price;
-                $subBookingBaru->save();
-                // SubBook::create([
-                //     'booking_id' => $booking->id,
-                //     'booking_date' => $booking->booking_date,
-                //     'subAccount_id' => $myArray[$i],
-                //     'status' => $booking->status,
-                //     'sub_total_price' => $allservices[0]->price,
-                // ]);
-
-                $lastBook = SubBook::all()->sortByDesc('id')->first();
-                // dd($lastBook);
-                $bookingservicebaru = new BookingService();
-                $bookingservicebaru->booking_id = $booking->id;
-                $bookingservicebaru->service_id = $allservices[0]->service_id;
-                $bookingservicebaru->service_price_id = $allservices[0]->service_price_id;
-                $bookingservicebaru->service_staff_id = 0;
-                $bookingservicebaru->price = $allservices[0]->price;
-                $bookingservicebaru->time = date("H:i");
-                $bookingservicebaru->sub_booking_id = $lastBook->id;
-                $bookingservicebaru->save();
-                // BookingService::create([
-                //     "booking_id" => $booking->id,
-                //     "service_id" => $allservices[0]->service_id,
-                //     "service_price_id" => $allservices[0]->service_price_id,
-                //     "service_staff_id" => 0,
-                //     "price" => $allservices[0]->price,
-                //     "time" => date("H:i"),
-                //     "sub_booking_id" => $lastBook->id,
-                //     "staff_id" => 0,    
-                // ]);
+            if($bs->first()->service_price_id == 0 || $bs->first()->service_price_id == null || $bs->first()->service_price_id == ''){
+                Alert::warning('Gagal', "Service Durasi Tidak Boleh Kosong!");
+                return redirect('/newBooking' . '/' . $booking->booking_name);
             }
         }
-        Booking::where('id', $booking->id)->update($validatedData);
 
+        $myString = $request->subAccount;
+        $myArray = explode(',', $myString);
+        $length = count($myArray);
+        // dd($length);
+        for($i = 0 ; $i < $length ; $i++){
+            $subBookingBaru = new SubBook();
+            $subBookingBaru->booking_id = $booking->id;
 
+            $formatDate = date_create($booking->booking_date);
+            $year = date_format($formatDate, 'Y');
+            $month = date_format($formatDate, 'm');
+            $date = date_format($formatDate, 'd');
+
+            $hour = substr($bs->first()->time, 0, 2);
+            $minute = substr($bs->first()->time, 3, 4);
+            // dd($hour . ' ' . $minute);
+            // dd($month . $date);
+            $newDate = Carbon::create($year, $month, $date, $hour, $minute, 0);
+            // dd($newDate);
+
+            $subBookingBaru->booking_date = $newDate;
+            $subBookingBaru->subAccount_id = $myArray[$i];
+            $subBookingBaru->status = 1;
+            $subBookingBaru->category = $booking->category;
+            $subBookingBaru->admin_id = $booking->admin_id;
+            $subBookingBaru->sub_total_price = $bs->first()->price;
+            $subBookingBaru->save();
+
+            $lastSubBook = SubBook::all()->sortByDesc('id')->first();
+
+            $cart = new CartBooking();
+            $cart->booking_id = $booking->id;
+            $cart->staff_id = 0;
+            $cart->sub_booking_id = $lastSubBook->id;
+            $cart->product_id = 0;
+            $cart->service_id = $bs->first()->service_id;
+            $cart->service_price_id = $bs->first()->service_price_id;
+            $cart->quantity = 1;
+            $cart->total_price = $bs->first()->price;
+            $cart->flag = 0;
+            $cart->name = $bs->first()->service->service_name;
+            $cart->save();
+        }
+
+        Alert::success('Success', 'Booking Berhasil Dibuat!');
         return redirect('/calendar');
     }
 
@@ -433,13 +354,9 @@ class BookingController extends Controller
     public function discardBooking($id){
 
         $booking = Booking::find($id);
-        // dd($booking);
         DB::table('booking_services')->where('booking_id', $booking->id)->delete();
         DB::table('bookings')->where('id', $booking->id)->delete();
-        // DB::table('service_and_staff')->where('service_id', $service->id)->delete();
-        // DB::table('service_and_facilities')->where('service_id', $service->id)->delete();
-        // DB::table('services')->where('id', $service->id)->delete();
-        return redirect('/service/list');
+        return redirect('/newBooking');
     }
 
     public function addNewCustomer(Request $request){
@@ -499,7 +416,7 @@ class BookingController extends Controller
 
     public function checkBookingService(Request $request, $id){
 
-        dd($id);
+        // dd($id);
 
         $checkStaff = CheckStaff::where('time', $request->checkTime)->where('date', $request->checkDate)->where('staff_id', $request->checkStaff)->where('service_price_id', $request->checkDuration)->get()->first();
         
@@ -531,371 +448,215 @@ class BookingController extends Controller
     }
 
     public function detailBookingById($id){
-        $booking = SubBook::find($id);
-        $latestStatistic = Statistic::where('sub_booking_id', $booking->id)->orderBy('created_at', 'desc')->get();
-        $cart = CartBooking::where('sub_booking_id', $booking->id)->get();
-        $selectedCart = CartBooking::where('sub_booking_id', $booking->id)->where('flag', 0)->get();
-        $totalPrice = $selectedCart->sum('total_price');
-        $note = BookingNote::where('sub_booking_id', $booking->id)->get();
+        $subBook = SubBook::find($id);
+        // dd($subBook);
+        // if($subBook->status == 2 || $subBook->status == 3){
+        //     if($subBook->staff_id != Auth::user()->id && $subBook->staff_id != null){
+        //         Alert::warning('Peringatan!', 'Pasien ini sudah ditangani oleh dokter!');
+        //         return redirect()->back();
+        //     }
+        // }
 
-        $diagnosis = BookingDiagnosis::where('sub_booking_id', $booking->id)->get();
+        $latestStatistic = Statistic::where('sub_booking_id', $subBook->id)->orderBy('created_at', 'desc')->get();
+        $cart = CartBooking::where('sub_booking_id', $subBook->id)->get();
+        $selectedCart = CartBooking::where('sub_booking_id', $subBook->id)->where('flag', 0)->get();
+        $totalPrice = $selectedCart->sum('total_price');
+        $note = BookingNote::where('sub_booking_id', $subBook->id)->get();
+
+        $diagnosis = BookingDiagnosis::where('sub_booking_id', $subBook->id)->get();
         $treatments = Plan::all();
         $servicePrice = ServicePrice::all();
         $files = AttachNote::all();
-        $bookingservices = BookingService::all()->where('sub_booking_id', $booking->id)->first();
+        $cartsubbook = CartBooking::all()->where('sub_booking_id', $subBook->id);
+        $bs = BookingService::all()->where('booking_id', $subBook->booking_id)->first();
+        // dd($bs);
+        $historyBook = SubBook::all()->where('subAccount_id', $subBook->subAccount_id)->where('status', 4)->where('id', '!=', $subBook->id);
+        // dd($historyBook);
+        // dd($cart);
+        // dd($cartsubbook);
+        $resepsionis = Staff::where('id', $subBook->admin_id)->first();
+
+        $listInvoice = Sale::all()->where('sub_booking_id', $subBook->id);
+
+        $checkCart = CartBooking::all()->where('sub_booking_id', $subBook->id)->where('invoice_id', null)->where('flag', 0);
+
+        $statistics = Statistic::all()->where('sub_booking_id', $subBook->id);
         
         return view('calendar.bookingdetail', [
-            'booking' => $booking,
+            'booking' => $subBook,
             'title' => "Detail Booking",
-            'latestStatistic' => $latestStatistic->take(1),
-            'beforeStatistic' => $latestStatistic,
             'carts' => $cart,
             'totalPrice' => $totalPrice,
-            'note' => $note,
+            'notes' => $note,
             'bookingDiagnosis' => $diagnosis,
             'treatments' => $treatments,
             'servicePrice' => $servicePrice,
             'files' => $files,
-            'bookingservices' => $bookingservices
+            'bookingservices' => $cartsubbook,
+            'bs' => $bs,
+            'historyBook' => $historyBook,
+            'resepsionis' => $resepsionis,
+            'listInvoice' => $listInvoice,
+            'checkCart' => $checkCart,
+            'statistics' => $statistics
         ]);
+    }
+
+    public function detailBookingCatatan($id){
+        
+        $note = BookingNote::find($id);
+        
+        return view('calendar.notedetail', [
+            "title" => "Detail Note",
+            "note" => $note
+        ]);
+        
     }
 
     public function changeStatus(Request $request, $id){
         // dd($request->all());
         $subbooking = SubBook::find($id);
-        // dd($subbooking->status);
-        $booking = Booking::find($subbooking->booking_id);
-        $bookingService = BookingService::find($booking->services[0]->id);
-        $bookingService2 = BookingService::all()->where('sub_booking_id', $subbooking->id)->first();
-        // dd($bookingService2);
-        
-        
-        if($booking->services[0]->service_staff_id == 0 || $booking->staff_id == 0 || $bookingService2->service_staff_id == 0 || $subbooking->staff_id == 0){
-            $booking->staff_id = Auth::user()->id;
-            $booking->save();
-
-            $bookingService->service_staff_id = Auth::user()->id;
-            $bookingService->save();
-            $bookingService2->service_staff_id = Auth::user()->id;
-            $bookingService2->save();
-
-            $subbooking->staff_id = Auth::user()->id;
-            $subbooking->save();
+        $cart = CartBooking::where('sub_booking_id', $subbooking->id)->first();
+        // dd($cart->id);
+        $subbooking->status = $request->status;
+        $subbooking->staff_id = Auth::user()->id;
+        if($request->balikantrian){
+            $cart->staff_id = 0;
+            $cart->save();
+        }else{
+            $cart->staff_id = Auth::user()->id;
+            $cart->save();
         }
 
-        //ini untuk ubah status menjadi rawat inap
-        if($request->status == "Rawat Inap" && $subbooking->status = "Dimulai"){
-            if(count($booking->subbookings) > 1){
-                // dd("lebih");
-                $subbooking->rawat_inap = 1;
-                $subbooking->booking_date = $request->booking_date;
-                $subbooking->duration = 1;
-                $subbooking->ranap = 1;
-                $subbooking->save();
+
+        if($request->status == 4){
+            // dd($request->all());
+            $lastSales = DB::table('sales')->latest('created_at')->first();
+            // dd($lastSales);
+
+            if($lastSales == null || $lastSales == ''){
+                $nextNumber = sprintf("%05d", 1);
             }else{
-                // dd("kurang");
-                $booking->rawat_inap = 0;
-                $booking->save();
+                $nextNumber = sprintf("%05d", $lastSales->id + 1);
+            }
+            // dd($nextNumber);
+            $sales = new Sale();
+            $sales->no_invoice = "INV-" . $nextNumber;
+            $sales->booking_id = $subbooking->booking->id;
+            $sales->sub_booking_id = $subbooking->id;
+            $sales->diskon = 0;
+            $sales->deskripsi_tambahan_biaya = '-';
+            $sales->tambahan_biaya = 0;
+            $sales->metode = '-';
+            $sales->status = 1;
+            $sales->is_delete = 1;
+            $sales->customer_name = $subbooking->booking->customer->first_name;
+            $sales->sub_account_name = $subbooking->pet->pet_name;
+            $sales->pesan_resepsionis = $request->pesan_resepsionis;
 
-                $subbooking->rawat_inap = 1;
-                $subbooking->booking_date = $request->booking_date;
-                $subbooking->duration = 1;
-                $subbooking->ranap = 1;
-                $subbooking->save();
-
+            $cartBooking = CartBooking::all()->where('sub_booking_id', $subbooking->id);
+            // dd($cartBooking);
+            foreach($cartBooking as $cb){
+                $sales->total_price += $cb->total_price;
+                if($lastSales == null || $lastSales == ''){
+                    $cb->invoice_id = 1;
+                }else{
+                    $cb->invoice_id = $lastSales->id + 1;
+                }
+                $cb->save();
             }
 
-        }
-
-        if($subbooking->rawat_inap == 1 && $request->status == "di rawat inap"){
-            if(count($booking->subbookings) > 1){
-                // $subbooking->status = $request->status;
-                $subbooking->ranap = 2;
-                $subbooking->booking_date = Date::now();
-                $subbooking->save();
-            }else{
-                // $booking->status = $request->status;
-                // $booking->save();
-                
-                // $subbooking->status = $request->status;
-                $subbooking->ranap = 2;
-                $subbooking->booking_date = Date::now();
-                $subbooking->save();
-            }
-        }
-        
-        if($subbooking->status == "Terkonfirmasi" && $request->status == "Dimulai"){
-            
-            if(count($booking->subbookings) > 1){
-                $subbooking->status = "Dimulai";
-                $subbooking->start_booking = Date::now();
-                $subbooking->save();
-            }else{
-                $subbooking->status = "Dimulai";
-                $subbooking->start_booking = Date::now();
-                $subbooking->save();
-                $booking->status = "Dimulai";
-                $booking->save();
-            }
-        }elseif ($subbooking->status == "Dimulai" && $request->status == "Selesai"){
-            // dd("here");
-            if($subbooking->rawat_inap == 1){
-                $subbooking->ranap = 3;
-                $subbooking->save();
-            }
+            $sales->save();
+            Alert::success('Berhasil!', 'Booking Telah Selesai!');
+        }elseif($request->status == 5){
+            $subbooking->status = 5;
+            $subbooking->ranap = 1;
+            $subbooking->duration = 1;
 
             $lastSales = DB::table('sales')->latest('created_at')->first();
-            // $lastPenjualan = Sale::all()->where('booking_id', $booking->id)->first();
-
             // dd($lastSales);
 
-            if($lastSales == null){
-                // dd($request->all());
-                $sales = new Sale();
+            if($lastSales == null || $lastSales == ''){
                 $nextNumber = sprintf("%05d", 1);
-                $sales->no_invoice = "INV-" . $nextNumber;
-                $sales->booking_id = $booking->id;
-                $sales->sub_booking_id = $request->bookingID;
-                $sales->diskon = 0;
-                $sales->deskripsi_tambahan_biaya = '-';
-                $sales->tambahan_biaya = 0;
-                $sales->metode = '-';
-                $sales->status = 1;
-                $sales->is_delete = 1;
-
-                // dd($booking->services[0]);
-
-                // $sales->total_price = $totalPrice + $booking->services[0]->price;
-                $sales->total_price = $subbooking->sub_total_price;
-                // dd($sales->total_price);
-                $sales->save();
-
-                $subbooking->status = "Selesai";
-                $subbooking->end_booking = Date::now();
-                $subbooking->save();
-
-                $booking->status = "Selesai";
-                $booking->save();
             }else{
-                $sales = new Sale();
+                $nextNumber = sprintf("%05d", $lastSales->id + 1);
+            }
+            $sales = new Sale();
+            $sales->no_invoice = "INV-" . $nextNumber;
+            $sales->booking_id = $subbooking->booking->id;
+            $sales->sub_booking_id = $subbooking->id;
+            $sales->diskon = 0;
+            $sales->deskripsi_tambahan_biaya = '-';
+            $sales->tambahan_biaya = 0;
+            $sales->metode = '-';
+            $sales->status = 1;
+            $sales->is_delete = 1;
+            $sales->customer_name = $subbooking->booking->customer->first_name;
+            $sales->sub_account_name = $subbooking->pet->pet_name;
+
+            $cartBooking = CartBooking::all()->where('sub_booking_id', $subbooking->id);
+            foreach($cartBooking as $cb){
+                $sales->total_price += $cb->total_price;
                 if($lastSales == null || $lastSales == ''){
-                    $nextNumber = sprintf("%05d", 1);
-                    $sales->no_invoice = "INV-" . $nextNumber;
+                    $cb->invoice_id = 1;
                 }else{
-                    $nextNumber = sprintf("%05d", $lastSales->id + 1);
-                    $sales->no_invoice = "INV-" . $nextNumber;
+                    $cb->invoice_id = $lastSales->id + 1;
                 }
-
-                $sales->booking_id = $booking->id;
-                $sales->sub_booking_id = $request->bookingID;
-                $sales->diskon = 0;
-                $sales->deskripsi_tambahan_biaya = '-';
-                $sales->tambahan_biaya = 0;
-                $sales->metode = '-';
-                $sales->status = 1;
-                $sales->is_delete = 1;
-
-                // dd($booking->services[0]);
-
-                // $sales->total_price = $totalPrice + $booking->services[0]->price;
-                $sales->total_price = $subbooking->sub_total_price;
-                // dd($sales->total_price);
-                $sales->save();
-
-                $subbooking->status = "Selesai";
-                $subbooking->end_booking = Date::now();
-                $subbooking->save();
-
-                $booking->status = "Selesai";
-                $booking->save();
-
-                // dd($sales->no_invoice);
+                $cb->save();
             }
 
-            // dd($lastSales);
-            // kondisi sales pertama kali
-            // if($lastSales == null){
+            $sales->save();
 
-            //     //sales pertama 1 subbooking
-            //     if(count($booking->subbookings) == 1){
-            //         $sales = new Sale();
-            //         if($lastSales == null || $lastSales == ''){
-            //             $nextNumber = sprintf("%05d", 1);
-            //             $sales->no_invoice = "INV-" . $nextNumber;
-            //         }else{
-            //             $nextNumber = sprintf("%05d", $lastSales->id + 1);
-            //             $sales->no_invoice = "INV-" . $nextNumber;
-            //         }
-            //         $sales->booking_id = $booking->id;
-            //         $sales->diskon = 0;
-            //         $sales->deskripsi_tambahan_biaya = '-';
-            //         $sales->tambahan_biaya = 0;
-            //         $sales->metode = '-';
-            //         $sales->status = 1;
-            //         $sales->is_delete = 1;
-
-            //         $totalPrice = 0;
-
-            //         foreach($subbooking->carts as $cart){
-            //             $totalPrice += $cart->total_price;
-            //         }
-
-            //         // dd($booking->services[0]);
-
-            //         $sales->total_price = $totalPrice + $booking->services[0]->price;
-            //         // dd($sales->total_price);
-            //         $sales->save();
-        
-            //         $subbooking->status = "Selesai";
-            //         $subbooking->end_booking = Date::now();
-            //         $subbooking->save();
-
-            //         $booking->status = "Selesai";
-            //         $booking->save();
-                
-            //     }else{ //sales pertama lebih dari 1 subbooking
-                    
-            //         if($lastPenjualan){
-            //             // dd("a");
-            //         }else{//ini yg save pertama kali
-            //             $sales = new Sale();
-            //             if($lastSales == null || $lastSales == ''){
-            //                 $nextNumber = sprintf("%05d", 1);
-            //                 $sales->no_invoice = "INV-" . $nextNumber;
-            //             }else{
-            //                 $nextNumber = sprintf("%05d", $lastSales->id + 1);
-            //                 $sales->no_invoice = "INV-" . $nextNumber;
-            //             }
-            //             $sales->booking_id = $booking->id;
-            //             $sales->diskon = 0;
-            //             $sales->deskripsi_tambahan_biaya = '-';
-            //             $sales->tambahan_biaya = 0;
-            //             $sales->metode = '-';
-            //             $sales->status = 1;
-            //             $sales->is_delete = 1;
-
-            //             $totalPrice = 0;
-
-            //             foreach($subbooking->carts as $cart){
-            //                 $totalPrice += $cart->total_price;
-            //             }
-
-            //             // dd($totalPrice);
-
-            //             // dd($booking->services[0]);
-
-            //             $sales->total_price = $totalPrice + $booking->services[0]->price;
-            //             // dd($sales->total_price);
-            //             $sales->save();
+            $subbooking->rawat_inap = Date::now();
+        }elseif($request->status == 6){
             
-            //             $subbooking->status = "Selesai";
-            //             $subbooking->end_booking = Date::now();
-            //             $subbooking->save();
-            //         }
-            //     }
-
-                
-            // }else{
-
-            //     // dd("here");
-            //     //untuk subbooking yang lebih dari 1
-            //     if(count($booking->subbookings) > 1){
-            //         // dd($lastPenjualan);
-
-            //         //last penjualan null (yang save pertama kali) => Buat Sales Baru
-            //         if($lastPenjualan == null){
-            //             $sales = new Sale();
-            //             if($lastSales == null || $lastSales == ''){
-            //                 $nextNumber = sprintf("%05d", 1);
-            //                 $sales->no_invoice = "INV-" . $nextNumber;
-            //             }else{
-            //                 $nextNumber = sprintf("%05d", $lastSales->id + 1);
-            //                 $sales->no_invoice = "INV-" . $nextNumber;
-            //             }
-            //             $sales->booking_id = $booking->id;
-            //             $sales->diskon = 0;
-            //             $sales->deskripsi_tambahan_biaya = '-';
-            //             $sales->tambahan_biaya = 0;
-            //             $sales->metode = '-';
-            //             $sales->status = 1;
-            //             $sales->is_delete = 1;
-            //             $totalPrice = 0;
-
-            //             foreach($subbooking->carts as $cart){
-            //                 $totalPrice += $cart->total_price;
-            //             }
-
-            //             $sales->total_price = $totalPrice + $booking->services[0]->price;
-            //             // dd($sales->total_price);
-            //             $sales->save();
-            
-            //             $subbooking->status = "Selesai";
-            //             $subbooking->end_booking = Date::now();
-            //             $subbooking->save();
-            //         }else{
-            //             $penjualanTerakhir = Sale::find($lastPenjualan->latest()->first()->id);
-            //             $totalPrice = 0;
-                        
-            //             foreach($subbooking->carts as $cart){
-            //                 $totalPrice += $cart->total_price;
-            //             }
-                        
-            //             $penjualanTerakhir->total_price = $penjualanTerakhir->total_price + $totalPrice;
-            //             // dd($penjualanTerakhir->total_price);
-            //             $penjualanTerakhir->save();
-                        
-            //             $subbooking->status = "Selesai";
-            //             $subbooking->end_booking = Date::now();
-            //             $subbooking->save();
-
-            //             $checkBooking = $booking->subbookings->where('end_booking', '==', null);
-            //             if(count($checkBooking) == 1){
-            //                 $booking->status = "Selesai";
-            //                 $booking->save();
-            //             }
-            //         }
-
-
-            //     // subbooking yang cuma 1
-            //     }else{
-            //         $sales = new Sale();
-            //         if($lastSales == null || $lastSales == ''){
-            //             $nextNumber = sprintf("%05d", 1);
-            //             $sales->no_invoice = "INV-" . $nextNumber;
-            //         }else{
-            //             $nextNumber = sprintf("%05d", $lastSales->id + 1);
-            //             $sales->no_invoice = "INV-" . $nextNumber;
-            //         }
-            //         $sales->booking_id = $booking->id;
-            //         $sales->diskon = 0;
-            //         $sales->deskripsi_tambahan_biaya = '-';
-            //         $sales->tambahan_biaya = 0;
-            //         $sales->metode = '-';
-            //         $sales->status = 1;
-            //         $sales->is_delete = 1;
-
-            //         $totalPrice = 0;
-
-            //         foreach($subbooking->carts as $cart){
-            //             $totalPrice += $cart->total_price;
-            //         }
-
-            //         // dd($totalPrice);
-
-            //         $sales->total_price = $totalPrice + $booking->services[0]->price;
-            //         // dd($sales->total_price);
-            //         $sales->save();
+            dd('status 6');
+        }
         
-            //         $subbooking->status = "Selesai";
-            //         $subbooking->end_booking = Date::now();
-            //         $subbooking->save();
+        $subbooking->save();
 
-            //         $booking->status = "Selesai";
-            //         $booking->save();
-            //     }
-            // }
+
+        return redirect()->back();
+    }
+
+    public function makeInvoice(Request $request, $id){
+        $subbooking = SubBook::find($id);
+        // dd($subbooking);
+        $lastSales = DB::table('sales')->latest('created_at')->first();
+        // dd($lastSales);
+
+        if($lastSales == null || $lastSales == ''){
+            $nextNumber = sprintf("%05d", 1);
+        }else{
+            $nextNumber = sprintf("%05d", $lastSales->id + 1);
+        }
+        $sales = new Sale();
+        $sales->no_invoice = "INV-" . $nextNumber;
+        $sales->booking_id = $subbooking->booking->id;
+        $sales->sub_booking_id = $subbooking->id;
+        $sales->diskon = 0;
+        $sales->deskripsi_tambahan_biaya = '-';
+        $sales->tambahan_biaya = 0;
+        $sales->metode = '-';
+        $sales->status = 1;
+        $sales->is_delete = 1;
+        $sales->customer_name = $subbooking->booking->customer->first_name;
+        $sales->sub_account_name = $subbooking->pet->pet_name;
+
+        $cartBooking = CartBooking::all()->where('sub_booking_id', $subbooking->id)->where('invoice_id', null);
+        // dd($cartBooking);
+        foreach($cartBooking as $cb){
+            $sales->total_price += $cb->total_price;
+            if($lastSales == null || $lastSales == ''){
+                $cb->invoice_id = 1;
+            }else{
+                $cb->invoice_id = $lastSales->id + 1;
+            }
+            $cb->save();
         }
 
+        $sales->save();
+        Alert::success('Berhasil!', 'Invoice Berhasil Dibuat!');
         return redirect()->back();
     }
 
@@ -978,6 +739,13 @@ class BookingController extends Controller
         return redirect()->back();
     }
 
+    public function deletestatistic($id){
+        $statistic = Statistic::find($id);
+        DB::table('statistics')->where('id', $statistic->id)->delete();
+        Alert::success('Berhasil!', 'Hapus Data Berhasil Dilakukan');
+        return redirect()->back();
+    }
+
     public function addBookingDiagnosis(Request $request){
         // dd($request->all());
         $diagnosis = Diagnosis::where('diagnosis_name', $request->diagnosis_name)->first();
@@ -1027,14 +795,42 @@ class BookingController extends Controller
 
     public function makePayment(Request $request){
         // dd($request->all());
+        // $total = $request->price1 + $request->price2;
+        // dd($total);
+        // if($total != $request->hargasli){
+        //     Alert::warning('Gagal!', 'Jumlah pembayaran tidak sesuai dengan total harga!');
+        //     return redirect()->back();
+        // }
         $sale = Sale::find($request->sale_id);
 
         //kasus tidak ada biaya apa apa lagi
-        $sale->metode = $request->payment_method;
-        $sale->note = $request->payment_note;
+        // $sale->metode = $request->payment_method;
+        // $sale->note = $request->payment_note;
+        $sale->resepsionis_id = $request->resepsionis_id;
         $sale->status = 0;
         $sale->save();
 
+        if($request->payment_method2 == null || $request->payment_method2 == '' || $request->price2 == null || $request->price2 == ''){
+            $invoice = new InvoicePayment();
+            $invoice->invoice_id = $request->sale_id;
+            $invoice->method = $request->payment_method1;
+            $invoice->price = $request->price1;
+            $invoice->save();
+        }else{
+            $invoice = new InvoicePayment();
+            $invoice->invoice_id = $request->sale_id;
+            $invoice->method = $request->payment_method1;
+            $invoice->price = $request->price1;
+            $invoice->save();
+
+            $invoice2 = new InvoicePayment();
+            $invoice2->invoice_id = $request->sale_id;
+            $invoice2->method = $request->payment_method2;
+            $invoice2->price = $request->price2;
+            $invoice2->save();
+        }
+
+        Alert::success('Berhasil!', 'Pembayaran Berhasil Dilakukan');
         return redirect('/finance');
     }
 
@@ -1055,17 +851,23 @@ class BookingController extends Controller
     public function updateAddCost(Request $request, $id){
         // dd($request->all());
         $sale = Sale::find($id);
-        $priceNow = $sale->total_price - $sale->tambahan_biaya;
-        // dd($priceNow);
-            // dd($sale);
-            //kasus tidak ada biaya apa apa lagi
-            // $sale->metode = $request->payment_method;
-            // $sale->deposit = $request->deposit;
-            // $sale->note = $request->payment_note
-        $sale->tambahan_biaya = $request->tambahan_biaya;
-        $sale->deskripsi_tambahan_biaya = $request->deskripsi_tambahan_biaya;
-        $sale->total_price = $priceNow + $request->tambahan_biaya;
+        $subbooking = SubBook::find($sale->sub_booking->id);
+        
+        $amountdiscount = ($request->discount/100) * $sale->total_price;
+        // $newPrice = $sale->total_price - $amountdiscount;
+        // dd($amountdiscount);
+
+        $sale->diskon = $request->discount;
+        $sale->amount_discount = $amountdiscount;
         $sale->save();
+
+        // $sale->total_price = $newPrice;
+        // $subbooking->sub_total_price
+        // dd($sale->sub_booking);
+        // $priceDiskon = (diskon.value/100) * before_total_price.value;
+        // $finalPrice = before_total_price.value - priceDiskon;
+
+        
 
         return redirect()->back();
     }
@@ -1078,10 +880,14 @@ class BookingController extends Controller
             'booking_id' => 'required',
             'sub_booking_id' => 'required',
         ]);
+
+        $files = AttachNote::all()->where('sub_booking_id', $request->sub_booking_id);
         
         if($request->file('image')){
+            $validatedData['file_name'] = 'SUBBOOK' . $request->sub_booking_id . '-' . 'PIC-' . count($files)+1 . '.' . $request->image->getClientOriginalExtension();
+
+            // $validatedData['image'] = $request->file('image')->move('public', $validatedData['file_name']);
             $validatedData['image'] = $request->file('image')->store('public');
-            $validatedData['file_name'] = $request->image->getClientOriginalName();
         }
 
         AttachNote::create($validatedData);
@@ -1150,6 +956,21 @@ class BookingController extends Controller
             $sales->save();
         }
 
+        return redirect()->back();
+    }
+    
+    public function batalkanbooking($id){
+        $booking = SubBook::find($id);
+        DB::table('sub_books')->where('id', $booking->id)->delete();
+        DB::table('cart_bookings')->where('sub_booking_id', $booking->id)->delete();
+        Alert::success('Success', 'Booking Berhasil Dibatalkan!');
+        return redirect('/booking/kedatangan');
+    }
+
+    public function pesanresepsionis(Request $request, $id){
+        $booking = SubBook::find($id);
+        $booking->pesanresepsionis = $request->pesanresepsionis;
+        $booking->save();
         return redirect()->back();
     }
 }

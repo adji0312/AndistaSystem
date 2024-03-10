@@ -31,6 +31,26 @@ class Product extends Model
         return $this->hasMany(CartBooking::class);
     }
 
+    public function histories(){
+        return $this->hasMany(History::class, 'product_id', 'id');
+    }
+
+    public function category(){
+        return $this->belongsTo(CategoryProduct::class);
+    }
+
+    public function location(){
+        return $this->belongsTo(Location::class);
+    }
+
+    public function brand(){
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function supplier(){
+        return $this->belongsTo(Suppliers::class);
+    }
+
     public function scopeFilter($query, array $filters){
         $query->when($filters['search'] ?? false, function($query, $search){
             return $query->where('product_name', 'like', '%' . $search . '%');

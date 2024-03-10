@@ -14,14 +14,21 @@ use App\Models\Service;
 use App\Models\ServicePrice;
 use App\Models\SubBook;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Cast\Bool_;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CartBookingController extends Controller
 {
     public function addCartProduct(Request $request){
         // dd($request->all());
         $product = Product::where('product_name', $request->product_id)->first();
+        // dd($product);
+        if($product == null || $product == ''){
+            Alert::warning('Gagal', "Produk tidak tersedia!");
+            return redirect()->back();
+        }
         // dd($product);
         $validatedData = $request->validate([
             'booking_id' => 'required',
@@ -32,6 +39,7 @@ class CartBookingController extends Controller
         $validatedData['product_id'] = $product->id;
         $validatedData['quantity'] = 1;
         $validatedData['flag'] = 1;
+        $validatedData['name'] = $product->product_name;
         $validatedData['total_price'] = $product->price;
 
         // DB::table('products')
@@ -109,18 +117,27 @@ class CartBookingController extends Controller
     }
 
     public function addCartService(Request $request){
+        // dd($request->all());
         $service = Service::where('service_name', $request->service_name)->first();
-        // dd($service);
+        // dd($service->service_name);
+        if($service == null || $service == ''){
+            Alert::warning('Gagal', "Servis tidak tersedia!");
+            return redirect()->back();
+        }
+        // dd($request->all());
 
-        $validatedData = $request->validate([
-            'booking_id' => 'required',
-            'sub_booking_id' => 'required',
-            'staff_id' => 'required'
-        ]);
+        // $validatedData = $request->validate([
+        //     'booking_id' => 'required',
+        //     'staff_id' => 'required'
+        // ]);
 
+        $validatedData['booking_id'] = $request->booking_id;
+        $validatedData['staff_id'] = Auth::user()->id;
+        $validatedData['sub_booking_id'] = $request->sub_booking_id;
         $validatedData['service_id'] = $service->id;
         $validatedData['quantity'] = 1;
         $validatedData['flag'] = 1;
+        $validatedData['name'] = $service->service_name;
         // $validatedData['total_price'] = $product->price;
 
         // DB::table('products')
@@ -361,7 +378,7 @@ class CartBookingController extends Controller
     public function saveCartBooking(Request $request, $id){
         // dd($request->all());
         $cart = CartBooking::find($id);
-        $booking = Booking::find($request->booking_id);
+        // $booking = Booking::find($request->booking_id);
         $subBook = SubBook::find($request->sub_booking_id);
         // dd($subBook);
         // dd($cart->quantity);
@@ -374,8 +391,8 @@ class CartBookingController extends Controller
             $product->save();
         }
 
-        $booking->total_price = $booking->total_price + $cart->total_price;
-        $booking->save();
+        // $booking->total_price = $booking->total_price + $cart->total_price;
+        // $booking->save();
         $subBook->sub_total_price = $subBook->sub_total_price + $cart->total_price;
         $subBook->save();
 
@@ -383,7 +400,7 @@ class CartBookingController extends Controller
     }
 
     public function saveCartBooking2(Request $request, $id){
-        // dd($request->all());
+        dd($request->all());
         $cart = CartBooking::find($id);
         // dd($cart->quantity);
         // dd($cart->quantity);
@@ -431,8 +448,18 @@ class CartBookingController extends Controller
         // dd($request->all());
 
         $note = BookingNote::find($id);
+        // dd($note);
         $note->text = $request->text;
         $note->save();
+
+        Alert::success('Berhasil!', 'Perbarui Note Berhasil!');
+        return redirect()->back();
+    }
+
+    public function deleteTextBooking($id){
+        $catatan = BookingNote::find($id);
+        DB::table('booking_notes')->where('id', $catatan->id)->delete();
+        Alert::success('Berhasil!', 'Hapus Catatan Berhasil Dilakukan');
         return redirect()->back();
     }
 
@@ -453,5 +480,27 @@ class CartBookingController extends Controller
 
 
         return redirect()->back();
+    }
+
+    public function editCartPrice(Request $request, $id){
+        $cart = CartBooking::find($id);
+        $cart->total_price = $request->total_price;
+        $cart->save();
+        $subBooking = SubBook::find($cart->sub_booking_id);
+        $subBooking->sub_total_price = 0;
+        $subBooking->save();
+        foreach($subBooking->carts as $sc){
+            $subBooking->sub_total_price += $sc->total_price;
+        }
+        $subBooking->save();
+
+        $sale = Sale::find($request->sale_id);
+        $sale->total_price = $subBooking->sub_total_price;
+        $sale->save();
+        // dd($subBooking->sub_total_price);
+
+        // dd($cart);
+        return redirect()->back();
+        // dd($request->all());
     }
 }

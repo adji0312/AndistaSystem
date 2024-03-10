@@ -33,49 +33,58 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" style="color: #7C7C7C">Time</th>
-                        <th scope="col" style="color: #7C7C7C; width: 20%">Client</th>
+                        <th scope="col" style="color: #7C7C7C">Tanggal</th>
+                        <th scope="col" style="color: #7C7C7C; width: 25%">Pelanggan</th>
                         <th scope="col" style="color: #7C7C7C; width: 20%">Servis</th>
                         <th scope="col" style="color: #7C7C7C">Staff</th>
-                        <th scope="col" style="color: #7C7C7C">Location</th>
+                        <th scope="col" style="color: #7C7C7C">Lokasi</th>
                         <th scope="col" style="color: #7C7C7C">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($bookings->where('status', '!=', "Selesai")->where('status', '!=', "Dimulai") as $booking)
-                        @if ($booking->booking->temp == 1)
-                            @continue
-                        @endif
-                        @if ($booking->booking->langsung_datang == 1 && $booking->booking->darurat == 0 && $booking->rawat_inap == 1)
-                            <tr>
-                                <td class="align-middle">
-                                    <a href="/booking/detail/{{ $booking->id }}" class="d-flex flex-column text-primary">
-                                        <?php $date = date_create($booking->booking->booking_date); ?>
-                                        {{ date_format($date, 'd M Y') }} <br>
-                                        {{ $booking->booking->services[0]->time }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-column align-middle">
-                                        {{ $booking->booking->customer->first_name }} <br>
-                                        <div>
-                                            <img src="/img/icon/paws.png" alt="" style="width: 18px"> {{ $booking->pet->pet_name }} ({{ $booking->pet->pet_type }}) <br>
-                                        </div>
-                                        <div>
-                                            <img src="/img/icon/information.png" alt="" style="width: 17px"> {{ $booking->booking->alasan_kunjungan }}
-                                        </div>
+                    @foreach ($bookings->where('category', 3) as $booking)
+                        <tr>
+                            <td class="align-middle">
+                                <a href="/booking/detail/{{ $booking->id }}" class="d-flex flex-column text-primary">
+                                    <?php 
+                                        $convertDate = date_create($booking->booking->booking_date);
+                                        $date = \Carbon\Carbon::parse($convertDate);
+                                    ?>
+                                    {{ $date->isoFormat('D MMMM Y') }} <br>
+                                    {{ $booking->booking->services[0]->time }}
+                                </a>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column align-middle">
+                                    {{ $booking->booking->customer->first_name }} <br>
+                                    <div>
+                                        <img src="/img/icon/paws.png" alt="" style="width: 18px"> {{ $booking->pet->pet_name }} ({{ $booking->pet->pet_type }}) <br>
                                     </div>
-                                </td>
-                                <td class="align-middle">
-                                    {{ $booking->booking->services[0]->service->service_name }}
-                                </td>
-                                <td class="align-middle">{{ $booking->booking->staff->first_name }}</td>
-                                <td class="align-middle">{{ $booking->booking->location->location_name }}</td>
-                                <td class="align-middle">
-                                    <button type="button" class="btn btn-sm" style="background-color: #97cbfe;">{{ $booking->status }}</button>
-                                </td>
-                            </tr>
-                        @endif
+                                    <div>
+                                        <img src="/img/icon/information.png" alt="" style="width: 17px"> {{ $booking->booking->alasan_kunjungan }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle">
+                                @foreach ($booking->carts as $sc)
+                                    {{ $sc->service->service_name }}
+                                    @break;
+                                @endforeach
+                            </td>
+                            @if ($booking->staff_id == null || $booking->staff_id == 0 || $booking->staff_id == '')
+                                <td class="align-middle">-</td>
+                            @else
+                                @if ($booking->staff)
+                                    <td class="align-middle">{{ $booking->staff->first_name }}</td>
+                                @else
+                                    <td class="align-middle">-</td>
+                                @endif
+                            @endif
+                            <td class="align-middle">{{ $booking->booking->location->location_name }}</td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-sm" style="background-color: #97cbfe;">Terkonfirmasi</button>
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

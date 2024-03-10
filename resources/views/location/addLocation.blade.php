@@ -59,10 +59,9 @@
             </div>
 
             {{-- OPERATING HOURS --}}
-            <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+            {{-- <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
               <h5 class="m-3">Operating Hours</h5>
 
-              {{-- MONDAY --}}
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="Monday" id="monday" name="day[]">
@@ -91,7 +90,6 @@
                 </div>
               </div>
 
-              {{-- SUNDAY --}}
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="Tuesday" id="tuesday" name="day[]">
@@ -120,7 +118,6 @@
                 </div>
               </div>
 
-              {{-- WEDNESDAY --}}
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="Wednesday" id="wednesday" name="day[]">
@@ -149,7 +146,6 @@
                 </div>
               </div>
 
-              {{-- THRUSDAY --}}
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="Thursday" id="thursday" name="day[]">
@@ -178,7 +174,6 @@
                 </div>
               </div>
 
-              {{-- FRIDAY --}}
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="Friday" id="friday" name="day[]">
@@ -207,7 +202,6 @@
                 </div>
               </div>
 
-              {{-- SATURDAY --}}
               <div class="m-3 mt-0 mb-0 mx-5 d-flex gap-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="Saturday" id="saturday" name="day[]">
@@ -236,7 +230,6 @@
                 </div>
               </div>
         
-              {{-- SUNDAY --}}
               <div class="m-3 mt-0 mx-5 d-flex gap-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="Sunday" id="sunday" name="day[]">
@@ -264,7 +257,7 @@
                   </label>
                 </div>
               </div>
-            </div>
+            </div> --}}
 
             {{-- ADDRESS --}}
             <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">

@@ -16,12 +16,5 @@
         @else
 
         @endif
-        @if(Auth::user()->role->customer_list != 4)
-        <li style="cursor: pointer" class="{{ ($title === "Customer Booking History") ? 'active' : '' }}">
-            <a id="locationslist" href="/customer/bookinghistory" class="px-4"><img src="/img/icon/history.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Customer Booking History</a>
-        </li>
-        @else
-
-        @endif
     </ul>
 </nav>

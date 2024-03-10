@@ -51,15 +51,15 @@
                                     <th scope="row">{{ $index }}</th>
                                     <td>{{ $staff->first_name }}</td>
 
-                                    @if (request('datefrom') && request('dateto'))
-                                        <?php $jumlahBooking = 0; ?>
-                                        @foreach ($subbooks->where('staff_id', $staff->id) as $sub)
-                                            <?php $jumlahBooking += 1; ?>
-                                        @endforeach
-                                        <td>{{ $jumlahBooking }}</td>
-                                    @else
+                                    {{-- @if (request('datefrom') && request('dateto')) --}}
+                                    <?php $jumlahBooking = 0; ?>
+                                    @foreach ($subbooks->where('admin_id', $staff->id) as $sub)
+                                        <?php $jumlahBooking += 1; ?>
+                                    @endforeach
+                                    <td>{{ $jumlahBooking }}</td>
+                                    {{-- @else
                                         <td>{{ count($staff->subbooks) }}</td>
-                                    @endif
+                                    @endif --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -90,8 +90,10 @@
                                     <tr>
                                         <th scope="row">{{ $indexProduktivitas }}</th>
                                         <td>{{ $produktivitas->created_at->isoFormat('D MMMM Y') }}</td>
-                                        @if ($produktivitas->staff)
-                                            <td>{{ $produktivitas->staff->first_name }}</td>
+                                        @if ($produktivitas->admin_id != '')
+                                            @foreach ($staffs->where('id', $produktivitas->admin_id) as $stf)
+                                                <td>{{ $stf->first_name }}</td>
+                                            @endforeach
                                         @else
                                             <td>-</td>
                                         @endif

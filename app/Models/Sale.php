@@ -18,4 +18,15 @@ class Sale extends Model
     public function sub_booking(){
         return $this->belongsTo(SubBook::class, 'sub_booking_id');
     }
+
+    public function invoicepayment(){
+        return $this->hasMany(InvoicePayment::class, 'invoice_id');
+    }
+
+    public function scopeFilter($query, array $filters){
+        $query->when($filters['search'] ?? false, function($query, $search){
+            return $query->where('customer_name', 'like', '%' . $search . '%')
+                         ->orWhere('sub_account_name', 'like', '%' . $search . '%');
+        });
+    }
 }

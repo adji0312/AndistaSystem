@@ -282,7 +282,7 @@
                 </div>
 
                 {{-- STAFF --}}
-                <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+                {{-- <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                     <div class="d-flex m-2">
                         <h5 class="m-3">Staff</h5>
                         <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#staffservice"><i class="fas fa-plus"></i> Add</button>
@@ -300,7 +300,6 @@
                             </thead>
                             <tbody>
                                 <?php $index2 = 0 ?>
-                                {{-- Looping Staff Table --}}
                                 @foreach ($servicestaff as $s)
                                     <?php $index2 += 1; ?>
                                     <tr>
@@ -343,10 +342,10 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- FACILITY --}}
-                <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+                {{-- <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                     <div class="d-flex m-2">
                         <h5 class="m-3">Facility</h5>
                         <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#facilityModal"><i class="fas fa-plus"></i> Add</button>
@@ -414,7 +413,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div> --}}
 
             </div>
         </div>

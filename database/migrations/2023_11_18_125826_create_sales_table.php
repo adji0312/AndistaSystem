@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('no_invoice')->unique(); //INV-unique (random id unique)
             $table->foreignId('booking_id'); //nanti ambil list cart_id, trus service_id
             $table->foreignId('sub_booking_id'); //nanti ambil list cart_id, trus service_id
+            $table->foreignId('resepsionis_id')->nullable();
             $table->integer('diskon')->nullable();
             $table->string('deskripsi_tambahan_biaya')->nullable();
             $table->integer('tambahan_biaya')->nullable();
@@ -24,9 +25,13 @@ return new class extends Migration
             $table->integer('status')->nullable(); //unpaid: 1, paid: 0
             $table->integer('is_delete')->nullable(); //delete: 0, undeleted: 1
             $table->integer('total_price')->nullable();
-            $table->integer('deposit')->nullable();
-            $table->integer('flagDeposit')->nullable();
-            $table->integer('recharge')->nullable();
+            $table->string('customer_name')->nullable();
+            $table->string('sub_account_name')->nullable();
+            $table->integer('amount_discount')->nullable();
+            $table->string('pesan_resepsionis')->nullable();
+            // $table->integer('deposit')->nullable();
+            // $table->integer('flagDeposit')->nullable();
+            // $table->integer('recharge')->nullable();
             $table->timestamps();
         });
     }

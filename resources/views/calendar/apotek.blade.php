@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($bookings as $subbook)
+                    @foreach ($bookings->where('category', 1) as $subbook)
                         <tr>
                             <td class="align-middle">
                                 <a href="/booking/detail/{{ $subbook->id }}" class="d-flex flex-column text-primary">
@@ -75,21 +75,12 @@
                                     <button type="button" class="btn btn-sm" style="background-color: #97cbfe;">Terkonfirmasi</button>
                                 </td>
                             @elseif ($subbook->status == 2)
-                                @if ($subbook->category == 2)
-                                    <td class="align-middle">
-                                        <div class="d-flex">
-                                            <button type="button" class="btn btn-sm" style="background-color: #fee497;">Dimulai </button>
-                                            <button type="button" class="btn btn-sm btn-danger"><i class="fas fa-exclamation-triangle"></i></button>
-                                        </div>
-                                    </td>
-                                @else
-                                    <td class="align-middle">
-                                        <button type="button" class="btn btn-sm" style="background-color: #fee497;">Dimulai </button>
-                                    </td>
-                                @endif
+                                <td class="align-middle">
+                                    <button type="button" class="btn btn-sm" style="background-color: #fee497;">Dimulai</button>
+                                </td>
                             @elseif ($subbook->status == 3)
                                 <td class="align-middle">
-                                    <button type="button" class="btn btn-sm" style="background-color: #ec825c;">Apotek</button>
+                                    <button type="button" class="btn btn-sm text-white" style="background-color: #7e57c1;">Apotek</button>
                                 </td>
                             @elseif ($subbook->status == 4)
                                 <td class="align-middle">

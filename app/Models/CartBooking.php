@@ -35,5 +35,9 @@ class CartBooking extends Model
         return $this->belongsTo(Staff::class, 'staff_id');
     }
 
+    public function invoice(){
+        return $this->belongsTo(Sale::class, 'invoice_id');
+    }
+
 
 }

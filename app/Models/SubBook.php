@@ -30,4 +30,8 @@ class SubBook extends Model
     public function staff(){
         return $this->belongsTo(Staff::class, 'staff_id');
     }
+
+    public function files(){
+        return $this->belongsTo(AttachNote::class, 'sub_booking_id');
+    }
 }

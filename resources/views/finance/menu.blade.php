@@ -20,14 +20,13 @@
             <ul class="dropdown-menu mx-3">
                 <li><a class="dropdown-item {{ ($title === "Sale List Paid") ? 'active' : '' }}" href="/sale/list/paid">Sale Paid</a></li>
                 <li><a class="dropdown-item {{ ($title === "Sale List Unpaid") ? 'active' : '' }}" href="/sale/list/unpaid">Sale Unpaid</a></li>
-                <li><a class="dropdown-item {{ ($title === "Sale List Deposit") ? 'active' : '' }}" href="/sale/list/deposit">Sale Deposit</a></li>
             </ul>
         </li>
         @else
 
         @endif
 
-        @if(Auth::user()->role->quotation_list != 4)
+        {{-- @if(Auth::user()->role->quotation_list != 4)
         <li style="cursor: pointer" class="{{ ($title === "Quotation List") ? 'active' : '' }}">
             <a id="locationslist" href="/quotation/list" class="px-4"><img src="/img/icon/list.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Quotation List</a>
         </li>
@@ -41,6 +40,6 @@
         </li>
         @else
 
-        @endif
+        @endif --}}
     </ul>
 </nav>

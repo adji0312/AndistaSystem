@@ -19,9 +19,11 @@ return new class extends Migration
             $table->foreignId('product_id')->nullable();
             $table->foreignId('service_id')->nullable();
             $table->foreignId('service_price_id')->nullable();
+            $table->foreignId('invoice_id')->nullable();
             $table->integer('quantity')->nullable();
             $table->integer('total_price')->nullable();
             $table->integer('flag')->nullable();
+            $table->string('name')->nullable();
             $table->timestamps();
         });
     }

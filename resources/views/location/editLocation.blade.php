@@ -83,7 +83,7 @@
           </form>   --}}
 
             {{-- OPERATING HOURS --}}
-            <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
+            {{-- <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
               <h5 class="m-3">Operating Hours</h5>
 
                 <?php
@@ -657,7 +657,7 @@
                   </div>
                 @endif
         
-            </div>
+            </div> --}}
 
             {{-- ADDRESS --}}
             <div class="mt-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">

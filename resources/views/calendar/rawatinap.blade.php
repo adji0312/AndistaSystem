@@ -1,4 +1,5 @@
 @extends('main')
+<meta http-equiv="refresh" content="10">
 @section('container')
 
   <div class="wrapper">
@@ -10,37 +11,7 @@
             <div class="d-flex">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/booking/darurat">Booking {{ $title }}</a>
-                </div>
-                <form action="" class="d-flex gap-3">
-                    <select class="form-select form-select" aria-label="Small select example" style="background-color: transparent; border-bottom: none; width: 200px" id="filterstatus" name="filterstatus">
-                        @if (request('filterstatus'))
-                            @if (request('filterstatus') == "Terkonfirmasi")
-                                <option value="Terkonfirmasi" selected>Terkonfirmasi</option>
-                                <option value="Di Rawat Inap">Dirawat Inap</option>
-                                <option value="Selesai">Selesai</option>
-                            @elseif (request('filterstatus') == "Di Rawat Inap")
-                                <option value="Terkonfirmasi">Terkonfirmasi</option>
-                                <option value="Di Rawat Inap" selected>Dirawat Inap</option>
-                                <option value="Selesai">Selesai</option>
-                            @elseif (request('filterstatus') == "Selesai")
-                                <option value="Terkonfirmasi">Terkonfirmasi</option>
-                                <option value="Di Rawat Inap">Dirawat Inap</option>
-                                <option value="Selesai" selected>Selesai</option>
-                            @endif
-                        @else
-                            <option selected>Filter Status</option>
-                            <option value="Terkonfirmasi">Terkonfirmasi</option>
-                            <option value="Di Rawat Inap">Dirawat Inap</option>
-                            <option value="Selesai">Selesai</option>
-                        @endif
-                    </select>
-                    <button type="submit" class="btn btn-outline-primary btn-sm" style="width: 100%"><i class="fas fa-filter"></i> Filter</button>
-                </form>
-                @if (request('filterstatus'))
-                    <form action="/booking/rawatinap">
-                        <button type="submit" class="btn btn-outline-secondary btn-sm mx-2" style="width: 100%; height: 100%">Reset</button>
-                    </form>
-                @endif    
+                </div>   
             </div>
         </nav>
 
@@ -48,35 +19,27 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" style="color: #7C7C7C">Time</th>
-                        <th scope="col" style="color: #7C7C7C">Day</th>
-                        <th scope="col" style="color: #7C7C7C; width: 20%">Client</th>
-                        <th scope="col" style="color: #7C7C7C; width: 15%">Servis</th>
-                        <th scope="col" style="color: #7C7C7C; width: 15%">Staff</th>
-                        <th scope="col" style="color: #7C7C7C; width: 10%">Location</th>
+                        <th scope="col" style="color: #7C7C7C">Waktu Mulai</th>
+                        <th scope="col" style="color: #7C7C7C">Durasi</th>
+                        <th scope="col" style="color: #7C7C7C; width: 25%">Pelanggan</th>
+                        <th scope="col" style="color: #7C7C7C; width: 20%">Servis</th>
+                        <th scope="col" style="color: #7C7C7C;">Staff</th>
+                        <th scope="col" style="color: #7C7C7C;">Lokasi</th>
                         <th scope="col" style="color: #7C7C7C">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($bookings as $booking)
-                        @if ($booking->booking->temp == 1)
-                            @continue
-                        @endif
                         <tr>
                             <td class="align-middle">
                                 <a href="/booking/detail/{{ $booking->id }}" class="d-flex flex-column text-primary">
-                                    <?php $date = date_create($booking->start_booking); ?>
-                                    {{ date_format($date, 'd M Y') }} <br>
+                                    <?php $date = date_create($booking->rawat_inap); ?>
+                                    {{ \Carbon\Carbon::parse($date)->isoFormat('D MMMM YYYY') }} <br>
                                     {{ date_format($date, 'H:i') }}
                                 </a>
                             </td>
                             <td class="align-middle">
-                                @if ($booking->ranap == 1)
-                                    -    
-                                @else
-                                    <?php $days = $now->diffInDays($booking->start_booking) + 1; ?>
-                                    {{ $days }}
-                                @endif
+                                {{ Date::now()->diffInDays($booking->rawat_inap) + 1 }} hari
                             </td>
                             <td>
                                 <div class="d-flex flex-column align-middle">
@@ -90,21 +53,30 @@
                                 </div>
                             </td>
                             <td class="align-middle">
-                                {{ $booking->booking->services[0]->service->service_name }}
+                                @foreach ($booking->carts as $sc)
+                                    {{ $sc->service->service_name }}
+                                    @break;
+                                @endforeach
                             </td>
-                            <td class="align-middle">{{ $booking->booking->staff->first_name }}</td>
-                            <td class="align-middle">{{ $booking->booking->location->location_name }}</td>
-                            <td class="align-middle">
-                                @if ($booking->status == "Dimulai")
-                                    @if ($booking->ranap == 1)
-                                        <button type="button" class="btn btn-sm" style="background-color: #97cbfe;">Terkonfirmasi</button>
-                                    @elseif ($booking->ranap == 2)
-                                        <button type="button" class="btn btn-sm" style="background-color: #fee497;">Di Rawat Inap</button>
-                                    @endif
-                                @elseif ($booking->status == "Selesai" && $booking->ranap == 3)
-                                    <button type="button" class="btn btn-sm" style="background-color: #cef9bf;">Selesai</button>
+                            @if ($booking->staff_id == null || $booking->staff_id == 0 || $booking->staff_id == '')
+                                <td class="align-middle">-</td>
+                            @else
+                                @if ($booking->staff)
+                                    <td class="align-middle">{{ $booking->staff->first_name }}</td>
+                                @else
+                                    <td class="align-middle">-</td>
                                 @endif
-                            </td>
+                            @endif
+                            <td class="align-middle">{{ $booking->booking->location->location_name }}</td>
+                            @if ($booking->ranap == 1)
+                                <td class="align-middle">
+                                    <button type="button" class="btn btn-sm" style="background-color: #fee497;">Di Rawat Inap</button>
+                                </td>
+                            @elseif ($booking->ranap == 2)
+                                <td class="align-middle">
+                                    <button type="button" class="btn btn-sm" style="background-color: #cef9bf;">Selesai</button>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>

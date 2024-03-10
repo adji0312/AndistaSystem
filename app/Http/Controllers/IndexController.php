@@ -13,6 +13,8 @@ use App\Models\Customer;
 use App\Models\Diagnosis;
 use App\Models\Facility;
 use App\Models\Frequency;
+use App\Models\History;
+use App\Models\InvoicePayment;
 use App\Models\ListPlan;
 use App\Models\Location;
 use App\Models\LocationContactEmail;
@@ -270,9 +272,16 @@ class IndexController extends Controller
     }
 
     public function financeDashboard(){
+
+        $allSales = Sale::all()->where('status', 0)->where('is_delete', 1);
+        $total_pendapatan = 0;
+        foreach($allSales as $as){
+            $total_pendapatan += ($as->total_price - $as->amount_discount);
+        }
+
         return view('finance.dashboard', [
             "title" => "Finance Dashboard",
-            "totalSales" => Sale::all()->where('status', 0)->where('is_delete', 1)->sum('total_price'),
+            "totalSales" => $total_pendapatan,
             "totalQuotation" => Quotation::all()->where('is_delete', 1)->sum('total_price'),
             "taxrate" => TaxRate::all()
         ]);
@@ -292,7 +301,7 @@ class IndexController extends Controller
 
         return view('finance.salelistunpaid', [
             "title" => "Sale List Unpaid",
-            "sales" => $sales
+            "sales" => Sale::latest()->where('status', 1)->filter(request(['search']))->get()
         ]);
     }
 
@@ -307,7 +316,7 @@ class IndexController extends Controller
     }
 
     public function detailinvoice($name){
-
+        // dd($name);
         $sale = Sale::all()->where('no_invoice', $name)->first();
         $subbook = SubBook::find($sale->sub_booking_id);
         // dd($subbook);
@@ -319,6 +328,8 @@ class IndexController extends Controller
         $staff = Staff::all()->where('status', 'Active');
         // dd($staff);
         $subAccount = Pet::all()->where('customer_id', $sale->booking->customer->id);
+
+        $invoice_method = InvoicePayment::all()->where('invoice_id', $sale->id);
         return view('finance.detailsalelistunpaid', [
             "title" => "Sale List Unpaid",
             "sale" => $sale,
@@ -327,8 +338,9 @@ class IndexController extends Controller
             "staffs" => $staff,
             "subAccount" => $subAccount,
             "servicePrice" => ServicePrice::all(),
-            "carts" => CartBooking::all()->where('sub_booking_id', $sale->sub_booking_id),
-            "subbook" => $subbook
+            "carts" => CartBooking::all()->where('sub_booking_id', $sale->sub_booking_id)->where('invoice_id', $sale->id),
+            "subbook" => $subbook,
+            "invoice_method" => $invoice_method
         ]);
     }
 
@@ -470,15 +482,19 @@ class IndexController extends Controller
 
         foreach ($subbook as $b) {
             $date = date_format($b->created_at, 'H:i');
+            // dd($b->booking_date);
+            $formatDate = date_create($b->booking_date);
             $events[] = [
                 'subbook_id' => $b->id,
                 // 'title' => $b->booking->,
-                'title' => str(date('H:i',strtotime($b->created_at)))." ".$b->booking->customer->first_name." - ".$b->booking->customer->pets[0]->pet_name??'',
-                'start' => str($b->booking_date),
-                'start_time' => $b->start_booking,
+                'title' => str(date_format($formatDate, "H:i") . ' ' . $b->booking->customer->first_name." - ".$b->booking->customer->pets[0]->pet_name??''),
+                'start' => str(date_format($formatDate, 'Y-m-d')),
+                'start_time' => date_format($formatDate, "H:i"),
                 'end_booking' => $b->end_booking
                 
             ];
+
+            // dd($events);
         }
 
         return response()->json($events);
@@ -842,6 +858,14 @@ class IndexController extends Controller
     public function productDashboard(){
         return view('product.dashboard',[
             "title" => "Product Dashboard"
+        ]);
+    }
+
+    // historyactivity
+    public function historyactivity(){
+        return view('historyactivity', [
+            "title" => "Histori Aktivitas",
+            "histories" => History::latest()->paginate(100)
         ]);
     }
     

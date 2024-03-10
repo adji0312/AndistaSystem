@@ -17,8 +17,8 @@
                                 <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#deleteSaleUnpaid" onclick="clickDeleteButton()" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/trash.png" alt="" style="width: 22px"> Delete</a>
                             </li>
                         </ul>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <form class="d-flex" role="search" action="/sale/list/unpaid">
+                            <input class="form-control me-2" type="search" name="search" placeholder="Search" value="{{ request('search') }}">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </div>
@@ -30,9 +30,9 @@
                     <thead>
                       <tr>
                         <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
-                        <th scope="col" style="color: #7C7C7C">Name</th>
-                        <th scope="col" style="color: #7C7C7C">Location</th>
-                        <th scope="col" style="color: #7C7C7C">Date</th>
+                        <th scope="col" style="color: #7C7C7C">Invoice No</th>
+                        <th scope="col" style="color: #7C7C7C">Lokasi</th>
+                        <th scope="col" style="color: #7C7C7C">Tanggal</th>
                         <th scope="col" style="color: #7C7C7C">Customer</th>
                         <th scope="col" style="color: #7C7C7C">Sub Customer</th>
                         <th scope="col" style="color: #7C7C7C">Total</th>
@@ -41,20 +41,36 @@
                     <tbody>
                         @foreach ($sales as $sale)
                             <tr>
-                                <th>
+                                <th class="align-middle">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="checkBox[{{ $sale->id }}]" name="checkBox"  value="{{ $sale->id }}">
                                     </div>
                                 </th>
-                                <td class="text-primary" style="cursor: pointer">
+                                <td class="text-primary align-middle" style="cursor: pointer">
                                     <a href="/sale/list/detail/{{ $sale->no_invoice }}">{{ $sale->no_invoice }}</a>
                                 </td>
-                                <td>{{ $sale->booking->location->location_name }}</td>
+                                @if ($sale->booking || $sale->booking->location)
+                                    <td class="align-middle">
+                                        {{ $sale->booking->location->location_name }}
+                                    </td>
+                                @else
+                                    <td class="align-middle">-</td>
+                                @endif
                                 <?php $date = date_create($sale->booking->booking_date) ?>
-                                <td>{{ date_format($date, 'd M Y') }}</td>
-                                <td>{{ $sale->booking->customer->first_name }}</td>
-                                <td>{{ $sale->sub_booking->pet->pet_name }}</td>
-                                <td>Rp {{ number_format($sale->total_price) }}</td>
+                                <td class="align-middle">{{ \Carbon\Carbon::parse($date)->isoFormat('D MMMM YYYY') }}</td>
+                                @if ($sale->booking || $sale->booking->customer)
+                                    <td class="align-middle">
+                                        {{ $sale->booking->customer->first_name }}
+                                    </td>
+                                @else
+                                    <td class="align-middle">-</td>
+                                @endif
+                                @if ($sale->sub_booking)
+                                    <td class="align-middle">{{ $sale->sub_booking->pet->pet_name }}</td>
+                                @else
+                                    <td class="align-middle">-</td>
+                                @endif
+                                <td class="align-middle">Rp {{ number_format($sale->total_price - $sale->amount_discount) }}</td>
                             </tr>
                         @endforeach
                     </tbody>

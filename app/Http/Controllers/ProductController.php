@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\CategoryProduct;
+use App\Models\History;
 use App\Models\Location;
 use App\Models\Product;
 use App\Models\Suppliers;
 use App\Models\TaxRate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -180,6 +182,15 @@ class ProductController extends Controller
 
         for($i = 0 ; $i < $length ; $i++){
             $supplier = Product::find($myArray[$i]);
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->product_id = $supplier->id;
+            $history->service_id = 0;
+            $history->status = "Hapus";
+            $history->username = Auth::user()->first_name;
+            $history->description = "Produk '" . $supplier->product_name . "' telah dihapus.";
+            $history->nama = $supplier->product_name;
+            $history->save();
             // @dd($supplier);
             // print_r($supplier);
             DB::table('products')->where('id', $supplier->id)->delete();
@@ -214,6 +225,16 @@ class ProductController extends Controller
        
         $product->save();
 
+        $history = new History();
+        $history->user_id = Auth::user()->id;
+        $history->product_id = $product->id;
+        $history->service_id = 0;
+        $history->status = "Tambah";
+        $history->username = Auth::user()->first_name;
+        $history->description = "Produk baru telah ditambahkan '" . $request->product_name . "'."; 
+        $history->nama = $request->product_name;
+        $history->save();
+
         return redirect('/product/list');
     }
 
@@ -239,8 +260,127 @@ class ProductController extends Controller
     }
 
     public function saveEditProduct(Request $request,$id){
-        // @dd($request->all());
+        // dd($request->all());
         $product = Product::find($id);
+        // dd($product->product_name);
+        if($product->product_name != $request->product_name){
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->product_id = $product->id;
+            $history->service_id = 0;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $request->product_name;
+            $history->description = "Nama Produk telah diubah dari '" . $product->product_name . "' menjadi '" . $request->product_name . "'."; 
+            $history->save();
+        }
+        if($product->simple_name != $request->simple_name){
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->product_id = $product->id;
+            $history->service_id = 0;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $request->product_name;
+            $history->description = "Nama Simple Produk telah diubah dari '" . $product->simple_name . "' menjadi '" . $request->simple_name . "'."; 
+            $history->save();
+        }
+        if($product->price != $request->price){
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->product_id = $product->id;
+            $history->service_id = 0;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $request->product_name;
+            $history->description = "Harga Produk telah diubah dari '" . $product->price . "' menjadi '" . $request->price . "'."; 
+            $history->save();
+        }
+        if($product->stock != $request->stock){
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->product_id = $product->id;
+            $history->service_id = 0;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $request->product_name;
+            $history->description = "Stock Produk telah diubah dari '" . $product->stock . "' menjadi '" . $request->stock . "'."; 
+            $history->save();
+        }
+        if($product->description != $request->description){
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->product_id = $product->id;
+            $history->service_id = 0;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $request->product_name;
+            $history->description = "Deskripsi Produk telah diubah dari '" . $product->description . "' menjadi '" . $request->description . "'."; 
+            $history->save();
+        }
+        if($product->status != $request->status){
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->product_id = $product->id;
+            $history->service_id = 0;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $request->product_name;
+            $history->description = "Status Produk telah diubah dari '" . $product->status . "' menjadi '" . $request->status . "'."; 
+            $history->save();
+        }
+        if($product->category_id != $request->category_id){
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->product_id = $product->id;
+            $history->service_id = 0;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $request->product_name;
+            $ctgr = CategoryProduct::find($request->category_id);
+            $history->description = "Category Produk telah diubah dari '" . $product->category->category_name . "' menjadi '" . $ctgr->category_name . "'."; 
+            $history->save();
+        }
+        if($product->brand_id != $request->brand_id){
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->product_id = $product->id;
+            $history->service_id = 0;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $request->product_name;
+            $brd = Brand::find($request->brand_id);
+            $history->description = "Brand Produk telah diubah dari '" . $product->brand->brand_name . "' menjadi '" . $brd->brand_name . "'."; 
+            $history->save();
+        }
+        if($product->supplier_id != $request->supplier_id){
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->product_id = $product->id;
+            $history->service_id = 0;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $request->product_name;
+            $sup = Suppliers::find($request->supplier_id);
+            $history->description = "Supplier Produk telah diubah dari '" . $product->supplier->suppliers_name . "' menjadi '" . $sup->suppliers_name . "'."; 
+            $history->save();
+        }
+        if($product->location_id != $request->location_id){
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->product_id = $product->id;
+            $history->service_id = 0;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $request->product_name;
+            $loc = Location::find($request->location_id);
+            $history->description = "Lokasi Produk telah diubah dari '" . $product->location->location_name . "' menjadi '" . $loc->location_name . "'."; 
+            $history->save();
+        }
+        if($product->tax_rate_id != $request->tax_rate_id){
+
+        }
+
 
         $product->product_name= $request->product_name;
         $product->simple_name= $request->simple_name;
@@ -256,8 +396,11 @@ class ProductController extends Controller
         $product->supplier_id= $request->supplier_id;
         $product->location_id= $request->location_id;
         $product->tax_rate_id= $request->tax_rate_id;
+        
+        
 
         $product->update();
+
 
         return redirect('/product/list');
     }

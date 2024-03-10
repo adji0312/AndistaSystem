@@ -2090,6 +2090,8 @@ function inputDiscount(){
     total_price_sale.textContent = 'Rp ' + finalPrice;
     // console.log(before_total_price.value);
     // console.log(total_price_sale.textContent);
+    let button = document.getElementById('buttonAddCost');
+    button.click();
     
 }
 

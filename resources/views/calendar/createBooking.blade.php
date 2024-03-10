@@ -18,10 +18,6 @@
                             <a class="nav-link active" aria-current="page" onclick="saveBooking()" style="color: #f28123; cursor: pointer;">Selanjutnya <img src="/img/icon/continue.png" alt="" style="width: 22px"></a>
                         </li>
                     </ul>
-                    {{-- <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form> --}}
                 </div>
             </div>
         </nav>
@@ -60,37 +56,23 @@
                         </div>
                     </div>
                     <div class="mx-3 d-flex gap-3 mb-3">
-                        {{-- <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="tidak_dikenakan_biaya" id="tidak_dikenakan_biaya" value="0">
-                            <label class="form-check-label" for="tidak_dikenakan_biaya">
-                                Tidak dikenakan biaya
-                            </label>
-                        </div> --}}
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="langsung_datang" id="langsung_datang" value="0">
+                            <input class="form-check-input" type="radio" name="category" id="langsung_datang" value="1" checked>
                             <label class="form-check-label" for="langsung_datang">
                                 Langsung datang
                             </label>
                         </div>
-                        {{-- <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="rawat_inap" id="rawat_inap" value="0">
-                            <label class="form-check-label" for="rawat_inap">
-                                Rawat Inap
-                            </label>
-                        </div> --}}
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="darurat" id="darurat" value="0">
+                            <input class="form-check-input" type="radio" name="category" id="darurat" value="2">
                             <label class="form-check-label" for="darurat">
                                 Darurat
                             </label>
                         </div>
-
-                        <input type="text" hidden name="category" id="category">
-                    </div>
-                    <div class="mx-3 mt-4 mb-3" id="duration_field" style="display: none;">
-                        <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
-                        <div class="d-flex">
-                            <input type="number" class="form-control" id="duration" name="duration" style="width: 7%;"> Days
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="category" id="jadwalkan" value="3">
+                            <label class="form-check-label" for="jadwalkan">
+                                Jadwalkan
+                            </label>
                         </div>
                     </div>
                 </div>

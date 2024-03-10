@@ -19,12 +19,12 @@
         @else
 
         @endif
-        @if(Auth::user()->role->facilities != 4)
+        {{-- @if(Auth::user()->role->facilities != 4)
         <li style="cursor: pointer" class="{{ ($title === "Facility") ? 'active' : '' }}">
             <a id="locationsfacilities" href="/facility" class="px-4"><img src="/img/icon/facilities.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Facilities</a>
         </li>
         @else
-        @endif
+        @endif --}}
         @if(Auth::user()->role->setting_location != 4)
         <li style="cursor: pointer" class="{{ ($title === "Setting Location") ? 'active' : '' }}">
             <a id="locationsfacilities" href="/location-setting" class="px-4"><img src="/img/icon/setting.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Setting Usage</a>

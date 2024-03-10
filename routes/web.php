@@ -46,6 +46,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [IndexController::class, 'home']);
+    Route::get('/history-activity', [IndexController::class, 'historyactivity']);
     Route::get('/upcoming-booking', [IndexController::class, 'upcomingbooking']);
     
     //AUTO SEARCHING
@@ -87,6 +88,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/updateAddCost/{id}', [BookingController::class, 'updateAddCost']);
     Route::get('/deleteBookingService2/{id}', [CartBookingController::class, 'deleteBookingService2']);
     Route::post('/newDeposit', [BookingController::class, 'newDeposit']);
+    Route::post('/editCartPrice/{id}', [CartBookingController::class, 'editCartPrice']);
     
     //Service
     Route::get('/service', [IndexController::class, 'serviceDashboard']);
@@ -210,6 +212,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/newBooking/{name}', [BookingController::class, 'createbookingDetail']);
     Route::get('/bookingdetail', [IndexController::class, 'bookingdetail']);
     Route::get('/booking/detail/{id}', [BookingController::class, 'detailBookingById']);
+    Route::get('/booking/detail/catatan/{id}', [BookingController::class, 'detailBookingCatatan']);
 
     //Booking List
     Route::get('/booking/darurat', [BookingController::class, 'bookingdarurat']);
@@ -217,6 +220,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking/kedatangan', [BookingController::class, 'bookingkedatangan']);
     Route::get('/booking/rawatinap', [BookingController::class, 'bookingrawatinap']);
     Route::get('/booking/memulai', [BookingController::class, 'bookingmemulai']);
+    Route::get('/booking/apotek', [BookingController::class, 'bookingapotek']);
     Route::get('/booking/selesai', [BookingController::class, 'bookingselesai']);
 
 
@@ -253,6 +257,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkBookingService/{id}', [BookingController::class, 'checkBookingService']);
     Route::get('/deleteBookingService/{id}', [BookingController::class, 'deleteBookingService']);
     Route::post('/changeStatus/{id}', [BookingController::class, 'changeStatus']);
+    Route::post('/makeInvoice/{id}', [BookingController::class, 'makeInvoice']);
+    Route::post('/batalkanbooking/{id}', [BookingController::class, 'batalkanbooking']);
+    Route::post('/pesanresepsionis/{id}', [BookingController::class, 'pesanresepsionis']);
 
     // Sub Account
     Route::post('/updateSubAccount/{id}', [BookingController::class, 'updateSubAccount']);
@@ -260,6 +267,7 @@ Route::middleware('auth')->group(function () {
 
     //Statistic
     Route::post('/addStatistic', [BookingController::class, 'addStatistic']);
+    Route::get('/hapusstatistic/{id}', [BookingController::class, 'deletestatistic']);
 
     //Detail Booking
     Route::post('/addCartProduct', [CartBookingController::class, 'addCartProduct']);
@@ -279,6 +287,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/saveCartBooking3/{id}', [CartBookingController::class, 'saveCartBooking3']);
     Route::post('/submitTextBooking', [CartBookingController::class, 'submitTextBooking']);
     Route::post('/editTextBooking/{id}', [CartBookingController::class, 'editTextBooking']);
+    Route::get('/deleteTextBooking/{id}', [CartBookingController::class, 'deleteTextBooking']);
     Route::get('/deleteBookingDiagnosis/{id}', [BookingController::class, 'deleteBookingDiagnosis']);
     Route::post('/editBookingDiagnosis/{id}', [BookingController::class, 'editBookingDiagnosis']);
     Route::post('/updateBookingDate/{id}', [BookingController::class, 'updateBookingDate']);
@@ -421,6 +430,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/report/byProduct', [ReportController::class, 'byProduct']);
     Route::get('/report/byServices', [ReportController::class, 'byServices']);
     Route::get('/report/byStaff', [ReportController::class, 'byStaff']);
+    Route::get('/report/byReceptionist', [ReportController::class, 'byResepsionis']);
     Route::get('/report/quotation', [ReportController::class, 'quotationReport']);
 });
 
