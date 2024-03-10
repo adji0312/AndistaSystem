@@ -11,6 +11,7 @@ use App\Models\Workdays;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\PDF;
 
 class AttendanceController extends Controller
 {
@@ -26,6 +27,21 @@ class AttendanceController extends Controller
             "locations" => Location::all(),
             "staffs" => Staff::all(),
         ]);
+    }
+
+    
+    public function attendancelistExport(){
+        $data = [
+            "title" => "Attendance List",
+            "locations" => Location::all(),
+            "staffs" => Staff::all(),
+            "attendances" => Attendance::all()
+        ];
+
+        $pdf = PDF::loadView('attendance.attendancelistexport',$data);
+        // $pdf->setPaper('A4', 'landscape');
+        // $pdf->setFont('Times New Roman');
+        return $pdf->download('attendance.attendancelist.pdf');
     }
 
     public function attendancelistbylocation(Request $request, $name){

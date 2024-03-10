@@ -11,6 +11,7 @@
                         <div class="d-flex gap-4">
                             @if(Auth::user()->role->staff_staff_list === 1 || Auth::user()->role->staff_staff_list === 2)
                                 <a href="/staff/add-new-staff" class="nav-link active" style="color: #f28123; cursor: pointer;"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
+                                <a href="/staff/export-staff-list " class="nav-link active" style="color: #f28123; cursor: pointer;"><img src="/img/icon/filter.png" alt="" style="width: 22px"> Export</a>
                             @else
                             @endif
                             @if(Auth::user()->role->staff_staff_list === 1)

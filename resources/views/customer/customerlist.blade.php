@@ -11,6 +11,7 @@
                         <div class="d-flex gap-4">
                             @if(Auth::user()->role->customer_list === 1|Auth::user()->role->customer_list === 2)
                                 <a class="nav-link active" aria-current="page" href="/customer/list/add" style="color: #f28123"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
+                                <a class="nav-link active" aria-current="page" href="/customer/export-customer-list" style="color: #f28123"><img src="/img/icon/filter.png" alt="" style="width: 22px"> Export</a>
                             @else
                             @endif
                             @if(Auth::user()->role->customer_list === 1)

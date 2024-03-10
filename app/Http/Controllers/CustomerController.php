@@ -11,6 +11,7 @@ use App\Models\Pet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CustomerController extends Controller
 {
@@ -26,6 +27,19 @@ class CustomerController extends Controller
         return view('customer.customersublist',[
             "title" => "Sub Customer List"
         ]);
+    }
+
+    
+    public function exportCustomerList(){
+        $data = [
+            "title" => "Customer List",
+            "customers" => Customer::all()
+        ];
+
+        $pdf = PDF::loadView('customer.customerlistexport',$data);
+        // $pdf->setPaper('A4', 'landscape');
+        // $pdf->setFont('Times New Roman');
+        return $pdf->download('customer.customerlist.pdf');
     }
 
 

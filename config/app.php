@@ -170,6 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         ConsoleTVs\Charts\ChartsServiceProvider::class,
         App\Providers\AgentServiceProvider::class,
+        \Barryvdh\DomPDF\ServiceProvider::class
     ])->toArray(),
 
     /*
@@ -185,6 +186,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
+        'PDF' => Barryvdh\DomPDF\Facade\Pdf::class
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 

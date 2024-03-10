@@ -19,6 +19,7 @@
                             </li>
                             @else
                             @endif
+                            <a href="/staff/export-staff-position" class="nav-link active" style="color: #f28123; cursor: pointer;"><img src="/img/icon/filter.png" alt="" style="width: 22px"> Export</a>
                         </div>
                     </div>
                 </div>

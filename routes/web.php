@@ -32,6 +32,7 @@ use App\Models\Booking;
 use App\Models\Facility;
 use App\Models\UsageContact;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -196,6 +197,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/updateWorkDays/{id}', [AttendanceController::class, 'updateWorkDays']);
 
 
+    //PDF Export  - ALL ROUTE
+    Route::get('/attendance/list-all', [AttendanceController::class, 'attendancelistExport']);
+
+
     //Shift
     Route::post('/addShift', [ShiftController::class, 'addshift']);
     Route::post('/editShift/{id}', [ShiftController::class, 'editShift']);
@@ -303,6 +308,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/staff/access-control',[StaffController::class,'staffAccessControl']);
     Route::get('/staff/security-groups',[StaffController::class,'staffSecurityGroups']);
     
+    //staff export
+    Route::get('/staff/export-staff-list', [StaffController::class, 'exportStaffList']);
+    Route::get('/staff/export-staff-position',[StaffController::class,'exportStaffPosition']);
+    
+
     
     //Staff Add
     Route::get('/staff/add-new-staff',[StaffController::class,'addNewStaff']);
@@ -354,6 +364,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/customer/sub-customer-list',[CustomerController::class,'petList']);
     Route::get('/customer/detail/{id}',[CustomerController::class,'customerdetail']);
     
+    //export
+    Route::get('/customer/export-customer-list', [CustomerController::class, 'exportCustomerList']);
+    
+
+
     //Customer Add
     Route::get('/customer/list/add', [CustomerController::class,'addCustomer']);
     Route::post('/addCustomer', [CustomerController::class, 'store']);

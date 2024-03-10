@@ -8,6 +8,7 @@
             <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
                 <div class="d-flex gap-3 w-100">
                     <a class="navbar-brand" id="navbar-brand-title" href="#">Data Kehadiran</a>
+                    <a class="nav-link active" aria-current="page" href="/attendance/list-all" style="color: #f28123"><img src="/img/icon/filter.png" alt="" style="width: 22px"> Export</a>
                 </div>
             </div>
             @include('attendance.sidenavattendance')

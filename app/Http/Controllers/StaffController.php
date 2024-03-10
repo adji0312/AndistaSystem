@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class StaffController extends Controller
 {
@@ -25,6 +26,19 @@ class StaffController extends Controller
             "staffs" => Staff::latest()->filter(request(['search']))->get(),
             "title" => "Staff List",
         ]);
+    }
+
+    
+    public function exportStaffList(){
+        $data = [
+            "staffs" => Staff::latest()->filter(request(['search']))->get(),
+            "title" => "Staff List",
+        ];
+
+        $pdf = PDF::loadView('staff.stafflistexport',$data);
+        // $pdf->setPaper('A4', 'landscape');
+        // $pdf->setFont('Times New Roman');
+        return $pdf->download('staff.stafflist.pdf');
     }
 
     public function addNewStaff(){
