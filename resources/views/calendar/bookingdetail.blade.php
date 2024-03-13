@@ -550,135 +550,6 @@
                 </div>
             </div>
 
-            @if ($booking->ranap != null || $booking->ranap != 0)
-                <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4">
-                    <div class="m-2 d-flex flex-column">
-                        <h5 class="m-3">Diagnosis</h5>
-                        <form action="/addBookingDiagnosis" method="POST">
-                            <div class="d-flex gap-2 mx-3 mt-2 w-100">
-                                @csrf
-                                <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
-                                <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
-                                <input type="text" style="width: 50%" class="form-control" id="booking_diagnosis_id" placeholder="Cari Diagnosa..." name="diagnosis_name">
-                                @if ($booking->status == 2)
-                                    @if (count($bookingDiagnosis))
-                                        <button type="submit" class="btn btn-outline-secondary btn-sm" disabled><i class="fas fa-save"></i> Tambah Diagnosa</button>
-                                    @else
-                                        <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fas fa-save"></i> Tambah Diagnosa</button>
-                                    @endif
-                                @else
-                                    <button type="submit" class="btn btn-outline-secondary btn-sm" disabled><i class="fas fa-save"></i> Tambah Diagnosa</button>
-                                @endif
-                            </div>
-                        </form>
-                        @if (count($bookingDiagnosis))
-                            <div class="table-responsive m-3">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">Diagnosis Name</th>
-                                        <th scope="col">Treatment</th>
-                                        <th scope="col" class="text-center">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $bdIndex = 0; ?>
-                                        @foreach ($bookingDiagnosis as $bd)
-                                            <?php $bdIndex += 1; ?>
-                                            <tr>
-                                                <th scope="row">{{ $bdIndex }}</th>
-                                                <td>{{ $bd->diagnosis->diagnosis_name }}</td>
-                                                @if ($bd->treatment == null)
-                                                    <td>
-                                                        <form action="/editBookingDiagnosis/{{ $bd->id }}" method="POST">
-                                                            @csrf
-                                                            <select class="form-select" aria-label="Default select example" onchange="selectTreatment({{ $bd->id }})" name="treatment_id">
-                                                                <option selected disabled>Select Treament</option>
-                                                                @foreach ($treatments->where('diagnosis_id', $bd->diagnosis_id) as $treatment)
-                                                                    @if ($treatment->id == $bd->treatment_id)
-                                                                        <option value="{{ $treatment->id }}" selected>{{ $treatment->name }}</option>
-                                                                        @continue;
-                                                                    @endif
-                                                                    <option value="{{ $treatment->id }}">{{ $treatment->name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                            <button type="submit" hidden id="editBookingDiagnosis{{ $bd->id }}"></button>
-                                                            <script>
-                                                                function selectTreatment(id){
-                                                                    let button = document.getElementById('editBookingDiagnosis' + id).click();
-                                                                }
-                                                            </script>
-                                                        </form>
-                                                    </td>
-                                                @else
-                                                    <td>{{ $bd->treatment->name }}</td>    
-                                                @endif
-                                                <td>
-                                                    <div class="d-flex justify-content-center gap-2">
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" style="width: 100px" data-bs-toggle="modal" data-bs-target="#deleteBookingDiagnosis{{ $bd->id }}"><i class="fas fa-trash"></i> Delete</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            <div class="modal fade" id="deleteBookingDiagnosis{{ $bd->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Diagnosis</h1>
-                                                    </div>
-                                                    
-                                                    <form action="/deleteBookingDiagnosis/{{ $bd->id }}" method="GET">
-                                                        @csrf
-                                                        <div class="modal-body">
-                                                            <div class="mb-1">
-                                                                <small class="fs-6" style="font-weight: 300">Are you sure delete this item?</small>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            @endif
-
-            @if (count($bookingDiagnosis) != 0)
-                <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-4">
-                    <div class="m-2 d-flex flex-column">
-                        <h5 class="m-3">Treatment Plan</h5>
-                        <div class="table-responsive m-3">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col" style="width: 70px;">Day</th>
-                                    <th scope="col">Item</th>
-                                    <th scope="col">Frequency</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $bdIndex1 = 0; ?>
-                                    @foreach ($bookingDiagnosis as $bd)
-                                        <?php $bdIndex1 += 1; ?>
-                                        <tr>
-                                            <th scope="row">{{ $bdIndex1 }}</th>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            @endif
             <div class="d-flex gap-4">
                 <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 60%" class="mt-4">
                     <div class="m-2 d-flex">
@@ -844,6 +715,129 @@
                     </div>
                 </div>
             </div>
+
+            @if ($booking->ranap != null || $booking->ranap != 0)
+
+                <div class="d-flex gap-4">
+                    <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 60%;" class="mt-4">
+                        <div class="m-2 d-flex flex-column">
+                            <h5 class="m-3">Treatment</h5>
+                        </div>
+                        <div class="m-3">
+                            <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col" style="width: 7%">Hari</th>
+                                    <th scope="col">First</th>
+                                    <th scope="col">Last</th>
+                                    <th scope="col">Handle</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">3</th>
+                                    <td colspan="2">Larry the Bird</td>
+                                    <td>@twitter</td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 40%;" class="mt-4">
+                        <div class="m-2 d-flex">
+                            <h5 class="m-3">List Diagnosis</h5>
+                            <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addDiagnosisBooking"><i class="fas fa-plus"></i> Tambah Diagnosis</button>
+                        </div>
+                        <div class="table-responsive m-3">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Nama Diagnosis</th>
+                                    <th scope="col">Treatment</th>
+                                    <th scope="col" class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $bdIndex = 0; ?>
+                                    @foreach ($bookingDiagnosis as $bd)
+                                        <?php $bdIndex += 1; ?>
+                                        <tr>
+                                            <th scope="row">{{ $bdIndex }}</th>
+                                            <td>{{ $bd->diagnosis->diagnosis_name }}</td>
+                                            @if ($bd->treatment == null)
+                                                <td>
+                                                    <form action="/editBookingDiagnosis/{{ $bd->id }}" method="POST">
+                                                        @csrf
+                                                        <select class="form-select" aria-label="Default select example" onchange="selectTreatment({{ $bd->id }})" name="treatment_id">
+                                                            <option selected disabled>Pilih Treament</option>
+                                                            @foreach ($treatments->where('diagnosis_id', $bd->diagnosis_id) as $treatment)
+                                                                @if ($treatment->id == $bd->treatment_id)
+                                                                    <option value="{{ $treatment->id }}" selected>{{ $treatment->name }}</option>
+                                                                    @continue;
+                                                                @endif
+                                                                <option value="{{ $treatment->id }}">{{ $treatment->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <button type="submit" hidden id="editBookingDiagnosis{{ $bd->id }}"></button>
+                                                        <script>
+                                                            function selectTreatment(id){
+                                                                let button = document.getElementById('editBookingDiagnosis' + id).click();
+                                                            }
+                                                        </script>
+                                                    </form>
+                                                </td>
+                                            @else
+                                                <td>{{ $bd->treatment->name }}</td>    
+                                            @endif
+                                            <td>
+                                                <div class="d-flex justify-content-center gap-2">
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" style="width: 100px" data-bs-toggle="modal" data-bs-target="#deleteBookingDiagnosis{{ $bd->id }}"><i class="fas fa-trash"></i> Hapus</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <div class="modal fade" id="deleteBookingDiagnosis{{ $bd->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Diagonis</h1>
+                                                </div>
+                                                
+                                                <form action="/deleteBookingDiagnosis/{{ $bd->id }}" method="GET">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <div class="mb-1">
+                                                            <small class="fs-6" style="font-weight: 300">Apakah anda yakin ingin menghapus diagnosis ini?</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Hapus</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endif
             
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4 mb-4">
                 <div class="m-2 d-flex">
@@ -1304,6 +1298,30 @@
         </form>    
       </div>
     </div>
+</div>
+
+<div class="modal fade" id="addDiagnosisBooking" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Servis</h1>
+          </div>
+          <form action="/addBookingDiagnosis" method="post">
+              @csrf
+              <div class="modal-body">
+                  <div class="mb-3">
+                      <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
+                      <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
+                      <input type="text" style="width: 100%" class="form-control" id="booking_diagnosis_id" placeholder="Cari Diagnosa..." name="diagnosis_name">
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
+                  <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Simpan</button>
+              </div>
+          </form>    
+        </div>
+      </div>
 </div>
 
 <div class="modal fade" id="infoHewan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
