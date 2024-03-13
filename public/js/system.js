@@ -330,8 +330,8 @@ function saveLocation(){
     let a = document.getElementById('submitLocation').click();
 
 }
-function saveQuotation(){
-    let a = document.getElementById('submitQuotation').click();
+function saveNewInvoice(){
+    let a = document.getElementById('submitNewInvoice').click();
 }
 
 function saveBooking(){

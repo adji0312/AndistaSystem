@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('admin_id')->nullable();
             $table->foreignId('location_id');
             $table->date('booking_date');
-            $table->integer('status'); //1 : langsung datang, 2 : darurat, 3 : jadwalkan
             $table->string('alasan_kunjungan')->nullable();
+            $table->integer('category')->nullable();
             $table->timestamps();
             // $table->foreignId('subAccount_id')->nullable();
             // $table->integer('tidak_dikenakan_biaya'); //1 itu tidak, 0 itu iya

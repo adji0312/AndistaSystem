@@ -63,7 +63,7 @@ class ProductController extends Controller
         ]);
 
         Brand::create($validatedData);
-        return redirect('/product/list/brand');
+        return redirect('/product/brand');
     }
 
 

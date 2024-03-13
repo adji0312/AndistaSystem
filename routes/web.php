@@ -78,7 +78,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/quotation/list', [QuotationController::class, 'quotationList']);
     Route::get('/quotation/add', [QuotationController::class, 'addquotation']);
     Route::get('/quotation/add/{name}', [QuotationController::class, 'addquotationdetail']);
-    Route::post('/storeQuotation', [QuotationController::class, 'storeQuotation']);
+    Route::get('/sale/add', [QuotationController::class, 'addInvoice']);
+    Route::post('/storeNewInvoice', [QuotationController::class, 'storeNewInvoice']);
     Route::get('/finance/taxrate', [IndexController::class, 'financeTaxRate']);
     Route::post('/addTaxRate', [TaxRateController::class, 'store']);
     Route::post('/updateTaxRate/{id}', [TaxRateController::class, 'update']);
@@ -89,6 +90,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/deleteBookingService2/{id}', [CartBookingController::class, 'deleteBookingService2']);
     Route::post('/newDeposit', [BookingController::class, 'newDeposit']);
     Route::post('/editCartPrice/{id}', [CartBookingController::class, 'editCartPrice']);
+    Route::post('/editQtyCart/{id}', [CartBookingController::class, 'editQtyCart']);
     
     //Service
     Route::get('/service', [IndexController::class, 'serviceDashboard']);

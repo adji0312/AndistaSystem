@@ -86,15 +86,14 @@ class BookingController extends Controller
 
     public function bookingrawatinap(){
 
-        if(request('filterstatus')){
-            if(request('filterstatus') == "1"){
-                $subBooks = SubBook::latest()->where('status', 5)->where('ranap', 1)->paginate(30)->withQueryString();
-            }elseif(request('filterstatus') == "2"){
-                $subBooks = SubBook::latest()->where('status', 5)->where('ranap', 2)->paginate(30)->withQueryString();
-            }
-        }else{
-            $subBooks = SubBook::latest()->where('status', 5)->paginate(30)->withQueryString();
-        }
+        // if(request('filterstatus')){
+        //     if(request('filterstatus') == "1"){
+        //         $subBooks = SubBook::latest()->where('status', 5)->where('ranap', 1)->paginate(30)->withQueryString();
+        //     }elseif(request('filterstatus') == "2"){
+        //         $subBooks = SubBook::latest()->where('status', 5)->where('ranap', 2)->paginate(30)->withQueryString();
+        //     }
+        // }else{
+        $subBooks = SubBook::latest()->where('status', 5)->where('ranap', 1)->paginate(30)->withQueryString();
 
         $now = Carbon::now();
         return view('calendar.rawatinap', [
@@ -123,7 +122,7 @@ class BookingController extends Controller
     }
 
     public function bookingselesai(){
-        $subBooks = SubBook::latest()->paginate(30)->withQueryString();
+        $subBooks = SubBook::latest()->where('status', 4)->orWhere('ranap', 2)->paginate(30)->withQueryString();
         return view('calendar.selesai', [
             "title" => "Selesai",
             "bookings" => $subBooks
@@ -470,7 +469,7 @@ class BookingController extends Controller
         $cartsubbook = CartBooking::all()->where('sub_booking_id', $subBook->id);
         $bs = BookingService::all()->where('booking_id', $subBook->booking_id)->first();
         // dd($bs);
-        $historyBook = SubBook::all()->where('subAccount_id', $subBook->subAccount_id)->where('status', 4)->where('id', '!=', $subBook->id);
+        $historyBook = SubBook::where('subAccount_id', $subBook->subAccount_id)->where('id', '!=', $subBook->id)->get();
         // dd($historyBook);
         // dd($cart);
         // dd($cartsubbook);
@@ -516,9 +515,12 @@ class BookingController extends Controller
     public function changeStatus(Request $request, $id){
         // dd($request->all());
         $subbooking = SubBook::find($id);
+        // dd($subbooking);
         $cart = CartBooking::where('sub_booking_id', $subbooking->id)->first();
         // dd($cart->id);
-        $subbooking->status = $request->status;
+        if($request->status){
+            $subbooking->status = $request->status;
+        }
         $subbooking->staff_id = Auth::user()->id;
         if($request->balikantrian){
             $cart->staff_id = 0;
@@ -608,9 +610,15 @@ class BookingController extends Controller
             $sales->save();
 
             $subbooking->rawat_inap = Date::now();
-        }elseif($request->status == 6){
-            
-            dd('status 6');
+        }
+
+        if($request->pulangpasien){
+            $subbooking->ranap = 2;
+            if($request->alasan_pulang){
+                $subbooking->pesanresepsionis = $request->alasan_pulang;
+            }else{
+                $subbooking->pesanresepsionis = '-';
+            }
         }
         
         $subbooking->save();
@@ -656,6 +664,16 @@ class BookingController extends Controller
         }
 
         $sales->save();
+
+        $subbooking->sub_total_price = 0;
+        $subbooking->save();
+
+        foreach($subbooking->invoice as $si){
+            $subbooking->sub_total_price += $si->total_price;
+        }
+
+        $subbooking->save();
+
         Alert::success('Berhasil!', 'Invoice Berhasil Dibuat!');
         return redirect()->back();
     }
@@ -851,16 +869,20 @@ class BookingController extends Controller
     public function updateAddCost(Request $request, $id){
         // dd($request->all());
         $sale = Sale::find($id);
-        $subbooking = SubBook::find($sale->sub_booking->id);
         
         $amountdiscount = ($request->discount/100) * $sale->total_price;
         // $newPrice = $sale->total_price - $amountdiscount;
         // dd($amountdiscount);
-
+        
         $sale->diskon = $request->discount;
         $sale->amount_discount = $amountdiscount;
         $sale->save();
-
+        
+        if($sale->booking_id != 0 && $sale->sub_booking_id != 0){
+            $subbooking = SubBook::find($sale->sub_booking->id);
+            $subbooking->sub_total_price = $sale->total_price;
+            $subbooking->save();
+        }
         // $sale->total_price = $newPrice;
         // $subbooking->sub_total_price
         // dd($sale->sub_booking);

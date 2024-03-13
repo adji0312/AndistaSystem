@@ -24,33 +24,11 @@
       </div>
       @include('staff.sidenavstaff')
 
-        {{-- <div id="dashboard" class="mx-3 mt-3">
-            {{ $title }}
-        </div> --}}
-
         <div class="m-3">
           <h3>{{ $roles->role_name }}</h3>
         </div>
       <form action="/saveAccessControl/{{ $roles->id }}" method="POST" enctype="multipart/form-data">
         @csrf
-        {{-- <div class="m-3 d-flex gap-5">
-          <div class="mb-3">
-            <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label>
-            <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="customer_degree" id="customer_degree">
-                <option value="" class="selectstatus" style="color: black;" selected disabled>Select Security Group</option>
-                @foreach ($roles as $role)
-                    <option value="{{ $role->id }}" class="selectstatus" style="color: black;">{{ $role->role_name }}</option>
-                @endforeach
-                <option value="Administrator" class="selectstatus" style="color: black;">Administrator</option>
-                <option value="Manager" class="selectstatus" style="color: black;">Manager</option>
-                <option value="Veterinarian" class="selectstatus" style="color: black;">Veterinarian</option>
-                <option value="Veterinary Assistant" class="selectstatus" style="color: black;">Veterinary Assistant</option>
-                <option value="Receptionist" class="selectstatus" style="color: black;">Receptionist</option>
-                <option value="Support" class="selectstatus" style="color: black;">Support</option>
-                <option value="Multimedia Staff" class="selectstatus" style="color: black;">Multimedia Staff</option>
-            </select>
-        </div>
-        </div> --}}
 
         {{-- Home Page --}}
         <table class="table m-2">
@@ -66,7 +44,6 @@
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="home_overview" id="home_overview">
                       <option value="{{ $roles->home_overview }}" class="selectstatus" style="color: black;" selected >
                       @if($roles->home_overview === 1)
@@ -80,9 +57,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -92,11 +66,10 @@
               </td>
             </tr>
             <tr>
-              <th scope="row" style="color: #7C7C7C">Upcoming Booking</th>
+              <th scope="row" style="color: #7C7C7C">Histori Aktivitas</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="home_upcoming_booking" id="home_upcoming_booking">
                       <option value="{{ $roles->home_upcoming_booking }}" class="selectstatus" style="color: black;" selected>@if($roles->home_upcoming_booking === 1)
                         Full
@@ -109,9 +82,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -128,17 +98,16 @@
         <table class="table m-2 mt-4">
           <thead>
             <tr>
-              <th scope="col"><b>Calendar</b></th>
+              <th scope="col"><b>Kalender</b></th>
               <th scope="col">Permission</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row" style="color: #7C7C7C;width:300px">Calendar</th>
+              <th scope="row" style="color: #7C7C7C;width:300px">Kalender</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="calendar_calendar" id="calendar_calendar">
                       <option value="{{ $roles->calendar_calendar }}" class="selectstatus" style="color: black;" selected>@if($roles->calendar_calendar === 1)
                         Full
@@ -151,9 +120,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -163,11 +129,10 @@
               </td>
             </tr>
             <tr>
-              <th scope="row" style="color: #7C7C7C">Create Booking</th>
+              <th scope="row" style="color: #7C7C7C">Buat Booking</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="calendar_create_booking" id="calendar_create_booking">
                       <option value="{{ $roles->calendar_create_booking }}" class="selectstatus" style="color: black;" selected>@if($roles->calendar_create_booking === 1)
                         Full
@@ -180,9 +145,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -196,7 +158,6 @@
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="calendar_list_booking" id="calendar_list_booking">
                       <option value="{{ $roles->calendar_list_booking }}" class="selectstatus" style="color: black;" selected>@if($roles->calendar_list_booking === 1)
                         Full
@@ -209,9 +170,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -224,20 +182,19 @@
         </table>
 
          {{-- Customer --}}
-         <table class="table m-2">
+         <table class="table m-2 mt-4">
           <thead>
             <tr>
-              <th scope="col"><b>Customer</b></th>
+              <th scope="col"><b>Pelanggan</b></th>
               <th scope="col">Permission</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row" style="color: #7C7C7C;width:300px">Customer List</th>
+              <th scope="row" style="color: #7C7C7C;width:300px">List Pelanggan</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="customer_list" id="customer_list">
                       <option value="{{ $roles->customer_list }}" class="selectstatus" style="color: black;" selected >
                       @if($roles->customer_list === 1)
@@ -251,9 +208,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -271,17 +225,16 @@
         <table class="table m-2 mt-4">
           <thead>
             <tr>
-              <th scope="col"><b>Staff</b></th>
+              <th scope="col"><b>Karyawan</b></th>
               <th scope="col">Permission</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row" style="color: #7C7C7C;width:300px">Staff List</th>
+              <th scope="row" style="color: #7C7C7C;width:300px">List Karyawan</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="staff_staff_list" id="staff_staff_list">
                       <option value="{{ $roles->staff_staff_list }}" class="selectstatus" style="color: black;" selected>@if($roles->staff_staff_list === 1)
                         Full
@@ -294,9 +247,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -310,7 +260,6 @@
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="staff_job" id="staff_job">
                       <option value="{{ $roles->staff_job }}" class="selectstatus" style="color: black;" selected>@if($roles->staff_job === 1)
                         Full
@@ -323,9 +272,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -339,7 +285,6 @@
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="staff_access_control" id="staff_access_control">
                       <option value="{{ $roles->staff_access_control }}" class="selectstatus" style="color: black;" selected>@if($roles->staff_access_control === 1)
                         Full
@@ -352,9 +297,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -363,12 +305,10 @@
               </div>
               </td>
             </tr>
-            <tr>
+            {{-- <tr>
               <th scope="row" style="color: #7C7C7C">Security Group</th>
               <td>
-                {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="staff_security_groups" id="staff_security_groups">
                       <option value="{{ $roles->staff_security_groups }}" class="selectstatus" style="color: black;" selected>@if($roles->staff_security_groups === 1)
                         Full
@@ -381,9 +321,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -391,7 +328,7 @@
                       </select>
               </div>
               </td>
-            </tr>
+            </tr> --}}
           </tbody>
         </table>
 
@@ -410,7 +347,6 @@
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_dashboard" id="service_dashboard">
                       <option value="{{ $roles->service_dashboard }}" class="selectstatus" style="color: black;" selected>@if($roles->service_dashboard === 1)
                         Full
@@ -423,9 +359,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -439,7 +372,6 @@
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_list" id="service_list">
                       <option value="{{ $roles->service_list }}" class="selectstatus" style="color: black;" selected>@if($roles->service_list === 1)
                         Full
@@ -452,9 +384,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -468,7 +397,6 @@
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_treatment_plan" id="service_treatment_plan">
                       <option value="{{ $roles->service_treatment_plan }}" class="selectstatus" style="color: black;" selected>@if($roles->service_treatment_plan === 1)
                         Full
@@ -481,9 +409,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -497,7 +422,6 @@
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_category" id="service_category">
                       <option value="{{ $roles->service_category }}" class="selectstatus" style="color: black;" selected>@if($roles->service_category === 1)
                         Full
@@ -510,9 +434,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -526,7 +447,6 @@
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_diagnosis" id="service_diagnosis">
                       <option value="{{ $roles->service_diagnosis }}" class="selectstatus" style="color: black;" selected>@if($roles->service_diagnosis === 1)
                         Full
@@ -539,9 +459,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -550,12 +467,10 @@
               </div>
               </td>
             </tr>
-            <tr>
+            {{-- <tr>
               <th scope="row" style="color: #7C7C7C">Policy</th>
               <td>
-                {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="service_policy" id="service_policy">
                       <option value="{{ $roles->service_policy }}" class="selectstatus" style="color: black;" selected>@if($roles->service_policy === 1)
                         Full
@@ -568,9 +483,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -578,7 +490,7 @@
                       </select>
               </div>
               </td>
-            </tr>
+            </tr> --}}
           </tbody>
         </table>
 
@@ -592,12 +504,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            {{-- <tr>
               <th scope="row" style="color: #7C7C7C;width:300px">Dashboard Product</th>
               <td>
-                {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_dashboard" id="product_dashboard">
                       <option value="{{ $roles->product_dashboard }}" class="selectstatus" style="color: black;" selected>@if($roles->product_dashboard === 1)
                         Full
@@ -610,9 +520,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -620,13 +527,12 @@
                       </select>
               </div>
               </td>
-            </tr>
+            </tr> --}}
             <tr>
-              <th scope="row" style="color: #7C7C7C">Product List</th>
+              <th scope="row" style="color: #7C7C7C; width:300px">Product List</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_list" id="product_list">
                       <option value="{{ $roles->product_list }}" class="selectstatus" style="color: black;" selected>@if($roles->product_list === 1)
                         Full
@@ -639,9 +545,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -655,7 +558,6 @@
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_brand" id="product_brand">
                       <option value="{{ $roles->product_brand }}" class="selectstatus" style="color: black;" selected>@if($roles->product_brand === 1)
                         Full
@@ -668,9 +570,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -684,7 +583,6 @@
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_category" id="product_category">
                       <option value="{{ $roles->product_category }}" class="selectstatus" style="color: black;" selected disabled>@if($roles->product_category === 1)
                         Full
@@ -697,9 +595,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -713,7 +608,6 @@
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="product_suppliers" id="product_suppliers">
                       <option value="{{ $roles->product_suppliers }}" class="selectstatus" style="color: black;" selected>@if($roles->product_suppliers === 1)
                         Full
@@ -726,9 +620,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -744,17 +635,16 @@
         <table class="table m-2 mt-4">
           <thead>
             <tr>
-              <th scope="col"><b>Location</b></th>
+              <th scope="col"><b>Lokasi</b></th>
               <th scope="col">Permission</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row" style="color: #7C7C7C;width:300px">Dashboard Location</th>
+              <th scope="row" style="color: #7C7C7C;width:300px">Dashboard Lokasi</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="dashboard_location" id="dashboard_location">
                       <option value="{{ $roles->dashboard_location }}" class="selectstatus" style="color: black;" selected >@if($roles->dashboard_location === 1)
                         Full
@@ -767,9 +657,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -779,11 +666,10 @@
               </td>
             </tr>
             <tr>
-              <th scope="row" style="color: #7C7C7C">Location List</th>
+              <th scope="row" style="color: #7C7C7C">List Lokasi</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location_list" id="location_list">
                       <option value="{{ $roles->location_list }}" class="selectstatus" style="color: black;" selected>@if($roles->location_list === 1)
                         Full
@@ -796,9 +682,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -807,36 +690,11 @@
               </div>
               </td>
             </tr>
-            {{-- <tr>
-              <th scope="row" style="color: #7C7C7C">Facilities</th>
-              <td>
-                <div class="mb-1">
-                  <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="facilities" id="facilities">
-                      <option value="{{ $roles->facilities }}" class="selectstatus" style="color: black;" selected >@if($roles->facilities === 1)
-                        Full
-                      @elseif($roles->facilities === 2)
-                        Write
-                      @elseif($roles->facilities === 3)
-                        Read
-                      @elseif($roles->facilities === 4)
-                        None
-                      @else
-                        Select Permission
-                      @endif</option>
-                      <option value="1" class="selectstatus" style="color: black;">Full</option>
-                      <option value="2" class="selectstatus" style="color: black;">Write</option>
-                      <option value="3" class="selectstatus" style="color: black;">Read</option>
-                      <option value="4" class="selectstatus" style="color: black;">None</option>
-                      </select>
-              </div>
-              </td>
-            </tr> --}}
             <tr>
-              <th scope="row" style="color: #7C7C7C">Setting Location</th>
+              <th scope="row" style="color: #7C7C7C">Setting Lokasi</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="setting_location" id="setting_location">
                       <option value="{{ $roles->setting_location }}" class="selectstatus" style="color: black;" selected>@if($roles->setting_location === 1)
                         Full
@@ -849,9 +707,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -867,17 +722,16 @@
         <table class="table m-2 mt-4">
           <thead>
             <tr>
-              <th scope="col"><b>Finance</b></th>
+              <th scope="col"><b>Keuangan</b></th>
               <th scope="col">Permission</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row" style="color: #7C7C7C;width:300px">Dashboard Finance</th>
+              <th scope="row" style="color: #7C7C7C;width:300px">Dashboard Keuangan</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="dashboard_finance" id="dashboard_finance">
                       <option value="{{ $roles->dashboard_finance }}" class="selectstatus" style="color: black;" selected>@if($roles->dashboard_finance === 1)
                         Full
@@ -890,9 +744,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -904,9 +755,7 @@
             <tr>
               <th scope="row" style="color: #7C7C7C">Sale List</th>
               <td>
-                {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="sale_list" id="sale_list">
                       <option value="{{ $roles->sale_list }}" class="selectstatus" style="color: black;" selected>@if($roles->sale_list === 1)
                         Full
@@ -919,9 +768,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -930,12 +776,10 @@
               </div>
               </td>
             </tr>
-            <tr>
+            {{-- <tr>
               <th scope="row" style="color: #7C7C7C">Quotation List</th>
               <td>
-                {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="quotation_list" id="quotation_list">
                       <option value="{{ $roles->quotation_list }}" class="selectstatus" style="color: black;" selected>@if($roles->quotation_list === 1)
                         Full
@@ -948,9 +792,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -958,13 +799,11 @@
                       </select>
               </div>
               </td>
-            </tr>
-            <tr>
+            </tr> --}}
+            {{-- <tr>
               <th scope="row" style="color: #7C7C7C">Tax Rate</th>
               <td>
-                {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_rate" id="tax_rate">
                       <option value="{{ $roles->tax_rate }}" class="selectstatus" style="color: black;" selected>@if($roles->tax_rate === 1)
                         Full
@@ -977,9 +816,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -987,7 +823,7 @@
                       </select>
               </div>
               </td>
-            </tr>
+            </tr> --}}
           </tbody>
         </table>
 
@@ -995,17 +831,16 @@
         <table class="table m-2 mt-4">
           <thead>
             <tr>
-              <th scope="col"><b>Attendance</b></th>
+              <th scope="col"><b>Kehadiran</b></th>
               <th scope="col">Permission</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row" style="color: #7C7C7C;width:300px">Dashboard Attendance</th>
+              <th scope="row" style="color: #7C7C7C;width:300px">Dashboard Kehadiran</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="dashboard_attendance" id="dashboard_attendance">
                       <option value="{{ $roles->dashboard_attendance }}" class="selectstatus" style="color: black;" selected>@if($roles->dashboard_attendance === 1)
                         Full
@@ -1018,9 +853,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -1030,11 +862,10 @@
               </td>
             </tr>
             <tr>
-              <th scope="row" style="color: #7C7C7C">Attendance List</th>
+              <th scope="row" style="color: #7C7C7C">Data Kehadiran</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="attendance_list" id="attendance_list">
                       <option value="{{ $roles->attendance_list }}" class="selectstatus" style="color: black;" selected >@if($roles->attendance_list === 1)
                         Full
@@ -1047,9 +878,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -1059,11 +887,10 @@
               </td>
             </tr>
             <tr>
-              <th scope="row" style="color: #7C7C7C">Working Shift</th>
+              <th scope="row" style="color: #7C7C7C">Jam Kerja</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="working_shift" id="working_shift">
                       <option value="{{ $roles->working_shift }}" class="selectstatus" style="color: black;" selected>@if($roles->working_shift === 1)
                         Full
@@ -1076,9 +903,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -1088,11 +912,10 @@
               </td>
             </tr>
             <tr>
-              <th scope="row" style="color: #7C7C7C">Manage Staff Shift</th>
+              <th scope="row" style="color: #7C7C7C">Atur Shift Karyawan</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Permission</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="manage_staff_shift" id="manage_staff_shift">
                       <option value="{{ $roles->manage_staff_shift }}" class="selectstatus" style="color: black;" selected >@if($roles->manage_staff_shift === 1)
                         Full
@@ -1105,9 +928,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -1123,17 +943,15 @@
         <table class="table m-2 mt-4">
           <thead>
             <tr>
-              <th scope="col"><b>Presence</b></th>
+              <th scope="col"><b>Absent</b></th>
               <th scope="col">Permission</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
+            {{-- <tr>
               <th scope="row" style="color: #7C7C7C;width:300px">Absent</th>
               <td>
-                {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="absent" id="absent">
                       <option value="{{ $roles->absent }}" class="selectstatus" style="color: black;" selected>@if($roles->absent === 1)
                         Full
@@ -1146,9 +964,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -1156,13 +971,12 @@
                       </select>
               </div>
               </td>
-            </tr>
+            </tr> --}}
             <tr>
-              <th scope="row" style="color: #7C7C7C;width:300px">Presence Today</th>
+              <th scope="row" style="color: #7C7C7C;width:300px">Absen Karyawan</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="presence_today" id="presence_today">
                       <option value="{{ $roles->presence_today }}" class="selectstatus" style="color: black;" selected>@if($roles->presence_today === 1)
                         Full
@@ -1175,9 +989,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>
@@ -1193,17 +1004,16 @@
         <table class="table m-2 mt-4 ">
           <thead>
             <tr>
-              <th scope="col"><b>Reports</b></th>
+              <th scope="col"><b>Laporan</b></th>
               <th scope="col">Permission</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row" style="color: #7C7C7C;width:300px">Reports All</th>
+              <th scope="row" style="color: #7C7C7C;width:300px">Semua Laporan</th>
               <td>
                 {{-- Role Dropdown --}}
                 <div class="mb-1">
-                  {{-- <label for="customer_degree" class="form-label" style="font-size: 15px; color: #7C7C7C;">Security Group</label> --}}
                   <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="reports_all" id="reports_all">
                       <option value="{{ $roles->reports_all }}" class="selectstatus" style="color: black;" selected>@if($roles->reports_all === 1)
                         Full
@@ -1216,9 +1026,6 @@
                       @else
                         Select Permission
                       @endif</option>
-                      {{-- @foreach ($locations as $location)
-                          <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
-                      @endforeach --}}
                       <option value="1" class="selectstatus" style="color: black;">Full</option>
                       <option value="2" class="selectstatus" style="color: black;">Write</option>
                       <option value="3" class="selectstatus" style="color: black;">Read</option>

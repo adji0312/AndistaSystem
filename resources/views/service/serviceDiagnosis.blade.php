@@ -8,11 +8,11 @@
                     <a class="navbar-brand" id="navbar-brand-title" href="#">{{ $title }}</a>
                     <div class="d-flex justify-content-between w-100 align-items-center">
                         <div class="d-flex gap-4">
-                            @if(Auth::user()->role->service_policy === 1|Auth::user()->role->service_policy === 2)
+                            @if(Auth::user()->role->service_diagnosis === 1|Auth::user()->role->service_diagnosis === 2)
                                 <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#addDiagnosis" style="color: #f28123; cursor: pointer;"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
                             @else
                             @endif
-                            @if(Auth::user()->role->service_policy === 1)
+                            @if(Auth::user()->role->service_diagnosis === 1)
                                 <div id="deleteButton" style="display: none;">
                                     <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#deleteDiagnosis" onclick="clickDeleteButton()" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/trash.png" alt="" style="width: 22px"> Delete</a>
                                 </div>

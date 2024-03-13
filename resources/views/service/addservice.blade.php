@@ -47,25 +47,25 @@
                         </div>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
-                                <label for="location_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
+                                <label for="location_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Lokasi</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location_id" id="location_id" required>
-                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Location</option>
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Pilih Lokasi</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}" class="selectstatus" style="color: black;">{{ $location->location_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="category_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Category</label>
+                                <label for="category_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Kategori</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="category_service_id" id="category_id" required>
-                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Category</option>
+                                    <option value="" class="selectstatus" style="color: black;" selected disabled>Pilih Kategori</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}" class="selectstatus" style="color: black;">{{ $category->category_service_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="tax_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tax Rate</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_id" id="tax_id">
                                     <option value="" class="selectstatus" style="color: black;" selected disabled>Select Tax</option>
@@ -73,11 +73,11 @@
                                         <option value="{{ $t->id }}" class="selectstatus" style="color: black;">{{ $t->tax_name }} ({{ $t->tax_rate }}%)</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
                         </div>
 
 
-                        <div class="m-3 d-flex gap-5">
+                        {{-- <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="policy_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Policy</label>
                                 @if (count($policies) != 0 || count($policies) != null)
@@ -107,21 +107,21 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                     {{-- PRICES --}}
                     <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                        <h5 class="m-3">Prices</h5>
+                        <h5 class="m-3">Harga Servis</h5>
                         <div id="afterPrice" class="table-responsive">
                             <table class="table m-3" style="width: 95%;" id="priceDuplicate">
                                 <thead>
                                 <tr>
-                                    <th scope="col">Duration</th>
-                                    <th scope="col">Units</th>
-                                    <th scope="col">Price (Rp)</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Title</th>
+                                    <th scope="col">Durasi</th>
+                                    <th scope="col">Waktu</th>
+                                    <th scope="col">Harga (Rp)</th>
+                                    <th scope="col">Lokasi</th>
+                                    <th scope="col">Nama</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -161,7 +161,7 @@
                         </div>
                         
                         <div class="m-3 mt-4">
-                            <button type="button" class="btn btn-sm btn-outline-dark" onclick="duplicatePriceService()"><i class="fas fa-plus"></i> Add</button>
+                            <button type="button" class="btn btn-sm btn-outline-dark" onclick="duplicatePriceService()"><i class="fas fa-plus"></i> Tambah</button>
                         </div>
 
                         

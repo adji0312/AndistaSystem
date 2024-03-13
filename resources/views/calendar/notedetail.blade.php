@@ -15,9 +15,11 @@
                             <li class="nav-item" style="cursor: pointer;">
                                 <a href="/booking/detail/{{ $note->sub_booking_id }}" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Kembali</a>
                             </li>
-                            <li class="nav-item" style="cursor: pointer;">
-                                <a onclick="editTextBooking()" class="nav-link active" style="color: #f28123" ><img src="/img/icon/save.png" alt="" style="width: 22px"> Perbarui</a>
-                            </li>
+                            @if ($note->subbooking->status == 2 || ($note->subbooking->status == 5 && $note->subbooking->ranap == 1))
+                                <li class="nav-item" style="cursor: pointer;">
+                                    <a onclick="editTextBooking()" class="nav-link active" style="color: #f28123" ><img src="/img/icon/save.png" alt="" style="width: 22px"> Perbarui</a>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </div>

@@ -318,7 +318,13 @@ class IndexController extends Controller
     public function detailinvoice($name){
         // dd($name);
         $sale = Sale::all()->where('no_invoice', $name)->first();
-        $subbook = SubBook::find($sale->sub_booking_id);
+        // dd($sale);
+        $subbook = '';
+        if($sale->sub_booking_id != 0){
+            $subbook = SubBook::find($sale->sub_booking_id);
+        }
+
+        $subAccount = '';
         // dd($subbook);
         // dd($sale);
         // dd($sale->booking->customer->pets);
@@ -327,7 +333,9 @@ class IndexController extends Controller
         $item = $sale->booking;
         $staff = Staff::all()->where('status', 'Active');
         // dd($staff);
-        $subAccount = Pet::all()->where('customer_id', $sale->booking->customer->id);
+        if($sale->sub_booking_id != 0){
+            $subAccount = Pet::all()->where('customer_id', $sale->booking->customer->id);
+        }
 
         $invoice_method = InvoicePayment::all()->where('invoice_id', $sale->id);
         return view('finance.detailsalelistunpaid', [

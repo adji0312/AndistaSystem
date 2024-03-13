@@ -26,32 +26,29 @@
                 <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
-                        <th scope="col" style="color: #7C7C7C">Name</th>
-                        <th scope="col" style="color: #7C7C7C">Location</th>
-                        <th scope="col" style="color: #7C7C7C">Date</th>
-                        <th scope="col" style="color: #7C7C7C">Customer</th>
-                        <th scope="col" style="color: #7C7C7C">Sub Customer</th>
+                        <th scope="col" style="color: #7C7C7C; width: 50px;">No</th>
+                        <th scope="col" style="color: #7C7C7C">Invoice No</th>
+                        <th scope="col" style="color: #7C7C7C">Tanggal</th>
+                        <th scope="col" style="color: #7C7C7C">Pelanggan</th>
+                        <th scope="col" style="color: #7C7C7C">Sub Pelanggan</th>
                         <th scope="col" style="color: #7C7C7C">Total</th>
                         <th scope="col" style="color: #7C7C7C">Metode Pembayaran</th>
                       </tr>
                     </thead>
                     <tbody>
+                        <?php $index = 1; ?>
                         @foreach ($sales as $sale)
                             <tr>
                                 <th class="align-middle">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="checkBox[{{ $sale->id }}]" name="checkBox"  value="{{ $sale->id }}">
-                                    </div>
+                                    {{ $index++ }}
                                 </th>
                                 <td class="text-primary align-middle" style="cursor: pointer;">
                                     <a href="/sale/list/detail/{{ $sale->no_invoice }}">{{ $sale->no_invoice }}</a>
                                 </td>
-                                <td class="align-middle">{{ $sale->booking->location->location_name }}</td>
-                                <?php $date = date_create($sale->booking->booking_date) ?>
-                                <td class="align-middle">{{ date_format($date, 'd M Y') }}</td>
-                                <td class="align-middle">{{ $sale->booking->customer->first_name }}</td>
-                                <td class="align-middle">{{ $sale->sub_booking->pet->pet_name }}</td>
+                                {{-- <td class="align-middle">{{ $sale->booking ? $sale->booking->location->location_name : "-" }}</td> --}}
+                                <td class="align-middle">{{ $sale->created_at->isoFormat('D MMMM Y') }} {{ date_format($sale->created_at, 'H:i') }}</td>
+                                <td class="align-middle">{{ $sale->customer_name }}</td>
+                                <td class="align-middle">{{ $sale->sub_booking ? $sale->sub_booking->pet->pet_name : "-" }}</td>
                                 <td class="align-middle">Rp {{ number_format($sale->total_price - $sale->amount_discount) }}</td>
                                 <td class="align-middle">
                                     @foreach ($sale->invoicepayment as $si)

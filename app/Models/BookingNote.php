@@ -10,4 +10,8 @@ class BookingNote extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function subbooking(){
+        return $this->belongsTo(SubBook::class, 'sub_booking_id');
+    }
 }

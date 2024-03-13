@@ -24,7 +24,7 @@
             <a id="locationsdashboard" href="/booking/terjadwal" class="px-4"><img src="/img/icon/terjadwal.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Terjadwal ({{ count($terjadwal) }})</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Rawat Inap") ? 'active' : '' }}">
-            <?php $ranap = App\Models\SubBook::all()->where('status', 5); ?>
+            <?php $ranap = App\Models\SubBook::all()->where('status', 5)->where('ranap', 1); ?>
             <a id="locationsdashboard" href="/booking/rawatinap" class="px-4"><img src="/img/icon/rawatinap.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Rawat Inap ({{ count($ranap) }})</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Kedatangan") ? 'active' : '' }}">
@@ -40,7 +40,7 @@
             <a id="locationsdashboard" href="/booking/apotek" class="px-4"><img src="/img/icon/apotek.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Apotek ({{ count($apotek) }})</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Selesai") ? 'active' : '' }}">
-            <?php $selesai = App\Models\SubBook::all()->where('status', 4); ?>
+            <?php $selesai = App\Models\SubBook::where('status', 4)->orWhere('ranap', 2)->get(); ?>
             <a id="locationsdashboard" href="/booking/selesai" class="px-4"><img src="/img/icon/selesai.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Selesai ({{ count($selesai) }})</a>
         </li>
         @else

@@ -23,6 +23,10 @@ class Sale extends Model
         return $this->hasMany(InvoicePayment::class, 'invoice_id');
     }
 
+    public function carts(){
+        return $this->hasMany(CartBooking::class, 'invoice_id');
+    }
+
     public function scopeFilter($query, array $filters){
         $query->when($filters['search'] ?? false, function($query, $search){
             return $query->where('customer_name', 'like', '%' . $search . '%')

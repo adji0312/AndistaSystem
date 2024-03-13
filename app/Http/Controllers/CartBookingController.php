@@ -51,40 +51,79 @@ class CartBookingController extends Controller
     public function addCartProduct2(Request $request){
         // dd($request->all());
         $product = Product::where('product_name', $request->product_id)->first();
+
+        if($product == null || $product == ''){
+            Alert::warning('Gagal', "Produk tidak tersedia!");
+            return redirect()->back();
+        }
+
         $sale = Sale::find($request->sale_id);
-        $booking = Booking::find($sale->booking_id);
-        $subBook = SubBook::find($sale->sub_booking_id);
-        // dd($subBook);
         // dd($sale);
-        // dd($product);
-        $validatedData = $request->validate([
-            'booking_id' => 'required',
-            // 'sub_booking_id' => 'required',
-            // 'staff_id' => 'required'
-        ]);
 
-        $validatedData['product_id'] = $product->id;
-        $validatedData['sub_booking_id'] = $sale->sub_booking_id;
-        $validatedData['staff_id'] = 0;
-        $validatedData['quantity'] = 1;
-        $validatedData['flag'] = 1;
-        $validatedData['total_price'] = $product->price;
+        if($sale->booking_id != 0 && $sale->sub_booking_id != 0){
+            $validatedData = $request->validate([
+                'booking_id' => 'required'
+            ]);
+    
+            // $validatedData['product_id'] = $product->id;
+            // $validatedData['booking'] = $sale->sub_booking_id;
+            // $validatedData['sub_booking_id'] = $sale->sub_booking_id;
+            // $validatedData['staff_id'] = Auth::user()->id;
+            // $validatedData['quantity'] = 1;
+            // $validatedData['flag'] = 1;
+            // $validatedData['total_price'] = $product->price;
 
-        // DB::table('products')
+            $validatedData['booking_id'] = $sale->booking->id;
+            $validatedData['sub_booking_id'] = $sale->sub_booking->id;
+            $validatedData['product_id'] = $product->id;
+            $validatedData['staff_id'] = Auth::user()->id;
+            $validatedData['quantity'] = 1;
+            $validatedData['flag'] = 1;
+            $validatedData['total_price'] = $product->price;
+            $validatedData['invoice_id'] = $request->invoice_id;
+            $validatedData['name'] = $product->product_name;
+            CartBooking::create($validatedData);
 
-        CartBooking::create($validatedData);
+            $sale->total_price = 0;
+            $sale->save();
+            foreach($sale->carts as $sc){
+                $sale->total_price += $sc->total_price;
+            }
 
-        $sale->total_price = $sale->total_price + $product->price;
-        $sale->save();
+            $sale->save();
+        }else{
+            $validatedData['booking_id'] = 0;
+            $validatedData['sub_booking_id'] = 0;
+            $validatedData['product_id'] = $product->id;
+            $validatedData['staff_id'] = Auth::user()->id;
+            $validatedData['quantity'] = 1;
+            $validatedData['flag'] = 1;
+            $validatedData['total_price'] = $product->price;
+            $validatedData['invoice_id'] = $request->invoice_id;
+            $validatedData['name'] = $product->product_name;
+            CartBooking::create($validatedData);
+            
+            $sale->total_price = 0;
+            $sale->save();
+            foreach($sale->carts as $sc){
+                $sale->total_price += $sc->total_price;
+            }
 
-        $booking->total_price = $sale->total_price;
-        $booking->save();
+            $sale->save();
 
-        $subBook->sub_total_price = $sale->total_price;
-        // dd($subBook);
-        $subBook->save();
+        }
 
         
+
+        // if($sale->booking_id != 0 && $sale->sub_booking_id != 0){
+        //     // $booking = Booking::find($sale->booking_id);
+        //     $subBook = SubBook::find($sale->sub_booking_id);
+        //     $subBook->sub_total_price = $sale->total_price;
+        //     // dd($subBook);
+        //     $subBook->save();
+        // }
+
+        Alert::success('Berhasil', 'Item Baru Berhasil Ditambahkan!');
         return redirect()->back();
     }
 
@@ -151,57 +190,93 @@ class CartBookingController extends Controller
         $service = Service::where('service_name', $request->service_name)->first();
         // dd($service);
 
-        $validatedData = $request->validate([
-            'booking_id' => 'required'
-        ]);
+        if($service == null || $service == ''){
+            Alert::warning('Gagal', "Servis tidak tersedia!");
+            return redirect()->back();
+        }
 
-        $validatedData['service_id'] = $service->id;
-        $validatedData['sub_booking_id'] = $request->sub_booking_id;
-        $validatedData['staff_id'] = 0;
-        $validatedData['quantity'] = 1;
-        $validatedData['flag'] = 1;
-        $validatedData['total_price'] = 0;
+        $sale = Sale::find($request->sale_id);
+        // dd($subBook);
+        // dd($sale);
+        
+        if($sale->booking_id != 0 && $sale->sub_booking_id != 0){
+            $validatedData = $request->validate([
+                'booking_id' => 'required'
+            ]);
+            $subBook = SubBook::find($request->sub_booking_id);
+    
+            $validatedData['service_id'] = $service->id;
+            $validatedData['booking_id'] = $subBook->booking_id;
+            $validatedData['sub_booking_id'] = $request->sub_booking_id;
+            $validatedData['staff_id'] = Auth::user()->id;
+            $validatedData['quantity'] = 1;
+            $validatedData['flag'] = 1;
+            $validatedData['total_price'] = 0;
+            $validatedData['invoice_id'] = $sale->id;
+            $validatedData['name'] = $service->service_name;
+    
+            // DB::table('products')
+    
+            CartBooking::create($validatedData);
+        }else{
+            $validatedData['booking_id'] = 0;
+            $validatedData['sub_booking_id'] = 0;
+            $validatedData['service_id'] = $service->id;
+            $validatedData['staff_id'] = Auth::user()->id;
+            $validatedData['quantity'] = 1;
+            $validatedData['flag'] = 1;
+            $validatedData['total_price'] = 0;
+            $validatedData['invoice_id'] = $sale->id;
+            $validatedData['name'] = $service->service_name;
+            // dd($validatedData);
+            CartBooking::create($validatedData);
+            
+            // $sale->total_price = 0;
+            // $sale->save();
+            // foreach($sale->carts as $sc){
+            //     $sale->total_price += $sc->total_price;
+            // }
 
-        // DB::table('products')
-
-        CartBooking::create($validatedData);
+            // $sale->save();
+        }
+        Alert::success('Berhasil', 'Item Baru Berhasil Ditambahkan!');
         return redirect()->back();
     }
 
     public function deleteCartBooking($id){
         $cart = CartBooking::find($id);
+        // dd($cart);
 
         DB::table('cart_bookings')->where('id', $cart->id)->delete();
         return redirect()->back();
     }
 
-    public function deleteCartBooking2(Request $request, $id){
+    public function deleteCartBooking2($id){
         // dd($request->all());
         $cart = CartBooking::find($id);
         // dd($cart);
         $booking = Booking::find($cart->booking_id);
         $subBooking = SubBook::find($cart->sub_booking_id);
-        $sale = Sale::find($request->sale_id);
+        $sale = Sale::find($cart->invoice_id);
         // dd($sale);
         // dd($subBooking);
         
         if($cart->product_id != null){
             // dd($cart->total_price);
-
-            $booking->total_price = $booking->total_price - $cart->total_price;
-            $booking->save();
-
-            $subBooking->sub_total_price = $subBooking->sub_total_price - $cart->total_price;
-            $subBooking->save();
-
             $sale->total_price = $sale->total_price - $cart->total_price;
             $sale->save();
 
-            if($cart->flag == 0){
-                $product = Product::find($cart->product_id);
-                $product->stock = $product->stock + $cart->quantity;
-                $product->save();
+            if($cart->booking_id != 0 && $cart->sub_booking_id != 0){
+                $booking->total_price = $sale->total_price;
+                $booking->save();
+    
+                $subBooking->sub_total_price = $sale->total_price;
+                $subBooking->save();
             }
+            
+            // $product = Product::find($cart->product_id);
+            // $product->stock = $product->stock + $cart->quantity;
+            // $product->save();
 
             DB::table('cart_bookings')->where('id', $cart->id)->delete();
             
@@ -210,15 +285,17 @@ class CartBookingController extends Controller
             // $cartBooking = $cart->booking->sale->first();
             // $cartBooking->total_price = $cartBooking->total_price - $cart->total_price;
             // $cartBooking->save();
-
-            $booking->total_price = $booking->total_price - $cart->total_price;
-            $booking->save();
-
-            $subBooking->sub_total_price = $subBooking->sub_total_price - $cart->total_price;
-            $subBooking->save();
-
             $sale->total_price = $sale->total_price - $cart->total_price;
             $sale->save();
+
+            if($cart->booking_id != 0 && $cart->sub_booking_id != 0){
+                $booking->total_price = $sale->total_price;
+                $booking->save();
+    
+                $subBooking->sub_total_price = $sale->total_price;
+                $subBooking->save();
+            }
+
 
             DB::table('cart_bookings')->where('id', $cart->id)->delete();
         }
@@ -258,9 +335,11 @@ class CartBookingController extends Controller
         // dd($request->all());
         $cart = CartBooking::find($id);
         $servicePrice = ServicePrice::find($request->service_price_id);
-        // dd($servicePice);
+        $sale = Sale::find($cart->invoice_id);
+        // dd($servicePrice);
         
         if($cart->service_id != null){
+            // dd($servicePrice);
             // dd($request->all());
             $totalPrice = $request->quantity * $servicePrice->price;
             // dd($totalPrice);
@@ -269,13 +348,50 @@ class CartBookingController extends Controller
             $cart->total_price = $totalPrice;
             $cart->service_price_id = $servicePrice->id;
             $cart->save();
+
+            if($sale){
+                $sale->total_price = 0;
+                $sale->save();
+                foreach($sale->carts as $sc){
+                    $sale->total_price += $sc->total_price;
+                }
+                $sale->save();
+            }
+
+            // if($cart->sub_booking_id != 0 && $cart->booking_id != 0){
+            //     // update buat subBooking
+            //     $subBook = SubBook::find($cart->sub_booking_id);
+            //     $subBook->sub_total_price = $sale->total_price;
+            //     $subBook->save();
+            // }
         }else{
+
+            if($request->quantity > $cart->product->stock){
+                Alert::warning('Gagal!', 'Stock Produk Tidak Cukup! ' . 'Stock Produk Tersisa ' . $cart->product->stock);
+                return redirect()->back();
+            }
             $totalPrice = $request->quantity * $cart->product->price;
             // dd($totalPrice);
     
             $cart->quantity = $request->quantity;
             $cart->total_price = $totalPrice;
             $cart->save();
+
+            if($sale){
+                $sale->total_price = 0;
+                $sale->save();
+                foreach($sale->carts as $sc){
+                    $sale->total_price += $sc->total_price;
+                }
+                $sale->save();
+            }
+
+            // if($cart->sub_booking_id != 0 && $cart->booking_id != 0){
+            //     // update buat subBooking
+            //     $subBook = SubBook::find($cart->sub_booking_id);
+            //     $subBook->sub_total_price = $sale->total_price;
+            //     $subBook->save();
+            // }
         }
 
         return redirect()->back();
@@ -379,8 +495,9 @@ class CartBookingController extends Controller
         // dd($request->all());
         $cart = CartBooking::find($id);
         // $booking = Booking::find($request->booking_id);
-        $subBook = SubBook::find($request->sub_booking_id);
-        // dd($subBook);
+        $subBook = SubBook::find($cart->subBooking->id);
+        
+        // dd($sale);
         // dd($cart->quantity);
         $cart->flag = 0;
         $cart->save();
@@ -393,8 +510,12 @@ class CartBookingController extends Controller
 
         // $booking->total_price = $booking->total_price + $cart->total_price;
         // $booking->save();
-        $subBook->sub_total_price = $subBook->sub_total_price + $cart->total_price;
-        $subBook->save();
+
+        // if($cart->booking_id != 0 && $cart->sub_booking_id != 0){
+        //     $sale = Sale::find($cart->invoice->id);
+        //     $subBook->sub_total_price = $sale->total_price;
+        //     $subBook->save();
+        // }
 
         return redirect()->back();
     }
@@ -486,21 +607,66 @@ class CartBookingController extends Controller
         $cart = CartBooking::find($id);
         $cart->total_price = $request->total_price;
         $cart->save();
-        $subBooking = SubBook::find($cart->sub_booking_id);
-        $subBooking->sub_total_price = 0;
-        $subBooking->save();
-        foreach($subBooking->carts as $sc){
-            $subBooking->sub_total_price += $sc->total_price;
-        }
-        $subBooking->save();
 
-        $sale = Sale::find($request->sale_id);
-        $sale->total_price = $subBooking->sub_total_price;
-        $sale->save();
+        if($cart->sub_booking_id != 0){
+            $subBooking = SubBook::find($cart->sub_booking_id);
+            $subBooking->sub_total_price = 0;
+            $subBooking->save();
+            foreach($subBooking->carts as $sc){
+                $subBooking->sub_total_price += $sc->total_price;
+            }
+            $subBooking->save();
+            $sale = Sale::find($request->sale_id);
+            $sale->total_price = $subBooking->sub_total_price;
+            $sale->save();
+            
+        }else{
+            $sale = Sale::find($request->sale_id);
+            $sale->total_price = 0;
+            foreach($sale->carts as $sc){
+                $sale->total_price += $sc->total_price;
+            }
+            $sale->save();
+        }
+
         // dd($subBooking->sub_total_price);
 
         // dd($cart);
         return redirect()->back();
         // dd($request->all());
     }
+
+    // public function editQtyCart(Request $request, $id){
+    //     // dd($request->all());
+    //     $cart = CartBooking::find($id);
+    //     $product = Product::find($cart->product_id);
+    //     $sale = Sale::find($cart->invoice_id);
+    //     // dd($sale);
+        
+    //     if($product->stock < $request->quantity){
+    //         Alert::warning('Gagal!', 'Stock Produk Tidak Cukup! ' . 'Stock Produk Tersisa ' . $product->stock);
+    //         return redirect()->back();
+    //     }else{
+    //         $cart->quantity = $request->quantity;
+    //         $cart->total_price = $product->price * $request->quantity;
+    //         $cart->save();
+
+    //         $product->stock -= $cart->quantity;
+    //         $product->save();
+            
+    //         if($cart->booking_id != 0 && $cart->sub_booking_id !=0){
+    
+    //         }else{
+    //             $sale->total_price = 0;
+    //             $sale->save();
+    //             foreach($sale->carts as $sc){
+    //                 $sale->total_price += $sc->total_price;
+    //             }
+    
+    //             $sale->save();
+    //         }
+    //         return redirect()->back();
+    //     }
+
+    // }
 }

@@ -6,8 +6,11 @@ use App\Models\Customer;
 use App\Models\Location;
 use App\Models\Quotation;
 use App\Models\QuotationItem;
+use App\Models\Sale;
 use App\Models\Staff;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\DB;
 
 class QuotationController extends Controller
@@ -22,6 +25,13 @@ class QuotationController extends Controller
     public function addquotation(){
         return view('finance.addquotation', [
             "title" => "Quotation List",
+            "locations" => Location::all()->where('status', 'Active')
+        ]);
+    }
+
+    public function addInvoice(){
+        return view('finance.addInvoice', [
+            "title" => "Invoice Baru",
             "locations" => Location::all()->where('status', 'Active')
         ]);
     }
@@ -41,8 +51,9 @@ class QuotationController extends Controller
         ]);
     }
 
-    public function storeQuotation(Request $request){
+    public function storeNewInvoice(Request $request){
 
+        // dd($request->all());
         $string = $request->customer_id;
         $prefix = "(";
         $index = strpos($string, $prefix) + strlen($prefix);
@@ -52,33 +63,37 @@ class QuotationController extends Controller
         $customer_name = substr($request->customer_id, 0, strpos($request->customer_id, ' ('));
         $customer_phone = substr($phone, 0, strpos($phone, ')'));
         $customer = Customer::where("first_name","LIKE","%{$customer_name}%")->where("phone", $customer_phone)->get();
+        // dd($customer->first());
 
-        // dd($customer);
+        $lastSales = DB::table('sales')->latest('created_at')->first();
+            // dd($lastSales);
 
-        $validatedData = $request->validate([
-            'location_id' => 'required',
-            'quotation_date' => 'required',
-        ]);
-
-        // if()
-        $lastQuo1 = DB::table('quotations')->latest('created_at')->first();
-        if($lastQuo1 == null || $lastQuo1 == ''){
+        if($lastSales == null || $lastSales == ''){
             $nextNumber = sprintf("%05d", 1);
-            $validatedData['quotation_name'] = "QUO-" . $nextNumber;
-            // dd($validatedData['quotation_name']);
         }else{
-            // $lastId = $lastQuo1->id + 1;
-            $nextNumber = sprintf("%05d", $lastQuo1->id + 1);
-            $validatedData['quotation_name'] = "QUO-" . $nextNumber;
+            $nextNumber = sprintf("%05d", $lastSales->id + 1);
         }
+        // dd($nextNumber);
+        $sales = new Sale();
+        $sales->no_invoice = "INV-" . $nextNumber;
+        $sales->booking_id = 0;
+        $sales->sub_booking_id = 0;
+        $sales->diskon = 0;
+        $sales->deskripsi_tambahan_biaya = '-';
+        $sales->tambahan_biaya = 0;
+        $sales->metode = '-';
+        $sales->status = 1;
+        $sales->is_delete = 1;
+        $sales->customer_name = $customer->first()->first_name;
+        $sales->sub_account_name = '-';
+        $sales->pesan_resepsionis = '-';
+        $sales->resepsionis_id = Auth::user()->id;
+        $sales->save();
 
-        $validatedData['customer_id'] = $customer->first()->id;
-        $validatedData['total_price'] = 0;
-        $validatedData['is_delete'] = 1;
+        $saleTerakhir = DB::table('sales')->latest('created_at')->first();
+        
+        // Alert::success('Berhasil!', 'Invoice Berhasil Dibuat!');
 
-        Quotation::create($validatedData);
-
-        $lastQuo = DB::table('quotations')->latest('created_at')->first();
-        return redirect('/quotation/add' . '/' . $lastQuo->quotation_name);
+        return redirect('/sale/list/detail/' . $saleTerakhir->no_invoice);
     }
 }

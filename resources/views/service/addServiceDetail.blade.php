@@ -12,11 +12,11 @@
                       <div class="d-flex gap-4">
                         <a class="nav-link active" aria-current="page" href="/service/list" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> List</a>
                         @if(Auth::user()->role->service_list === 1|Auth::user()->role->service_list === 1)
-                            <a class="nav-link active" aria-current="page" onclick="saveFacility()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Save</a>
+                            <a class="nav-link active" aria-current="page" onclick="saveFacility()" style="color: #f28123; cursor: pointer;"><img src="/img/icon/save.png" alt="" style="width: 22px"> Simpan</a>
                         @else
                         @endif
                         @if(Auth::user()->role->service_list === 1|Auth::user()->role->service_list === 2)
-                            <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#discardChange" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/discard.png" alt="" style="width: 22px"> Discard</a>
+                            <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#discardChange" style="color: #ff3f5b; cursor: pointer;"><img src="/img/icon/discard.png" alt="" style="width: 22px"> Batalkan</a>
                         @else
                         @endif
                       </div>
@@ -32,7 +32,7 @@
                         <h5 class="m-3">Basic Info</h5>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Service Name</label>
+                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Nama Servis</label>
                                 <input type="text" class="form-control @error('service_name') is-invalid @enderror" name="service_name" id="service_name" value="{{ old('service_name', $service->service_name) }}" required>
                                 @error('service_name')
                                     <div class="invalid-feedback">
@@ -59,7 +59,7 @@
                         </div>
                         <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
+                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Lokasi</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="location_id" id="location_id">
                                     @foreach ($locations as $location)
                                         @if ($location->id == $service->location_id)
@@ -71,7 +71,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Category</label>
+                                <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Kategori</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="category_service_id" id="category_id">
                                     @foreach ($categories as $category)
                                         @if ($category->id == $service->category_service_id)
@@ -83,7 +83,7 @@
                                 </select>
                             </div>
                             
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="tax_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tax Rate</label>
                                 @if ($service->tax_id == 0)
                                     <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_id" id="tax_id">
@@ -104,11 +104,11 @@
                                         <option value="0" class="selectstatus" style="color: black;">No Tax</option>
                                     </select>
                                 @endif
-                            </div>
+                            </div> --}}
                         </div>
     
     
-                        <div class="m-3 d-flex gap-5">
+                        {{-- <div class="m-3 d-flex gap-5">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Policy</label>
                                             
@@ -122,7 +122,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <button type="submit" id="submitFacility" hidden></button>
                 </form>
@@ -130,7 +130,7 @@
                 {{-- PRICES --}}
                 <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                     <div class="d-flex m-2">
-                        <h5 class="m-3">Prices</h5>
+                        <h5 class="m-3">Harga Servis</h5>
                         @if(Auth::user()->role->service_list === 1|Auth::user()->role->service_list === 2)
                         <button type="button" class="btn btn-sm btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#addPriceService"><i class="fas fa-plus"></i> Add</button>
                         @else
@@ -142,11 +142,11 @@
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col" style="width: 8%">Duration</th>
-                                    <th scope="col">Units</th>
-                                    <th scope="col">Price (Rp)</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Title</th>
+                                    <th scope="col" style="width: 8%">Durasi</th>
+                                    <th scope="col">Waktu</th>
+                                    <th scope="col">Harga (Rp)</th>
+                                    <th scope="col">Lokasi</th>
+                                    <th scope="col">Nama</th>
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -169,7 +169,7 @@
                                                 @else
                                                 @endif
                                                 @if(Auth::user()->role->service_list === 1)  
-                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deletePriceService{{ $ps->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" style="width: 90px" data-bs-toggle="modal" data-bs-target="#deletePriceService{{ $ps->id }}"><i class="fas fa-trash"></i> Hapus</button>
                                                 @else
                                                 @endif
                                             </div>
@@ -180,20 +180,20 @@
                                         <div class="modal-dialog">
                                           <div class="modal-content">
                                             <div class="modal-header">
-                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Price</h1>
+                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Harga Servis</h1>
                                             </div>
                                             
                                             <form action="/deletePriceService/{{ $ps->id }}" method="GET">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <div class="mb-1">
-                                                        <small class="fs-6" style="font-weight: 300">Are you sure delete this item?</small>
+                                                        <small class="fs-6" style="font-weight: 300">Apakah anda yakin ingin menghapus item ini?</small>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
                                                     @if(Auth::user()->role->service_list === 1)
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Hapus</button>
                                                     @else
                                                     @endif
                                                 </div>
@@ -206,18 +206,18 @@
                                         <div class="modal-dialog">
                                           <div class="modal-content">
                                             <div class="modal-header">
-                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Update Price</h1>
+                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Update Harga Servis</h1>
                                             </div>
                                             <form action="/updatePriceService/{{ $ps->id }}" method="post">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <div class="mb-3">
                                                         <input type="hidden" value="{{ $service->id }}" name="service_id">
-                                                        <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration</label>
+                                                        <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Durasi</label>
                                                         <input type="number" class="form-control" id="duration" name="duration" value="{{ $ps->duration }}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="duration_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Units</label>
+                                                        <label for="duration_type" class="form-label" style="font-size: 15px; color: #7C7C7C;">Waktu</label>
                                                         <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="duration_type" id="duration_type">
                                                             @if ($ps->duration_type == "Minutes")
                                                                 <option value="Minutes" class="selectstatus" style="color: black;" selected>Minutes</option>
@@ -243,11 +243,11 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="price" class="form-label" style="font-size: 15px; color: #7C7C7C;">Price (Rp)</label>
+                                                        <label for="price" class="form-label" style="font-size: 15px; color: #7C7C7C;">Harga (Rp)</label>
                                                         <input type="number" class="form-control" id="price" name="price" value="{{ $ps->price }}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="location_price_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
+                                                        <label for="location_price_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Lokasi</label>
                                                         <select class="form-select" style="font-size: 15px; color: #7C7C7C;" name="location_price_id" id="location_price_id">
                                                             @foreach ($locations as $location)
                                                                 @if ($location->id == $ps->location_price_id)
@@ -259,15 +259,15 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="price_title" class="form-label" style="font-size: 15px; color: #7C7C7C;">Title</label>
+                                                        <label for="price_title" class="form-label" style="font-size: 15px; color: #7C7C7C;">Nama</label>
                                                         <input type="text" class="form-control" id="price_title" name="price_title" value="{{ $ps->price_title }}">
                                                     </div>
                                                     
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
                                                     @if(Auth::user()->role->service_list === 1)
-                                                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                                                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Simpan</button>
                                                     @else
                                                     @endif
                                                 </div>

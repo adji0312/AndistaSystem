@@ -34,4 +34,8 @@ class SubBook extends Model
     public function files(){
         return $this->belongsTo(AttachNote::class, 'sub_booking_id');
     }
+
+    public function invoice(){
+        return $this->hasMany(Sale::class, 'sub_booking_id');
+    }
 }

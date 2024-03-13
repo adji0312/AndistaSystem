@@ -154,10 +154,10 @@
 
                     {{-- Sub Customer List (PET) --}}
                     <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                        <h5 class="m-3">Pricing</h5>
+                        <h5 class="m-3">Harga Produk</h5>
                         {{-- <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;"> --}}
                             <div class="m-3 d-flex gap-5">
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="tax_rate_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tax</label>
                                     <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_rate_id" id="tax_rate_id">
                                         <option value="" class="selectstatus" style="color: black;" selected disabled>Select Tax Rate</option>
@@ -165,12 +165,8 @@
                                         @foreach ($tax as $t)
                                             <option value="{{ $t->id }}" class="selectstatus" style="color: black;">{{ $t->tax_name }}</option>
                                         @endforeach
-                                        {{-- <option value="Tn" class="selectstatus" style="color: black;">Tn</option>
-                                        <option value="Ny" class="selectstatus" style="color: black;">Ny</option>
-                                        <option value="Mr" class="selectstatus" style="color: black;">Mr</option>
-                                        <option value="Mrs" class="selectstatus" style="color: black;">Mrs</option> --}}
                                     </select>
-                                </div>
+                                </div> --}}
                                 <div class="mb-3">
                                     <label for="price" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Price</label>
                                     <input type="text" class="form-control" name="price" id="price" value="{{ old('price') }}">

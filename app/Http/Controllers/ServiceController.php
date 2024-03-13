@@ -29,7 +29,7 @@ class ServiceController extends Controller
                 'status' => 'required',
                 'location_id' => 'required',
                 'category_service_id' => 'required',
-                'policy_id' => 'required'
+                // 'policy_id' => 'required'
             ]);
             if($request->simple_service_name != null || $request->simple_service_name != ''){
                 $validatedData['simple_service_name'] = $request->simple_service_name;
@@ -55,7 +55,7 @@ class ServiceController extends Controller
                 'status' => 'required',
                 'location_id' => 'required',
                 'category_service_id' => 'required',
-                'policy_id' => 'required'
+                // 'policy_id' => 'required'
             ]);
             if($request->simple_service_name != null || $request->simple_service_name != ''){
                 $validatedData['simple_service_name'] = $request->simple_service_name;
@@ -114,9 +114,9 @@ class ServiceController extends Controller
             'status' => 'required',
             'location_id' => 'required',
             'category_service_id' => 'required',
-            'policy_id' => 'required',
+            // 'policy_id' => 'required',
             'simple_service_name' => '',
-            'tax_id' => '',
+            // 'tax_id' => '',
         ];
 
         if($request->service_name != $service->service_name){
@@ -151,6 +151,7 @@ class ServiceController extends Controller
     public function discardChange($id){
 
         $service = Service::find($id);
+        // dd($service);
         DB::table('service_prices')->where('service_id', $service->id)->delete();
         DB::table('service_and_staff')->where('service_id', $service->id)->delete();
         DB::table('service_and_facilities')->where('service_id', $service->id)->delete();

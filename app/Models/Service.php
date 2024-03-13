@@ -23,6 +23,10 @@ class Service extends Model
         return $this->hasMany(CartBooking::class);
     }
 
+    public function prices(){
+        return $this->hasMany(ServicePrice::class, 'service_id');
+    }
+
     // protected $casts = [
     //     'staff_id' => 'array',
     //     'facility_id' => 'array'

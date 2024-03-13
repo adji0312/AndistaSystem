@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->string('no_invoice')->unique(); //INV-unique (random id unique)
-            $table->foreignId('booking_id'); //nanti ambil list cart_id, trus service_id
+            $table->foreignId('booking_id')->nullable(); //nanti ambil list cart_id, trus service_id
             $table->foreignId('sub_booking_id'); //nanti ambil list cart_id, trus service_id
             $table->foreignId('resepsionis_id')->nullable();
             $table->integer('diskon')->nullable();

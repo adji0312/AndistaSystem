@@ -72,7 +72,7 @@
             <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                 <div class="d-flex">
                     <h5 class="m-3">Treatment List</h5>
-                    @if(Auth::user()->role->service_policy === 1|Auth::user()->role->service_policy === 2)
+                    @if(Auth::user()->role->service_treatment_plan === 1|Auth::user()->role->service_treatment_plan === 2)
                     <a class="nav-link active m-3" aria-current="page" data-bs-toggle="offcanvas" data-bs-target="#addItemCanvas" aria-controls="addItemCanvas" style="color: #f28123; cursor: pointer;"><img src="/img/icon/plus.png" alt="" style="width: 22px"> Item</a>
                     @else
                     @endif

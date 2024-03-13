@@ -40,11 +40,11 @@
         @else
         @endif
 
-        @if(Auth::user()->role->service_policy != 4)
+        {{-- @if(Auth::user()->role->service_policy != 4)
         <li style="cursor: pointer" class="{{ ($title === "Policy") ? 'active' : '' }}">
             <a id="locationsfacilities" href="/service/policy" class="px-4"><img src="/img/icon/policy.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Policy</a>
         </li>
         @else
-        @endif
+        @endif --}}
     </ul>
 </nav>
