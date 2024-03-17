@@ -50,6 +50,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use RealRashid\SweetAlert\Facades\Alert;
 
+
+
 use function PHPSTORM_META\map;
 
 class IndexController extends Controller
@@ -867,6 +869,10 @@ class IndexController extends Controller
             "title" => "Histori Aktivitas",
             "histories" => History::latest()->paginate(100)
         ]);
+    }
+
+    public function historyactivityExport(){
+
     }
     
 }

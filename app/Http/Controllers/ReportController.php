@@ -12,6 +12,7 @@ use App\Models\Staff;
 use App\Models\SubBook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
@@ -37,8 +38,33 @@ class ReportController extends Controller
             'invoice' => $invoice
         ]);
     }
-    public function monthly(){
 
+    public function dailyExport(Request $request){
+        // dd($request->all);
+        if(request('datefrom') && request('dateto')){
+            $sales = InvoicePayment::whereDate('created_at', '>=', request('datefrom'))->whereDate('created_at', '<=', request('dateto'))->get();
+            $invoice = Sale::where('status', 0)->whereDate('created_at', '>=', request('datefrom'))->whereDate('created_at', '<=', request('dateto'))->get();
+            // $sales = InvoicePayment::whereDate('created_at', request('filterdate'))->get();
+            // $invoice = Sale::whereDate('created_at', request('filterdate'))->get();
+        }else{
+            $sales = InvoicePayment::whereDate('created_at', date_format(Date::now(), 'Y-m-d'))->get();
+            $invoice = Sale::whereDate('created_at', date_format(Date::now(), 'Y-m-d'))->get();
+        }
+
+        $data = [
+            'title' => "Daily Audit",
+            'cashsale' => $sales->where('method', 'Cash')->sum('price'),
+            'creditsale' => $sales->where('method', 'Credit Card')->sum('price'),
+            'banksale' => $sales->where('method', 'Bank Transfer')->sum('price'),
+            'debitsale' => $sales->where('method', 'Debit Card')->sum('price'),
+            'allTotal' => $sales->sum('price'),
+            'invoice' => $invoice
+        ];
+
+        
+    }
+
+    public function monthly(){
         if(request('month') && request('year')){
             // dd(request('month'));
             $sales = Sale::whereRaw('MONTH(updated_at) = '.request('month'))->whereRaw('YEAR(updated_at) = '.request('year'))->where('status', 0)->get();
@@ -63,6 +89,37 @@ class ReportController extends Controller
             'invoices' => $invoice
         ]);
     }
+
+    public function monthlyExport(){
+        if(request('month') && request('year')){
+            // dd(request('month'));
+            $sales = Sale::whereRaw('MONTH(updated_at) = '.request('month'))->whereRaw('YEAR(updated_at) = '.request('year'))->where('status', 0)->get();
+            $invoice = InvoicePayment::whereRaw('MONTH(updated_at) = '.request('month'))->whereRaw('YEAR(updated_at) = '.request('year'))->get();
+            
+        }else{
+            $sales = Sale::where('status', 0)->whereRaw('MONTH(updated_at) = '.date_format(Date::now(), 'm'))->whereRaw('YEAR(updated_at) = '.date_format(Date::now(), 'Y'))->get();
+            $invoice = InvoicePayment::whereRaw('MONTH(updated_at) = '.date_format(Date::now(), 'm'))->whereRaw('YEAR(updated_at) = '.date_format(Date::now(), 'Y'))->get();
+        }
+
+        // dd($sales);
+        // dd($invoice);
+
+        $data = [
+            'title' => "Monthly Audit",
+            'sales' => $sales,
+            'cashsale' => $invoice->where('method', 'Cash')->sum('price'),
+            'creditsale' => $invoice->where('method', 'Credit Card')->sum('price'),
+            'banksale' => $invoice->where('method', 'Bank Transfer')->sum('price'),
+            'debitsale' => $invoice->where('method', 'Debit Card')->sum('price'),
+            'allTotal' => $invoice->sum('price'),
+            'invoices' => $invoice
+        ];
+
+        
+    }
+
+
+
     public function byProduct(){
 
         if(request('datefrom') && request('dateto')){

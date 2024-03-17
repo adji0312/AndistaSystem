@@ -30,6 +30,9 @@
                             <button type="submit" class="btn btn-outline-primary btn-sm" style="width: 120px"><i class="fas fa-filter"></i> Filter</button>
                             <a href="/report/byStaff" class="btn btn-outline-secondary btn-sm" style="width: 120px">Reset</a>
                         </div>
+                        <div class="d-flex gap-1">
+                            <a href="/report/byReceptionistExport" class="btn btn-outline-secondary btn-sm" style="width: 120px">Export</a>
+                        </div>
                     </form>
                 </div>
                 <div class="m-3 table-responsive">
