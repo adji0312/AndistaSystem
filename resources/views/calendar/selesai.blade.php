@@ -125,7 +125,7 @@
                                 </td>
                             @elseif ($subbook->status == 5)
                                 <td class="align-middle">
-                                    <button type="button" class="btn btn-sm" style="background-color: #b2c10a;">Rawat Inap (Selesai)</button>
+                                    <button type="button" class="btn btn-sm" style="background-color: #cef9bf;">Rawat Inap (Selesai)</button>
                                 </td>
                             @endif
                         </tr>

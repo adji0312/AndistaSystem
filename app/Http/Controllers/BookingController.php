@@ -13,9 +13,12 @@ use App\Models\CheckStaff;
 use App\Models\Customer;
 use App\Models\Diagnosis;
 use App\Models\InvoicePayment;
+use App\Models\ListPlan;
+use App\Models\ListPlanBooking;
 use App\Models\Location;
 use App\Models\Pet;
 use App\Models\Plan;
+use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Service;
 use App\Models\ServiceAndStaff;
@@ -480,6 +483,10 @@ class BookingController extends Controller
         $checkCart = CartBooking::all()->where('sub_booking_id', $subBook->id)->where('invoice_id', null)->where('flag', 0);
 
         $statistics = Statistic::all()->where('sub_booking_id', $subBook->id);
+
+        $bookingTreatment = BookingDiagnosis::where('sub_booking_id', $subBook->id)->first();
+        $listPlan = ListPlan::all();
+        $listPlanBooking = ListPlanBooking::all()->where('sub_booking_id', $subBook->id);
         
         return view('calendar.bookingdetail', [
             'booking' => $subBook,
@@ -497,7 +504,10 @@ class BookingController extends Controller
             'resepsionis' => $resepsionis,
             'listInvoice' => $listInvoice,
             'checkCart' => $checkCart,
-            'statistics' => $statistics
+            'statistics' => $statistics,
+            'bookingTreatment' => $bookingTreatment,
+            'listPlan' => $listPlan,
+            'listPlanBooking' => $listPlanBooking
         ]);
     }
 
@@ -798,16 +808,34 @@ class BookingController extends Controller
         $bd = BookingDiagnosis::find($id);
 
         DB::table('booking_diagnoses')->where('id', $bd->id)->delete();
+        DB::table('list_plan_bookings')->where('booking_diagnoses_id', $bd->id)->delete();
         return redirect()->back();
     }
 
     public function editBookingDiagnosis(Request $request, $id){
-        // dd($request->all());
-
+        
         $bookingDiagnosis = BookingDiagnosis::find($id);
-        // dd($bookingDiagnosis);
+        $treatment = Plan::find($request->treatment_id);
+        // dd($treatment->listPlan);
+        // $days = 0;
+        foreach($treatment->listPlan as $tl){
+            $days = $tl->start_day; ////1    2 
+            for($i = 1 ; $i <= $tl->duration ; $i++){
+                $listplanbooking = new ListPlanBooking();
+                $listplanbooking->list_plan_id = $tl->id;  //product,service,task here
+                $listplanbooking->sub_booking_id = $bookingDiagnosis->sub_booking_id;
+                $listplanbooking->booking_diagnoses_id = $bookingDiagnosis->id;
+                $listplanbooking->day = $days; //this is for looping //1, 2
+                $listplanbooking->save();
+                $days += 1;
+            }
+        }
+
         $bookingDiagnosis->treatment_id = $request->treatment_id;
         $bookingDiagnosis->save();
+
+        // $listPla
+        
         return redirect()->back();
     }
 
@@ -993,6 +1021,82 @@ class BookingController extends Controller
         $booking = SubBook::find($id);
         $booking->pesanresepsionis = $request->pesanresepsionis;
         $booking->save();
+        return redirect()->back();
+    }
+
+    public function tambahkeranjang(Request $request, $id){
+        // dd($request->all());
+        $LPB = ListPlanBooking::find($id);
+        $item = ListPlan::find($LPB->list_plan_id);
+        // dd($item);
+
+        if($request->task){
+            $LPB->flag = 1;
+            $LPB->save();
+            Alert::success('Berhasil', 'Berhasil Melakukan Task!');
+        }
+
+        if($item->service){
+            // dd($item->service);
+            $service = Service::find($item->service_id);
+            $servicePrice = ServicePrice::find($item->service_price_id);
+            // dd($service->service_name);
+            if($service == null || $service == ''){
+                Alert::warning('Gagal', "Servis tidak tersedia!");
+                return redirect()->back();
+            }
+            $validatedData = $request->validate([
+                'booking_id' => 'required',
+                'sub_booking_id' => 'required',
+                'staff_id' => 'required'
+            ]);
+
+            $validatedData['service_id'] = $service->id;
+            $validatedData['quantity'] = $item->quantity*$item->frequency->frequency_value;
+            $validatedData['flag'] = 1;
+            $validatedData['name'] = $service->service_name;
+            $validatedData['service_price_id'] = $servicePrice->id;
+            $validatedData['total_price'] = $validatedData['quantity']*$servicePrice->price;
+            // dd($validatedData['total_price']);
+
+            // DB::table('products')
+
+            CartBooking::create($validatedData);
+
+            $LPB->flag = 1;
+            $LPB->save();
+            Alert::success('Berhasil', 'Berhasil Menambahkan Item!');
+            
+        }else if($item->products){
+            // dd($item->products);
+            $product = Product::find($item->product_id);
+            // dd($product);
+            if($product == null || $product == ''){
+                Alert::warning('Gagal', "Produk tidak tersedia!");
+                return redirect()->back();
+            }
+            // dd($product);
+            $validatedData = $request->validate([
+                'booking_id' => 'required',
+                'sub_booking_id' => 'required',
+                'staff_id' => 'required'
+            ]);
+
+            $validatedData['product_id'] = $product->id;
+            $validatedData['quantity'] = $item->quantity*$item->frequency->frequency_value;
+            $validatedData['flag'] = 1;
+            $validatedData['name'] = $product->product_name;
+            $validatedData['total_price'] = $product->price*$validatedData['quantity'];
+
+            // DB::table('products')
+
+            CartBooking::create($validatedData);
+
+            $LPB->flag = 1;
+            $LPB->save();
+            Alert::success('Berhasil', 'Berhasil Menambahkan Item!');
+        }
+
         return redirect()->back();
     }
 }

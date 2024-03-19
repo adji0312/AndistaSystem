@@ -723,38 +723,146 @@
                         <div class="m-2 d-flex flex-column">
                             <h5 class="m-3">Treatment</h5>
                         </div>
-                        <div class="m-3">
-                            <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col" style="width: 7%">Hari</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
-                                    <td>@twitter</td>
-                                  </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        @if ($bookingTreatment)
+                            @if ($bookingTreatment->treatment)
+                                <div class="m-3 mb-4" style="overflow: auto; height: 250px;">
+                                    @for ($i = 1; $i <= $bookingTreatment->treatment->duration; $i++)
+                                        <h6 class="mx-2 mb-0"><strong>Hari Ke-{{ $i }}</strong></h6>
+                                        <div class="table-responsive">
+                                            <table class="table mb-5">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Item</th>
+                                                        <th scope="col">Frekuensi</th>
+                                                        <th scope="col">Qty</th>
+                                                        <th scope="col" class="d-flex justify-content-center">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($listPlanBooking->where('day', $i) as $lpb)
+                                                        <tr>
+                                                            @if ($lpb->listplan->products)
+                                                                <td><img src="/img/icon/product.png" alt="" style="width: 22px"> {{ $lpb->listplan->products->product_name }} <small class="text-primary" style="cursor: pointer;" data-toggle="tooltip" title="{{ $lpb->listplan->notes ? $lpb->listplan->notes : '-' }}">notes</small></td>
+                                                            @elseif ($lpb->listplan->service)
+                                                                <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $lpb->listplan->service->service_name }} ({{ $lpb->listplan->servicePrice->price_title }}) <small class="text-primary" style="cursor: pointer;" data-toggle="tooltip" title="{{ $lpb->listplan->notes ? $lpb->listplan->notes : '-' }}">notes</small></td>
+                                                            @elseif ($lpb->listplan->task)
+                                                                <td><img src="/img/icon/task.png" alt="" style="width: 22px"> {{ $lpb->listplan->task->task_name }} <small class="text-primary" style="cursor: pointer;" data-toggle="tooltip" title="{{ $lpb->listplan->notes ? $lpb->listplan->notes : '-' }}">notes</small></td>
+                                                            @endif
+                                                            <td>{{ $lpb->listplan->frequency->frequency_name }}</td>
+                                                            <td>{{ $lpb->listplan->quantity }}</td>
+                                                            @if (!$lpb->listplan->task)
+                                                                @if ($lpb->flag == 1)
+                                                                    <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-success btn-sm"><i class="fas fa-check"></i> Telah Masuk</button></td>
+                                                                @else
+                                                                    <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahKeranjang{{ $lpb->id }}"><i class="fas fa-plus"></i> Tambah ke Keranjang</button></td>
+                                                                @endif
+                                                            @else
+                                                                @if ($lpb->flag == 1)
+                                                                    <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-success btn-sm"><i class="fas fa-check"></i> Telah Dilakukan</button></td>
+                                                                @else
+                                                                    <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahKeranjang{{ $lpb->id }}"><i class="fas fa-plus"></i> Lakukan</button></td>
+                                                                @endif
+                                                            @endif
+                                                        </tr>
+
+                                                        <div class="modal fade" id="tambahKeranjang{{ $lpb->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                              <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    @if (!$lpb->listplan->task)
+                                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Ke Keranjang</h1>
+                                                                    @else
+                                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Lakukan Task</h1>
+                                                                    @endif
+                                                                </div>
+                                                                @if (!$lpb->listplan->task)
+                                                                    <form action="/tambahkeranjang/{{ $lpb->id }}" method="post">
+                                                                        @csrf
+                                                                        <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
+                                                                        <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
+                                                                        <input type="text" name="staff_id" hidden value="{{ $booking->staff_id }}">
+                                                                        <div class="modal-body">
+                                                                            <p class="text-dark">Apakah anda yakin ingin menambahkan ke keranjang?</p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
+                                                                            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Simpan</button>
+                                                                        </div>
+                                                                    </form>    
+                                                                @else
+                                                                    <form action="/tambahkeranjang/{{ $lpb->id }}" method="post">
+                                                                        @csrf
+                                                                        <div class="modal-body">
+                                                                            <input type="text" name="task" hidden value="task">
+                                                                            <p class="text-dark">Apakah anda yakin ingin melakukan task ini?</p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
+                                                                            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Simpan</button>
+                                                                        </div>
+                                                                    </form>
+                                                                @endif
+                                                              </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                    {{-- @foreach ($listPlan->where('plan_id', $bookingTreatment->treatment_id) as $lp)
+                                                        @if ($lp->start_day > $i)
+                                                            @continue;
+                                                        @else
+                                                            <tr>
+                                                                @if ($lp->products)
+                                                                    <td><img src="/img/icon/product.png" alt="" style="width: 22px"> {{ $lp->products->product_name }} <small class="text-primary" style="cursor: pointer;" data-toggle="tooltip" title="{{ $lp->notes ? $lp->notes : '-' }}">notes</small></td>
+                                                                @elseif ($lp->service)
+                                                                    <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $lp->service->service_name }} <small class="text-primary" style="cursor: pointer;" data-toggle="tooltip" title="{{ $lp->notes ? $lp->notes : '-' }}">notes</small></td>
+                                                                @elseif ($lp->task)
+                                                                    <td><img src="/img/icon/task.png" alt="" style="width: 22px"> {{ $lp->task->task_name }} <small class="text-primary" style="cursor: pointer;" data-toggle="tooltip" title="{{ $lp->notes ? $lp->notes : '-' }}">notes</small></td>
+                                                                @endif
+                                                                <td>{{ $lp->frequency->frequency_name }}</td>
+                                                                <td>{{ $lp->quantity }}</td>
+
+                                                                @if (!$lp->task)
+                                                                    <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahKeranjang{{ $lp->id }}"><i class="fas fa-plus"></i> Tambah ke Keranjang</button></td>
+                                                                @else
+                                                                    <td></td>
+                                                                @endif
+                                                            </tr>
+                                                        @endif
+
+                                                        <div class="modal fade" id="tambahKeranjang{{ $lp->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                              <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Ke Keranjang</h1>
+                                                                </div>
+                                                                <form action="/tambahkeranjang/{{ $lp->id }}" method="post">
+                                                                    @csrf
+                                                                    <input type="text" name="booking_id" hidden value="{{ $booking->booking->id }}">
+                                                                    <input type="text" name="sub_booking_id" hidden value="{{ $booking->id }}">
+                                                                    <input type="text" name="staff_id" hidden value="{{ $booking->staff_id }}">
+                                                                    <div class="modal-body">
+                                                                        <p class="text-dark">Apakah anda yakin ingin menambahkan ke keranjang?</p>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
+                                                                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Simpan</button>
+                                                                    </div>
+                                                                </form>    
+                                                              </div>
+                                                            </div>
+                                                        </div>
+
+                                                    @endforeach --}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endfor
+                                </div>
+                            @endif
+                        @endif
                     </div>
+
+
                     <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 40%;" class="mt-4">
                         <div class="m-2 d-flex">
                             <h5 class="m-3">List Diagnosis</h5>
@@ -881,7 +989,7 @@
                                     <tr>
                                         <th>{{ $index1 }}</th>
                                         @if ($cart->product_id == null && $cart->service_id != null)
-                                            <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $cart->name }}</td>
+                                            <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $cart->name }} ({{ $cart->servicePrice->price_title }})</td>
                                         @elseif ($cart->product_id != null && $cart->service_id == null)
                                             <td><img src="/img/icon/product.png" alt="" style="width: 22px"> {{ $cart->name }}</td>
                                         @endif
@@ -1304,7 +1412,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Servis</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Diagnosis</h1>
           </div>
           <form action="/addBookingDiagnosis" method="post">
               @csrf

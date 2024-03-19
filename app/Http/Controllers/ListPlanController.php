@@ -75,7 +75,7 @@ class ListPlanController extends Controller
         ]);
         
         $validatedData['temp'] = 1;
-        $validatedData['quantity'] =  0;
+        $validatedData['quantity'] =  1;
         $validatedData['service_price_id'] =  0;
         $validatedData['task_id'] =  0;
         $validatedData['product_id'] =  0;
@@ -162,7 +162,7 @@ class ListPlanController extends Controller
         ]);
         
         $validatedData['temp'] = 1;
-        $validatedData['quantity'] =  0;
+        $validatedData['quantity'] =  1;
         $validatedData['service_price_id'] =  0;
         $validatedData['service_id'] =  0;
         $validatedData['product_id'] =  0;

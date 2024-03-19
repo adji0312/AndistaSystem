@@ -293,6 +293,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/deleteBookingDiagnosis/{id}', [BookingController::class, 'deleteBookingDiagnosis']);
     Route::post('/editBookingDiagnosis/{id}', [BookingController::class, 'editBookingDiagnosis']);
     Route::post('/updateBookingDate/{id}', [BookingController::class, 'updateBookingDate']);
+    Route::post('/tambahkeranjang/{id}', [BookingController::class, 'tambahkeranjang']);
 
 
     // -- SEMUA ROUTING STAFF

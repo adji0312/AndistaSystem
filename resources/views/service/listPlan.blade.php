@@ -28,11 +28,11 @@
                     <h5 class="m-3">Basic Info</h5>
                     <div class="m-3 d-flex gap-5">
                         <div class="mb-3">
-                            <label for="name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Treatment Name</label>
+                            <label for="name" class="form-label" style="font-size: 15px; color: #7C7C7C;">Nama Treatment</label>
                             <input type="text" class="form-control" id="name" name="name" style="width: 300px" value="{{ $plan->name }}">
                         </div>
                         <div class="mb-3">
-                            <label for="location_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Location</label>
+                            <label for="location_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Lokasi</label>
                             <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="location_id" id="location_id">
                                 <option value="{{ $plan->location->id }}" class="selectstatus" style="color: black;" selected>{{ $plan->location->location_name }}</option>
                                 @foreach ($locations as $location)
@@ -58,7 +58,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Duration Treatment (days)</label>
+                            <label for="duration" class="form-label" style="font-size: 15px; color: #7C7C7C;">Durasi Treatment (hari)</label>
                             <input type="number" class="form-control" id="duration" name="duration" style="width: 300px" value="{{ $plan->duration }}">
                         </div>
                     </div>
@@ -71,7 +71,7 @@
         <div id="dashboard" class="mx-3 mt-4">
             <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                 <div class="d-flex">
-                    <h5 class="m-3">Treatment List</h5>
+                    <h5 class="m-3">List Treatment</h5>
                     @if(Auth::user()->role->service_treatment_plan === 1|Auth::user()->role->service_treatment_plan === 2)
                     <a class="nav-link active m-3" aria-current="page" data-bs-toggle="offcanvas" data-bs-target="#addItemCanvas" aria-controls="addItemCanvas" style="color: #f28123; cursor: pointer;"><img src="/img/icon/plus.png" alt="" style="width: 22px"> Item</a>
                     @else
@@ -81,7 +81,7 @@
                     <table class="table table-bordered">
                         <thead>
                           <tr>
-                            <th scope="col">Item Name</th>
+                            <th scope="col">Nama Item</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -105,39 +105,39 @@
                                                         </small>
                                                     @endif
                                                     @if(Auth::user()->role->service_treatment_plan === 1)
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#deleteList{{ $list->id }}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</button>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#deleteList{{ $list->id }}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button>
                                                     @else
                                                     @endif
                                                 </div>
                                                 @if ($list->duration == 0 && $list->frequency_id == 0)
-                                                    <small style="font-weight: 500; font-size: 15px;">Frequency : 0</small> <br>
+                                                    <small style="font-weight: 500; font-size: 15px;">Frekuensi : 0</small> <br>
                                                 @else
                                                     <small style="font-weight: 500; font-size: 15px;">{{ $list->frequency->frequency_name }} for {{ $list->duration }} days</small> <br> 
                                                 @endif
                                                 <small style="font-weight: 500; font-size: 15px;">
                                                     @if ($list->start_day == 0)
-                                                        Start Day : 0
+                                                        Mulai Hari : 0
                                                     @else
-                                                        Start Day : {{ $list->start_day }}
+                                                        Mulai Hari : {{ $list->start_day }}
                                                     @endif
                                                 </small> <br>
                                                 <small style="font-weight: 500; font-size: 15px;">
                                                     @if ($list->duration == 0)
-                                                        Duration : 0
+                                                        Durasi : 0
                                                     @else
-                                                        Duration : {{ $list->duration }}
+                                                        Durasi : {{ $list->duration }}
                                                     @endif
                                                 </small> <br>
                                                 @if ($list->product_id != 0)
                                                     <small style="font-weight: 500; font-size: 15px;">
-                                                        Quantity : {{ $list->quantity }}
+                                                        Qty : {{ $list->quantity }}
                                                     </small> <br>
                                                 @endif
                                                 @if ($list->service_id != 0)
-                                                    <small style="font-weight: 500; font-size: 15px;">Price : 0</small> <br>
+                                                    <small style="font-weight: 500; font-size: 15px;">Harga : 0</small> <br>
                                                 @endif
                                                 @if ($list->product_id != 0)
-                                                    <small style="font-weight: 500; font-size: 15px;">Price : Rp {{ number_format($list->products->price * $list->quantity) }}</small> <br>
+                                                    <small style="font-weight: 500; font-size: 15px;">Harga : Rp {{ number_format($list->products->price * $list->quantity) }}</small> <br>
                                                 @endif
                                                 @if ($list->notes != null || $list->notes != '')
                                                     <small style="font-weight: 500">notes : {{ $list->notes }}</small>
@@ -166,20 +166,20 @@
                                                         </small>
                                                     @endif
                                                     @if(Auth::user()->role->service_treatment_plan === 1)
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#deleteList{{ $list->id }}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</button>
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#deleteList{{ $list->id }}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button>
                                                     @else
                                                     @endif
                                                 </div>
-                                                <small style="font-weight: 500; font-size: 15px;">Frequency : {{ $list->frequency->frequency_name }}</small> <br>
-                                                <small style="font-weight: 500; font-size: 15px;">Start Day : {{ $list->start_day }}</small> <br>
-                                                <small style="font-weight: 500; font-size: 15px;">Duration : {{ $list->duration }} days</small> <br>
-                                                <small style="font-weight: 500; font-size: 15px;">Quantity : {{ $list->quantity }}</small> <br>
+                                                <small style="font-weight: 500; font-size: 15px;">Frekuensi : {{ $list->frequency->frequency_name }}</small> <br>
+                                                <small style="font-weight: 500; font-size: 15px;">Mulai Hari : {{ $list->start_day }}</small> <br>
+                                                <small style="font-weight: 500; font-size: 15px;">Durasi : {{ $list->duration }} hari</small> <br>
+                                                <small style="font-weight: 500; font-size: 15px;">Qty : {{ $list->quantity }}</small> <br>
                                                 
                                                 @if ($list->service_id != 0)
                                                     <small style="font-weight: 500; font-size: 15px;">Price: {{  $list->servicePrice->price_title }} {{ $list->servicePrice->duration }} {{ $list->servicePrice->duration_type }} (Rp {{ number_format($list->servicePrice->price) }})</small> <br>
                                                 @endif
                                                 @if ($list->product_id != 0)
-                                                    <small style="font-weight: 500; font-size: 15px;">Price : Rp {{ number_format($list->products->price * $list->quantity) }}</small> <br>
+                                                    <small style="font-weight: 500; font-size: 15px;">Harga : Rp {{ number_format($list->products->price * $list->quantity) }}</small> <br>
                                                 @endif
                                                 @if ($list->notes != null || $list->notes != '')
                                                     <small style="font-weight: 500; font-size: 15px;">Notes : {{ $list->notes }}</small>
@@ -553,28 +553,28 @@
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="addItemCanvas" aria-labelledby="rightCanvasId">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="rightCanvasId">Add Item</h5>
+      <h5 class="offcanvas-title" id="rightCanvasId">Tambah Item</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body" id="mainCanvas" style="display: block;">
       <div class="d-flex flex-column gap-4">
-        <button type="button" class="btn btn-outline-primary" id="serviceButton" onclick="serviceClick()">Service</button>
-        <button type="button" class="btn btn-outline-primary" id="productButton" onclick="productClick()">Product</button>
+        <button type="button" class="btn btn-outline-primary" id="serviceButton" onclick="serviceClick()">Servis</button>
+        <button type="button" class="btn btn-outline-primary" id="productButton" onclick="productClick()">Produk</button>
         <button type="button" class="btn btn-outline-primary" id="taskButton" onclick="taskClick()">Task</button>
       </div>
     </div>
 
     {{-- SERVICE --}}
     <div class="offcanvas-body" id="serviceCanvas" style="display: none;">
-        <label for="exampleInputEmail1" class="form-label mb-4" style="font-size: 15px; color: #000000; cursor: pointer;" onclick="backButtonInService()"><i class="fas fa-chevron-left"></i> Back</label>
+        <label for="exampleInputEmail1" class="form-label mb-4" style="font-size: 15px; color: #000000; cursor: pointer;" onclick="backButtonInService()"><i class="fas fa-chevron-left"></i> Kembali</label>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Service</label>
+            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Servis</label>
             <form action="/addServicePlan" method="POST">
                 @csrf
                 <input type="hidden" name="plan_id" id="plan_id" value="{{ $plan->id }}">
                 <input type="hidden" name="plan_name" value="{{ $plan->name }}">
                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="service_id" name="service_id">
-                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Services</option>
+                    <option value="" class="selectstatus" style="color: black;" selected disabled>Pilih Servis</option>
                     @foreach ($services as $service)
                         <option value="{{ $service->id }}" class="selectstatus" style="color: black;" data-bs-toggle="modal" name="service_id" id="service_id" data-bs-target="#serviceList{{ $service->id }}">{{ $service->service_name }}</option>
                     @endforeach
@@ -583,21 +583,21 @@
             </form>
         </div>
         <div class="mb-3 float-end">
-            <button type="button" class="btn btn-outline-primary btn-sm" onclick="continueService()">Next</button>
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="continueService()">Selanjutnya</button>
         </div>
     </div>
 
     {{-- PRODUCT --}}
     <div class="offcanvas-body" id="productCanvas" style="display: none;">
-        <label for="exampleInputEmail1" class="form-label mb-4" style="font-size: 15px; color: #000000; cursor: pointer;" onclick="backButtonInProduct()"><i class="fas fa-chevron-left"></i> Back</label>
+        <label for="exampleInputEmail1" class="form-label mb-4" style="font-size: 15px; color: #000000; cursor: pointer;" onclick="backButtonInProduct()"><i class="fas fa-chevron-left"></i> Kembali</label>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Product</label>
+            <label for="exampleInputEmail1" class="form-label" style="font-size: 15px; color: #7C7C7C;">Produk</label>
             <form action="/addProductPlan" method="POST">
                 @csrf
                 <input type="hidden" name="plan_id" id="plan_id" value="{{ $plan->id }}">
                 <input type="hidden" name="plan_name" value="{{ $plan->name }}">
                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="product_id" name="product_id">
-                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Product</option>
+                    <option value="" class="selectstatus" style="color: black;" selected disabled>Pilih Produk</option>
                     @foreach ($products as $product)
                         <option value="{{ $product->id }}" class="selectstatus" style="color: black;" data-bs-toggle="modal" name="product_id" id="product_id" >{{ $product->product_name }}</option>
                     @endforeach
@@ -606,13 +606,13 @@
             </form>
         </div>
         <div class="mb-3 float-end">
-            <button type="button" class="btn btn-outline-primary btn-sm" onclick="continueProduct()">Next</button>
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="continueProduct()">Selanjutnya</button>
         </div>
     </div>
 
     {{-- TASK --}}
     <div class="offcanvas-body" id="taskCanvas" style="display: none;">
-        <label for="exampleInputEmail1" class="form-label mb-4" style="font-size: 15px; color: #000000; cursor: pointer;" onclick="backButtonInTask()"><i class="fas fa-chevron-left"></i> Back</label>
+        <label for="exampleInputEmail1" class="form-label mb-4" style="font-size: 15px; color: #000000; cursor: pointer;" onclick="backButtonInTask()"><i class="fas fa-chevron-left"></i> Kembali</label>
         <form action="/addTaskPlan" method="post">
             @csrf
             <input type="hidden" name="plan_id" value="{{ $plan->id }}">
@@ -622,15 +622,15 @@
                 <input type="hidden" name="service_id" value="0">
                 <input type="hidden" name="product_id" value="0">
                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 100%;" id="taskList" onchange="taskChange()" name="task_id">
-                    <option value="" class="selectstatus" style="color: black;" selected disabled>Select Task</option>
+                    <option value="" class="selectstatus" style="color: black;" selected disabled>Pilih Task</option>
                     @foreach ($tasks as $task)
                         <option value="{{ $task->id }}" name="task_id" id="task_id" class="selectstatus" style="color: black;">{{ $task->task_name }}</option>
                     @endforeach
-                        <option value="newtask" class="selectstatus" style="color: black;">+ Create New</option>
+                        <option value="newtask" class="selectstatus" style="color: black;">+ Buat Baru</option>
                 </select>
             </div>
             <div class="mb-3 float-end">
-                <button type="submit" class="btn btn-outline-primary btn-sm">Next</button>
+                <button type="submit" class="btn btn-outline-primary btn-sm">Selanjutnya</button>
             </div>
         </form>
     </div>
@@ -640,7 +640,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Task</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Task</h1>
         </div>
         <form action="/addTask" method="POST">
             @csrf
@@ -651,9 +651,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
                 @if(Auth::user()->role->service_treatment_plan === 1|Auth::user()->role->service_treatment_plan === 2)
-                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Save changes</button>
+                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> Simpan</button>
                 @else
                 @endif
             </div>

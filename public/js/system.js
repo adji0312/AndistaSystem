@@ -2099,3 +2099,7 @@ function inputDiscount(){
 //     document.getElementById("qrid").focus();
 //     console.log('ansdabsd');
 // };
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+});
