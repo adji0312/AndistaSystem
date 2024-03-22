@@ -608,7 +608,7 @@
                             <div class="p-2" style="background-color: rgb(226, 240, 255); border-radius: 7px; width: 100%">
                                 <div class="d-flex justify-content-between">
                                     <a class="text-primary" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#fileAttach{{ $file->id }}">{{ $index }}. {{ $file->file_name }}</a>
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAttach{{ $file->id }}"><i class="fas fa-save"></i> Delete</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAttach{{ $file->id }}"><i class="fas fa-trash"></i> Hapus</button>
                                 </div>
                             </div>
 
@@ -621,11 +621,10 @@
                                     </div>
                                     <div class="modal-body">
                                         <?php $foto = substr($file->image, 7); ?>
-                                        {{ $foto }}
-                                        <img src="/public/{{ $file->image }}" alt="" style="width: 100%">
+                                        <img src="/storage/{{ $foto }}" alt="" style="width: 100%">
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
                                     </div>
                                 </div>
                                 </div>
@@ -635,7 +634,7 @@
                                 <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Delete File</h1>
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus File</h1>
                                     </div>
                                     
                                     <form action="/deleteAttach/{{ $file->id }}" method="GET">
@@ -646,8 +645,8 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Close</button>
-                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-save"></i> Delete</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i> Tutup</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i> Hapus</button>
                                         </div>
                                     </form>
                                 </div>

@@ -6,11 +6,11 @@
         <div id="contents">
             <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
                 <div class="d-flex gap-3 w-100">
-                    <a class="navbar-brand" id="navbar-brand-title" href="#">{{ $title }}</a>
+                    <a class="navbar-brand" id="navbar-brand-title" href="#">List Pelanggan</a>
                     <div class="d-flex justify-content-between w-100 align-items-center">
                         <div class="d-flex gap-4">
                             @if(Auth::user()->role->customer_list === 1|Auth::user()->role->customer_list === 2)
-                                <a class="nav-link active" aria-current="page" href="/customer/list/add" style="color: #f28123"><img src="/img/icon/plus.png" alt="" style="width: 22px"> New</a>
+                                <a class="nav-link active" aria-current="page" href="/customer/list/add" style="color: #f28123"><img src="/img/icon/plus.png" alt="" style="width: 22px"> Tambah Pelanggan Baru</a>
                             @else
                             @endif
                             @if(Auth::user()->role->customer_list === 1)
@@ -34,11 +34,11 @@
                     <thead>
                       <tr>
                         <th scope="col" style="color: #7C7C7C; width: 50px;">#</th>
-                        <th scope="col" style="color: #7C7C7C">Customer Name</th>
-                        <th scope="col" style="color: #7C7C7C">Pet Name</th>
-                        <th scope="col" style="color: #7C7C7C">Phone</th>
+                        <th scope="col" style="color: #7C7C7C">Nama Pelanggan</th>
+                        <th scope="col" style="color: #7C7C7C">Nama Hewan</th>
+                        <th scope="col" style="color: #7C7C7C">No HP</th>
                         <th scope="col" style="color: #7C7C7C">Email</th>
-                        <th scope="col" style="color: #7C7C7C">Created At</th>
+                        {{-- <th scope="col" style="color: #7C7C7C">Created At</th> --}}
                       </tr>
                     </thead>
                     <tbody>
@@ -52,15 +52,15 @@
                                     </div>
                                 </th>
                                 {{-- @dd($customer) --}}
-                                <td><a href="/customer/list/saved/edit/{{ $customer->id }}" class="text-primary">{{ $customer->first_name }}</a></td>
-                                <td>
+                                <td class="align-middle"><a href="/customer/list/saved/edit/{{ $customer->id }}" class="text-primary">{{ $customer->first_name }}</a></td>
+                                <td class="align-middle">
                                     @foreach ($customer->pets as $pet)
-                                        {{ $pet->pet_name}}<br>
+                                        - {{ $pet->pet_name}}<br>
                                     @endforeach
                                 </td>
-                                <td>{{ $customer->phone }}</td>
-                                <td>{{ $customer->email }}</td>
-                                <td>{{ $customer->created_at ? date_format($customer->created_at, 'd M Y H:i') : "-" }}</td>
+                                <td class="align-middle">{{ $customer->phone }}</td>
+                                <td class="align-middle">{{ $customer->email ? $customer->email : "-" }}</td>
+                                {{-- <td>{{ $customer->created_at ? date_format($customer->created_at, 'd M Y H:i') : "-" }}</td> --}}
                             </tr>
                         @endforeach
                     </tbody>

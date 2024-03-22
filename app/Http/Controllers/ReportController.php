@@ -24,7 +24,7 @@ class ReportController extends Controller
             // $invoice = Sale::whereDate('created_at', request('filterdate'))->get();
         }else{
             $sales = InvoicePayment::whereDate('created_at', date_format(Date::now(), 'Y-m-d'))->get();
-            $invoice = Sale::whereDate('created_at', date_format(Date::now(), 'Y-m-d'))->get();
+            $invoice = Sale::whereDate('created_at', date_format(Date::now(), 'Y-m-d'))->where('status', 0)->get();
         }
 
         return view('report.dailyaudit', [
