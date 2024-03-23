@@ -20,7 +20,7 @@
                         @endif
                         @if ($sale->status == 0)
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#makePayment" style="color: #f28123; cursor: pointer;"><img src="/img/icon/paid.png" alt="" style="width: 22px"> Print</a>
+                                <a class="nav-link active" aria-current="page" style="color: #f28123; cursor: pointer;" onclick="window.print()"><img src="/img/icon/paid.png" alt="" style="width: 22px"> Print</a>
                             </li>
                         @else
                             <li class="nav-item">
@@ -306,6 +306,14 @@
                         <tbody>
                             @if ($sale->status == 0)
                             @else
+                                {{-- <form action="/updateTambahanBiaya/{{ $sale->id }}" method="POST">
+                                    @csrf
+                                    <tr>
+                                        <th scope="row" class="text-end">Tambahan Biaya</th>
+                                        <td colspan="2"><input type="number" placeholder="0" style="width: 100%" oninput="inputTambahanBiaya()" name="tambahan_biaya" id="tambahan_biaya" value="{{ $sale->tambahan_biaya }}"></td>
+                                    </tr>
+                                    <button type="submit" id="buttonTambahanBiaya" hidden></button>
+                                </form> --}}
                                 <form action="/updateAddCost/{{ $sale->id }}" method="POST">
                                     @csrf
                                     <tr>
@@ -316,9 +324,21 @@
                                 </form>
                             @endif
                             <tr>
-                                <th scope="row" class="text-end">Total Price</th>
+                                <th scope="row" class="text-end">Sub Total</th>
+                                <td colspan="2" id="total_price_sale">Rp {{ number_format($sub_total) }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="text-end">Dison (Persentase)</th>
+                                <td colspan="2" id="total_price_sale">{{ $sale->diskon }}%</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="text-end">Biaya Tambahan</th>
+                                <td colspan="2" id="total_price_sale">Rp {{ number_format($sale->tambahan_biaya) }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="text-end">Total Harga</th>
                                 <input type="number" id="before_total_price" name="before_total_price" value="{{ $sale->total_price }}" hidden>
-                                <td colspan="2" id="total_price_sale">Rp {{ number_format($sale->total_price - $sale->amount_discount) }}</td>
+                                <td colspan="2" id="total_price_sale">Rp {{ number_format($sale->total_price - $sale->amount_discount + $sale->tambahan_biaya) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -349,7 +369,7 @@
                         <input type="text" hidden name="resepsionis_id" value="{{ Auth::user()->id }}">
                         <input type="text" hidden name="hargaasli" value="{{ $sale->total_price }}">
                         <label for="total_price" class="form-label" style="font-size: 15px; color: #7C7C7C;">Total Harga</label><br>
-                        <small style="font-size: 17px;">Rp {{ number_format($sale->total_price - $sale->amount_discount) }}</small>
+                        <small style="font-size: 17px;">Rp {{ number_format($sale->total_price - $sale->amount_discount + $sale->tambahan_biaya) }}</small>
                     </div>
                     <div class="mb-3">
                         <label for="payment_method" class="form-label" style="font-size: 15px; color: #7C7C7C;">Metode Pembayaran 1</label>

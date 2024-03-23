@@ -87,6 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/makePayment', [BookingController::class, 'makePayment']);
     Route::post('/makeDeposit', [BookingController::class, 'makeDeposit']);
     Route::post('/updateAddCost/{id}', [BookingController::class, 'updateAddCost']);
+    Route::post('/updateTambahanBiaya/{id}', [BookingController::class, 'updateTambahanBiaya']);
     Route::get('/deleteBookingService2/{id}', [CartBookingController::class, 'deleteBookingService2']);
     Route::post('/newDeposit', [BookingController::class, 'newDeposit']);
     Route::post('/editCartPrice/{id}', [CartBookingController::class, 'editCartPrice']);

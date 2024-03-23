@@ -2095,6 +2095,24 @@ function inputDiscount(){
     
 }
 
+function inputTambahanBiaya(){
+    let tambahanBiaya = document.getElementById('tambahan_biaya');
+    let before_total_price = document.getElementById('before_total_price');
+    let total_price_sale = document.getElementById('total_price_sale');
+
+    // let priceDiskon = (diskon.value/100) * before_total_price.value;
+    // let finalPrice = (before_total_price.value + tambahanBiaya.value);
+    let finalPrice = parseInt(before_total_price.value) + parseInt(tambahanBiaya.value);
+    console.log(finalPrice);
+
+    // console.log(before_total_price);
+
+    total_price_sale.textContent = 'Rp ' + finalPrice;
+    let button = document.getElementById('buttonTambahanBiaya');
+    button.click();
+    
+}
+
 // window.onload = function() {
 //     document.getElementById("qrid").focus();
 //     console.log('ansdabsd');

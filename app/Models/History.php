@@ -21,4 +21,16 @@ class History extends Model
     public function service(){
         return $this->belongsTo(Service::class, 'service_id');
     }
+
+    public function booking(){
+        return $this->belongsTo(SubBook::class, 'booking_id');
+    }
+
+    public function treatment(){
+        return $this->belongsTo(Plan::class, 'treatment_id');
+    }
+
+    public function invoice(){
+        return $this->belongsTo(Sale::class, 'invoice_id');
+    }
 }

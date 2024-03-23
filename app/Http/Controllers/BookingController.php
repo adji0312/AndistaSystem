@@ -12,6 +12,7 @@ use App\Models\CartBooking;
 use App\Models\CheckStaff;
 use App\Models\Customer;
 use App\Models\Diagnosis;
+use App\Models\History;
 use App\Models\InvoicePayment;
 use App\Models\ListPlan;
 use App\Models\ListPlanBooking;
@@ -279,6 +280,24 @@ class BookingController extends Controller
             $cart->flag = 0;
             $cart->name = $bs->first()->service->service_name;
             $cart->save();
+
+            $history = new History();
+            $history->booking_id = $lastSubBook->id;
+            $history->user_id = Auth::user()->id;
+            $history->status = "Tambah";
+            $history->username = Auth::user()->first_name;
+            $history->description = "Booking SUB-BOOK-" . $lastSubBook->id . " telah dibuat.";
+            $history->nama = "SUB-BOOK-" . $lastSubBook->id;
+            $history->save();
+            
+            $history2 = new History();
+            $history2->booking_id = $lastSubBook->id;
+            $history2->user_id = Auth::user()->id;
+            $history2->status = "Tambah";
+            $history2->username = Auth::user()->first_name;
+            $history2->description = "Status SUB-BOOK-" . $lastSubBook->id . " Terkonfirmasi.";
+            $history2->nama = "SUB-BOOK-" . $lastSubBook->id;
+            $history2->save();
         }
 
         Alert::success('Success', 'Booking Berhasil Dibuat!');
@@ -527,6 +546,37 @@ class BookingController extends Controller
         $subbooking = SubBook::find($id);
         // dd($subbooking);
         $cart = CartBooking::where('sub_booking_id', $subbooking->id)->first();
+
+        if($request->status == 2){
+            if($subbooking->status == 3){
+                $history = new History();
+                $history->booking_id = $subbooking->id;
+                $history->user_id = Auth::user()->id;
+                $history->status = "Edit";
+                $history->username = Auth::user()->first_name;
+                $history->description = "Booking SUB-BOOK-" . $subbooking->id . " kembali di periksa, status menjadi Dimulai.";
+                $history->nama = "SUB-BOOK-" . $subbooking->id;
+                $history->save();
+            }else{
+                $history = new History();
+                $history->booking_id = $subbooking->id;
+                $history->user_id = Auth::user()->id;
+                $history->status = "Edit";
+                $history->username = Auth::user()->first_name;
+                $history->description = "Booking SUB-BOOK-" . $subbooking->id . " sedang di periksa, status menjadi Dimulai.";
+                $history->nama = "SUB-BOOK-" . $subbooking->id;
+                $history->save();
+            }
+        }elseif($request->status == 3){
+            $history = new History();
+            $history->booking_id = $subbooking->id;
+            $history->user_id = Auth::user()->id;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->description = "Booking SUB-BOOK-" . $subbooking->id . " sedang di apotek, status menjadi Apotek.";
+            $history->nama = "SUB-BOOK-" . $subbooking->id;
+            $history->save();
+        }
         // dd($cart->id);
         if($request->status){
             $subbooking->status = $request->status;
@@ -535,6 +585,15 @@ class BookingController extends Controller
         if($request->balikantrian){
             $cart->staff_id = 0;
             $cart->save();
+
+            $history = new History();
+            $history->booking_id = $subbooking->id;
+            $history->user_id = Auth::user()->id;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->description = "Booking SUB-BOOK-" . $subbooking->id . " kembali ke antrean, status menjadi Terkonfirmasi.";
+            $history->nama = "SUB-BOOK-" . $subbooking->id;
+            $history->save();
         }else{
             $cart->staff_id = Auth::user()->id;
             $cart->save();
@@ -579,7 +638,27 @@ class BookingController extends Controller
             }
 
             $sales->save();
+
+            $lastInvoice = Sale::all()->sortByDesc('id')->first();
             Alert::success('Berhasil!', 'Booking Telah Selesai!');
+
+            $history = new History();
+            $history->booking_id = $subbooking->id;
+            $history->user_id = Auth::user()->id;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->description = "Booking SUB-BOOK-" . $subbooking->id . " telah selesai di periksa, status menjadi Selesai.";
+            $history->nama = "SUB-BOOK-" . $subbooking->id;
+            $history->save();
+
+            $history2 = new History();
+            $history2->invoice_id = $lastInvoice->id;
+            $history2->user_id = Auth::user()->id;
+            $history2->status = "Tambah";
+            $history2->username = Auth::user()->first_name;
+            $history2->description = "Invoice " . $lastInvoice->no_invoice . " telah dibuat.";
+            $history2->nama = $lastInvoice->no_invoice;
+            $history2->save();
         }elseif($request->status == 5){
             $subbooking->status = 5;
             $subbooking->ranap = 1;
@@ -620,6 +699,15 @@ class BookingController extends Controller
             $sales->save();
 
             $subbooking->rawat_inap = Date::now();
+
+            $history = new History();
+            $history->booking_id = $subbooking->id;
+            $history->user_id = Auth::user()->id;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->description = "Booking SUB-BOOK-" . $subbooking->id . " sedang di rawat inap, status menjadi Rawat Inap.";
+            $history->nama = "SUB-BOOK-" . $subbooking->id;
+            $history->save();
         }
 
         if($request->pulangpasien){
@@ -764,13 +852,31 @@ class BookingController extends Controller
         }
 
         Statistic::create($validatedData);
+
+        $history = new History();
+        $history->booking_id = $request->sub_booking_id;
+        $history->user_id = Auth::user()->id;
+        $history->status = "Tambah";
+        $history->username = Auth::user()->first_name;
+        $history->description = "Dokter membuat statistik baru.";
+        $history->nama = "SUB-BOOK-" . $request->sub_booking_id;
+        $history->save();
         return redirect()->back();
     }
 
     public function deletestatistic($id){
         $statistic = Statistic::find($id);
+        $history = new History();
+        $history->booking_id = $statistic->sub_booking_id;
+        $history->user_id = Auth::user()->id;
+        $history->status = "Hapus";
+        $history->username = Auth::user()->first_name;
+        $history->description = "Dokter menghapus statistik.";
+        $history->nama = "SUB-BOOK-" . $statistic->sub_booking_id;
+        $history->save();
         DB::table('statistics')->where('id', $statistic->id)->delete();
         Alert::success('Berhasil!', 'Hapus Data Berhasil Dilakukan');
+
         return redirect()->back();
     }
 
@@ -876,6 +982,15 @@ class BookingController extends Controller
             $invoice2->save();
         }
 
+        $history = new History();
+        $history->invoice_id = $sale->id;
+        $history->user_id = Auth::user()->id;
+        $history->status = "Edit";
+        $history->username = Auth::user()->first_name;
+        $history->description = "Invoice " . $sale->no_invoice . " telah dibayar.";
+        $history->nama = $sale->no_invoice;
+        $history->save();
+
         Alert::success('Berhasil!', 'Pembayaran Berhasil Dilakukan');
         return redirect('/finance');
     }
@@ -919,6 +1034,14 @@ class BookingController extends Controller
 
         
 
+        return redirect()->back();
+    }
+
+    public function updateTambahanBiaya(Request $request, $id){
+        $sale = Sale::find($id);
+        // dd($request->all());
+        $sale->tambahan_biaya = $request->tambahan_biaya;
+        $sale->save();
         return redirect()->back();
     }
 

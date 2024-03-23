@@ -33,9 +33,7 @@
                             <tr>
                                 <th scope="row">{{ $histories->firstItem() + $key }}</th>
                                 <td>
-                                    @if ($history->product_id == 0)
-                                        <a href="">{{ date_format($history->created_at, "d M Y H:i") }}</a>
-                                    @elseif ($history->service_id == 0)
+                                    @if ($history->product_id != null)
                                         @if ($history->status != "Hapus")
                                             <?php $prod = App\Models\Product::find($history->product_id);  ?>
                                             @if ($prod)
@@ -46,14 +44,45 @@
                                         @else
                                             <a href="/product/list" class="text-primary">{{ date_format($history->created_at, "d M Y H:i") }}</a>
                                         @endif
+                                    @elseif ($history->service_id != null)
+                                        @if ($history->status != "Hapus")
+                                            <?php $servis = App\Models\Service::find($history->service_id);  ?>
+                                            @if ($servis)
+                                                <a href="/service/list/{{ $servis->service_name }}" class="text-primary">{{ date_format($history->created_at, "d M Y H:i") }}</a>
+                                            @else
+                                                <a href="/service/list" class="text-primary">{{ date_format($history->created_at, "d M Y H:i") }}</a>
+                                            @endif
+                                        @else
+                                            <a href="/service/list" class="text-primary">{{ date_format($history->created_at, "d M Y H:i") }}</a>
+                                        @endif
+                                    @elseif ($history->booking_id != null)
+                                        <a href="/booking/detail/{{ $history->booking_id }}" class="text-primary">{{ date_format($history->created_at, "d M Y H:i") }}</a>
+                                    @elseif ($history->treatment_id != null)
+                                        @if ($history->status == "Hapus")
+                                            <a href="/service/treatmentplan" class="text-primary">{{ date_format($history->created_at, "d M Y H:i") }}</a>
+                                        @else
+                                            @if ($history->treatment)
+                                                <a href="/service/treatmentplan/add/{{ $history->treatment ? $history->treatment->name : "-" }}" class="text-primary">{{ date_format($history->created_at, "d M Y H:i") }}</a>
+                                            @else
+                                                <a href="/service/treatmentplan" class="text-primary">{{ date_format($history->created_at, "d M Y H:i") }}</a>
+                                            @endif
+                                        @endif
+                                    @elseif ($history->invoice_id != null)
+                                        <a href="/sale/list/detail/{{ $history->invoice->no_invoice }}" class="text-primary">{{ date_format($history->created_at, "d M Y H:i") }}</a>
                                     @endif
                                 </td>
                                 <td>{{ $history->username }}</td>
                                 <td>
-                                    @if ($history->product_id == 0)
-                                        <a href="/service/list" class="text-primary" style="text-decoration: underline;">Service</a>
-                                    @elseif ($history->service_id == 0)
+                                    @if ($history->product_id != null)
                                         <a href="/product/list" class="text-primary" style="text-decoration: underline;">Product</a>
+                                    @elseif ($history->service_id != null)
+                                        <a href="/service/list" class="text-primary" style="text-decoration: underline;">Service</a>
+                                    @elseif ($history->booking_id != null)
+                                        <a href="/calendar" class="text-primary" style="text-decoration: underline;">Booking</a>
+                                    @elseif ($history->treatment_id != null)
+                                        <a href="/service/treatmentplan" class="text-primary" style="text-decoration: underline;">Treatment</a>
+                                    @elseif ($history->invoice_id != null)
+                                        <a href="/finance" class="text-primary" style="text-decoration: underline;">Invoice</a>
                                     @endif
                                 </td>
                                 <td>{{ $history->nama }}</td>

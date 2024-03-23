@@ -337,6 +337,9 @@ class IndexController extends Controller
             $subAccount = Pet::all()->where('customer_id', $sale->booking->customer->id);
         }
 
+        $sub_total = CartBooking::where('invoice_id', $sale->id)->sum('total_price');
+        // dd($sub_total);
+
         $invoice_method = InvoicePayment::all()->where('invoice_id', $sale->id);
         return view('finance.detailsalelistunpaid', [
             "title" => "Sale List Unpaid",
@@ -348,7 +351,8 @@ class IndexController extends Controller
             "servicePrice" => ServicePrice::all(),
             "carts" => CartBooking::all()->where('sub_booking_id', $sale->sub_booking_id)->where('invoice_id', $sale->id),
             "subbook" => $subbook,
-            "invoice_method" => $invoice_method
+            "invoice_method" => $invoice_method,
+            "sub_total" => $sub_total
         ]);
     }
 

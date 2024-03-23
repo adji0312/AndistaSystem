@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('product_id');
-            $table->foreignId('service_id');
+            $table->foreignId('user_id')->nullable();
+            $table->foreignId('product_id')->nullable();
+            $table->foreignId('service_id')->nullable();
+            $table->foreignId('treatment_id')->nullable();
+            $table->foreignId('booking_id')->nullable();
+            $table->foreignId('invoice_id')->nullable();
             $table->string('status');
             $table->string('username');
             $table->string('description')->nullable();

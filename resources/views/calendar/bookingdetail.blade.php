@@ -753,13 +753,21 @@
                                                                 @if ($lpb->flag == 1)
                                                                     <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-success btn-sm"><i class="fas fa-check"></i> Telah Masuk</button></td>
                                                                 @else
-                                                                    <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahKeranjang{{ $lpb->id }}"><i class="fas fa-plus"></i> Tambah ke Keranjang</button></td>
+                                                                    @if ($booking->ranap == 1)
+                                                                        <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahKeranjang{{ $lpb->id }}"><i class="fas fa-plus"></i> Tambah ke Keranjang</button></td>
+                                                                    @else
+                                                                        <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-secondary btn-sm" disabled><i class="fas fa-plus"></i> Tambah ke Keranjang</button></td>
+                                                                    @endif
                                                                 @endif
                                                             @else
                                                                 @if ($lpb->flag == 1)
                                                                     <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-success btn-sm"><i class="fas fa-check"></i> Telah Dilakukan</button></td>
                                                                 @else
-                                                                    <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahKeranjang{{ $lpb->id }}"><i class="fas fa-plus"></i> Lakukan</button></td>
+                                                                    @if ($booking->ranap == 1)
+                                                                        <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahKeranjang{{ $lpb->id }}"><i class="fas fa-plus"></i> Lakukan</button></td>
+                                                                    @else
+                                                                        <td class="d-flex justify-content-center"><button type="button" class="btn btn-outline-secondary btn-sm" disabled><i class="fas fa-plus"></i> Lakukan</button></td>
+                                                                    @endif
                                                                 @endif
                                                             @endif
                                                         </tr>
@@ -865,7 +873,11 @@
                     <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 40%;" class="mt-4">
                         <div class="m-2 d-flex">
                             <h5 class="m-3">List Diagnosis</h5>
-                            <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addDiagnosisBooking"><i class="fas fa-plus"></i> Tambah Diagnosis</button>
+                            @if ($booking->ranap == 1)
+                                <button type="button" class="btn btn-sm btn-outline-primary m-2" data-bs-toggle="modal" data-bs-target="#addDiagnosisBooking"><i class="fas fa-plus"></i> Tambah Diagnosis</button>
+                            @else
+                                <button type="button" class="btn btn-sm btn-outline-secondary m-2" disabled><i class="fas fa-plus"></i> Tambah Diagnosis</button>
+                            @endif
                         </div>
                         <div class="table-responsive m-3">
                             <table class="table">
@@ -911,7 +923,11 @@
                                             @endif
                                             <td>
                                                 <div class="d-flex justify-content-center gap-2">
-                                                    <button type="button" class="btn btn-outline-danger btn-sm" style="width: 100px" data-bs-toggle="modal" data-bs-target="#deleteBookingDiagnosis{{ $bd->id }}"><i class="fas fa-trash"></i> Hapus</button>
+                                                    @if ($booking->ranap == 1)
+                                                        <button type="button" class="btn btn-outline-danger btn-sm" style="width: 100px" data-bs-toggle="modal" data-bs-target="#deleteBookingDiagnosis{{ $bd->id }}"><i class="fas fa-trash"></i> Hapus</button>
+                                                    @else
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm" style="width: 100px" disabled><i class="fas fa-trash"></i> Hapus</button>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>

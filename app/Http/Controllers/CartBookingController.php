@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\BookingNote;
 use App\Models\BookingService;
 use App\Models\CartBooking;
+use App\Models\History;
 use App\Models\Product;
 use App\Models\Quotation;
 use App\Models\QuotationItem;
@@ -508,6 +509,15 @@ class CartBookingController extends Controller
             $product->save();
         }
 
+        $history = new History();
+        $history->user_id = Auth::user()->id;
+        $history->product_id = $product->id;
+        $history->status = "Tambah";
+        $history->username = Auth::user()->first_name;
+        $history->nama = $product->product_name;
+        $history->description = "Menambahkan produk ke keranjang pasien"; 
+        $history->save();
+
         // $booking->total_price = $booking->total_price + $cart->total_price;
         // $booking->save();
 
@@ -562,6 +572,15 @@ class CartBookingController extends Controller
         // DB::table('products')
 
         BookingNote::create($validatedData);
+
+        $history = new History();
+        $history->booking_id = $request->sub_booking_id;
+        $history->user_id = Auth::user()->id;
+        $history->status = "Tambah";
+        $history->username = Auth::user()->first_name;
+        $history->description = "Catatan baru telah dibuat pada SUB-BOOK-" . $request->sub_booking_id . ".";
+        $history->nama = "SUB-BOOK-" . $request->sub_booking_id;
+        $history->save();
         return redirect()->back();
     }
 
@@ -574,14 +593,33 @@ class CartBookingController extends Controller
         $note->save();
 
         Alert::success('Berhasil!', 'Perbarui Note Berhasil!');
+
+        $history = new History();
+        $history->booking_id = $note->sub_booking_id;
+        $history->user_id = Auth::user()->id;
+        $history->status = "Edit";
+        $history->username = Auth::user()->first_name;
+        $history->description = "Perbarui catatan pada SUB-BOOK-" . $note->sub_booking_id . ".";
+        $history->nama = "SUB-BOOK-" . $note->sub_booking_id;
+        $history->save();
+
         return redirect()->back();
     }
 
     public function deleteTextBooking($id){
         $catatan = BookingNote::find($id);
         DB::table('booking_notes')->where('id', $catatan->id)->delete();
+        $history = new History();
+        $history->booking_id = $catatan->sub_booking_id;
+        $history->user_id = Auth::user()->id;
+        $history->status = "Hapus";
+        $history->username = Auth::user()->first_name;
+        $history->description = "Catatan pada booking SUB-BOOK-" . $catatan->sub_booking_id . " telah dihapus.";
+        $history->nama = "SUB-BOOK-" . $catatan->sub_booking_id;
+        $history->save();
         Alert::success('Berhasil!', 'Hapus Catatan Berhasil Dilakukan');
         return redirect()->back();
+
     }
 
     public function deleteBookingService2(Request $request, $id){
