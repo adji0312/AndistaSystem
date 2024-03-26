@@ -27,12 +27,7 @@
                     <h2>{{ count($treatment) }}</h2>
                 </div>
             </div>
-            <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 100%">
-                <p class="m-3" style="font-weight: 300px; font-size: 20px;"><img src="/img/icon/category.png" alt="" style="width: 30px"> Category</p>
-                <div class="m-3 d-flex gap-5 mb-2">
-                    <h2>{{ count($category) }}</h2>
-                </div>
-            </div>
+            
           </div>
           <div class="d-flex justify-content-between gap-4 mt-4">
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 100%">
@@ -42,11 +37,17 @@
                 </div>
             </div>
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 100%">
+                <p class="m-3" style="font-weight: 300px; font-size: 20px;"><img src="/img/icon/category.png" alt="" style="width: 30px"> Category</p>
+                <div class="m-3 d-flex gap-5 mb-2">
+                    <h2>{{ count($category) }}</h2>
+                </div>
+            </div>
+            {{-- <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3; width: 100%">
                 <p class="m-3" style="font-weight: 300px; font-size: 20px;"><img src="/img/icon/policy.png" alt="" style="width: 30px"> Policy</p>
                 <div class="m-3 d-flex gap-5 mb-2">
                     <h2>{{ count($policy) }}</h2>
                 </div>
-            </div>
+            </div> --}}
           </div>
         </div>
     </div>

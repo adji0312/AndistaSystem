@@ -6,21 +6,17 @@
     @include('calendar.menu')
 
     <div id="contents">
-        <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">{{ $title }}</a>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item" style="cursor: pointer;">
-                            <a href="/calendar" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Kembali</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" onclick="saveBooking()" style="color: #f28123; cursor: pointer;">Selanjutnya <img src="/img/icon/continue.png" alt="" style="width: 22px"></a>
-                        </li>
-                    </ul>
+        <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
+            <div class="d-flex gap-3 w-100">
+                <a class="navbar-brand" id="navbar-brand-title" href="#">{{ $title }}</a>
+                <div class="d-flex justify-content-between w-100 align-items-center">
+                    <div class="d-flex gap-4">
+                        <a href="/calendar" class="nav-link active" style="color: #f28123" ><img src="/img/icon/previous.png" alt="" style="width: 22px"> Kembali</a>
+                        <a class="nav-link active" aria-current="page" onclick="saveBooking()" style="color: #f28123; cursor: pointer;">Selanjutnya <img src="/img/icon/continue.png" alt="" style="width: 22px"></a>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </div>
 
         <div id="dashboard" class="mx-3 mt-3">
             <form action="/addBooking" method="POST">

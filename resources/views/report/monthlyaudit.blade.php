@@ -21,10 +21,10 @@
 
         <div id="dashboard" class="mx-3 mt-4">
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                <h5 class="m-3" style="width: 10%">Filter Bulan Tahun</h5>
+                <h5 class="m-3" style="width: 100%">Filter Bulan Tahun</h5>
                 <div class="d-flex gap-2 m-3">
                     <form action="" class="d-flex gap-2">
-                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="month">
+                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 30%" name="month">
                             <option value="" class="selectstatus" disabled selected>Select Month</option>
                             @if (request('month') == '01')
                                 <option value="01" style="color: black;" selected>January</option>
@@ -197,7 +197,7 @@
                                 <option value="12" style="color: black;">December</option>
                             @endif
                         </select>
-                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 300px" name="year">
+                        <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 30%" name="year">
                             <option value="" class="selectstatus" disabled selected>Select Year</option>
                             <option value="2023" style="color: black;">2023</option>
                             <option value="2024" style="color: black;">2024</option>
@@ -266,7 +266,7 @@
             </div>
             
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4">
-                <h5 class="m-3" style="width: 10%">List Invoice</h5>
+                <h5 class="m-3" style="width: 100%">List Invoice</h5>
                 <div class="m-3 table-responsive">
                     <table class="table">
                         <thead>

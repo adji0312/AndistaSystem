@@ -16,13 +16,13 @@
             @else
     
             @endif
-            @if(Auth::user()->role->customer_list != 4)
+            {{-- @if(Auth::user()->role->customer_list != 4)
             <li style="cursor: pointer; list-style: none;" class="nav-item">
                 <a id="locationslist" href="/customer/bookinghistory" class="pt-3 nav-link"><img src="/img/icon/history.png" alt="" style="width: 22px;">&nbsp;&nbsp;&nbsp; Customer Booking History</a>
             </li>
             @else
     
-            @endif
+            @endif --}}
         </div>
     </div>
 </nav>

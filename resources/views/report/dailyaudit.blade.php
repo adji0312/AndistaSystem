@@ -21,7 +21,7 @@
 
         <div id="dashboard" class="mx-3 mt-4">
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
-                <h5 class="m-3" style="width: 10%">Filter Tanggal</h5>
+                <h5 class="m-3" style="width: 100%">Filter Tanggal</h5>
                 <div class="d-flex gap-2 m-3">
                     <form action="" class="d-flex gap-2">
                         <input type="date" class="form-control" value="{{ request('datefrom') }}" name="datefrom" id="datefrom">
@@ -84,7 +84,7 @@
             </div>
             
             <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;" class="mt-4">
-                <h5 class="m-3" style="width: 10%">List Invoice</h5>
+                <h5 class="m-3" style="width: 100%">List Invoice</h5>
                 <div class="m-3 table-responsive">
                     <table class="table">
                         <thead>

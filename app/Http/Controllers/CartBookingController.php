@@ -496,7 +496,6 @@ class CartBookingController extends Controller
         // dd($request->all());
         $cart = CartBooking::find($id);
         // $booking = Booking::find($request->booking_id);
-        $subBook = SubBook::find($cart->subBooking->id);
         
         // dd($sale);
         // dd($cart->quantity);
@@ -507,16 +506,36 @@ class CartBookingController extends Controller
             $product = Product::find($cart->product->id);
             $product->stock = $product->stock - $cart->quantity;
             $product->save();
+
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->booking_id = $request->sub_booking_id;
+            $history->status = "Tambah";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $product->product_name;
+            $history->description = "Menambahkan produk " . $product->product_name . " ke keranjang pasien"; 
+            $history->save();
+
+            $history = new History();
+            $history->user_id = Auth::user()->id;
+            $history->product_id = $product->id;
+            $history->service_id = 0;
+            $history->status = "Edit";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $product->product_name;
+            $history->description = "Stock Produk telah dikurangi sebanyak " . $cart->quantity . "."; 
+            $history->save();
+        }else{
+            // $history = new History();
+            // $history->user_id = Auth::user()->id;
+            // $history->booking_id = $request->sub_booking_id;
+            // $history->status = "Tambah";
+            // $history->username = Auth::user()->first_name;
+            // $history->nama = $product->product_name;
+            // $history->description = "Menambahkan servis " . $product->product_name . " ke keranjang pasien"; 
+            // $history->save();
         }
 
-        $history = new History();
-        $history->user_id = Auth::user()->id;
-        $history->product_id = $product->id;
-        $history->status = "Tambah";
-        $history->username = Auth::user()->first_name;
-        $history->nama = $product->product_name;
-        $history->description = "Menambahkan produk ke keranjang pasien"; 
-        $history->save();
 
         // $booking->total_price = $booking->total_price + $cart->total_price;
         // $booking->save();

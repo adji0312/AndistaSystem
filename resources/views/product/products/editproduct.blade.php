@@ -155,7 +155,7 @@
                     <div class="mt-4 mb-4" style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">
                         <h5 class="m-3">Pricing</h5>
                         <div class="m-3 d-flex gap-5">
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="tax_rate_id" class="form-label" style="font-size: 15px; color: #7C7C7C;">Tax</label>
                                 <select class="form-select" style="font-size: 15px; color: #7C7C7C; width: 250px;" name="tax_rate_id" id="tax_rate_id">
                                     <option value="{{ $product->tax_rate_id }}" class="selectstatus" style="color: black;" selected>{{ $taxChoosen->tax_name ?? '' }}</option>
@@ -163,7 +163,7 @@
                                         <option value="{{ $t->id }}" class="selectstatus" style="color: black;">{{ $t->tax_name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <label for="price" class="form-label" style="font-size: 15px; color: #7C7C7C; width: 250px;">Price</label>
                                 <input type="text" class="form-control" name="price" id="price" value="{{ $product->price }}">

@@ -7,36 +7,12 @@
     @include('calendar.menu')
 
     <div id="contents">
-        <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
-            <div class="d-flex">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/booking/darurat">Booking {{ $title }}</a>
-                </div>
-                {{-- <form action="" class="d-flex gap-3">
-                    <select class="form-select form-select" aria-label="Small select example" style="background-color: transparent; border-bottom: none; width: 200px" id="filterstatus" name="filterstatus">
-                        @if (request('filterstatus'))
-                            @if (request('filterstatus') == "Booking Biasa")
-                                <option value="Booking Biasa" selected>Booking Biasa</option>
-                                <option value="Rawat Inap">Dirawat Inap</option>
-                            @elseif (request('filterstatus') == "Rawat Inap")
-                                <option value="Booking Biasa">Booking Biasa</option>
-                                <option value="Rawat Inap" selected>Rawat Inap</option>
-                            @endif
-                        @else
-                            <option selected>Filter Status</option>
-                            <option value="Booking Biasa">Booking Biasa</option>
-                            <option value="Rawat Inap">Rawat Inap</option>
-                        @endif
-                    </select>
-                    <button type="submit" class="btn btn-outline-primary btn-sm" style="width: 100%"><i class="fas fa-filter"></i> Filter</button>
-                </form>
-                @if (request('filterstatus'))
-                    <form action="/booking/rawatinap">
-                        <button type="submit" class="btn btn-outline-secondary btn-sm mx-2" style="width: 100%; height: 100%">Reset</button>
-                    </form>
-                @endif     --}}
+        <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
+            <div class="d-flex gap-3 w-100">
+                <a class="navbar-brand" id="navbar-brand-title" href="/booking/darurat">Booking {{ $title }}</a>
             </div>
-        </nav>
+        </div>
+        @include('calendar.sidenavcalendar')
 
         <div id="dashboard" class="mx-3 mt-4">
             <table class="table">

@@ -19,12 +19,12 @@
             @else
 
             @endif
-            @if(Auth::user()->role->facilities != 4)
+            {{-- @if(Auth::user()->role->facilities != 4)
             <li style="cursor: pointer; list-style: none;" class="nav-item">
                 <a id="locationsfacilities" href="/facility" class="pt-3 nav-link"><img src="/img/icon/facilities.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Facilities</a>
             </li>
             @else
-            @endif
+            @endif --}}
             @if(Auth::user()->role->setting_location != 4)
             <li style="cursor: pointer; list-style: none;" class="nav-item">
                 <a id="locationsfacilities" href="/location-setting" class="pt-3 nav-link"><img src="/img/icon/setting.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Setting Usage</a>

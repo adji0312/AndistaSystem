@@ -4,33 +4,26 @@
     <div class="wrapper">
         @include('finance.menu')
         <div id="contents">
-            <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">{{ $sale->no_invoice }}</a>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
+                <div class="d-flex gap-3 w-100">
+                    <a class="navbar-brand" id="navbar-brand-title" href="#">{{ $sale->no_invoice }}</a>
+                    <div class="d-flex justify-content-between w-100 align-items-center">
+                      <div class="d-flex gap-4">
                         @if ($sale->status == 1)
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/sale/list/unpaid" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> Kembali ke List</a>
-                            </li>
+                            <a class="nav-link active" aria-current="page" href="/sale/list/unpaid" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> Kembali ke List</a>
                         @else
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/sale/list/paid" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> Kembali ke List</a>
-                            </li>
+                            <a class="nav-link active" aria-current="page" href="/sale/list/paid" style="color: #949494"><img src="/img/icon/backicon.png" alt="" style="width: 22px"> Kembali ke List</a>
                         @endif
                         @if ($sale->status == 0)
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" style="color: #f28123; cursor: pointer;" onclick="window.print()"><img src="/img/icon/paid.png" alt="" style="width: 22px"> Print</a>
-                            </li>
+                            <a class="nav-link active" aria-current="page" style="color: #f28123; cursor: pointer;" onclick="window.print()"><img src="/img/icon/paid.png" alt="" style="width: 22px"> Print</a>
                         @else
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#makePayment" style="color: #f28123; cursor: pointer;"><img src="/img/icon/paid.png" alt="" style="width: 22px"> Paid</a>
-                            </li>
+                            <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#makePayment" style="color: #f28123; cursor: pointer;"><img src="/img/icon/paid.png" alt="" style="width: 22px"> Paid</a>
                         @endif
-                      </ul>
+                      </div>
                     </div>
                 </div>
-            </nav>
+            </div>
+            @include('finance.sidenavfinance')
 
             <div id="dashboard" class="mx-3 mt-4">
                 <div style="border-style: solid; border-width: 1px; border-color: #d3d3d3;">

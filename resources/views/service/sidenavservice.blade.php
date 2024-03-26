@@ -39,12 +39,12 @@
             @else
             @endif
 
-            @if(Auth::user()->role->service_policy != 4)
+            {{-- @if(Auth::user()->role->service_policy != 4)
                 <li style="cursor: pointer; list-style: none;" class="nav-item">
                     <a id="locationsfacilities" href="/service/policy" class="pt-3 nav-link"><img src="/img/icon/policy.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Policy</a>
                 </li>
             @else
-            @endif
+            @endif --}}
         </div>
     </div>
 </nav>

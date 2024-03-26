@@ -1004,7 +1004,7 @@
                                     <tr>
                                         <th>{{ $index1 }}</th>
                                         @if ($cart->product_id == null && $cart->service_id != null)
-                                            <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $cart->name }} ({{ $cart->servicePrice->price_title }})</td>
+                                            <td><img src="/img/icon/service.png" alt="" style="width: 22px"> {{ $cart->name }} ({{ $cart->servicePrice ? $cart->servicePrice->price_title : "-" }})</td>
                                         @elseif ($cart->product_id != null && $cart->service_id == null)
                                             <td><img src="/img/icon/product.png" alt="" style="width: 22px"> {{ $cart->name }}</td>
                                         @endif

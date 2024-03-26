@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\History;
 use App\Models\Service;
 use App\Models\ServiceAndFacility;
 use App\Models\ServiceAndStaff;
 use App\Models\ServicePrice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
@@ -103,6 +105,16 @@ class ServiceController extends Controller
             }
 
             $lastService = DB::table('services')->latest('created_at')->first();
+
+            $history = new History();
+            $history->service_id = $lastService->id;
+            $history->user_id = Auth::user()->id;
+            $history->status = "Tambah";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $lastService->service_name;
+            $history->description = "Servis baru " . $lastService->service_name . " telah ditambahkan."; 
+            $history->save();
+
             return redirect('/service/list' . '/' . $lastService->service_name);
         }
     }
@@ -126,6 +138,16 @@ class ServiceController extends Controller
         $validatedData = $request->validate($rules);
 
         Service::where('id', $service->id)->update($validatedData);
+
+        $history = new History();
+        $history->service_id = $service->id;
+        $history->user_id = Auth::user()->id;
+        $history->status = "Edit";
+        $history->username = Auth::user()->first_name;
+        $history->nama = $service->service_name;
+        $history->description = "Servis " . $service->service_name . " telah di ubah."; 
+        $history->save();
+
         return redirect('/service/list');
     }
 
@@ -138,6 +160,14 @@ class ServiceController extends Controller
 
         for($i = 0 ; $i < $length ; $i++){
             $service = Service::find($myArray[$i]);
+            $history = new History();
+            $history->service_id = $service->id;
+            $history->user_id = Auth::user()->id;
+            $history->status = "Hapus";
+            $history->username = Auth::user()->first_name;
+            $history->nama = $service->service_name;
+            $history->description = "Servis " . $service->service_name . " telah di hapus."; 
+            $history->save();
             // print_r($category->category_service_name);
             DB::table('services')->where('id', $service->id)->delete();
             DB::table('service_prices')->where('service_id', $service->id)->delete();

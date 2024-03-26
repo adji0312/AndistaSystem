@@ -6,28 +6,22 @@
     @include('calendar.menu')
 
     <div id="contents">
-        <nav class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/booking/darurat">Booking {{ $title }}</a>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item" id="deleteButton">
-                            <?php 
-                                $date = Date::now();
-                            ?>
-                            <input type="date" class="form-control" id="booking_date" name="booking_date" value="">
-                        </li>
-                        <li class="nav-item mx-2" id="deleteButton">
-                            <button type="button" class="btn btn-outline-primary btn-sm" style="height: 100%"><i class="fas fa-filter"></i> Filter</button>
-                        </li>
-                    </ul>
+        <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
+            <div class="d-flex gap-3 w-100">
+                <a class="navbar-brand" id="navbar-brand-title" href="/booking/darurat">Booking {{ $title }}</a>
+                <div class="d-flex justify-content-between w-100 align-items-center">
+                    <div class="d-flex gap-4">
+                        <input type="date" class="form-control" id="booking_date" name="booking_date" value="">
+                        <button type="button" class="btn btn-outline-primary btn-sm" style="height: 100%"><i class="fas fa-filter"></i> Filter</button>
+                    </div>
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
             </div>
-        </nav>
+        </div>
+        @include('calendar.sidenavcalendar')
 
         <div id="dashboard" class="mx-3 mt-4">
             <table class="table">
