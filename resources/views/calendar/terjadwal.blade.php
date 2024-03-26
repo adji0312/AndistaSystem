@@ -1,4 +1,5 @@
 @extends('main')
+<meta http-equiv="refresh" content="10">
 @section('container')
 
   <div class="wrapper">
@@ -11,11 +12,17 @@
                 <a class="navbar-brand" id="navbar-brand-title" href="/booking/darurat">Booking {{ $title }}</a>
                 <div class="d-flex justify-content-between w-100 align-items-center">
                     <div class="d-flex gap-4">
-                        <input type="date" class="form-control" id="booking_date" name="booking_date" value="">
-                        <button type="button" class="btn btn-outline-primary btn-sm" style="height: 100%"><i class="fas fa-filter"></i> Filter</button>
+                        <form action="" class="d-flex gap-2">
+                            <input type="date" class="form-control" value="{{ request('datefrom') }}" name="datefrom" id="datefrom">
+                            <input type="date" class="form-control" value="{{ request('dateto') }}" name="dateto" id="dateto">
+                            <div class="d-flex gap-1">
+                                <button type="submit" class="btn btn-outline-primary btn-sm" style="width: 120px"><i class="fas fa-filter"></i> Filter</button>
+                                <a href="/booking/terjadwal" class="btn btn-outline-secondary btn-sm" style="width: 120px">Reset</a>
+                            </div>
+                        </form>
                     </div>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <form class="d-flex" role="search" action="/booking/terjadwal">
+                        <input class="form-control me-2" type="search" name="search" placeholder="Search" value="{{ request('search') }}">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>

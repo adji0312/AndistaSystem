@@ -92,8 +92,9 @@
                     <div class="d-flex gap-3">
                         <div class="m-3 d-flex flex-column gap-1">
                             <h6 style="color: black; font-weight: 400;">Lokasi : {{ $booking->booking->location->location_name }}</h6>
-                            <?php $date = date_create($booking->booking->booking_date) ?>
-                            <h6 style="color: black; font-weight: 400">Tanggal : {{ $booking->created_at->isoFormat('D MMMM Y') }}</h6>
+                            <?php $date = \Carbon\Carbon::parse($booking->booking_date);
+                            ?>
+                            <h6 style="color: black; font-weight: 400">Tanggal : {{ $date->isoFormat('D MMMM Y') }}</h6>
                             
                         </div>
                         <div class="m-3">

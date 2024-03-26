@@ -27,6 +27,12 @@ class Service extends Model
         return $this->hasMany(ServicePrice::class, 'service_id');
     }
 
+    public function scopeFilter($query, array $filters){
+        $query->when($filters['search'] ?? false, function($query, $search){
+            return $query->where('service_name', 'like', '%' . $search . '%');
+        });
+    }
+
     // protected $casts = [
     //     'staff_id' => 'array',
     //     'facility_id' => 'array'

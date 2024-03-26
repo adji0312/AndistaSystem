@@ -139,7 +139,8 @@ class IndexController extends Controller
     public function serviceList(){
         return view('service.serviceslist', [
             "title" => "Service List",
-            "services" => Service::latest()->paginate(20)->withQueryString()
+            // "services" => Service::latest()->paginate(20)->withQueryString()
+            "services" => Service::latest()->filter(request(['search']))->paginate(30)->withQueryString()
         ]);
     }
 
@@ -179,7 +180,7 @@ class IndexController extends Controller
     public function treatmentPlan(){
         return view('service.treatmentplan', [
             "title" => "Treatment Plan",
-            "plans" => Plan::latest()->paginate(10)->withQueryString()
+            "plans" => Plan::latest()->filter(request(['search']))->paginate(10)->withQueryString()
         ]);
     }
 
@@ -196,14 +197,14 @@ class IndexController extends Controller
     public function serviceCategory(){
         return view('service.servicecategory', [
             "title" => "Service Category",
-            "categories" => CategoryService::latest()->paginate(20)->withQueryString()
+            "categories" => CategoryService::latest()->filter(request(['search']))->paginate(20)->withQueryString()
         ]);
     }
 
     public function serviceDiagnosis(){
         return view('service.serviceDiagnosis', [
             "title" => "Service Diagnosis",
-            "diagnosis" => Diagnosis::latest()->paginate(20)->withQueryString()
+            "diagnosis" => Diagnosis::latest()->filter(request(['search']))->paginate(20)->withQueryString()
         ]);
     }
 
@@ -289,15 +290,15 @@ class IndexController extends Controller
     
     public function salelistpaid(){
 
-        $sales = Sale::all()->where('status', 0);
+        // $sales = Sale::all()->where('status', 0);
         return view('finance.salelistpaid', [
             "title" => "Sale List Paid",
-            "sales" => $sales
+            "sales" => Sale::latest()->where('status', 0)->filter(request(['search']))->get()
         ]);
     }
     public function salelistunpaid(){
 
-        $sales = Sale::all()->where('status', 1);
+        // $sales = Sale::all()->where('status', 1);
 
         return view('finance.salelistunpaid', [
             "title" => "Sale List Unpaid",

@@ -38,4 +38,11 @@ class SubBook extends Model
     public function invoice(){
         return $this->hasMany(Sale::class, 'sub_booking_id');
     }
+
+    public function scopeFilter($query, array $filters){
+        $query->when($filters['search'] ?? false, function($query, $search){
+            return $query->where('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('pet_name', 'like', '%' . $search . '%');
+        });
+    }
 }

@@ -28,7 +28,7 @@
             <a id="locationsdashboard" href="/booking/rawatinap" class="px-4"><img src="/img/icon/rawatinap.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Rawat Inap ({{ count($ranap) }})</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Kedatangan") ? 'active' : '' }}">
-            <?php $kedatangan = App\Models\SubBook::all()->where('status', 1)->where('category', '!=', 3); ?>
+            <?php $kedatangan = App\Models\SubBook::all()->where('status', 1)->where('category', '!=', 3)->where('category', '!=', 2); ?>
             <a id="locationsdashboard" href="/booking/kedatangan" class="px-4"><img src="/img/icon/kedatangan.png" alt="" style="width: 22px">&nbsp;&nbsp;&nbsp; Kedatangan ({{ count($kedatangan) }})</a>
         </li>
         <li style="cursor: pointer" class="{{ ($title === "Memulai") ? 'active' : '' }}">

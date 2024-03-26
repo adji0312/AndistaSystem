@@ -11,8 +11,8 @@
                     <div class="d-flex justify-content-between w-100 align-items-center">
                         <div class="d-flex gap-4">
                         </div>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <form class="d-flex" role="search" action="/sale/list/paid">
+                            <input class="form-control me-2" type="search" name="search" placeholder="Search" value="{{ request('search') }}">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </div>

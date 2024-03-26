@@ -57,7 +57,8 @@ class BookingController extends Controller
     // Jenis jenis booking
     public function bookingdarurat(){
         // dd($bookingdarurat);
-        $subBooks = SubBook::latest()->where('status', 1)->paginate(30)->withQueryString();
+        // $subBooks = SubBook::latest()->where('status', 1)->paginate(30)->withQueryString();
+        $subBooks = SubBook::select('sub_books.*', 'customers.first_name', 'pets.pet_name')->join('pets', 'sub_books.subAccount_id', '=', 'pets.id')->join('customers', 'pets.customer_id', '=', 'customers.id')->where('status', 1)->where('category', 2)->orderBy('sub_books.booking_date', 'DESC')->filter(request(['search']))->paginate(30)->withQueryString();
         return view('calendar.darurat', [
             "title" => "Darurat",
             "bookings" => $subBooks
@@ -65,7 +66,17 @@ class BookingController extends Controller
     }
 
     public function bookingterjadwal(){
-        $subBooks = SubBook::latest()->where('status', 1)->paginate(30)->withQueryString();
+
+        // dd(request('dateto'));
+        if(request('datefrom') && request('dateto')){
+            $subBooks = SubBook::select('sub_books.*', 'customers.first_name', 'pets.pet_name')->join('pets', 'sub_books.subAccount_id', '=', 'pets.id')->join('customers', 'pets.customer_id', '=', 'customers.id')->where('status', 1)->where('category', 3)->orderBy('sub_books.booking_date', 'DESC')->whereDate('sub_books.booking_date', '>=', request('datefrom'))->whereDate('sub_books.booking_date', '<=', request('dateto'))->filter(request(['search']))->paginate(30)->withQueryString();
+
+            // dd($subBooks);
+        }else{
+            $subBooks = SubBook::select('sub_books.*', 'customers.first_name', 'pets.pet_name')->join('pets', 'sub_books.subAccount_id', '=', 'pets.id')->join('customers', 'pets.customer_id', '=', 'customers.id')->where('status', 1)->where('category', 3)->orderBy('sub_books.booking_date', 'DESC')->filter(request(['search']))->paginate(30)->withQueryString();
+        }
+
+        // dd($subBooks);
 
         return view('calendar.terjadwal', [
             "title" => "Terjadwal",
@@ -77,10 +88,8 @@ class BookingController extends Controller
 
         // $bookingkedatangan = Booking::where('langsung_datang', 0)->get();
         
-        $subBooks = SubBook::latest()->where('status', 1)->paginate(30)->withQueryString();
-        // $listkedatangan = DB::table('sub_books')->select('*')->join('bookings', 'bookings.id' , '=', 'sub_books.booking_id')->join('locations', 'locations.id', '=', 'bookings.location_id')->join('staff', 'staff.id', '=', 'bookings.staff_id')->where('bookings.langsung_datang', 0)->get();
-        // dd($listkedatangan);
-        // $cartSubBook = CartBooking::all()->where('sub_booking_id',)
+        // $subBooks = SubBook::latest()->where('status', 1)->paginate(30)->withQueryString();
+        $subBooks = SubBook::select('sub_books.*', 'customers.first_name', 'pets.pet_name')->join('pets', 'sub_books.subAccount_id', '=', 'pets.id')->join('customers', 'pets.customer_id', '=', 'customers.id')->where('status', 1)->where('category', 1)->orderBy('sub_books.booking_date', 'DESC')->filter(request(['search']))->paginate(30)->withQueryString();
 
         return view('calendar.kedatangan', [
             "title" => "Kedatangan",
@@ -90,14 +99,8 @@ class BookingController extends Controller
 
     public function bookingrawatinap(){
 
-        // if(request('filterstatus')){
-        //     if(request('filterstatus') == "1"){
-        //         $subBooks = SubBook::latest()->where('status', 5)->where('ranap', 1)->paginate(30)->withQueryString();
-        //     }elseif(request('filterstatus') == "2"){
-        //         $subBooks = SubBook::latest()->where('status', 5)->where('ranap', 2)->paginate(30)->withQueryString();
-        //     }
-        // }else{
-        $subBooks = SubBook::latest()->where('status', 5)->where('ranap', 1)->paginate(30)->withQueryString();
+        // $subBooks = SubBook::latest()->where('status', 5)->where('ranap', 1)->paginate(30)->withQueryString();
+        $subBooks = SubBook::select('sub_books.*', 'customers.first_name', 'pets.pet_name')->join('pets', 'sub_books.subAccount_id', '=', 'pets.id')->join('customers', 'pets.customer_id', '=', 'customers.id')->where('status', 5)->where('ranap', 1)->orderBy('sub_books.booking_date', 'DESC')->filter(request(['search']))->paginate(30)->withQueryString();
 
         $now = Carbon::now();
         return view('calendar.rawatinap', [
@@ -109,7 +112,8 @@ class BookingController extends Controller
 
     public function bookingmemulai(){
 
-        $subBooks = SubBook::latest()->where('status', 2)->paginate(30)->withQueryString();
+        // $subBooks = SubBook::latest()->where('status', 2)->paginate(30)->withQueryString();
+        $subBooks = SubBook::select('sub_books.*', 'customers.first_name', 'pets.pet_name')->join('pets', 'sub_books.subAccount_id', '=', 'pets.id')->join('customers', 'pets.customer_id', '=', 'customers.id')->where('status', 2)->orderBy('sub_books.booking_date', 'DESC')->filter(request(['search']))->paginate(30)->withQueryString();
         return view('calendar.memulai', [
             "title" => "Memulai",
             "bookings" => $subBooks
@@ -118,7 +122,8 @@ class BookingController extends Controller
 
     public function bookingapotek(){
 
-        $subBooks = SubBook::latest()->where('status', 3)->paginate(30)->withQueryString();
+        // $subBooks = SubBook::latest()->where('status', 3)->paginate(30)->withQueryString();
+        $subBooks = SubBook::select('sub_books.*', 'customers.first_name', 'pets.pet_name')->join('pets', 'sub_books.subAccount_id', '=', 'pets.id')->join('customers', 'pets.customer_id', '=', 'customers.id')->where('status', 3)->where('category', 1)->orderBy('sub_books.booking_date', 'DESC')->filter(request(['search']))->paginate(30)->withQueryString();
         return view('calendar.apotek', [
             "title" => "Apotek",
             "bookings" => $subBooks
@@ -126,7 +131,11 @@ class BookingController extends Controller
     }
 
     public function bookingselesai(){
-        $subBooks = SubBook::latest()->where('status', 4)->orWhere('ranap', 2)->paginate(30)->withQueryString();
+
+        // dd($subBooks);
+        $subBooks = SubBook::select('sub_books.*', 'customers.first_name', 'pets.pet_name')->join('pets', 'sub_books.subAccount_id', '=', 'pets.id')->join('customers', 'pets.customer_id', '=', 'customers.id')->where('status', 4)->orWhere('ranap', 2)->orderBy('sub_books.booking_date', 'DESC')->filter(request(['search']))->paginate(30)->withQueryString();
+        // dd($subBooks);
+        // $subBooks = SubBook::latest()->where('status', 4)->orWhere('ranap', 2)->paginate(30)->withQueryString();
         return view('calendar.selesai', [
             "title" => "Selesai",
             "bookings" => $subBooks

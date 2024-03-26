@@ -8,7 +8,16 @@
     <div id="contents">
         <div class="navbar navbar-expand-lg" style="height: 76px; border-bottom-style: solid; border-width: 1px; border-color: #d3d3d3; background-color: #f0f0f0;">
             <div class="d-flex gap-3 w-100">
-                <a class="navbar-brand" id="navbar-brand-title" href="/booking/darurat">Booking {{ $title }}</a>
+                <a class="navbar-brand" id="navbar-brand-title" href="#" >Booking {{ $title }}</a>
+
+                <div class="d-flex justify-content-between w-100 align-items-center">
+                    <div class="d-flex gap-4">
+                    </div>
+                    <form class="d-flex" role="search" action="/booking/darurat">
+                        <input class="form-control me-2" type="search" name="search" placeholder="Search" value="{{ request('search') }}">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
             </div>
         </div>
         @include('calendar.sidenavcalendar')
